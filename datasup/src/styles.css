@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'LTVeritas';
+    src: url('/fonts/LTVeritas-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LTVeritas';
+    src: url('/fonts/LTVeritas-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+:root {
+    --blue: #031D44;
+    --white: #fff;
+    --gray: #7A7D7D;
+    --red: #D10000;
+    --accent-red: #7C0B2B;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
