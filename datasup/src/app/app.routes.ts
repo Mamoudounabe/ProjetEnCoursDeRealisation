@@ -5,6 +5,7 @@ import { OrientationPageComponent } from './orientation/orientation-page/orienta
 import { RapportsPageComponent } from './rapports/rapports-page/rapports-page.component';
 import { StatistiquesPageComponent } from './statistiques/statistiques-page/statistiques-page.component';
 import { AccueilPageComponent } from './accueil-page/accueil-page.component';
+import { StatistiquesFormationComponent } from './statistiques/statistiques-formation/statistiques-formation.component';
 
 export const routes: Routes = [
     { path: '', component: AccueilPageComponent },
@@ -13,4 +14,5 @@ export const routes: Routes = [
     { path: 'orientation', component: OrientationPageComponent},
     { path: 'rapports-analyses', component: RapportsPageComponent},
     { path: 'statistiques', component: StatistiquesPageComponent},
+    { path: 'statistiques/formations', component: StatistiquesFormationComponent }
 ];

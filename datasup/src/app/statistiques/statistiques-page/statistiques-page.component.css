@@ -1,4 +1,3 @@
-/* Header principal */
 header {
     height: 100px;
     width: 80%;
@@ -6,50 +5,46 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--red); /* Couleur principale */
-    border-radius: 10px; /* Coins arrondis */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombre douce */
+    background: var(--red); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Liste dans le header */
 header ul {
     list-style-type: none;
     display: flex;
-    gap: 20px; /* Espacement entre les éléments */
+    gap: 20px;
     margin: 0;
     padding: 0;
 }
 
-/* Liens dans la liste */
 header ul li a {
-    color: var(--white); /* Couleur du texte */
-    text-decoration: none; /* Supprime le soulignement */
-    font-size: 1.2rem; /* Taille du texte */
+    color: var(--white); 
+    text-decoration: none; 
+    font-size: 1.2rem; 
     font-weight: bold;
     padding: 10px 15px;
-    border-radius: 5px; /* Coins arrondis pour les liens */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Animation douce */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
 }
 
 header ul li a:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Fond semi-transparent au survol */
-    transform: scale(1.1); /* Agrandit légèrement le lien */
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     header {
         height: auto;
-        flex-wrap: wrap; /* Permet de passer sur plusieurs lignes si nécessaire */
+        flex-wrap: wrap;
         padding: 20px;
     }
 
     header ul {
-        flex-direction: column; /* Empile les liens verticalement */
+        flex-direction: column;
         gap: 10px;
     }
 
     header ul li a {
-        font-size: 1rem; /* Taille réduite pour petits écrans */
+        font-size: 1rem;
     }
 }
