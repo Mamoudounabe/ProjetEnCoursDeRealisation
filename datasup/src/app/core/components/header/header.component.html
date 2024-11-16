@@ -1,11 +1,36 @@
 <header>
     <ul>
-        <li><a routerLink="orientation">orientation</a></li>
-        <li><a routerLink="statistiques">statistiques</a></li>
-        <li><a routerLink="etablissements">établissements</a></li>
-        <li><a routerLink="" class="logo">datasup</a></li>
-        <li><a routerLink="filieres">filières</a></li>
-        <li><a routerLink="rapports-analyses">rapports & analyses</a></li>
-        <li><a routerLink="">à propos</a></li>
+        <li><a routerLink="orientation">Orientation</a></li>
+        <li>
+            <a routerLink="statistiques">Statistiques</a>
+            <!-- sous-menu statistiques -->
+            <ul class="submenu">
+                <li><a href="">Statistiques géographiques</a></li>
+                <li><a href="">Statistiques par formation</a></li>
+                <li><a href="">Statistiques par année</a></li>
+                <li><a href="">Évolution des taux d'admission</a></li>
+            </ul>
+        </li>
+        <li>
+            <a routerLink="etablissements">Établissements</a>
+            <!-- sous-menu établissements -->
+            <ul class="submenu">
+                <li><a href="">Par région</a></li>
+                <li><a href="">Par académie</a></li>
+                <li><a href="">Par statut</a></li>
+            </ul>
+        </li>
+        <li><a routerLink="" class="logo">DataSup</a></li>
+        <li>
+            <a routerLink="filieres">Filières</a>
+            <!-- sous-menu filières -->
+            <ul class="submenu">
+                <li><a href="">Par type</a></li>
+                <li><a href="">Par région</a></li>
+                <li><a href="">Par popularité</a></li>
+            </ul>
+        </li>
+        <li><a routerLink="rapports-analyses">Rapports & Analyses</a></li>
+        <li><a routerLink="">À propos</a></li>
     </ul>
 </header>

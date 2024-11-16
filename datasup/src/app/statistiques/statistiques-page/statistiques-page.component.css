@@ -1,0 +1,55 @@
+/* Header principal */
+header {
+    height: 100px;
+    width: 80%;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--red); /* Couleur principale */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombre douce */
+}
+
+/* Liste dans le header */
+header ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px; /* Espacement entre les éléments */
+    margin: 0;
+    padding: 0;
+}
+
+/* Liens dans la liste */
+header ul li a {
+    color: var(--white); /* Couleur du texte */
+    text-decoration: none; /* Supprime le soulignement */
+    font-size: 1.2rem; /* Taille du texte */
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px; /* Coins arrondis pour les liens */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Animation douce */
+}
+
+header ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Fond semi-transparent au survol */
+    transform: scale(1.1); /* Agrandit légèrement le lien */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        height: auto;
+        flex-wrap: wrap; /* Permet de passer sur plusieurs lignes si nécessaire */
+        padding: 20px;
+    }
+
+    header ul {
+        flex-direction: column; /* Empile les liens verticalement */
+        gap: 10px;
+    }
+
+    header ul li a {
+        font-size: 1rem; /* Taille réduite pour petits écrans */
+    }
+}

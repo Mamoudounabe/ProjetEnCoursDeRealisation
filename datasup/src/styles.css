@@ -18,10 +18,15 @@
     --white: #fff;
     --gray: #7A7D7D;
     --red: #D10000;
+    --black: #000;
     --accent-red: #7C0B2B;
 }
 
 * {
+    font-family: 'LTVeritas';
     margin: 0;
     padding: 0;
+}
+
+a {
 }
