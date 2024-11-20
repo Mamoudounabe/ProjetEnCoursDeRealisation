@@ -7,11 +7,13 @@ import { StatistiquesPageComponent } from './statistiques/statistiques-page/stat
 import { AccueilPageComponent } from './accueil-page/accueil-page.component';
 import { StatistiquesFormationComponent } from './statistiques/statistiques-formation/statistiques-formation.component';
 import { StatistiqueAnneeComponent } from './statistiques/statistique-annee/statistique-annee.component';
+import { EtablissementsRegionComponent } from './etablissements/etablissements-region/etablissements-region.component';
 
 
 export const routes: Routes = [
     { path: '', component: AccueilPageComponent },
     { path: 'etablissements', component: EtablissementsPageComponent},
+    { path: 'etablissements/region', component: EtablissementsRegionComponent},
     { path: 'filieres', component: FilieresPageComponent},
     { path: 'orientation', component: OrientationPageComponent},
     { path: 'rapports-analyses', component: RapportsPageComponent},
