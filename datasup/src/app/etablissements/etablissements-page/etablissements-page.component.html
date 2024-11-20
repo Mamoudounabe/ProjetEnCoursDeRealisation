@@ -1,1 +1,74 @@
-<p>etablissements-page works!</p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Sélection de la Région</title>
+  
+    
+</head> 
+<body>
+
+<img src="static/images/carte-france.png" alt="Carte de France" class="carte-france">
+    <h1>Établissements par Région</h1>
+
+
+    <div class="grid">
+    <form id="region-form" method="POST" action=" ">
+        <input type="hidden" name="region" id="selected-region">
+        
+        <!-- Première ligne -->
+        <div class="button-row">
+            <div class="button" onclick="selectRegion('Auvergne-Rhône-Alpes')">Auvergne-Rhône-Alpes</div>
+            <div class="button" onclick="selectRegion('Bourgogne-Franche-Comté')">Bourgogne-Franche-Comté</div>
+            <div class="button" onclick="selectRegion('Bretagne')">Bretagne</div>
+        </div>
+        
+        <!-- Deuxième ligne -->
+        <div class="button-row">
+            <div class="button" onclick="selectRegion('Centre-Val de Loire')">Centre-Val de Loire</div>
+            <div class="button" onclick="selectRegion('Corse')">Corse</div>
+            <div class="button" onclick="selectRegion('Grand Est')">Grand Est</div>
+        </div>
+        
+        <!-- Troisième ligne -->
+        <div class="button-row">
+            <div class="button" onclick="selectRegion('Hauts-de-France')">Hauts-de-France</div>
+            <div class="button" onclick="selectRegion('Île-de-France')">Île-de-France</div>
+            <div class="button" onclick="selectRegion('Normandie')">Normandie</div>
+        </div>
+        
+        <!-- Quatrième ligne -->
+        <div class="button-row">
+            <div class="button" onclick="selectRegion('Nouvelle-Aquitaine')">Nouvelle-Aquitaine</div>
+            <div class="button" onclick="selectRegion('Occitanie')">Occitanie</div>
+            <div class="button" onclick="selectRegion('Pays de la Loire')">Pays de la Loire</div>
+        </div>
+
+ <!-- 5 ligne -->
+        <div class="button-row">
+            <div class="button" onclick="selectRegion('Provence Alpes Côte d\'Azur')">Provence Alpes Côte d'Azur</div>
+            <div class="button" onclick="selectRegion('Guadeloupe')">Guadeloupe</div>
+            <div class="button" onclick="selectRegion('Guyane')">Guyane</div>
+        </div>
+
+
+ <!-- 6 ligne -->
+        <div class="button-row">
+            <div class="button" onclick="selectRegion('La Réunion')">La Réunion</div>
+            <div class="button" onclick="selectRegion('Martinique')">Martinique</div>
+            <div class="button" onclick="selectRegion('Mayotte')">Pays de Mayotte</div>
+        </div>
+
+
+    </form>
+</div>
+
+
+    <script>
+        function selectRegion(region) {
+            document.getElementById('selected-region').value = region;
+            document.getElementById('region-form').submit();
+        }
+    </script>
+</body>
+</html>
