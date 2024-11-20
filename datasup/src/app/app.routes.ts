@@ -6,6 +6,8 @@ import { RapportsPageComponent } from './rapports/rapports-page/rapports-page.co
 import { StatistiquesPageComponent } from './statistiques/statistiques-page/statistiques-page.component';
 import { AccueilPageComponent } from './accueil-page/accueil-page.component';
 import { StatistiquesFormationComponent } from './statistiques/statistiques-formation/statistiques-formation.component';
+import { StatistiqueAnneeComponent } from './statistiques/statistique-annee/statistique-annee.component';
+
 
 export const routes: Routes = [
     { path: '', component: AccueilPageComponent },
@@ -15,4 +17,5 @@ export const routes: Routes = [
     { path: 'rapports-analyses', component: RapportsPageComponent},
     { path: 'statistiques', component: StatistiquesPageComponent},
     { path: 'statistiques/formations', component: StatistiquesFormationComponent },
+    { path:'statistiques/annee', component: StatistiqueAnneeComponent}
 ];
