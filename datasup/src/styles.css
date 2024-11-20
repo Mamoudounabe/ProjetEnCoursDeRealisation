@@ -26,7 +26,5 @@
     font-family: 'LTVeritas';
     margin: 0;
     padding: 0;
-}
-
-a {
+    box-sizing: border-box;
 }

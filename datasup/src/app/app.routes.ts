@@ -14,5 +14,5 @@ export const routes: Routes = [
     { path: 'orientation', component: OrientationPageComponent},
     { path: 'rapports-analyses', component: RapportsPageComponent},
     { path: 'statistiques', component: StatistiquesPageComponent},
-    { path: 'statistiques/formations', component: StatistiquesFormationComponent }
+    { path: 'statistiques/formations', component: StatistiquesFormationComponent },
 ];
