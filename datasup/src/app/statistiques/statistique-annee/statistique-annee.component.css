@@ -1,58 +1,75 @@
 h1 {
-    color: #28a9d9;
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
+  color: #28a9d9;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.buttons {
   
-  .buttons {
-    
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    display: flex;
-    gap: 10px; /* Ajoute un espace entre les boutons */
-   
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px; /* Ajoute un espace entre les boutons */
+ 
 
-  }
-  .choix_graphique{
-    color: blue;
-    padding-top: 10px;
-  }
- .change_grphique{
-  padding-top: 100px;
- } 
-  .btg{
-    background-color:rgb(69, 3, 95);
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin: auto;
-  }
-  .chart-type-buttons{
-    display: flex;
-    gap: 10px; /* Ajoute un espace entre les boutons */
-    padding-top: 15px;
-    
-  }
+}
+.choix_graphique{
+  color: blue;
+  padding-top: 10px;
+}
+.change_grphique{
+padding-top: 100px;
+} 
+.btg{
+  background-color:rgb(69, 3, 95);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: auto;
+}
+.chart-type-buttons{
+  display: flex;
+  gap: 10px; /* Ajoute un espace entre les boutons */
+  padding-top: 15px;
+  
+}
 
-  .session-buttons{
-    display: flex;
-    gap: 10px; /* Ajoute un espace entre les boutons */
-  }
-  #sessionChart {
-    
-    height: 3px;
+.session-buttons{
+  display: flex;
+  gap: 10px; /* Ajoute un espace entre les boutons */
+}
+#sessionChart {
+  
+  height: 3px;
 }
 .btn{
-    background-color: #ff9c42;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin: auto;
-  }
+  background-color: #ff9c42;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: auto;
+}
+.telecharger{
+  background-color: rgb(234, 221, 240);
+  border-radius: 12px;
+  width: 300px;
+  font-weight: bold;
+  margin: 150px;
+
+}
+.telechargerpdf{
+  background-color: rgb(234, 221, 240);
+  border-radius: 12px;
+  width: 200px;
+  font-weight: bold;
+  margin-left: 800px;
+  
+
+}
