@@ -1,1 +1,38 @@
-<p>orientation-page works!</p>
+<div class="site-container">
+    <main class="toto">
+      <div class="container">
+        <h1>🔬 L'orientation par spécialités au bac</h1>
+  
+        <div class="buttons">
+          <button class="btn" id="specialityButton" (click)="toggleSpecialities()">🔬 Quelle orientation selon les spécialités ?</button>
+        </div>
+  
+        <div id="specialitySelection" *ngIf="showSpecialities">
+         
+          <select id="specialiteSelect">
+            <option value="">Sélectionnez une spécialité</option>
+            <option value="art">Art</option>
+            <option value="biologie">Biologie/Ecologie</option>
+            <option value="epcs">Éducation physique, pratiques et culture sportives</option>
+            <option value="hggsp">Histoire-Géographie, Géopolitique et Sciences politiques</option>
+            <option value="hlp">Humanités, Littérature et Philosophie</option>
+            <option value="llce">Langues, littératures et cultures étrangères et régionales</option>
+            <option value="lla">Littérature et langues et cultures de l'Antiquité</option>
+            <option value="maths">Mathématiques</option>
+            <option value="nsi">Numérique et Sciences Informatiques</option>
+            <option value="pc">Physique-Chimie</option>
+            <option value="sis">Sciences de l'ingénieur et sciences physiques</option>
+            <option value="svt">Sciences de la vie et de la Terre</option>
+            <option value="ses">Sciences Economiques et Sociales</option>
+          </select>
+        </div>
+  
+        <div id="dataContainer">
+          <!-- Les données chargées seront affichées ici -->
+        </div>
+      </div>
+    </main>
+  
+   
+  </div>
+  
