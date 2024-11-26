@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-
 import { Chart } from 'chart.js/auto';
 import { SessionService } from '../../core/services/session.service';
 import { NgFor, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // Importez FormsModule
+import { saveAs } from 'file-saver';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 interface SessionData {
   filiere: string;
@@ -15,40 +18,39 @@ interface SessionData {
   standalone: true,
   imports: [
     NgFor,
-    NgIf
+    NgIf,
+    FormsModule // Ajoutez FormsModule ici
   ],
   templateUrl: './statistique-annee.component.html',
-  styleUrls: ['./statistique-annee.component.css'], // Corrigé : 'styleUrl' -> 'styleUrls'
+  styleUrls: ['./statistique-annee.component.css']
 })
 export class StatistiqueAnneeComponent {
-  sessionData: SessionData[] = []; // Définition d'un tableau typé
-  sessionChart: any; // Instance du graphique
-  selectedYear: string = ''; // Année sélectionnée
-  selectedChartType: string = 'bar'; // Type de graphique sélectionné
+  sessionData: SessionData[] = [];
+  sessionChart: any;
+  selectedYear: string = '';
+  selectedChartType: string = 'bar';
 
   constructor(private sessionService: SessionService) {}
 
-  // Méthode pour charger les données d'une session
   showSessionData(session: string): void {
     this.selectedYear = session;
 
     this.sessionService.getSessionData(session).subscribe({
-      next: (data: SessionData[]) => { // Définition du type pour 'data'
-        this.sessionData = data; // Charger les données dans le tableau
-        this.createChart(data); // Mettre à jour le graphique
+      next: (data: SessionData[]) => {
+        this.sessionData = data;
+        this.createChart(data);
       },
-      error: (err: any) => console.error('Erreur lors de la récupération des données :', err), // Typage de 'err'
+      error: (err: any) => console.error('Erreur lors de la récupération des données :', err),
     });
   }
 
-  // Méthode pour créer ou mettre à jour le graphique
   createChart(data: SessionData[]): void {
     const labels = data.map((item) => item.filiere);
     const candidatures = data.map((item) => item.candidatures);
     const admissionRates = data.map((item) => item.admissionRate);
 
     if (this.sessionChart) {
-      this.sessionChart.destroy(); // Détruire l'ancien graphique
+      this.sessionChart.destroy();
     }
 
     const ctx = document.getElementById('sessionChart') as HTMLCanvasElement;
@@ -69,7 +71,6 @@ export class StatistiqueAnneeComponent {
     }
   }
 
-  // Méthode pour créer un graphique en barres
   createBarChart(ctx: HTMLCanvasElement, labels: string[], candidatures: number[], admissionRates: number[]): void {
     this.sessionChart = new Chart(ctx, {
       type: 'bar',
@@ -103,7 +104,6 @@ export class StatistiqueAnneeComponent {
     });
   }
 
-  // Méthode pour créer un graphique circulaire
   createPieChart(ctx: HTMLCanvasElement, labels: string[], candidatures: number[], admissionRates: number[]): void {
     this.sessionChart = new Chart(ctx, {
       type: 'pie',
@@ -142,7 +142,6 @@ export class StatistiqueAnneeComponent {
     });
   }
 
-  // Méthode pour créer un graphique en ligne
   createLineChart(ctx: HTMLCanvasElement, labels: string[], candidatures: number[], admissionRates: number[]): void {
     this.sessionChart = new Chart(ctx, {
       type: 'line',
@@ -178,7 +177,6 @@ export class StatistiqueAnneeComponent {
     });
   }
 
-  // Méthode pour créer un graphique en radar
   createRadarChart(ctx: HTMLCanvasElement, labels: string[], candidatures: number[], admissionRates: number[]): void {
     this.sessionChart = new Chart(ctx, {
       type: 'radar',
@@ -212,9 +210,30 @@ export class StatistiqueAnneeComponent {
     });
   }
 
-  // Méthode pour changer le type de graphique
   changeChartType(chartType: string): void {
     this.selectedChartType = chartType;
     this.createChart(this.sessionData);
+  }
+
+  downloadChart(): void {
+    const canvas = document.getElementById('sessionChart') as HTMLCanvasElement;
+    const image = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = image;
+    link.download = 'chart.png';
+    link.click();
+  }
+
+  downloadPdf(): void {
+    const canvas = document.getElementById('sessionChart') as HTMLCanvasElement;
+    html2canvas(canvas).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('chart.pdf');
+    });
   }
 }

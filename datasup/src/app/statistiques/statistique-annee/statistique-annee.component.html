@@ -1,47 +1,49 @@
 <div class="container">
-    <h1>Statistiques par Session</h1>
-    <p>TEST</p>
-    <!-- Boutons des sessions -->
-    <div class="session-buttons">
-      <button class="btn " (click)="showSessionData('2020')">Session 2020</button>
-      <button class="btn " (click)="showSessionData('2021')">Session 2021</button>
-      <button class="btn " (click)="showSessionData('2022')">Session 2022</button>
-      <button class="btn " (click)="showSessionData('2023')">Session 2023</button>
-    </div>
-  
-    <!-- Année sélectionnée -->
-    <h3 *ngIf="selectedYear">Statistiques pour l'année {{ selectedYear }}</h3>
-  
-    <!-- Tableau -->
-    <table class="table table-bordered" *ngIf="sessionData.length > 0">
-      <thead>
-        <tr>
-          <th>Filière</th>
-          <th>Candidatures</th>
-          <th>Taux d'Admission (%)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of sessionData">
-          <td>{{ item.filiere }}</td>
-          <td>{{ item.candidatures }}</td>
-          <td>{{ item.admissionRate }}</td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <!-- Boutons pour changer le type de graphique -->
-    <div class="change_grphique"> <h1 class="choix_graphique">Veuillez choisir le type de graphique </h1>
-        <div class="chart-type-buttons">
-            
-        <button class="btg" (click)="changeChartType('bar')">Graphique en barres</button>
-        <button class="btg" (click)="changeChartType('pie')">Graphique circulaire</button>
-        <button class="btg" (click)="changeChartType('line')">Graphique en ligne</button>
-        <button class="btg" (click)="changeChartType('radar')">Graphique en radar</button>
-        </div>
-    
-        <!-- Graphique -->
-        <canvas id="sessionChart" width="30" height="7"></canvas>
+  <h1>Statistiques par Session</h1>
 
-    </div>
+  <!-- Boutons des sessions -->
+  <div class="session-buttons">
+    <button class="btn" (click)="showSessionData('2020')">Session 2020</button>
+    <button class="btn" (click)="showSessionData('2021')">Session 2021</button>
+    <button class="btn" (click)="showSessionData('2022')">Session 2022</button>
+    <button class="btn" (click)="showSessionData('2023')">Session 2023</button>
   </div>
+
+  <!-- Année sélectionnée -->
+  <h3 *ngIf="selectedYear">Statistiques pour l'année {{ selectedYear }}</h3>
+
+  <!-- Tableau -->
+  <table class="table table-bordered" *ngIf="sessionData.length > 0">
+    <thead>
+      <tr>
+        <th>Filière</th>
+        <th>Candidatures</th>
+        <th>Taux d'Admission (%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of sessionData">
+        <td>{{ item.filiere }}</td>
+        <td>{{ item.candidatures }}</td>
+        <td>{{ item.admissionRate }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Boutons pour changer le type de graphique -->
+  <div class="change_graphique">
+    <h1 class="choix_graphique">Veuillez choisir le type de graphique</h1>
+    <div class="chart-type-buttons">
+      <button class="btg" (click)="changeChartType('bar')">Graphique en barres</button>
+      <button class="btg" (click)="changeChartType('pie')">Graphique circulaire</button>
+      <button class="btg" (click)="changeChartType('line')">Graphique en ligne</button>
+      <button class="btg" (click)="changeChartType('radar')">Graphique en radar</button>
+    </div>
+   
+  </div>
+
+  <!-- Graphique -->
+  <canvas id="sessionChart" width="30" height="7"></canvas>
+  <button (click)="downloadChart()" class="telecharger">Télécharger le graphique</button>
+    <button (click)="downloadPdf()" class="telechargerpdf">Télécharger le PDF</button>
+</div>
