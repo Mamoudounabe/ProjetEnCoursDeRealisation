@@ -137,14 +137,14 @@ class NodeTypeManager:
 
 - **Rôle :** Les modèles définissent les structures de données utilisées dans l’API. Ils assurent une validation stricte des données et servent d’interface claire entre le backend et le frontend.
 - **Exemple :**
-    ```python
+```python
 from pydantic import BaseModel
 
 class NodeType(BaseModel):
 	id_node_type: str
 	name_node_type: str
 	properties_node_type: List[PropertyNode]
-    ```
+```
 
 - **Que faire ?** :
     - Ajouter ou modifier un modèle si la structure des données évolue.
@@ -155,14 +155,14 @@ class NodeType(BaseModel):
 - **Rôle :** Les services interagissent directement avec des ressources externes, comme une base de données ou une API tierce.
 - **Exemple :**
 
-    ```python
+```python
 class Neo4JDriver:
 	@staticmethod
 	def get_driver():
 		if not cls._driver:  
 		    cls._driver = cls.create_driver()  
 		return cls._driver
-    ```
+```
 
 - **Que faire ?** :
     - Ajouter ou modifier les méthodes nécessaires pour récupérer ou manipuler les données dans la base de données.
