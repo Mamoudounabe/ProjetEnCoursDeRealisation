@@ -83,6 +83,40 @@ class NodeTypeManager:
             return NodeTypeManager._parse_results_to_elements(results)
 
     @staticmethod
+    def get_element_node_by_internal_eno4j_id(id_intern_neo4j: int) -> ElementOfNode:
+        """
+        Retourne un noeud selon son id interne Neo4j
+        """
+
+        db = Neo4JDriver.get_driver()
+
+        query = f"""
+            MATCH (n)
+            WHERE id(n) = {id_intern_neo4j}
+            RETURN n
+            """
+
+        with db.session() as session:
+            result = session.run(query)
+
+            for record in result:
+                node = record["n"]
+                properties_element = [
+                    PropertyOfElement(
+                        id_property=str(i + 1),
+                        name_property=key,
+                        value_property=value
+                    )
+                    for i, (key, value) in enumerate(node.items())
+                ]
+
+                return ElementOfNode(
+                    id_element=str(node.id),
+                    id_neo4j=node.id,
+                    properties_element=properties_element
+                )
+
+    @staticmethod
     def _parse_results_to_elements(results) -> List[ElementOfNode]:
         """
         Méthode privée pour convertir les résultats Neo4j en éléments.

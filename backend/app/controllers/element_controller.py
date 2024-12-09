@@ -14,6 +14,9 @@ node_type_options = [node_type.name_node_type for node_type in NodeTypeManager.g
 
 @router.get("/node-types", response_model=List[NodeType], tags=["Node Types"])
 def get_all_node_type():
+    """
+    Endpoint to get all node types
+    """
     try:
         return NodeTypeManager.get_all_node_type()
     except Exception as e:
@@ -50,3 +53,10 @@ async def get_all_elements_by_node_type_and_property(
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/node-types/{id_intern_neo4j}/element/node", response_model=ElementOfNode, tags=["Node Types"])
+def get_element_node_by_intern_id_neo4j(id_intern_neo4j: int):
+    """
+    Endpoint pour récupérer un élément selon son id interne Neo4j
+    """
+    return NodeTypeManager.get_element_node_by_internal_eno4j_id(id_intern_neo4j)
