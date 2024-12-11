@@ -1,6 +1,21 @@
 # rapport
 
+## ETL
 
+Pour lancer l'ETL, pour la création de la base de données Neo4j.
+
+Ce rendre dans le dossier ETL.
+```bash
+cd .\ETL\
+```
+Lancer le premier script avec la commande suivante.
+```bash	
+docker compose -f .\docker-compose-start.yml up start
+```
+Et enfin lancer le deuxième script avec la commande suivante.
+```bash
+docker compose up --build
+```
 
 ## Getting started
 
