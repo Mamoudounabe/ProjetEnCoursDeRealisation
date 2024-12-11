@@ -15,7 +15,7 @@ docker build -t api .
 ```
 Et enfin lancer le deuxième script avec la commande suivante.
 ```bash
-docker run -d --name api-container api
+docker run -p 8000:8000 -d --name api-container api
 ```
 
 
