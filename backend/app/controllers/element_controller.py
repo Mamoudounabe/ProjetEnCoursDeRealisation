@@ -12,10 +12,10 @@ router = APIRouter()
 
 node_type_options = [node_type.name_node_type for node_type in NodeTypeManager.get_all_node_type()]
 
-@router.get("/node-types", response_model=List[NodeType], tags=["Node Types"])
+@router.get("/node-types", response_model=List[NodeType], tags=["Type de noeuds"])
 def get_all_node_type():
     """
-    Endpoint to get all node types
+    Récupère tous les types de noeuds
     """
     try:
         return NodeTypeManager.get_all_node_type()
@@ -23,8 +23,8 @@ def get_all_node_type():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/node-types/{name_node_type}/elements", response_model=List[ElementOfNode], tags=["Node Types"])
-def get_all_elements_by_node_type(name_node_type: Literal[Unpack[node_type_options]]):
+@router.get("/node-types/{name_node_type}/elements", response_model=List[ElementOfNode], tags=["Type de noeuds"])
+def get_all_elements_by_node_type(name_node_type: Literal[node_type_options]):
     """
     Endpoint pour récupérer tous les éléments pour un type de nœud spécifique.
     """
@@ -35,9 +35,9 @@ def get_all_elements_by_node_type(name_node_type: Literal[Unpack[node_type_optio
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/node-types/{name_node_type}/elements/filter", response_model=List[ElementOfNode], tags=["Node Types"])
+@router.get("/node-types/{name_node_type}/elements/filter", response_model=List[ElementOfNode], tags=["Type de noeuds"])
 async def get_all_elements_by_node_type_and_property(
-    name_node_type: Literal[Unpack[node_type_options]],
+    name_node_type: Literal[node_type_options],
     property_name: str = Query(..., description="Nom de la propriété à filtrer"),
     property_value: str = Query(..., description="Valeur de la propriété à filtrer")
 ):
@@ -54,7 +54,7 @@ async def get_all_elements_by_node_type_and_property(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/node-types/{id_intern_neo4j}/element/node", response_model=ElementOfNode, tags=["Node Types"])
+@router.get("/node-types/{id_intern_neo4j}/element/node", response_model=ElementOfNode, tags=["Type de noeuds"])
 def get_element_node_by_intern_id_neo4j(id_intern_neo4j: int):
     """
     Endpoint pour récupérer un élément selon son id interne Neo4j

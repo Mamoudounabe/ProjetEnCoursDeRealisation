@@ -15,3 +15,21 @@ app = FastAPI(
         },
     ]
 )
+
+app.add_middleware(
+    CORSMiddleware,
+    #allow_origins=["http://localhost:3000", "http://localhost:80", "http://docker-nginx-frontend:3000", "http://docker-nginx-frontend:80"],
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
+
+
+register_routes(app)
+
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run(app, host='0.0.0.0', port=8000)
+
