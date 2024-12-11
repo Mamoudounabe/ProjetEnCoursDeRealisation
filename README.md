@@ -1,6 +1,25 @@
 # rapport
 
 
+## API
+
+Pour lancer l'API.
+
+Ce rendre dans le dossier backend.
+```bash
+cd .\backend\
+```
+Lancer le premier script avec la commande suivante.
+```bash	
+docker build -t api .
+```
+Et enfin lancer le deuxième script avec la commande suivante.
+```bash
+docker run -d --name api-container api
+```
+
+
+
 
 ## Getting started
 
