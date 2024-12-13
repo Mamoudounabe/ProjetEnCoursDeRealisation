@@ -1,5 +1,6 @@
 from .controllers.element_controller import router as element_router
 from .controllers.relation_controller import router as relation_router
+from .controllers.etablissement_controller import router as etablissement_router
 
 
 def register_routes(app):
@@ -10,3 +11,4 @@ def register_routes(app):
     """
     app.include_router(element_router, prefix="/api")
     app.include_router(relation_router, prefix="/api")
+    app.include_router(etablissement_router, prefix="/api")
