@@ -13,6 +13,10 @@ app = FastAPI(
             "name": "Type de relations",
             "description": "Endpoints permettant de gérer les types de relations entre les nœuds. Ils permettent de visualiser les liens et les interactions entre différents éléments, ainsi que leurs propriétés associées.",
         },
+        {
+            "name": "Etablissement",
+            "description": "Endpoints permettant de récupérer des informations sur les établissements.",
+        },
     ]
 )
 
