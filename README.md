@@ -2,20 +2,25 @@
 
 ## ETL
 
-Pour lancer l'ETL, pour la création de la base de données Neo4j.
+## API
 
-Ce rendre dans le dossier ETL.
+Pour lancer l'API.
+
+Ce rendre dans le dossier backend.
 ```bash
-cd .\ETL\
+cd .\backend\
 ```
 Lancer le premier script avec la commande suivante.
 ```bash	
-docker compose -f .\docker-compose-start.yml up start
+docker build -t api .
 ```
 Et enfin lancer le deuxième script avec la commande suivante.
 ```bash
-docker compose up --build
+docker run -p 8000:8000 -d --name api-container api
 ```
+
+
+
 
 ## Getting started
 
