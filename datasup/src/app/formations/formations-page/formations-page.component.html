@@ -1,0 +1,50 @@
+<h1>Statistiques par formation</h1>
+<div class="search-bar">
+    <input
+        type="text"
+        placeholder="Rechercher une formation"
+        aria-label="Search"
+        [(ngModel)]="searchQuery"
+        (input)="filterFormations()"
+    >
+    <p>Exemples de recherche :</p>
+    <p>"Licence Informatique", "Licence Dijon", "Informatique", "BUT Informatique Dijon", "Dijon", "Informatique Dijon", etc...</p>
+</div>
+
+<div class="formation-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Établissement</th>
+                <th>Commune</th>
+                <th>Filière</th>
+                <th>Filière détaillée</th>
+                <th>Filière très détaillée</th>
+                <th>Académie</th>
+                <th>Statut</th>
+                <th>Sélectivité</th>
+                <th>Nombre d'admis</th>
+                <th>Certification</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="filteredFormations.length > 0">
+            <tr *ngFor="let formation of filteredFormations" 
+                [routerLink]="['/formations', formation.id]" 
+                style="cursor: pointer;">
+                <td>{{ formation.etablissement }}</td>
+                <td>{{ formation.departement }}</td>
+                <td>{{ formation.filiere }}</td>
+                <td>{{ formation.filiere_formation_detaillee }}</td>
+                <td>{{ formation.filiere_formation_tres_detailee }}</td>
+                <td>{{ formation.academie_etablissement }}</td>
+                <td>{{ formation.statut }}</td>
+                <td>{{ formation.selectivite }}</td>
+                <td>{{ formation.nb_total_candidats_admis }}</td>
+                <td>{{ formation.lien_parcoursup }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p *ngIf="filteredFormations.length === 0" class="no-results">
+        Aucun résultat trouvé pour votre recherche.
+    </p>
+</div>

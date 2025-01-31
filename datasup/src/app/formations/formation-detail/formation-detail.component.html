@@ -1,0 +1,89 @@
+<div class="single-formation">
+
+    <div class="header-section">
+        <div class="left-section">
+            <p class="breadcrumbs">
+                <a class="breadcrumb-link" routerLink="/">DataSup</a> /
+                <a class="breadcrumb-link" routerLink="/statistiques">Statistiques</a> /
+                <a class="breadcrumb-link" routerLink="/statistiques/formations">Formations</a> /
+                <span class="breadcrumb-active">{{ formation.filiere }} - {{ formation.etablissement }}</span>
+            </p>
+        </div>
+
+        <div class="mid-section">
+            <h2 class="title-formation">{{ formation.filiere || 'Non disponible' }}</h2>
+            <h4 class="title-etablissement">{{ formation.etablissement || 'Non disponible' }}</h4>
+        </div>
+
+        <div class="right-section">
+            <p class="formation-details">Parcours : {{ formation.filiere_formation_detaillee || 'Non disponible' }}</p>
+        </div>
+    </div>
+
+    <div class="year-selection">
+        <label for="year-select" class="year-label">Sélectionnez une année :</label>
+        <select id="year-select" class="year-combobox">
+            <option value="2023" selected>2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+        </select>
+    </div>
+
+    <div class="main-content">
+        <div class="infos-etablissement">
+            <div class="contour">
+                <h3>Informations sur l'établissement</h3>
+                <p><span class="info-label">Établissement :</span> {{ formation.etablissement || 'Non disponible' }}</p>
+                <p><span class="info-label">Statut :</span> {{ formation.statut || 'Non disponible' }}</p>
+                <p><span class="info-label">Académie :</span> {{ formation.academie_etablissement || 'Non disponible' }}</p>
+                <p><span class="info-label">Région :</span> {{ formation.region_etablissement || 'Non disponible' }}</p>
+                <p><span class="info-label">Département :</span> {{ formation.departement || 'Non disponible' }} ({{ formation.code_departement_etablissement || 'Non disponible' }})</p>
+            </div>
+        </div>
+
+        <div class="infos-formation">
+            <h3>Informations sur la formation</h3>
+            <div class="info-item">
+                <span class="label">Formation sélective :</span>
+                <span class="value">{{ formation.selectivite || 'Non disponible' }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Capacité totale :</span>
+                <span class="value">{{ formation.nb_places_formation || 'Non disponible' }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Nombre de candidats :</span>
+                <span class="value">{{ formation.nb_candidats_formation || 'Non disponible' }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Nombre de candidates :</span>
+                <span class="value">{{ formation.nb_candidates_formation || 'Non disponible' }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Nombre d'admis :</span>
+                <span class="value">{{ formation.nb_total_candidats_admis || 'Non disponible' }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Nombre d'admis filles :</span>
+                <span class="value">{{ formation.nb_total_candidates_admises || 'Non disponible' }}</span>
+            </div>
+        </div>
+
+        <div class="infos-statistiques">
+            <h3>Statistiques supplémentaires</h3>
+            <p><span class="info-label">Admis mention TB :</span> {{ formation.nb_neo_bac_admis_mention_tres_bien || 'Non disponible' }}</p>
+            <p><span class="info-label">Admis même académie :</span> {{ formation.nb_admis_meme_academie || 'Non disponible' }}</p>
+            <p><span class="info-label">Proportion admis boursiers :</span> {{ formation.proportion_neo_bac_boursiers || 'Non disponible' }}</p>
+        </div>
+
+        <div class="infos-lien">
+            <a class="parcoursup-link" [href]="formation.lien_parcoursup" target="_blank" *ngIf="formation.lien_parcoursup">
+                Voir sur Parcoursup
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="statistiques-formation">
+</div>

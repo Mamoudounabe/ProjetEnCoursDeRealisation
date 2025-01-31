@@ -1,0 +1,130 @@
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 80%;
+    max-width: 80%;
+    margin: 20px auto; 
+    padding: 20px;
+    border: 2px solid var(--blue);
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input[type="text"] {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: 1px solid var(--blue);
+    border-radius: 5px;
+    outline: none;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-bar input[type="text"]:focus {
+    border-color: var(--dark-blue);
+    box-shadow: 0 0 5px rgba(0, 0, 255, 0.5); 
+}
+
+.search-bar p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 10px;
+    text-align: center; 
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .search-bar {
+        width: 90%; 
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5rem; 
+    }
+
+    .search-bar input[type="text"] {
+        font-size: 0.9rem; 
+    }
+
+    .search-bar p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Conteneur principal */
+.formation-table {
+    margin-top: 20px;
+    width: 100%;
+    overflow-x: auto; /* Scroll horizontal pour petits écrans */
+}
+
+/* Tableau principal */
+table {
+    width: 80%;
+    border-collapse: collapse; /* Unifie les bordures */
+    margin: 0 auto;
+    text-align: left;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+}
+
+/* En-têtes du tableau */
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+/* Cellules des données */
+td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+/* Alternance des couleurs des lignes */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Effet au survol */
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.no-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Ajustez la hauteur selon vos besoins */
+    margin: 0 auto;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    color: #d9534f; /* Rouge doux pour attirer l'attention */
+}
+
+/* Adaptabilité pour petits écrans */
+@media (max-width: 768px) {
+    table {
+        font-size: 0.9rem;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+}

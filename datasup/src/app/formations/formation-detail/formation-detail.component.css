@@ -1,0 +1,165 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.single-formation {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, var(--blue), var(--red));
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.breadcrumbs {
+    font-size: 14px;
+    color: #f1f1f1;
+    margin-bottom: 15px;
+}
+
+.breadcrumb-link {
+    text-decoration: none;
+    color: var(--red);
+}
+
+.breadcrumb-link:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-active {
+    font-weight: bold;
+    color: #fff;
+}
+
+.title-formation {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 10px 0;
+}
+
+.title-etablissement {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 5px 0;
+}
+
+.formation-details {
+    font-size: 16px;
+    color: #e0e0e0;
+}
+
+.year-selection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.year-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin-right: 10px;
+}
+
+.year-combobox {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.year-combobox:hover {
+    border-color: #007BFF;
+}
+
+.year-combobox:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.6);
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.infos-etablissement, .infos-formation, .infos-statistiques {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+}
+
+.infos-etablissement h3, .infos-formation h3, .infos-statistiques h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #555;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.info-item .label {
+    font-weight: 500;
+    color: #666;
+}
+
+.info-item .value {
+    font-weight: bold;
+    color: #333;
+}
+
+.parcoursup-link {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    background-color: var(--blue);
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.parcoursup-link:hover {
+    background-color: var(--red);
+}
+
+.statistiques-formation {
+    height: 500px;
+    width: 100%;
+    background: red;
+}
