@@ -16,7 +16,7 @@ export class HeaderComponent {
 
   constructor(private router: Router) {}
 
-  navigateToEtablissements(): void {
-    this.router.navigate(['/etablissements']);
+  navigateToFormationspage(): void {
+    this.router.navigate(['/formations']);
   }
 }
