@@ -12,7 +12,7 @@ NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
 NEO4J_DATABASE = os.getenv("NEO4J_DATABASE")
 
 if __name__ == "__main__":
-
+    print("environnements variables...",NEO4J_URI,NEO4J_USER,NEO4J_PASSWORD,NEO4J_DATABASE)
     print("Début de chargement des données dans Neo4j...")
     loader = Neo4jLoader(NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD, NEO4J_DATABASE)
 
