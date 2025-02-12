@@ -8,7 +8,10 @@
   }
   
   .title {
-    color: #009999;
+
+    margin-top: 100px;
+    /*color: #009999;*/
+    color:#003366;
     font-size: 24px;
     margin-bottom: 20px;
   }
@@ -37,8 +40,8 @@
   }
   
   .completed {
-    background-color: #009999; /* ✅ Vert */
-    /*background-color: #003366; /* ✅ Bleu foncé */
+    /*background-color: #009999; /* ✅ Vert */
+    background-color: #003366; /* ✅ Bleu foncé */
   }
   
   /* Ligne verticale */
