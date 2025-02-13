@@ -35,3 +35,16 @@ def get_etablissement_by_popularity_candidates():
     Endpoint pour récupérer les établissements par nombre total de candidats décroissant.
     """
     return EtablissementManager.get_etablissement_by_popularity_candidates()
+
+
+
+
+
+@router.get("/filiere/etablissement/admission", response_model=List[dict], tags=["Etablissement"])
+def get_filiere_etablissement_admission():
+    """
+    Endpoint pour récupérer les établissements par nombre total de candidats décroissant.
+    """
+    # Appel au manager pour récupérer les données
+    results = EtablissementManager.get_filiere_etablissement_admission()
+    return results
