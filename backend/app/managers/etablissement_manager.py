@@ -1,6 +1,7 @@
 from typing import List
 from app.services.neo4j_driver import Neo4JDriver 
 
+import pdb
 
 
 
@@ -81,28 +82,70 @@ class EtablissementManager:
 
 
     @staticmethod
-    def get_filiere_etablissement_admission() -> List[dict]:
+    def get_filiere_etablissement_admission(page: int = 1, page_size: int = 10) -> dict:
         """
-        Retourne les établissements par nombre total de candidats décroissant.
+        Retourne les établissements par nombre total de candidats décroissant avec pagination.
         """
-        query = """
+        # Calculer l'offset pour la pagination
+        skip = (page - 1) * page_size
+
+        # Requête pour récupérer les établissements
+        query = f"""
         MATCH (f:Filiere)<-[offers:OFFERS]-(e:Etablissement)-[has_admission:HAS_ADMISSION]->(a:Admission)
-        RETURN e.etablissement AS etablissement,  
-               e.commune_etablissement AS commune_etablissement, 
-               f.filiere_formation AS filiere_formation, 
-               f.filiere_formation_detaillee AS filiere_formation_detaillee, 
-               f.filiere_formation_tres_detaillee AS filiere_formation_tres_detaillee,
-               e.academie_etablissement AS academie_etablissement, 
-               e.statut_etablissement_filiere AS statut_etablissement_filiere, 
-               f.selectivite AS selectivite, 
-               a.effectif_total_candidats_admis AS effectif_total_candidats_admis, 
-               ID(f) AS id_filiere
+        RETURN e.etablissement,  
+            e.commune_etablissement, 
+            f.filiere_formation, 
+            f.filiere_formation_detaillee, 
+            f.filiere_formation_tres_detaillee,
+            e.academie_etablissement, 
+            e.statut_etablissement_filiere, 
+            f.selectivite, 
+            a.effectif_total_candidats_admis,
+            ID(f) AS id_filiere
+        ORDER BY a.effectif_total_candidats_admis DESC
+        SKIP {skip} LIMIT {page_size}
         """
-        db = Neo4JDriver.get_driver()
-        with db.session() as session:
-            results = session.run(query)
-            #print("Résultats de la requête 'get_filiere_etablissement_admission' :", results)
-            #return [record for record in results]
-            # Retourne les résultats sous forme de dictionnaires
-            print("Résultats de la requête 'get_filiere_etablissement_admission' :", results)
-            return [{key: record[key] for key in record.keys()} for record in results]
+
+        try:
+            db = Neo4JDriver.get_driver()  # Remplace par la bonne fonction pour te connecter à la base de données Neo4J
+            with db.session() as session:
+                # Exécution de la requête pour récupérer les établissements
+                results = session.run(query)
+                records = [record.data() for record in results]
+
+                # Vérifier si les résultats sont valides (c'est-à-dire si ce sont des dictionnaires)
+                if not all(isinstance(r, dict) for r in records):
+                    raise ValueError("Les données retournées ne sont pas valides (doivent être des dictionnaires).")
+
+                # Calcul du nombre total d'établissements
+                count_query = """
+                MATCH (f:Filiere)<-[offers:OFFERS]-(e:Etablissement)-[has_admission:HAS_ADMISSION]->(a:Admission)
+                RETURN count(DISTINCT e) AS total_count
+                """
+                count_results = session.run(count_query)
+            
+                # Vérification du résultat de la requête de comptage
+                if count_results.peek() is None:
+                    total_count = 0  # Si aucun résultat trouvé
+                else:
+                  total_count = count_results.single()[0]  # Récupérer le total count
+            
+                # Calcul du nombre total de pages
+                total_pages = (total_count + page_size - 1) // page_size  # Arrondir le nombre total de pages
+
+                return {
+                "page": page,
+                "page_size": page_size,
+                "total_items": total_count,
+                "total_pages": total_pages,
+                "items": records
+             }
+
+        except ValueError as ve:
+            print(f"Erreur de données : {ve}")
+            return {"error": f"Erreur de données : {str(ve)}"}
+        except Exception as e:
+            import traceback
+            print(f"Erreur dans get_filiere_etablissement_admission: {e}")
+            print(traceback.format_exc())  # Affiche l'exception complète pour le débogage
+            return {"error": "Erreur lors de la récupération des données"}
