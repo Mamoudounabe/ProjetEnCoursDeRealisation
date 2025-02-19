@@ -92,18 +92,20 @@ class EtablissementManager:
         # Requête pour récupérer les établissements
         query = f"""
         MATCH (f:Filiere)<-[offers:OFFERS]-(e:Etablissement)-[has_admission:HAS_ADMISSION]->(a:Admission)
-        RETURN e.etablissement,  
-            e.commune_etablissement, 
-            f.filiere_formation, 
-            f.filiere_formation_detaillee, 
-            f.filiere_formation_tres_detaillee,
-            e.academie_etablissement, 
-            e.statut_etablissement_filiere, 
-            f.selectivite, 
-            a.effectif_total_candidats_admis,
+        RETURN 
+            e.etablissement AS etablissement,
+            e.commune_etablissement AS commune_etablissement,
+            f.filiere_formation AS filiere_formation,
+            f.filiere_formation_detaillee AS filiere_formation_detaillee,
+            f.filiere_formation_tres_detaillee AS filiere_formation_tres_detaillee,
+            e.academie_etablissement AS academie_etablissement,
+            e.statut_etablissement_filiere AS statut_etablissement_filiere,
+            f.selectivite AS selectivite,
+            a.effectif_total_candidats_admis AS effectif_total_candidats_admis,
             ID(f) AS id_filiere
         ORDER BY a.effectif_total_candidats_admis DESC
         SKIP {skip} LIMIT {page_size}
+
         """
 
         try:
