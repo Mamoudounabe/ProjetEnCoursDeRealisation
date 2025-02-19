@@ -8,7 +8,8 @@ export class Formation {
     code_departement_etablissement: string;
     departement: string;
     region_etablissement: string;
-    commune?: string;
+    commune_etablissement?: string;
+   
     coordonnees_gps: string;
 
     academie_etablissement: string;
@@ -222,4 +223,7 @@ export class Formation {
         this.proportion_admis_bac_techno_avec_mention = proportion_admis_bac_techno_avec_mention;
         this.proportion_admis_bac_pro_avec_mention = proportion_admis_bac_pro_avec_mention;
     }
+
+
+    
 }

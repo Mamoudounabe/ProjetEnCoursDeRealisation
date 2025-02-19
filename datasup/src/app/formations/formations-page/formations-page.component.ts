@@ -1,61 +1,70 @@
 import { Component, OnInit } from '@angular/core';
-import { Formation } from '../../core/models/formation.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FormationService } from '../../core/services/formations.service';
-import { Router, RouterLink } from '@angular/router';
-
+import { ApiService } from '../../core/services/api.service';
 
 @Component({
   selector: 'app-formations-page',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    RouterLink
+    FormsModule
   ],
-
   templateUrl: './formations-page.component.html',
   styleUrls: ['./formations-page.component.css']
 })
-export class FormationsPageComponent implements OnInit {
-  formations: Formation[] = [];
-  filteredFormations: Formation[] = [];
+export class FormationComponent implements OnInit {
+  formations: any[] = [];
+  filteredFormations: any[] = [];
   searchQuery: string = '';
+  page: number = 1;
+  pageSize: number = 10;
+  totalPages: number = 1;
 
-  constructor(private formationService: FormationService, private router: Router) { }
+  constructor(private apiService: ApiService) {}
 
-  ngOnInit(): void {
-    this.loadFormations();
+  ngOnInit() {
+    this.fetchFormations();
   }
 
-  private loadFormations(): void {
-    this.formationService.getAllFormations().subscribe((data: Formation[]) => {
-      this.formations = data;
-      this.filteredFormations = data;
+  fetchFormations() {
+    this.apiService.getFiliereEtablissements(this.page, this.pageSize).subscribe({
+      next: (response) => {
+        console.log("Données reçues :", response);
+      },
+      error: (error) => {
+        console.error("Erreur API :", error);
+      }
     });
   }
+  
+  
 
-  filterFormations(): void {
-    if (!this.formations || this.formations.length === 0) {
-      return;
-    }
-
-    const query = this.searchQuery.trim().toLowerCase();
-
-    if (!query) {
-      this.filteredFormations = [...this.formations];
-      return;
-    }
-
-    this.filteredFormations = this.formations.filter(formation =>
-      Object.values(formation).some(value =>
-        value !== undefined && value !== null && value.toString().toLowerCase().includes(query)
-      )
+  filterFormations() {
+    const query = this.searchQuery.toLowerCase();
+    this.filteredFormations = this.formations.filter(formation => 
+      formation.filiere_formation?.toLowerCase().includes(query) ||
+      formation.etablissement?.toLowerCase().includes(query) ||
+      formation.commune_etablissement?.toLowerCase().includes(query)
     );
   }
 
-  navigateToFormation(id: string): void {
-    this.router.navigate(['/formations', id]);
+  goToFormation(id: number) {
+    console.log(`Redirection vers la formation ${id}`);
+    // Implémente une redirection si nécessaire
+  }
+
+  nextPage() {
+    if (this.page < this.totalPages) {
+      this.page++;
+      this.fetchFormations();
+    }
+  }
+
+  prevPage() {
+    if (this.page > 1) {
+      this.page--;
+      this.fetchFormations();
+    }
   }
 }
