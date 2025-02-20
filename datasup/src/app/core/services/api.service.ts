@@ -25,7 +25,6 @@ export class ApiService {
   return this.http.get<any>(`${this.apiUrl}/filiere/etablissement/admission`, { params });
 }
 
-
   // Méthode pour obtenir des données depuis l'API
   getData(endpoint: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${endpoint}`);

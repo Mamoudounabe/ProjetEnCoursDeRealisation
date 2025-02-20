@@ -13,6 +13,11 @@ import { ApiService } from '../../core/services/api.service';
   templateUrl: './formations-page.component.html',
   styleUrls: ['./formations-page.component.css']
 })
+
+
+
+
+
 export class FormationComponent implements OnInit {
   formations: any[] = [];
   filteredFormations: any[] = [];

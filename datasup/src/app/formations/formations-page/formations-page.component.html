@@ -34,15 +34,17 @@
             <tr *ngFor="let formation of filteredFormations" 
                 (click)="goToFormation(formation.id_filiere)"
                 style="cursor: pointer;">
-                <td>{{ formation['e.etablissement'] ?? 'Non disponible' }}</td>
-                <td>{{ formation['e.commune_etablissement'] ?? 'Non disponible' }}</td>
-                <td>{{ formation['f.filiere_formation'] ?? 'Non disponible' }}</td>
-                <td>{{ formation['f.filiere_formation_detaillee'] ?? 'Non disponible' }}</td>
-                <td>{{ formation['f.filiere_formation_tres_detaillee'] ?? 'Non disponible' }}</td>
-                <td>{{ formation['e.academie_etablissement'] ?? 'Non disponible' }}</td>
-                <td>{{ formation['e.statut_etablissement_filiere'] ?? 'Non disponible' }}</td>
-                <td>{{ formation['f.selectivite'] ?? 'Non disponible' }}</td>
-                <td>{{ formation['a.effectif_total_candidats_admis'] ?? 'Non disponible' }}</td>
+
+                <td>{{ formation.etablissement }}</td>
+                <td>{{ formation.commune_etablissement || 'N/A' }}</td>
+                <td>{{ formation.academie_etablissement }}</td>
+                <td>{{ formation.filiere_formation }}</td>
+                <td>{{ formation.filiere_formation_detaillee }}</td>
+                <td>{{ formation.filiere_formation_tres_detaillee || 'N/A' }}</td>
+                <td>{{ formation.statut_etablissement_filiere }}</td>
+                <td>{{ formation.selectivite }}</td>
+                <td>{{ formation.effectif_total_candidats_admis || 'N/A' }}</td>
+
                  <a *ngIf="formation.lien_parcoursup" [href]="formation.lien_parcoursup" target="_blank">Voir</a>
                 
             </tr>
