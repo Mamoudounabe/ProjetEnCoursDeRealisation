@@ -1,4 +1,8 @@
-<h1>Statistiques par formation</h1>
+<div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Chargement des formations en cours...</p>
+</div><h1>Statistiques par formation</h1>
+
 
 <!-- Barre de recherche -->
 <div class="search-bar">
@@ -20,10 +24,10 @@
             <tr>
                 <th>Établissement</th>
                 <th>Commune</th>
+                <th>Académie</th>
                 <th>Filière</th>
                 <th>Filière détaillée</th>
                 <th>Filière très détaillée</th>
-                <th>Académie</th>
                 <th>Statut</th>
                 <th>Sélectivité</th>
                 <th>Nombre d'admis</th>
@@ -32,8 +36,7 @@
         </thead>
         <tbody *ngIf="filteredFormations.length > 0">
             <tr *ngFor="let formation of filteredFormations" 
-                (click)="goToFormation(formation.id_filiere)"
-                style="cursor: pointer;">
+                (click)="goToFormation(formation.id_filiere)">
 
                 <td>{{ formation.etablissement }}</td>
                 <td>{{ formation.commune_etablissement || 'N/A' }}</td>
@@ -44,15 +47,28 @@
                 <td>{{ formation.statut_etablissement_filiere }}</td>
                 <td>{{ formation.selectivite }}</td>
                 <td>{{ formation.effectif_total_candidats_admis || 'N/A' }}</td>
-
-                 <a *ngIf="formation.lien_parcoursup" [href]="formation.lien_parcoursup" target="_blank">Voir</a>
-                
+                <td>
+                    <a *ngIf="formation.lien_parcoursup" [href]="formation.lien_parcoursup" target="_blank">Voir</a>
+                </td>
             </tr>
         </tbody>
     </table>
-    <p *ngIf="filteredFormations.length === 0" class="no-results">
-        Aucun résultat trouvé pour votre recherche.
-    </p>
+
+
+      <!-- Spinner de chargement -->
+    <!--  <div *ngIf="isLoading" class="loading-container">
+            <mat-spinner></mat-spinner>
+            <p>Chargement des formations en cours...</p>
+    </div><h1>Statistiques par formation</h1> -->
+
+
+    <!-- <div *ngIf="filteredFormations.length === 0">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div> -->
+    <!-- <div *ngIf="filteredFormations.length === 0">
+          <mat-spinner></mat-spinner>
+    </div> -->
+
 </div>
 
 <!-- Pagination -->

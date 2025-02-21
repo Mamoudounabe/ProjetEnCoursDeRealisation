@@ -1,6 +1,7 @@
+/* Styles généraux */
 h1 {
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.6rem;
     color: #333;
     margin-bottom: 20px;
 }
@@ -8,122 +9,168 @@ h1 {
 .search-bar {
     display: flex;
     flex-direction: column;
-    align-items: center;
+   align-items: center;
     justify-content: flex-start;
-    width: 80%;
-    max-width: 80%;
-    margin: 20px auto; 
-    padding: 20px;
-    border: 2px solid var(--blue);
-    border-radius: 10px;
+    width: 400%;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid red;
+    border-radius: 5px;
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .search-bar input[type="text"] {
     width: 100%;
-    padding: 10px 15px;
-    font-size: 1rem;
-    border: 1px solid var(--blue);
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    border: 1px solid red;
     border-radius: 5px;
     outline: none;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .search-bar input[type="text"]:focus {
-    border-color: var(--dark-blue);
-    box-shadow: 0 0 5px rgba(0, 0, 255, 0.5); 
+    border-color: red;
+    box-shadow: 0 0 5px red(0, 0, 255, 0.5);
 }
 
 .search-bar p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #555;
-    margin-bottom: 10px;
-    text-align: center; 
+    margin-bottom: 8px;
+    text-align: center;
     width: 100%;
 }
 
-@media (max-width: 768px) {
-    .search-bar {
-        width: 90%; 
-        padding: 15px;
-    }
-
-    h1 {
-        font-size: 1.5rem; 
-    }
-
-    .search-bar input[type="text"] {
-        font-size: 0.9rem; 
-    }
-
-    .search-bar p {
-        font-size: 0.8rem;
-    }
-}
-
-/* Conteneur principal */
 .formation-table {
     margin-top: 20px;
     width: 100%;
-    overflow-x: auto; /* Scroll horizontal pour petits écrans */
+    overflow-x: auto;
 }
 
-.pagination-controls {
-    width: 80%;
-    border-collapse: collapse; /* Unifie les bordures */
+table {
+    width: 100%;
+    border-collapse: collapse;
     margin: 0 auto;
     text-align: left;
-    font-size: 1rem;
+    font-size: 0.9rem;
     border: 1px solid #ccc;
 }
 
-/* En-têtes du tableau */
 th {
     background-color: #f4f4f4;
     font-weight: bold;
-    padding: 10px;
+    padding: 8px;
     border: 1px solid #ccc;
     text-align: center;
 }
 
-/* Cellules des données */
 td {
-    padding: 10px;
+    padding: 8px;
     border: 1px solid #ccc;
     text-align: center;
 }
 
-/* Alternance des couleurs des lignes */
 tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-/* Effet au survol */
 tbody tr:hover {
     background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    gap: 8px;
+}
+
+.pagination-controls button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-controls button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+    background-color: red;
 }
 
 .no-results {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px; /* Ajustez la hauteur selon vos besoins */
+    height: 100px;
     margin: 0 auto;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
     text-align: center;
-    color: #d9534f; /* Rouge doux pour attirer l'attention */
+    color: #d9534f;
 }
 
-/* Adaptabilité pour petits écrans */
+.loading-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.loading-container p {
+    margin-left: 10px;
+    font-size: 1rem;
+    color: #333;
+}
+
 @media (max-width: 768px) {
+    .search-bar {
+        width: 90%;
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    .search-bar input[type="text"] {
+        font-size: 0.85rem;
+    }
+
+    .search-bar p {
+        font-size: 0.75rem;
+    }
+
     table {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     th, td {
-        padding: 8px;
+        padding: 6px;
+    }
+
+    .pagination-controls button {
+        padding: 6px 14px;
+        font-size: 0.85rem;
     }
 }
