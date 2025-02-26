@@ -2,9 +2,9 @@ header {
     width: 100%;
     background: var(--blue);
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-header ul {
+  }
+  
+  header ul {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,36 +12,36 @@ header ul {
     padding: 0;
     margin: 0;
     font-size: 16px;
-}
-
-header ul li {
+  }
+  
+  header ul li {
     position: relative;
     margin: 0 20px;
-}
-
-header ul li a {
+  }
+  
+  header ul li a {
     text-decoration: none;
     color: var(--white);
     transition: color 0.3s ease;
     padding: 15px;
     display: block;
-}
-
-header ul li a:hover {
+  }
+  
+  header ul li a:hover {
     color: var(--gray);
-}
-
-header ul li .logo {
+  }
+  
+  header ul li .logo {
     font-size: 25px;
     font-weight: bold;
     color: var(--red);
-}
-
-header ul li .logo:hover {
+  }
+  
+  header ul li .logo:hover {
     color: var(--accent-red);
-}
-
-header ul li .submenu {
+  }
+  
+  header ul li .submenu {
     display: block;
     opacity: 0;
     visibility: hidden;
@@ -56,31 +56,97 @@ header ul li .submenu {
     border-radius: 4px;
     z-index: 1000;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-header ul li:hover .submenu {
+  }
+  
+  header ul li:hover .submenu {
     opacity: 1;
     visibility: visible;
-}
-
-
-header ul li .submenu li {
+  }
+  
+  header ul li .submenu li {
     margin: 0;
-}
-
-header ul li .submenu li a {
+  }
+  
+  header ul li .submenu li a {
     color: var(--dark-gray);
     padding: 10px 20px;
     transition: background 0.3s ease, color 0.3s ease;
-}
-
-header ul li .submenu li a:hover {
+  }
+  
+  header ul li .submenu li a:hover {
     background: var(--blue);
     color: var(--white);
-}
-
-header ul li .submenu {
+  }
+  
+  header ul li .submenu {
     right: auto;
     left: 50%;
     transform: translateX(-50%);
-}
+  }
+  
+  .header ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .header li {
+    margin-right: 20px;
+    position: relative;
+  }
+  
+  .header a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+  }
+  
+  .header .fontawesomesvg {
+    margin-right: 5px;
+  }
+  
+  .header .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+  
+  .header li:hover .submenu {
+    display: block;
+  }
+  
+  .rotate {
+    animation: rotate 2s linear infinite;
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .fontawesomeicon {
+    margin-right: 5px;
+  }
+
+
+  .fontawesomeicon::before {
+    display: inline-block;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+ }
+
+.Map-Location-Dot::before {
+   font: var(--fa-font-solid);
+    content: ' \f5a0';
+ }

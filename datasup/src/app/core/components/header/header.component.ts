@@ -19,4 +19,8 @@ export class HeaderComponent {
   navigateToFormationspage(): void {
     this.router.navigate(['/formations']);
   }
+
+
+
+  
 }
