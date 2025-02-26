@@ -223,18 +223,24 @@
                 (click)="goToFormation(formation.id_filiere)">
 
                 <td>{{ formation.etablissement }}</td>
-                <td>{{ formation.commune_etablissement || 'N/A' }}</td>
+                <td [ngClass]="{'non-disponible': !formation.commune_etablissement}">
+                    {{ formation.commune_etablissement || 'Non disponible' }}
+                  </td>
+                <!-- <td>{{ formation.commune_etablissement || 'Non disponible' }}</td> -->
                 <td>{{ formation.academie_etablissement }}</td>
                 <td>{{ formation.filiere_formation }}</td>
                 <td>{{ formation.filiere_formation_detaillee }}</td>
-                <td>{{ formation.filiere_formation_tres_detaillee || 'N/A' }}</td>
+                <!-- <td>{{ formation.filiere_formation_tres_detaillee || 'Non disponible' }}</td> -->
+                <td [ngClass]="{'non-disponible': !formation.filiere_formation_tres_detaillee}">
+                    {{ formation.filiere_formation_tres_detaillee || 'Non disponible' }}
+                  </td>
                 <td>{{ formation.statut_etablissement_filiere }}</td>
                 <td>{{ formation.selectivite }}</td>
-
-                <td>{{ formation.effectif_total_candidats_admis || 'N/A' }}</td>
-               
-        
-
+                <!-- <td>{{ formation.effectif_total_candidats_admis || 'Non disponible' }}</td> -->
+                <td [ngClass]="{'non-disponible': !formation.effectif_total_candidats_admis}">
+                    {{ formation.effectif_total_candidats_admis || 'Non disponible' }}
+                  </td>
+           
             </tr>
         </tbody>
     </table>
