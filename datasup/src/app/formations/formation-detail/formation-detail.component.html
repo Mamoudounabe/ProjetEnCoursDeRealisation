@@ -1,4 +1,4 @@
-<div class="single-formation">
+<!-- <div class="single-formation">
 
     <div class="header-section">
         <div class="left-section">
@@ -86,4 +86,39 @@
 </div>
 
 <div class="statistiques-formation">
+</div> -->
+
+
+
+<!-- <div class="infos-lien">
+  <a class="parcoursup-link" [href]="formation.lien_parcoursup" target="_blank" *ngIf="formation.lien_parcoursup">
+    Voir sur Parcoursup
+  </a>
+</div> -->
+
+
+<div class="header-section">
+        <p class="breadcrumbs">
+            <a class="breadcrumb-link" routerLink="/">DataSup</a> /
+            <a class="breadcrumb-link" routerLink="/statistiques">Statistiques</a> /
+            <a class="breadcrumb-link" routerLink="/formations">Formations</a> / 
+        </p>
+
 </div>
+
+
+<div *ngIf="etablissementData">
+    <h2>{{ etablissementData.items[0].NomEtablissement }} - {{ etablissementData.items[0].NomFormation }}</h2>
+  
+    
+    <div class="chart-container">
+        <canvas id="canvas"></canvas>
+      </div>
+      
+    <div class="chart-info">
+      <p><strong>Session :</strong> 2024</p>
+      <p><strong>Source :</strong> Données récoltées sur la fiche parcoursup de la formation.</p>
+      <p>Dernière mise à jour des données : 15/01/2025.</p>
+    </div>
+  </div>
+  

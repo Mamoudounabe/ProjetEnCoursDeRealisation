@@ -163,3 +163,22 @@ body {
     width: 100%;
     background: red;
 }
+
+
+
+/* #canvas {
+    max-width: 1000px;  
+    max-height: 900px; 
+    display: block;
+    margin: auto;
+  } */
+  
+  .chart-container {
+    width: 700px;
+    height: 400px;
+    margin: auto;
+    size: 500px;
+    
+    
+  }
+  
