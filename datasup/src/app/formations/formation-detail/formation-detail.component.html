@@ -110,7 +110,37 @@
 <div *ngIf="etablissementData">
     <h2>{{ etablissementData.items[0].NomEtablissement }} - {{ etablissementData.items[0].NomFormation }}</h2>
   
+
+
     
+ Session: {{myControl.value || 'empty'}}
+
+ <form class="example-form"> 
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Session</mat-label>
+    <input #input
+           type="text"
+           placeholder="Selectionner une session"
+           matInput
+           [formControl]="myControl"
+           [matAutocomplete]="auto"
+           (input)="filter()"
+           (focus)="filter()">
+    <mat-autocomplete requireSelection #auto="matAutocomplete">
+      @for (option of filteredOptions; track option) {
+        <mat-option [value]="option">{{option}}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+</form>  
+
+
+
+
+
+
+
     <div class="chart-container">
         <canvas id="canvas"></canvas>
       </div>

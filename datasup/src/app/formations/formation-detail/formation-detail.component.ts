@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ElementRef, ViewChild } from '@angular/core';
 import { Formation } from '../../core/models/formation.model';
 import { FormationService } from '../../core/services/formations.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -7,6 +7,13 @@ import{Chart,registerables,ChartOptions } from 'chart.js';
 import { HttpClient } from '@angular/common/http';
 import { config } from '../../../environments/config';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+
 
 
 Chart.register(...registerables,ChartDataLabels);
@@ -16,7 +23,14 @@ Chart.register(...registerables,ChartDataLabels);
   standalone: true,
   imports: [
     RouterLink,
-    NgIf
+    NgIf,
+    MatInputModule,
+    MatFormFieldModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 ,
   templateUrl: './formation-detail.component.html',
@@ -43,6 +57,31 @@ export class FormationDetailComponent implements OnInit {
 
     this.getEtablissementData();
   }
+
+
+
+
+
+  @ViewChild('input') input!: ElementRef<HTMLInputElement>;
+  myControl = new FormControl('');
+  options: string[] = ['2020', '2021', '2022', '2023'];
+  filteredOptions: string[] =  [...this.options];  // Liste filtrée
+  selectedOption: string | null = null;  // Option sélectionnée
+
+/*   constructor() {
+    this.filteredOptions = this.options.slice();
+  } */
+
+  filter(): void {
+    const filterValue = this.input.nativeElement.value.toLowerCase();
+    this.filteredOptions = this.options.filter(o => o.toLowerCase().includes(filterValue));
+  }
+
+
+  
+
+
+
 
   getEtablissementData(): void {
     if (!this.etablissementID) {
