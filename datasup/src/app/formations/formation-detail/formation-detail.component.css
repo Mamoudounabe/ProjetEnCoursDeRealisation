@@ -193,7 +193,7 @@ body {
   
   /* Style pour une option sélectionnée */
   .mat-option.mat-selected {
-    background-color: #e0f7fa;
+    background-color: black;
     color: #000; /* Texte en noir */
   }
   
@@ -220,26 +220,55 @@ body {
   }
   
   .mat-autocomplete-panel::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Couleur de l'arrière-plan de la scrollbar */
+    background: black; /* Couleur de l'arrière-plan de la scrollbar */
   }
   
   .mat-autocomplete-panel::-webkit-scrollbar-thumb {
-    background-color: #888; /* Couleur de la barre de défilement */
+    background-color: black; /* Couleur de la barre de défilement */
     border-radius: 10px; /* Arrondir les coins de la barre de défilement */
-    border: 3px solid #f1f1f1; /* Ajouter une bordure pour créer un espace autour de la barre de défilement */
+    border: 3px solid black; /* Ajouter une bordure pour créer un espace autour de la barre de défilement */
   }
   
   .mat-autocomplete-panel::-webkit-scrollbar-thumb:hover {
-    background-color: #555; /* Couleur de la barre de défilement au survol */
+    background-color: black; /* Couleur de la barre de défilement au survol */
   }
   
   /* Personnalisation de la scrollbar pour Firefox */
   .mat-autocomplete-panel {
     scrollbar-width: thin; /* Largeur de la scrollbar */
-    scrollbar-color: #888 #f1f1f1; /* Couleur de la barre de défilement et de l'arrière-plan */
+    scrollbar-color: black black; /* Couleur de la barre de défilement et de l'arrière-plan */
   }
   
   /* Personnalisation de la scrollbar pour Internet Explorer et Edge */
   .mat-autocomplete-panel {
     -ms-overflow-style: -ms-autohiding-scrollbar; /* Utiliser la scrollbar personnalisée */
   }
+
+
+  .example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+   
+  }
+  
+  .example-full-width {
+    width: 100%;
+    
+  }
+  
+
+
+
+  ::ng-deep .a-red.mat-mdc-select-panel {
+    background: rgba(255, 0, 0, 0.5);
+  }
+  
+  ::ng-deep .a-green.mat-mdc-select-panel {
+    background: rgba(0, 255, 0, 0.5);
+  }
+  
+  ::ng-deep .a-blue.mat-mdc-select-panel {
+    background: rgba(0, 0, 255, 0.5);
+  }
+  

@@ -62,24 +62,9 @@ export class FormationDetailComponent implements OnInit {
 
 
 
-  @ViewChild('input') input!: ElementRef<HTMLInputElement>;
-  myControl = new FormControl('');
-  options: string[] = ['2020', '2021', '2022', '2023'];
-  filteredOptions: string[] =  [...this.options];  // Liste filtrée
-  selectedOption: string | null = null;  // Option sélectionnée
-
-/*   constructor() {
-    this.filteredOptions = this.options.slice();
-  } */
-
-  filter(): void {
-    const filterValue = this.input.nativeElement.value.toLowerCase();
-    this.filteredOptions = this.options.filter(o => o.toLowerCase().includes(filterValue));
-  }
-
 
   
-
+  panelColor = new FormControl('red');
 
 
 

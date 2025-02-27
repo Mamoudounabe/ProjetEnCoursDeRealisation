@@ -112,32 +112,22 @@
   
 
 
-    
- Session: {{myControl.value || 'empty'}}
 
- <form class="example-form"> 
-
-  <mat-form-field class="example-full-width">
-    <mat-label>Session</mat-label>
-    <input #input
-           type="text"
-           placeholder="Selectionner une session"
-           matInput
-           [formControl]="myControl"
-           [matAutocomplete]="auto"
-           (input)="filter()"
-           (focus)="filter()">
-    <mat-autocomplete requireSelection #auto="matAutocomplete">
-      @for (option of filteredOptions; track option) {
-        <mat-option [value]="option">{{option}}</mat-option>
-      }
-    </mat-autocomplete>
-  </mat-form-field>
-</form>  
+ 
 
 
-
-
+    <mat-form-field>
+        <mat-label>Session</mat-label>
+        <mat-select [formControl]="panelColor"
+                    panelClass="a-{{panelColor.value}}">
+          <mat-option value="red">2020</mat-option>
+          <mat-option value="green">2021</mat-option>
+          <mat-option value="blue">2022</mat-option>
+          <mat-option value="blue">2023</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      
 
 
 
