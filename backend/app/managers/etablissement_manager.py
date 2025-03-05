@@ -1,5 +1,7 @@
 from typing import List
 from app.services.neo4j_driver import Neo4JDriver 
+from typing import List, Dict, Any
+
 
 import pdb
 
@@ -102,7 +104,7 @@ class EtablissementManager:
             e.statut_etablissement_filiere AS statut_etablissement_filiere,
             f.selectivite AS selectivite,
             a.effectif_total_candidats_admis AS effectif_total_candidats_admis,
-            ID(f) AS id_filiere
+            ID(e) AS id_etablissement
          
         SKIP {skip} LIMIT {page_size}
 
@@ -151,3 +153,52 @@ class EtablissementManager:
             print(f"Erreur dans get_filiere_etablissement_admission: {e}")
             print(traceback.format_exc())  # Affiche l'exception complète pour le débogage
             return {"error": "Erreur lors de la récupération des données"}
+
+
+
+  
+
+    @staticmethod
+    def get_etablissement_by_effectif(etablissementID: int, anneeactuelle: str) -> List[Dict[str, Any]]:
+        """
+        Retourne les informations sur les établissements en fonction de l'ID de l'établissement 
+        et de l'année de session.
+        """
+        query = """
+        MATCH (e:Etablissement)-[:HAS_CANDIDAT]->(c:Candidat)-[:HAS_BACHELIER]->(b:Bachelier)
+        MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
+        WHERE ID(e) = $etablissementID AND s.annee = $anneeactuelle
+        RETURN e.etablissement AS NomEtablissement,
+               c.effectif_total_candidats_formation AS TotalCandidats,
+               b.effectif_neo_bacheliers_generaux_phase_principale AS NeoBacheliersGeneraux,
+               b.effectif_neo_bacheliers_technologiques_phase_principale AS NeoBacheliersTechnologiques,
+               b.effectif_neo_bacheliers_professionnels_phase_principale AS NeoBacheliersProfessionnels
+        """
+        try:
+            # Récupère le driver Neo4j
+            db = Neo4JDriver.get_driver()
+            print(f"Connexion à Neo4j établie : {db}")
+
+            with db.session() as session:
+                # Log des paramètres envoyés à la requête
+                print(f"Exécution de la requête avec etablissementID={etablissementID} et anneeactuelle={anneeactuelle}")
+                results = session.run(query, etablissementID=etablissementID, anneeactuelle=anneeactuelle)
+                records = [record.data() for record in results]
+
+                # Log du résultat obtenu
+                print(f"Résultats de la requête : {records}")
+
+                # Vérifie que chaque résultat est un dictionnaire
+                if not all(isinstance(r, dict) for r in records):
+                    raise ValueError("Les données retournées ne sont pas valides (doivent être des dictionnaires).")
+
+                return records
+
+        except ValueError as ve:
+            print(f"Erreur de données : {ve}")
+            return []
+        except Exception as e:
+            import traceback
+            print(f"Erreur dans get_etablissement_by_effectif: {e}")
+            print(traceback.format_exc())
+            return []
