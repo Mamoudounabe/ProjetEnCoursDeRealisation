@@ -233,7 +233,20 @@ tbody tr:hover {
 
 
 
+
   /* Personnalisation du mat-paginator */
+
+/*   .custom-paginator{ */
+    /* background-color: #fff;  *//* Couleur de fond */
+   /*  color: #000; */ /* Couleur du texte */
+    /* padding-bottom: 20px;  *//* Espace en bas */
+    /* padding: 38px; */
+    /* margin: 20px; */
+  
+  
+
+
+
 .custom-paginator .mat-mdc-paginator-range-label {
   color: #000; /* Couleur du texte */
   font-weight: bold; /* Texte en gras */
