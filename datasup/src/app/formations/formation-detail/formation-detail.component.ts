@@ -13,8 +13,12 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import * as L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 Chart.register(...registerables, ChartDataLabels);
+
+const defaultCoordinates = [45.0672, 4.8345]; // Ajoutez cette ligne pour définir les coordonnées par défaut
 
 @Component({
   selector: 'app-formation-detail',
@@ -38,6 +42,7 @@ export class FormationDetailComponent implements OnInit {
   etablissementID!: number;
   etablissementData: any;
   chart: any;
+  private map: L.Map | undefined;
   selectedYear = new FormControl('2021'); // Initialisation de l'année sélectionnée
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {}
@@ -82,7 +87,9 @@ export class FormationDetailComponent implements OnInit {
             console.log(" Taille du tableau :", Array.isArray(this.etablissementData) ? this.etablissementData.length : 'Non un tableau');
 
             if (Array.isArray(this.etablissementData) && this.etablissementData.length > 0) {
+              this.etablissementData[0].coordonnees_gps = this.etablissementData[0].localisation;
               setTimeout(() => this.createChart(), 0);
+              setTimeout(() => this.initMap(), 0); // Ajoutez cet appel pour initialiser la carte après avoir récupéré les données
             } else {
               console.error(" Données JSON invalides ou vides :", this.etablissementData);
             }
@@ -97,6 +104,27 @@ export class FormationDetailComponent implements OnInit {
         console.error("Erreur lors de la récupération des données :", error);
       }
     });
+  }
+
+  initMap(): void {
+    if (this.map) {
+      this.map.remove();
+    }
+
+    const coordinates = this.etablissementData[0].coordonnees_gps ? this.etablissementData[0].coordonnees_gps.split(',').map(Number) : defaultCoordinates;
+
+    this.map = L.map('map').setView(coordinates, 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    if (this.etablissementData[0].coordonnees_gps) {
+      L.marker(coordinates)
+        .addTo(this.map)
+        .bindPopup(`<b>${this.etablissementData[0].etablissement}</b><br>${this.etablissementData[0].region}`)
+        .openPopup();
+    }
   }
 
   // Fonction pour créer le graphique
@@ -115,7 +143,7 @@ export class FormationDetailComponent implements OnInit {
       parseInt(etab.NeoBacheliersProfessionnels) || 0
     ];
 
-    console.log("📊 Données utilisées pour le graphique :", data);
+    console.log(" Données utilisées pour le graphique :", data);
 
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     if (!canvas) {
