@@ -61,7 +61,6 @@ table {
 
 
 
-
 th {
     background-color: #f4f4f4;
     font-weight: bold;
@@ -228,3 +227,49 @@ tbody tr:hover {
   .non-disponible {
     color: red;
   }
+
+
+
+
+
+
+  /* Personnalisation du mat-paginator */
+.custom-paginator .mat-mdc-paginator-range-label {
+  color: #000; /* Couleur du texte */
+  font-weight: bold; /* Texte en gras */
+}
+
+.custom-paginator .mat-mdc-paginator-page-size {
+  color: #000; /* Couleur du texte */
+}
+
+.custom-paginator .mat-mdc-paginator-navigation-button {
+  color: #000; /* Couleur des boutons de navigation */
+}
+
+.custom-paginator .mat-mdc-paginator-navigation-button:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Couleur de fond au survol */
+}
+
+.custom-paginator .mat-mdc-form-field {
+  color: #000; /* Couleur du texte */
+}
+
+.custom-paginator .mat-mdc-select {
+  color: #000; /* Couleur du texte */
+}
+
+.custom-paginator .mat-mdc-select-panel {
+  background-color: #fff; /* Couleur de fond */
+  color: #000; /* Couleur du texte */
+}
+
+.custom-paginator .mat-mdc-select-panel .mat-mdc-option.mat-selected {
+  background-color: rgba(0, 0, 0, 0.1); /* Couleur de fond de l'option sélectionnée */
+  color: #000; /* Couleur du texte de l'option sélectionnée */
+}
+
+.custom-paginator .mat-mdc-select-panel .mat-mdc-option:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Couleur de fond au survol */
+  color: #000; /* Couleur du texte au survol */
+}
