@@ -88,3 +88,6 @@ def get_etablissement_by_effectif(
     except Exception as e:
         print(f"Erreur dans get_etablissement_by_effectif: {e}")
         raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+
+
+

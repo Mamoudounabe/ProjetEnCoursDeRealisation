@@ -169,6 +169,10 @@ class EtablissementManager:
         MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
         WHERE ID(e) = $etablissementID AND s.annee = $anneeactuelle
         RETURN e.etablissement AS NomEtablissement,
+               e.academie_etablissement AS academie, 
+               e.region_etablissement AS region, 
+               e.etablissement AS etablissement, 
+               e.coordonnees_gps_formation AS localisation,
                c.effectif_total_candidats_formation AS TotalCandidats,
                b.effectif_neo_bacheliers_generaux_phase_principale AS NeoBacheliersGeneraux,
                b.effectif_neo_bacheliers_technologiques_phase_principale AS NeoBacheliersTechnologiques,
@@ -202,3 +206,4 @@ class EtablissementManager:
             print(f"Erreur dans get_etablissement_by_effectif: {e}")
             print(traceback.format_exc())
             return []
+        
