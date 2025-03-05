@@ -154,20 +154,50 @@
   <div *ngIf="etablissementData && etablissementData.length > 0">
     <h2>{{ etablissementData[0].NomEtablissement }} - {{ etablissementData[0].NomFormation }}</h2>
   
+    <div>
+      <h3>📍 Localisation</h3>
+      <div id="map" class="map-container"></div>
+    
+    </div>
+
+
+
+   <!-- <div class="mat">
     <mat-form-field>
       <mat-label>Session</mat-label>
-      <mat-select [formControl]="selectedYear">
+      <mat-select [formControl]="selectedYear"
+      panelClass="example-panel-{{selectedYear.value}}">
         <mat-option class="red" value="2020">2020</mat-option>
         <mat-option class="green" value="2021">2021</mat-option>
         <mat-option class="blue" value="2022">2022</mat-option>
         <mat-option value="2023">2023</mat-option>
       </mat-select>
     </mat-form-field> 
-  
-    <div class="chart-container">
-      <canvas id="canvas"></canvas>
+   -->
+
+  <div class="mat">
+     <mat-form-field>
+      <mat-label>Session</mat-label>
+      <mat-select [formControl]="selectedYear" panelClass="example-panel-{{selectedYear.value}}">
+        <mat-option value="2020">2020</mat-option>
+        <mat-option value="2021">2021</mat-option>
+        <mat-option value="2022">2022</mat-option>
+        <mat-option value="2023">2023</mat-option>
+      </mat-select>
+     </mat-form-field>
     </div>
-  
+
+
+
+
+
+
+     <div class="chart-container">
+      <canvas id="canvas"></canvas>
+     </div>
+
+    
+
     <div class="chart-info">
       <p><strong>Session :</strong> {{ selectedYear.value }}</p>
       <p><strong>Source :</strong> Données récoltées sur la fiche parcoursup de la formation.</p>
@@ -176,8 +206,4 @@
   </div>
 
 
-  <div>
-  <h3>📍 Localisation</h3>
-  <div id="map" class="map-container"></div>
-
-</div>
+  

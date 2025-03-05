@@ -260,23 +260,37 @@ body {
 
 
 
-  ::ng-deep .a-red.mat-mdc-select-panel {
+  ::ng-deep .example-panel-2020.mat-mdc-select-panel {
     background: rgba(255, 0, 0, 0.5);
   }
   
-  ::ng-deep .a-green.mat-mdc-select-panel {
+  ::ng-deep .example-panel-2021.mat-mdc-select-panel {
     background: rgba(0, 255, 0, 0.5);
   }
   
-  ::ng-deep .a-blue.mat-mdc-select-panel {
+  ::ng-deep .example-panel-2022.mat-mdc-select-panel {
     background: rgba(0, 0, 255, 0.5);
   }
   
+  ::ng-deep .example-panel-2023.mat-mdc-select-panel {
+    background: rgba(255, 255, 0, 0.5);
+  }
+  
 
-  .map-container {
-    width: 100%;
-    height: 300px;
-    border-radius: 10px;
-    margin-top: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+.map-container {
+  width: 190px; /* Ajuste selon l'image */
+  height: 190px; /* Ajuste selon l'image */
+  border-radius: 15px; /* Arrondi les coins comme dans l'image */
+  overflow: hidden; /* Évite tout débordement */
 }
+
+
+
+.mat{
+  padding-top: 20px;
+}
+
+
+
+
