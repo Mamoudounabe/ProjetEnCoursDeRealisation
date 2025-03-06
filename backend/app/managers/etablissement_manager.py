@@ -167,11 +167,14 @@ class EtablissementManager:
         query = """
         MATCH (e:Etablissement)-[:HAS_CANDIDAT]->(c:Candidat)-[:HAS_BACHELIER]->(b:Bachelier)
         MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
+        MaTCH (e:Etablissement)-[:HAS_ADMISSION]->(a:Admission)
         WHERE ID(e) = $etablissementID AND s.annee = $anneeactuelle
         RETURN e.etablissement AS NomEtablissement,
                e.academie_etablissement AS academie, 
                e.region_etablissement AS region, 
                e.etablissement AS etablissement, 
+               e.statut_etablissement_filiere AS statut,
+                e.commune_etablissement AS commune,
                e.coordonnees_gps_formation AS localisation,
                c.effectif_total_candidats_formation AS TotalCandidats,
                b.effectif_neo_bacheliers_generaux_phase_principale AS NeoBacheliersGeneraux,
