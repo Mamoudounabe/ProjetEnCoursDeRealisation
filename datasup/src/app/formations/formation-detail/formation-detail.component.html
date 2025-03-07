@@ -1,209 +1,190 @@
-<!-- <div class="single-formation">
-
-    <div class="header-section">
-        <div class="left-section">
-            <p class="breadcrumbs">
-                <a class="breadcrumb-link" routerLink="/">DataSup</a> /
-                <a class="breadcrumb-link" routerLink="/statistiques">Statistiques</a> /
-                <a class="breadcrumb-link" routerLink="/formations">Formations</a> /
-                <span class="breadcrumb-active">{{ formation.filiere }} - {{ formation.etablissement }}</span>
-            </p>
-        </div>
-
-        <div class="mid-section">
-            <h2 class="title-formation">{{ formation.filiere || 'Non disponible' }}</h2>
-            <h4 class="title-etablissement">{{ formation.etablissement || 'Non disponible' }}</h4>
-        </div>
-
-        <div class="right-section">
-            <p class="formation-details">Parcours : {{ formation.filiere_formation_detaillee || 'Non disponible' }}</p>
-        </div>
-    </div>
-
-    <div class="year-selection">
-        <label for="year-select" class="year-label">Sélectionnez une année :</label>
-        <select id="year-select" class="year-combobox">
-            <option value="2023" selected>2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-        </select>
-    </div>
-
-    <div class="main-content">
-        <div class="infos-etablissement">
-            <div class="contour">
-                <h3>Informations sur l'établissement</h3>
-                <p><span class="info-label">Établissement :</span> {{ formation.etablissement || 'Non disponible' }}</p>
-                <p><span class="info-label">Statut :</span> {{ formation.statut || 'Non disponible' }}</p>
-                <p><span class="info-label">Académie :</span> {{ formation.academie_etablissement || 'Non disponible' }}</p>
-                <p><span class="info-label">Région :</span> {{ formation.region_etablissement || 'Non disponible' }}</p>
-                <p><span class="info-label">Département :</span> {{ formation.departement || 'Non disponible' }} ({{ formation.code_departement_etablissement || 'Non disponible' }})</p>
-            </div>
-        </div>
-
-        <div class="infos-formation">
-            <h3>Informations sur la formation</h3>
-            <div class="info-item">
-                <span class="label">Formation sélective :</span>
-                <span class="value">{{ formation.selectivite || 'Non disponible' }}</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Capacité totale :</span>
-                <span class="value">{{ formation.nb_places_formation || 'Non disponible' }}</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Nombre de candidats :</span>
-                <span class="value">{{ formation.nb_candidats_formation || 'Non disponible' }}</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Nombre de candidates :</span>
-                <span class="value">{{ formation.nb_candidates_formation || 'Non disponible' }}</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Nombre d'admis :</span>
-                <span class="value">{{ formation.nb_total_candidats_admis || 'Non disponible' }}</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Nombre d'admis filles :</span>
-                <span class="value">{{ formation.nb_total_candidates_admises || 'Non disponible' }}</span>
-            </div>
-        </div>
-
-        <div class="infos-statistiques">
-            <h3>Statistiques supplémentaires</h3>
-            <p><span class="info-label">Admis mention TB :</span> {{ formation.nb_neo_bac_admis_mention_tres_bien || 'Non disponible' }}</p>
-            <p><span class="info-label">Admis même académie :</span> {{ formation.nb_admis_meme_academie || 'Non disponible' }}</p>
-            <p><span class="info-label">Proportion admis boursiers :</span> {{ formation.proportion_neo_bac_boursiers || 'Non disponible' }}</p>
-        </div>
-
-        <div class="infos-lien">
-            <a class="parcoursup-link" [href]="formation.lien_parcoursup" target="_blank" *ngIf="formation.lien_parcoursup">
-                Voir sur Parcoursup
-            </a>
-        </div>
-    </div>
-</div>
-
-<div class="statistiques-formation">
-</div> -->
-
-
-
-<!-- <div class="infos-lien">
-  <a class="parcoursup-link" [href]="formation.lien_parcoursup" target="_blank" *ngIf="formation.lien_parcoursup">
-    Voir sur Parcoursup
-  </a>
-</div> -->
-
-<!-- 
 <div class="header-section">
-        <p class="breadcrumbs">
-            <a class="breadcrumb-link" routerLink="/">DataSup</a> /
-            <a class="breadcrumb-link" routerLink="/statistiques">Statistiques</a> /
-            <a class="breadcrumb-link" routerLink="/formations">Formations</a> / 
-        </p>
-
+  <p class="breadcrumbs">
+    <a class="breadcrumb-link" routerLink="/">DataSup</a> /
+    <!-- <a class="breadcrumb-link" routerLink="/statistiques">Statistiques</a> / -->
+    <a class="breadcrumb-link" routerLink="/formations">Formations</a> 
+  </p>
 </div>
 
 
-<div *ngIf="etablissementData">
-    <h2>{{ etablissementData.items[0].NomEtablissement }} - {{ etablissementData.items[0].NomFormation }}</h2>
-  
-
-
-
+<div class="partie1">
+ 
  
 
-
-    <mat-form-field>
-        <mat-label>Session</mat-label>
-        <mat-select [formControl]="panelColor"
-                    panelClass="a-{{panelColor.value}}">
-          <mat-option value="red">2020</mat-option>
-          <mat-option value="green">2021</mat-option>
-          <mat-option value="blue">2022</mat-option>
-          <mat-option value="blue">2023</mat-option>
-        </mat-select>
-      </mat-form-field>
-      
-      
+  <!-- Bloc 1 : Informations sur l'établissement -->
+  <div class="chart-box" *ngIf="etablissementData && etablissementData.length > 0">
+    <h2 >{{ etablissementData[0].NomEtablissement }} - {{ etablissementData[0].NomFormation }}</h2>
+    <p><strong>Académie :</strong> {{ etablissementData[0].academie }}</p>
+    <p><strong>Région :</strong> {{ etablissementData[0].region }}</p>
+    <p><strong> Sélectivité :</strong> {{ etablissementData[0].selectivite }}</p>
+    <a [href]="etablissementData[0].lien_parcoursup" target="_blank" class="none-style">Page de la formation sur Parcoursup</a>
+  </div>
 
 
+    <!-- Bloc 2 : Localisation -->
+  <div class="chart-box">
+    <h3>📍 Localisation</h3>
+    <div id="map" class="map-container"></div>
+  </div>
 
+
+  <!-- Bloc 3 : Statistiques et Graphique -->
+  <div class="chart-box">
+    <h3><strong>{{ totalCandidats }} candidats en 2024</strong></h3>
+    <p><span class="highlight">{{ neoBacheliers }} néo-bacheliers</span></p>
+  
+    <!-- Graphique -->
     <div class="chart-container">
-        <canvas id="canvas"></canvas>
-      </div>
-      
-    <div class="chart-info">
-      <p><strong>Session :</strong> 2024</p>
-      <p><strong>Source :</strong> Données récoltées sur la fiche parcoursup de la formation.</p>
-      <p>Dernière mise à jour des données : 15/01/2025.</p>
+      <canvas baseChart
+              [data]="barChartData"
+              [options]="barChartOptionss"
+              [type]="barChartTypee">
+      </canvas>
+    </div>
+  
+    <!-- Variation en pourcentage -->
+    <div class="variation">
+      <span class="down">↓ {{ baisseTotale }} % par rapport à 2023</span>
+      <span class="down secondary">(↓ {{ baisseNeoBacheliers }} %)</span>
     </div>
   </div>
+     
+
   
- -->
- <div class="header-section">
-    <p class="breadcrumbs">
-      <a class="breadcrumb-link" routerLink="/">DataSup</a> /
-     <!--  <a class="breadcrumb-link" routerLink="/statistiques">Statistiques</a> / -->
-      <a class="breadcrumb-link" routerLink="/formations">Formations</a> 
-    </p>
+<!-- Bloc 4 : Nouveau Bloc -->
+<div class="chart-box">
+  <h3>📊 Analyse des tendances</h3>
+  <div class="chart-box">
+    <canvas baseChart 
+      [data]="barChartData2" 
+      [options]="barChartOptions" 
+      [type]="barChartType">
+    </canvas>
   </div>
-  
-  <div *ngIf="etablissementData && etablissementData.length > 0">
-    <h2>{{ etablissementData[0].NomEtablissement }} - {{ etablissementData[0].NomFormation }}</h2>
-  
-    <div>
-      <h3>📍 Localisation</h3>
-      <div id="map" class="map-container"></div>
-    
-    </div>
+  <p><strong>Évolution par rapport aux années précédentes.</strong></p>
+</div>
 
 
 
-   <!-- <div class="mat">
-    <mat-form-field>
-      <mat-label>Session</mat-label>
-      <mat-select [formControl]="selectedYear"
-      panelClass="example-panel-{{selectedYear.value}}">
-        <mat-option class="red" value="2020">2020</mat-option>
-        <mat-option class="green" value="2021">2021</mat-option>
-        <mat-option class="blue" value="2022">2022</mat-option>
-        <mat-option value="2023">2023</mat-option>
-      </mat-select>
-    </mat-form-field> 
-   -->
 
-  <div class="mat">
-     <mat-form-field>
-      <mat-label>Session</mat-label>
-      <mat-select [formControl]="selectedYear" panelClass="example-panel-{{selectedYear.value}}">
-        <mat-option value="2020">2020</mat-option>
-        <mat-option value="2021">2021</mat-option>
-        <mat-option value="2022">2022</mat-option>
-        <mat-option value="2023">2023</mat-option>
-      </mat-select>
-     </mat-form-field>
-    </div>
+</div>
+
+
+
+
+<div class="partie2">
+
+<!-- Section pour la sélection de l'année -->
+<div class="mat-container">
+  <mat-form-field>
+    <mat-label>Session</mat-label>
+    <mat-select [formControl]="selectedYear" panelClass="example-panel-{{selectedYear.value}}">
+      <mat-option value="2020">2020</mat-option>
+      <mat-option value="2021">2021</mat-option>
+      <mat-option value="2022">2022</mat-option>
+      <mat-option value="2023">2023</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<!-- Graphique -->
+<div class="chart-container">
+  <canvas id="canvas"></canvas>
+</div>
+
+</div>
 
 
 
 
 
-
-     <div class="chart-container">
-      <canvas id="canvas"></canvas>
-     </div>
-
-    
-
-    <div class="chart-info">
-      <p><strong>Session :</strong> {{ selectedYear.value }}</p>
-      <p><strong>Source :</strong> Données récoltées sur la fiche parcoursup de la formation.</p>
-      <p>Dernière mise à jour des données : 15/01/2025.</p>
-    </div>
+<div class="charts-container">
+  <div class="chart-box">
+    <canvas baseChart 
+      [data]="barChartData1" 
+      [options]="barChartOptions" 
+      [type]="barChartType">
+    </canvas>
   </div>
 
+  <div class="chart-box">
+    <canvas baseChart 
+      [data]="barChartData2" 
+      [options]="barChartOptions" 
+      [type]="barChartType">
+    </canvas>
+  </div>
 
-  
+  <div class="chart-box">
+    <canvas baseChart 
+      [data]="barChartData3" 
+      [options]="barChartOptions" 
+      [type]="barChartType">
+    </canvas>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="card">
+  <h3><strong>{{ totalCandidats }} candidats en 2024</strong></h3>
+  <p><span class="highlight">{{ neoBacheliers }} néo-bacheliers</span></p>
+
+  <!-- Graphique -->
+  <div class="chart-container">
+    <canvas baseChart
+            [data]="barChartData"
+            [options]="barChartOptionss"
+            [type]="barChartTypee">
+    </canvas>
+  </div>
+
+  <!-- Variation en pourcentage -->
+  <div class="variation">
+    <span class="down">↓ {{ baisseTotale }} % par rapport à 2023</span>
+    <span class="down secondary">(↓ {{ baisseNeoBacheliers }} %)</span>
+  </div>
+</div>
+
+
+
+
+<!-- Informations complémentaires -->
+<div class="chart-info">
+  <p><strong>Session :</strong> {{ selectedYear.value }}</p>
+  <p><strong>Source :</strong> Données récoltées sur la fiche Parcoursup de la formation.</p>
+  <p><strong>Dernière mise à jour des données :</strong> 15/01/2025.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

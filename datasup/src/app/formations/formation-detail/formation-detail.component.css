@@ -1,3 +1,4 @@
+/* Réinitialisation de base */
 body {
     margin: 0;
     padding: 0;
@@ -6,6 +7,7 @@ body {
     line-height: 1.6;
 }
 
+/* Conteneur principal de la formation */
 .single-formation {
     max-width: 1200px;
     margin: 20px auto;
@@ -15,6 +17,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Section header */
 .header-section {
     display: flex;
     flex-direction: column;
@@ -28,6 +31,7 @@ body {
     margin-bottom: 30px;
 }
 
+/* Breadcrumbs */
 .breadcrumbs {
     font-size: 14px;
     color: #f1f1f1;
@@ -48,6 +52,7 @@ body {
     color: #fff;
 }
 
+/* Titre de la formation et établissement */
 .title-formation {
     font-size: 32px;
     font-weight: 700;
@@ -60,11 +65,13 @@ body {
     margin: 5px 0;
 }
 
+/* Détails de la formation */
 .formation-details {
     font-size: 16px;
     color: #e0e0e0;
 }
 
+/* Sélection de l'année */
 .year-selection {
     display: flex;
     justify-content: center;
@@ -100,12 +107,14 @@ body {
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.6);
 }
 
+/* Contenu principal */
 .main-content {
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
 }
 
+/* Cartes d'information */
 .infos-etablissement, .infos-formation, .infos-statistiques {
     padding: 20px;
     border-radius: 8px;
@@ -119,6 +128,7 @@ body {
     color: #333;
 }
 
+/* Info items */
 .info-label {
     font-weight: bold;
     color: #555;
@@ -140,6 +150,7 @@ body {
     color: #333;
 }
 
+/* Liens Parcoursup */
 .parcoursup-link {
     display: inline-block;
     margin-top: 15px;
@@ -158,139 +169,267 @@ body {
     background-color: var(--red);
 }
 
+/* Statistiques formation */
 .statistiques-formation {
     height: 500px;
     width: 100%;
     background: red;
 }
 
-
-
-/* #canvas {
-    max-width: 1000px;  
-    max-height: 900px; 
-    display: block;
-    margin: auto;
-  } */
-  
-  .chart-container {
+/* Styles pour les éléments graphiques */
+.chart-container {
     width: 700px;
     height: 400px;
     margin: auto;
-    size: 500px;
-    
-    
-  }
-  
+}
 
-/* Style pour chaque option dans l'autocomplete */
+/* Styles pour l'autocomplete */
 .mat-option {
     padding: 10px 20px;
     font-size: 14px;
-    color: #000; /* Texte en noir */
+    color: #000;
     cursor: pointer;
-  }
-  
-  /* Style pour une option sélectionnée */
-  .mat-option.mat-selected {
+}
+
+.mat-option.mat-selected {
     background-color: black;
-    color: #000; /* Texte en noir */
-  }
-  
-  /* Style pour une option survolée */
-  .mat-option:hover {
+    color: #000;
+}
+
+.mat-option:hover {
     background-color: #f1f1f1;
-  }
-  
-  /* Style pour une option désactivée */
-  .mat-option.mat-option-disabled {
+}
+
+.mat-option.mat-option-disabled {
     color: #999;
     cursor: not-allowed;
-  }
-  
-  /* Style pour le texte de l'option */
-  .mat-option-text {
+}
+
+.mat-option-text {
     font-weight: 500;
-    color: #000; /* Texte en noir */
-  }
-  
-  /* Personnalisation de la scrollbar pour les navigateurs basés sur WebKit (Chrome, Safari) */
-  .mat-autocomplete-panel::-webkit-scrollbar {
-    width: 12px; /* Largeur de la scrollbar */
-  }
-  
-  .mat-autocomplete-panel::-webkit-scrollbar-track {
-    background: black; /* Couleur de l'arrière-plan de la scrollbar */
-  }
-  
-  .mat-autocomplete-panel::-webkit-scrollbar-thumb {
-    background-color: black; /* Couleur de la barre de défilement */
-    border-radius: 10px; /* Arrondir les coins de la barre de défilement */
-    border: 3px solid black; /* Ajouter une bordure pour créer un espace autour de la barre de défilement */
-  }
-  
-  .mat-autocomplete-panel::-webkit-scrollbar-thumb:hover {
-    background-color: black; /* Couleur de la barre de défilement au survol */
-  }
-  
-  /* Personnalisation de la scrollbar pour Firefox */
-  .mat-autocomplete-panel {
-    scrollbar-width: thin; /* Largeur de la scrollbar */
-    scrollbar-color: black black; /* Couleur de la barre de défilement et de l'arrière-plan */
-  }
-  
-  /* Personnalisation de la scrollbar pour Internet Explorer et Edge */
-  .mat-autocomplete-panel {
-    -ms-overflow-style: -ms-autohiding-scrollbar; /* Utiliser la scrollbar personnalisée */
-  }
+    color: #000;
+}
 
+/* Scrollbar personnalisé */
+.mat-autocomplete-panel::-webkit-scrollbar {
+    width: 12px;
+}
 
-  .example-form {
+.mat-autocomplete-panel::-webkit-scrollbar-track {
+    background: black;
+}
+
+.mat-autocomplete-panel::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius: 10px;
+    border: 3px solid black;
+}
+
+.mat-autocomplete-panel::-webkit-scrollbar-thumb:hover {
+    background-color: black;
+}
+
+.mat-autocomplete-panel {
+    scrollbar-width: thin;
+    scrollbar-color: black black;
+}
+
+.mat-autocomplete-panel {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* Styles de formulaire */
+.example-form {
     min-width: 150px;
     max-width: 500px;
     width: 100%;
-   
-  }
-  
-  .example-full-width {
+}
+
+.example-full-width {
     width: 100%;
-    
-  }
-  
+}
 
-
-
-  ::ng-deep .example-panel-2020.mat-mdc-select-panel {
+/* Sélecteurs pour l'année */
+::ng-deep .example-panel-2020.mat-mdc-select-panel {
     background: rgba(255, 0, 0, 0.5);
-  }
-  
-  ::ng-deep .example-panel-2021.mat-mdc-select-panel {
+}
+
+::ng-deep .example-panel-2021.mat-mdc-select-panel {
     background: rgba(0, 255, 0, 0.5);
-  }
-  
-  ::ng-deep .example-panel-2022.mat-mdc-select-panel {
+}
+
+::ng-deep .example-panel-2022.mat-mdc-select-panel {
     background: rgba(0, 0, 255, 0.5);
-  }
-  
-  ::ng-deep .example-panel-2023.mat-mdc-select-panel {
+}
+
+::ng-deep .example-panel-2023.mat-mdc-select-panel {
     background: rgba(255, 255, 0, 0.5);
-  }
-  
+}
+
+/* Conteneur carte (map) */
+/* .map-container {
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
+}  */
 
 
 .map-container {
-  width: 190px; /* Ajuste selon l'image */
-  height: 190px; /* Ajuste selon l'image */
-  border-radius: 15px; /* Arrondi les coins comme dans l'image */
-  overflow: hidden; /* Évite tout débordement */
+  width: 100%; /* Pour que la carte occupe toute la largeur de son conteneur parent */
+  max-width: 500px; /* Limite la largeur à 500px pour éviter qu'elle ne devienne trop large sur des écrans grands */
+  height: 300px; /* Hauteur fixée pour la carte */
+  border-radius: 10px; /* Coins arrondis */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombre portée pour donner un effet de profondeur */
+  background-color: #f9f9f9; /* Fond léger pour mieux contraster avec la carte */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition fluide pour les effets de survol */
+}
+
+/* Effet au survol */
+.map-container:hover {
+  transform: scale(1.05); /* Agrandir légèrement la carte quand on survole */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Augmente l'ombre portée pour un effet de focus */
+}
+
+
+/* Flexbox pour les blocs */
+.bloc {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+.bloc-left {
+    flex: 1;
+}
+
+.bloc-right {
+    flex: 2;
+}
+
+/* Conteneur des cartes de graphiques */
+.charts-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.chart-box {
+    width: 50%;
+}
+
+/* Styles généraux */
+.none-style {
+    text-decoration: none;
+}
+
+/* Partie 1 *//* 
+.partie1 {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 20px;
+} */
+/* 
+.card {
+  width: 100%;
+  padding: 15px;
+  background: white;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+}
+ */
+/* Partie 1 */
+
+/* Partie 2 */
+
+
+
+.mat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacement entre le champ de sélection et son label */
+}
+
+/* Graphique */
+.chart-container {
+  display: flex;
+  justify-content: center; /* Centre le graphique */
+  align-items: center;
+  height: 300px; /* Fixe la hauteur du conteneur */
+  border: 1px solid #ddd; /* Bordure pour séparer visuellement */
+  background-color: #fff; /* Fond blanc */
 }
 
 
 
-.mat{
-  padding-top: 20px;
+.partie2 {
+  display: flex;
+  flex-direction: column; /* Aligne les éléments en colonne */
+  gap: 20px; /* Espacement entre chaque élément */
+  padding: 20px; /* Espacement interne autour du contenu */
+   /* Bordure bleue */
+  border-radius: 10px; /* Coins arrondis */
+  background-color: #f9f9f9; /* Fond gris clair pour le contraste */
+  box-shadow: 0 4px 8px rgba(97, 10, 10, 0.1); /* Ombre portée */
 }
 
+
+.partie1 {
+   /* Bordure bleue */
+  padding: 20px; /* Espacement à l'intérieur du cadre */
+  margin: 20px 0; /* Espacement vertical autour du cadre */
+  border-radius: 10px; /* Coins arrondis */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre portée */
+  background-color: #f9f9f9; /* Fond gris clair pour le contraste */
+  display: flex;
+  justify-content: space-between; /* Espacement entre les éléments */
+  gap: 20px; /* Espacement de 20px entre les éléments */
+  flex-wrap: wrap; /* Les blocs vont se répartir en ligne ou colonne selon la taille de l'écran */
+}
+
+/* Boîte contenant chaque graphique ou contenu */
+.chart-box {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  
+  flex: 1 1 18%; /* Chaque bloc occupe 22% de la largeur de l'écran (avec flex-grow: 1) */
+  min-width: 250px; /* Largeur minimale du bloc */
+  height: 300px; /* Hauteur des blocs */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box; /* Pour que les padding n'ajoutent pas à la largeur totale */
+  border: 1px solid #ddd; /* Bordure pour séparer visuellement les blocs */
+  border-radius: 8px; /* Coins arrondis */
+  background-color: #fff; /* Fond blanc pour les blocs */
+}
+
+/* Assurez-vous que les graphiques remplissent correctement leur container */
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Variations supplémentaires */
+.chart-info {
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.chart-info p {
+  margin: 5px 0;
+  
+}
+
+.red-text {
+  color: red !important; /* Utiliser !important pour forcer l'application */
+}
 
 
 

@@ -1,9 +1,11 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input  } from '@angular/core';
 import { Formation } from '../../core/models/formation.model';
 import { FormationService } from '../../core/services/formations.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { Chart, registerables, ChartOptions } from 'chart.js';
+import { Chart, registerables, ChartOptions,ChartType } from 'chart.js';
+import { NgModule } from '@angular/core';
+
 import { HttpClient } from '@angular/common/http';
 import { config } from '../../../environments/config';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -15,6 +17,12 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { NgChartsModule } from 'ng2-charts';
+import { ChartConfiguration } from 'chart.js'; 
+import { ChartDataset,ChartData } from 'chart.js';
+import{ CommonModule } from '@angular/common';
+
+
 
 Chart.register(...registerables, ChartDataLabels);
 
@@ -32,7 +40,10 @@ const defaultCoordinates = [45.0672, 4.8345]; // Ajoutez cette ligne pour défin
     MatSelectModule,
     MatAutocompleteModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgChartsModule,
+   
+    
   ],
   templateUrl: './formation-detail.component.html',
   styleUrls: ['./formation-detail.component.css']
@@ -46,6 +57,164 @@ export class FormationDetailComponent implements OnInit {
   selectedYear = new FormControl('2021'); // Initialisation de l'année sélectionnée
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+  totalCandidats = 175;
+  neoBacheliers = 147;
+  baisseTotale = -60;
+  baisseNeoBacheliers = -36;
+
+  // Données du graphique
+  lineChartData: ChartConfiguration<'line'>['data'] = {
+    labels: [2018, 2019, 2020, 2021, 2022, 2023, 2024],
+    datasets: [
+      {
+        data: [200, 220, 180, 210, 230, 260, 175], // Candidats totaux
+        label: 'Candidats',
+        borderColor: '#00A9C9',
+        backgroundColor: 'rgba(0, 169, 201, 0.2)',
+        fill: false,
+        tension: 0.4
+      },
+      {
+        data: [120, 130, 110, 140, 150, 160, 147], // Néo-bacheliers
+        label: 'Néo-bacheliers',
+        borderColor: '#C95479',
+        borderDash: [5, 5], // Ligne pointillée
+        backgroundColor: 'rgba(201, 84, 121, 0.2)',
+        fill: false,
+        tension: 0.4
+      }
+    ]
+  };
+
+  lineChartOptions: ChartConfiguration<'line'>['options'] = {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { display: true },
+      y: { display: false }
+    },
+    elements: { point: { radius: 4 } }
+  };
+ */
+
+
+
+
+
+  
+  public barChartOptions: ChartOptions<'bar'> = {
+    responsive: true,
+  };
+  barChartType: "bar" = "bar"; // Assign it to be "bar" explicitly
+
+
+  // Données pour les 3 graphiques
+  public barChartData1: ChartConfiguration<'bar'>['data'] = {
+    labels: ['Jan', 'Fév', 'Mar'],
+    datasets: [{ data: [10, 20, 30], label: 'Dataset 1', backgroundColor: ['red', 'blue', 'green'] }]
+  };
+
+  public barChartData2: ChartConfiguration<'bar'>['data'] = {
+    labels: ['Avr', 'Mai', 'Juin'],
+    datasets: [{ data: [15, 25, 35], label: 'Dataset 2', backgroundColor: ['purple', 'orange', 'cyan'] }]
+  };
+
+  public barChartData3: ChartConfiguration<'bar'>['data'] = {
+    labels: ['Juil', 'Août', 'Sep'],
+    datasets: [{ data: [5, 15, 25], label: 'Dataset 3', backgroundColor: ['yellow', 'pink', 'brown'] }]
+  };
+
+  
+
+
+  
+
+
+
+
+
+
+
+  totalCandidats: number = 10000; // Exemple de valeur, vous pouvez ajuster en fonction de vos données
+  neoBacheliers: number = 5000;   // Exemple de valeur
+  baisseTotale: number = 10;      // Exemple de pourcentage de baisse
+  baisseNeoBacheliers: number = 8; // Exemple de pourcentage de baisse
+
+  year = 2006; // Année affichée sur le graphique
+
+  public barChartData: ChartData<'bar'> = {
+    labels: ['MySpace', 'Hi5'],
+    datasets: [
+      { 
+        data: [40.7, 15.9], 
+        label: 'Utilisateurs (M)',
+        backgroundColor: ['#E1306C', '#FF4081', '#FF5252', '#40C4FF', '#00E676', '#29B6F6', '#FF5722'],
+      }
+    ]
+  };
+
+  // Options du graphique à barres
+  public barChartOptionss: ChartOptions<'bar'> = {
+    indexAxis: 'y',
+    responsive: true,
+    animation: {
+      duration: 2000,
+      easing: 'linear'
+    },
+    scales: {
+      x: { min: 0, max: 50 }
+    }
+  };
+
+  // Type du graphique
+  public barChartTypee: 'bar' = 'bar'; // Indiquer explicitement 'bar' comme type
+
+  startChartRace() {
+    setInterval(() => {
+      this.year++; // Incrémente l'année
+
+      // Simule des données évolutives
+      this.barChartData.datasets[0].data = this.barChartData.datasets[0].data.map((value) => 
+        Math.max(0, value + (Math.random() * 5 - 2)) // Variation aléatoire
+      );
+
+      this.barChartData = { ...this.barChartData }; // Mise à jour du graphique
+    }, 2000);
+  }
+
+
+
+
+
+
+
+
+
 
   ngOnInit(): void {
     this.etablissementID = Number(this.route.snapshot.paramMap.get('id'));
