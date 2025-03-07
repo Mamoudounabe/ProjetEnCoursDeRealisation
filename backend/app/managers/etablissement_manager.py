@@ -168,6 +168,7 @@ class EtablissementManager:
         MATCH (e:Etablissement)-[:HAS_CANDIDAT]->(c:Candidat)-[:HAS_BACHELIER]->(b:Bachelier)
         MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
         MaTCH (e:Etablissement)-[:HAS_ADMISSION]->(a:Admission)
+        MATCH (e:Etablissement)-[:OFFERS]->(f:Filiere)
         WHERE ID(e) = $etablissementID AND s.annee = $anneeactuelle
         RETURN e.etablissement AS NomEtablissement,
                e.academie_etablissement AS academie, 
@@ -175,11 +176,63 @@ class EtablissementManager:
                e.etablissement AS etablissement, 
                e.statut_etablissement_filiere AS statut,
                 e.commune_etablissement AS commune,
-               e.coordonnees_gps_formation AS localisation,
+                e.coordonnees_gps_formation AS localisation,
+
+
+
+                f.lien_parcoursup AS lien_parcoursup,
+                f.selectivite AS selectivite,
+               
+                
                c.effectif_total_candidats_formation AS TotalCandidats,
+               c.effectif_total_candidats_phase_principale,
+               c.effectif_candidates_formation,
+
+
                b.effectif_neo_bacheliers_generaux_phase_principale AS NeoBacheliersGeneraux,
                b.effectif_neo_bacheliers_technologiques_phase_principale AS NeoBacheliersTechnologiques,
-               b.effectif_neo_bacheliers_professionnels_phase_principale AS NeoBacheliersProfessionnels
+               b.effectif_neo_bacheliers_professionnels_phase_principale AS NeoBacheliersProfessionnels,
+
+               b.effectif_boursiers_professionnels_phase_principale,
+               b.effectif_autres_candidats_phase_principale,
+               b.effectif_boursiers_generaux_phase_principale,
+               b.effectif_boursiers_technologiques_phase_principale,
+
+
+
+
+               
+
+
+               a.effectif_admis_proposition_avant_fin_procedure_principale,
+               a.effectif_neo_bacheliers_mention_bien_bac_admis,
+               a.effectif_candidates_admises,
+               a.effectif_neo_bacheliers_mention_assez_bien_bac_admis,
+               a.effectif_admis_phase_principale,
+               a.effectif_total_candidats_proposition_admission,
+               a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis,
+               a.effectif_neo_bacheliers_sans_mention_bac_admis,
+               a.effectif_generaux_admis,
+               a.effectif_admises_meme_etablissement_bts_cpge,
+               a.effectif_total_candidats_admis,
+               a.effectif_technologiques_mention_bac_admis,
+               a.effectif_neo_bacheliers_admis,
+               a.effectif_professionnels_mention_bac_admis,
+               a.effectif_professionnels_admis,
+               a.effectif_autres_admis,
+               a.effectif_boursiers_admis,
+               a.effectif_admis_meme_academie,
+               a.effectif_admis_meme_etablissement_bts_cpge,
+               a.effectif_admis_proposition_ouverture_phase_principale,
+               a.effectif_neo_bacheliers_sans_info_mention_bac_admis,
+               a.effectif_admis_phase_complementaire,
+               a.effectif_neo_bacheliers_mention_tres_bien_bac_admis,
+               a.effectif_admis_meme_academie_paris_creteil_versailles,
+               a.effectif_admis_proposition_avant_baccalaureat,
+               a.effectif_generaux_mention_bac_admis,
+               a.effectif_technologiques_admis
+ 
+
         """
         try:
             # Récupère le driver Neo4j
