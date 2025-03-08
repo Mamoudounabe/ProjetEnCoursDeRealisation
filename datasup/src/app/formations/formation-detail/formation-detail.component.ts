@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input  } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input,ChangeDetectionStrategy, signal  } from '@angular/core';
 import { Formation } from '../../core/models/formation.model';
 import { FormationService } from '../../core/services/formations.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -21,6 +21,9 @@ import { NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js'; 
 import { ChartDataset,ChartData } from 'chart.js';
 import{ CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 
@@ -42,9 +45,14 @@ const defaultCoordinates = [45.0672, 4.8345]; // Ajoutez cette ligne pour défin
     FormsModule,
     ReactiveFormsModule,
     NgChartsModule,
+    MatTabsModule,
+    MatButtonToggleModule,
+     MatCheckboxModule ,
+     CommonModule 
    
     
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './formation-detail.component.html',
   styleUrls: ['./formation-detail.component.css']
 })
@@ -55,6 +63,9 @@ export class FormationDetailComponent implements OnInit {
   chart: any;
   private map: L.Map | undefined;
   selectedYear = new FormControl('2021'); // Initialisation de l'année sélectionnée
+  selectedOption: string = 'mention_bien'; 
+
+
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
@@ -63,9 +74,9 @@ export class FormationDetailComponent implements OnInit {
 
 
 
-
-
-
+ 
+  
+  
 
 
 
@@ -173,7 +184,7 @@ export class FormationDetailComponent implements OnInit {
       { 
         data: [40.7, 15.9], 
         label: 'Utilisateurs (M)',
-        backgroundColor: ['#E1306C', '#FF4081', '#FF5252', '#40C4FF', '#00E676', '#29B6F6', '#FF5722'],
+        backgroundColor: ['#17A2B8', '#17A2B8', '#FF5252', '#40C4FF', '#00E676', '#29B6F6', '#FF5722'],
       }
     ]
   };

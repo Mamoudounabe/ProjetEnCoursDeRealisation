@@ -272,7 +272,9 @@ body {
     height: 250px;
     border-radius: 10px;
 }  */
-
+.annee{
+  width: 50%;
+}
 
 .map-container {
   width: 100%; /* Pour que la carte occupe toute la largeur de son conteneur parent */
@@ -365,16 +367,119 @@ body {
 
 
 
-.partie2 {
+.partie3 {
   display: flex;
   flex-direction: column; /* Aligne les éléments en colonne */
   gap: 20px; /* Espacement entre chaque élément */
   padding: 20px; /* Espacement interne autour du contenu */
-   /* Bordure bleue */
+  margin: 20px 0; /* Espacement vertical autour du cadre */
+
   border-radius: 10px; /* Coins arrondis */
   background-color: #f9f9f9; /* Fond gris clair pour le contraste */
   box-shadow: 0 4px 8px rgba(97, 10, 10, 0.1); /* Ombre portée */
 }
+
+
+.partie2 {
+  display: flex;
+  /* flex-direction: column;  *//* Aligne les éléments en colonne */
+  flex-direction: row; /* Aligne les éléments en colonne */
+  gap: 20px; /* Espacement entre chaque élément */
+  padding: 20px; /* Espacement interne autour du contenu */
+
+  border-radius: 10px; /* Coins arrondis */
+  background-color: #f9f9f9; /* Fond gris clair pour le contraste */
+  box-shadow: 0 4px 8px rgba(3, 3, 3, 0.1); /* Ombre portée */
+  margin: 20px 0; /* Espacement vertical autour du cadre */
+
+
+
+  justify-content: space-between; /* Espace entre les deux sections : gauche et droite */
+
+
+}
+
+
+.gauche2 {
+  flex: 1; /* Occupe la moitié de l'espace disponible dans partie2 */
+  background-color: #f0f0f0; /* Couleur de fond claire */
+  padding: 20px; /* Un peu de padding autour du contenu */
+  border-radius: 8px; /* Coins arrondis */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre légère autour de la section */
+}
+
+
+.gauche2 svg {
+  vertical-align: middle; /* Aligner l'icône avec le texte */
+  margin-right: 10px; /* Un petit espace entre l'icône et le texte */
+}
+
+
+
+.droite2 {
+  flex: 1; /* Occupe l'autre moitié de l'espace */
+  background-color: #ffffff; /* Fond blanc */
+  padding: 20px; /* Padding autour du contenu */
+  border-radius: 8px; /* Coins arrondis */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre légère autour de la section */
+  align-items: center; 
+  height: 100%;  
+}
+
+
+.droite2 p {
+  font-size: 16px; /* Taille de police */
+  color: #333; /* Couleur du texte */
+  line-height: 1.6; /* Espacement entre les lignes */
+
+}
+
+
+/* 
+.bouton2 mat-button-toggle-group {
+  display: flex; */
+/*   flex-direction: row;  *//* Les boutons seront alignés verticalement */
+  /* gap: 10px; */ /* Espacement entre les boutons */
+/* }
+ */
+
+
+ .bouton2 mat-button-toggle {
+ /*  background-color: #f0f0f0; */ /* Fond des boutons */
+  color: #333; /* Couleur du texte */
+  padding: 10px 20px; /* Espacement à l'intérieur des boutons */
+  border-radius: 5px; /* Coins arrondis */
+  border: 1px solid #ddd; /* Bordure grise pour les boutons */
+  gap: 150px; /* Ajout d'un espace de 15px entre chaque bouton */
+ /*  margin-bottom: 10px; */ /* Ajoute un espace de 10px entre chaque bouton */
+ 
+}
+
+
+/* Si vous voulez un espace après le dernier bouton, vous pouvez aussi définir : */
+.droite2 mat-button-toggle:last-child {
+  margin-bottom: 0; /* Évite l'espace supplémentaire après le dernier bouton */
+}
+
+.bouton2 mat-button-toggle:hover {
+  background-color: #e0e0e0; /* Changer la couleur de fond au survol */
+}
+
+/* Si vous voulez un espace après le dernier bouton, vous pouvez aussi définir : */
+.droite2 mat-button-toggle:last-child {
+  margin-bottom: 0; /* Évite l'espace supplémentaire après le dernier bouton */
+}
+
+
+/* .bouton2 mat-button-toggle.mat-button-toggle-checked { */
+  /* background-color: #007BFF; */ /* Couleur de fond lorsqu'un bouton est sélectionné */
+  /* color: white; */ /* Couleur du texte lorsque sélectionné */
+/*  }*/ 
+
+
+.bouton2 mat-button-toggle.mat-button-toggle-checked:hover {
+  background-color: #0056b3; 
+}/* Couleur de fond au survol d'un bouton sélectionné */
 
 
 .partie1 {
@@ -388,6 +493,7 @@ body {
   justify-content: space-between; /* Espacement entre les éléments */
   gap: 20px; /* Espacement de 20px entre les éléments */
   flex-wrap: wrap; /* Les blocs vont se répartir en ligne ou colonne selon la taille de l'écran */
+  margin: 20px 0; /* Espacement vertical autour du cadre */
 }
 
 /* Boîte contenant chaque graphique ou contenu */
@@ -433,3 +539,55 @@ canvas {
 
 
 
+.fontawesomesvg {
+  margin-right: 5px;
+}
+
+
+.fontawesomeicon::before {
+  display: inline-block;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+
+
+
+
+
+
+/* Changer la couleur de fond et du texte des boutons */
+.bold-toggle.mat-button-toggle-checked {
+  background-color: #007BFF; /* Couleur de fond pour le bouton "Mention au bac" */
+  color: white;
+}
+
+.italic-toggle.mat-button-toggle-checked {
+  background-color: #28A745; 
+  color: white;
+}
+
+.underline-toggle.mat-button-toggle-checked {
+  background-color: #FFC107; /* Couleur de fond pour le bouton "Bourse" */
+  color: white;
+}
+
+.academie-toggle.mat-button-toggle-checked {
+  background-color: #DC3545; /* Couleur de fond pour le bouton "Académie" */
+  color: white;
+}
+
+.bac-type-toggle.mat-button-toggle-checked {
+  background-color: #17A2B8; /* Couleur de fond pour le bouton "Type de bac" */
+  color: white;
+}
+
+/* Vous pouvez aussi personnaliser l'apparence lorsqu'un bouton n'est pas sélectionné */
+.mat-button-toggle {
+  color: #495057; /* Couleur du texte lorsqu'il n'est pas sélectionné */
+}
+
+.mat-button-toggle:hover {
+  background-color: #F1F1F1; /* Couleur de fond sur survol */
+}
