@@ -9,6 +9,7 @@ import { AccueilPageComponent } from './accueil-page/accueil-page.component';
 import { FormationsPageComponent } from './formations/formations-page/formations-page.component';
 import { FormationDetailComponent } from './formations/formation-detail/formation-detail.component';
 
+
 import{AproposComponent} from './apropos/apropos.component';
 export const routes: Routes = [
     { path: '', component: AccueilPageComponent },   

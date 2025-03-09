@@ -1,0 +1,85 @@
+.th-style{
+
+   text-align: center; 
+   font-weight: bold; 
+   margin-bottom: 10px;
+
+}
+
+
+
+
+
+/* ===== Conteneur du tableau ===== */
+.formation-table {
+    width: 100%;
+    overflow-x: auto;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+  }
+  
+  /* ===== Tableau ===== */
+  table {
+    width: 100%;
+    border-collapse: collapse; /* Supprime l’espace entre les bordures */
+    border: 2px solid #ccc; /* Bordure extérieure */
+  }
+  
+  /* ===== En-têtes du tableau ===== */
+  th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+    text-align: left;
+    padding: 12px;
+    border: 2px solid #ddd; /* Bordures visibles */
+  }
+  
+  /* ===== Champs de filtrage dans les en-têtes ===== */
+  th input {
+    width: 100%;
+    padding: 6px;
+    margin-top: 5px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+  }
+  
+  /* ===== Lignes et cellules ===== */
+  td {
+    padding: 12px;
+    border: 2px solid #ddd; /* Ajoute une bordure autour de chaque cellule */
+    text-align: left;
+    font-size: 14px;
+  }
+  
+  /* ===== Séparation des lignes ===== */
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* ===== Texte en rouge pour "Non disponible" ===== */
+  .non-disponible {
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* ===== Responsive Design ===== */
+  @media (max-width: 768px) {
+    th, td {
+      font-size: 12px;
+      padding: 8px;
+    }
+    
+    th input {
+      font-size: 10px;
+      padding: 4px;
+    }
+  }
+  
