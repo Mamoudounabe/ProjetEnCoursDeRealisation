@@ -1,44 +1,74 @@
-header {
-    width: 100%;
-    background: var(--blue);
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  header ul {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 16px;
-  }
-  
-  header ul li {
-    position: relative;
-    margin: 0 20px;
-  }
-  
-  header ul li a {
-    text-decoration: none;
-    color: var(--white);
-    transition: color 0.3s ease;
-    padding: 15px;
-    display: block;
-  }
-  
-  header ul li a:hover {
-    color: var(--gray);
-  }
-  
-  header ul li .logo {
+.header{
+  background: var(--blue); /* Utilisation de la variable --blue */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Ajout de l'ombre */
+  height: 100px;
+}
+
+header ul {
+  display: flex;
+  flex-direction: column; /* Afficher les éléments en colonne */
+  align-items: flex-start; /* Aligner les éléments à gauche */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+}
+
+
+
+header ul li {
+  margin: 10px 0; /* Espacement vertical entre les éléments */
+}
+
+header ul li .submenu {
+  display: flex;
+  flex-direction: column; /* Afficher les sous-menus en colonne */
+  position: static; /* Réinitialiser la position */
+  opacity: 1;
+  visibility: visible;
+  background: var(--white);
+  padding: 10px 0;
+  list-style: none;
+  min-width: 200px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 1000;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+header ul li .submenu li {
+  margin: 5px 0; /* Espacement vertical entre les éléments */
+}
+
+header ul li .submenu li a {
+  color: var(--dark-gray);
+  padding: 10px 20px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+header ul li .submenu li a:hover {
+  background: var(--blue);
+  color: var(--white);
+}
+
+
+.logo {
     font-size: 25px;
     font-weight: bold;
-    color: var(--red);
+    /* color: var(--white); */
+    color:#ccc;
+    padding: 10px;
+    
+    
   }
+
+
+
+
+
   
-  header ul li .logo:hover {
-    color: var(--accent-red);
+.logo:hover {
+    color: var(--white);
   }
   
   header ul li .submenu {
@@ -174,3 +204,105 @@ header {
     margin-right: 5px; /* Ajoute un petit espace entre l'icône et le texte */
   }
   
+
+
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  
+
+
+
+
+  .menu-container {
+  position: absolute;
+  top: 56px; /* Ajustez en fonction de la hauteur de votre toolbar */
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  z-index: 1000;
+}
+
+.menu-container ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-container ul li {
+  padding: 10px;
+}
+
+.menu-container ul li a {
+  text-decoration: none;
+  color: black;
+  display: flex;
+  align-items: center;
+}
+
+.menu-container ul li a mat-icon {
+  margin-right: 8px;
+}
+
+.submenu {
+  padding-left: 20px;
+}
+
+
+
+
+
+.menu-link {
+  color: red; /* Changer la couleur du texte en bleu */
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.menu-icon {
+  color: red; /* Changer la couleur des icônes en bleu */
+  font-size: 1.2rem;
+  margin-right: 5px;
+}
+
+
+.menu-link {
+  color: red; /* Changer la couleur du texte en bleu */
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.menu-icon {
+  color: red; /* Changer la couleur des icônes en bleu */
+  font-size: 1.2rem;
+  margin-right: 5px;
+}
+
+
+
+/* .example-icon {
+  background: orange; 
+  color: white; 
+}
+
+.favorite-icon {
+  background: orange; 
+  color: white; 
+}
+ */
+
+
+ .example-icon {
+  background: var(--red); 
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  color: white; 
+ }
+.favorite-icon {
+  background: var(--red); 
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+ color: white;
+}
+ 
+

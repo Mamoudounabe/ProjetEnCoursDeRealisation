@@ -1,15 +1,23 @@
 
 
 <div *ngIf="isloading" class="loading-container">
-    <mat-spinner></mat-spinner>
-    <p>Chargement des formations en cours...</p>
+    <!-- <mat-spinner></mat-spinner> -->
+    
+  <!--   <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
+   <!--  <mat-progress-bar mode="determinate" value="40"></mat-progress-bar> -->
+   <mat-progress-bar mode="query"></mat-progress-bar>
+
+
+
+       
+   <!--  <p>Chargement des formations en cours...</p> -->
   </div>
 
 
    
 
 
-
+  <div *ngIf="!isloading">
   <div class="statistique-logo">
     <svg class="fontawesomesvg rotate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="30" height="30">
       <path fill="red" d="M384 160c-17.7 0-32-14.3-32-32s14.3-32 32-32H544c17.7 0 32 14.3 32 32V288c0 17.7-14.3 32-32 32s-32-14.3-32-32V205.3L342.6 374.6c-12.5 12.5-32.8 12.5-45.3 0L192 269.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160c12.5-12.5 32.8-12.5 45.3 0L320 306.7 466.7 160H384z"/>
@@ -24,28 +32,28 @@
 
           <th>
             <div class="th-style">
-                Filière <input type="text" placeholder="Filtrer...">
+                Filière <input type="text"  [(ngModel)]="rechercherFiliere" (input)="filtrerFormations()"  placeholder="Filtrer...">
             </div>
           </th>
 
           <th>  
              <div class="th-style">
                 Filière détaillée
-                <input type="text" placeholder="Filtrer...">
+                <input type="text" [(ngModel)]=" rechercherFiliereDetaillee"  (input)="filtrerFormations()" placeholder="Filtrer...">
              </div>
           </th>
 
           <th>
             <div class="th-style">
                 Nombre de candidats
-                <input type="text" placeholder="Filtrer...">
+                <input type="text"  [(ngModel)]=" rechercherNombreCandidats" (input)="filtrerFormations()" placeholder="Filtrer...">
             </div>
           </th>
 
           <th>
             <div class="th-style">
                 Nombre d'admissions
-                <input type="text" placeholder="Filtrer...">
+                <input type="text" [(ngModel)]="rechercherNombreAdmis" (input)="filtrerFormations()" placeholder="Filtrer...">
             </div>
           </th>
 
@@ -55,7 +63,7 @@
 
       <tbody *ngIf="formations.length > 0 ">
 
-        <tr *ngFor ="let formation of formations ">
+        <tr *ngFor ="let formation of formations "   (click)=" goToFilieres(formation.id_filiere)">
           <td>
             {{ formation.filiere_formation }}
           </td>
@@ -87,3 +95,16 @@
 
 
     </table>
+
+    <mat-paginator class="custom-paginator"
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page"
+    (page)="onPageChange($event)">
+   </mat-paginator>
+
+  </div>
+
+
+

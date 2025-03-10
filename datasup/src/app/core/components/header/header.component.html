@@ -1,4 +1,4 @@
-<header class="header">
+<!-- <header class="header">
     <ul>
       <li>
         <a routerLink="">
@@ -33,12 +33,10 @@
 
         <li>
 
-
-              <a routerLink="filieres"> 
-
-                   Filieres
-
+              <a routerLink="filieres">
+                <i class="fas fa-graduation-cap"></i> Filières
               </a>
+              
 
         </li>
 
@@ -47,36 +45,14 @@
         </ul>
       </li>
 
-      <li>
-        
-        <a routerLink="formations">
-           
-          <mat-icon  class="fontawesomesvg rotate"  aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
-          
-          Comparatif de formations</a>
-      </li>
+ <li>
+<a routerLink="formations">
+  <i class="fas fa-graduation-cap"></i>  Comparatif de formations
+</a>
 
-
-      
+</li>
 
       <li><a routerLink="" class="logo">DataSup</a></li>
-
-<!-- 
-     <li>
-        <a routerLink="">
-          <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
-            <mat-icon>Rapports & Analyses</mat-icon>
-          </button>
-
-        </a>
-      
-        <ul class="submenu">
-          <li><a href="">Rapports</a></li>
-          <li><a href="">Analyses</a></li>
-        </ul>
-      </li> -->  
-
-
       <li>
         <a routerLink="">
             Rapports & Analyses
@@ -94,4 +70,102 @@
     </ul>
 
     
+  </header> -->
+
+
+
+ <!--  <header class="header">
+  <mat-toolbar>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>My App</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button>
+  </mat-toolbar>
+  
+</header> -->
+
+
+
+<div class="header">  
+<header >
+
+    <mat-toolbar class="header">
+      <!-- Bouton pour ouvrir/fermer le menu -->
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleMenu()">
+        <mat-icon>menu</mat-icon>
+      </button>
+  
+      <!-- Logo -->
+      <a routerLink="" class="logo"   style="color: white;">DataSup</a>
+  
+      <!-- Espaceur -->
+      <span class="example-spacer"></span>
+  
+      <!-- Menu déroulant -->
+      <div *ngIf="isMenuOpen" class="menu-container">
+        <ul>
+          <li>
+            <a routerLink="" class="menu-link">
+              <mat-icon class="menu-icon">insert_chart</mat-icon>
+              Statistiques
+            </a>
+            <ul class="submenu">
+              <li>
+                <a href="">
+                  <mat-icon class="menu-icon">location_on</mat-icon>
+                  Géographiques
+                </a>
+              </li>
+              <li>
+                <a routerLink="formations">
+                  <mat-icon class="menu-icon">school</mat-icon>
+                  Formations
+                </a>
+              </li>
+              <li>
+                <a routerLink="filieres">
+                  <mat-icon class="menu-icon">class</mat-icon>
+                  Filières
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a routerLink="formations" class="menu-link">
+              <mat-icon class="menu-icon">compare</mat-icon>
+              Comparatif de formations
+            </a>
+          </li>
+          <li>
+            <a routerLink="" class="menu-link">
+              <mat-icon class="menu-icon">assignment</mat-icon>
+              Rapports & Analyses
+            </a>
+            <ul class="submenu">
+              <li><a href="">Rapports</a></li>
+              <li><a href="">Analyses</a></li>
+            </ul>
+          </li>
+          <li>
+            <a routerLink="apropos" class="menu-link">À propos</a>
+          </li>
+        </ul>
+      </div>
+  
+      <!-- Boutons supplémentaires -->
+      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>favorite</mat-icon>
+      </button>
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+        <mat-icon>share</mat-icon>
+      </button>
+    </mat-toolbar>
   </header>
+</div>

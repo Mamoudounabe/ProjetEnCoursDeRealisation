@@ -7,6 +7,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatPaginatorModule,PageEvent } from '@angular/material/paginator';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 
 
@@ -20,7 +22,8 @@ import { CommonModule } from '@angular/common';
     MatPaginatorModule,
     MatSliderModule,
     MatProgressSpinnerModule,
-    CommonModule
+    CommonModule,
+    MatProgressBarModule
   ],
   templateUrl: './filieres-page.component.html',
   styleUrl: './filieres-page.component.css'
@@ -31,12 +34,20 @@ export class FilieresPageComponent {
   isloading: boolean = true;
   rangeValues: number [] = [0,100];
   page: number =1;
-  pageSize: number=100;
+  pageSize: number=10;
   formations: any[] = [];
   totalPages : number = 0;
   totalItems: number =0;
 
+  filtrerFilieres: any[] = [];
+
   searchQuery: string = '';  // Variable pour stocker la recherche
+   // Variables pour les champs de recherche
+   rechercherFiliere: string = '';
+   rechercherFiliereDetaillee: string = '';
+   rechercherNombreCandidats: string = '';
+   rechercherNombreAdmis: string = '';
+ 
 
 constructor(private apiService: ApiService, private cdr: ChangeDetectorRef, private router: Router) {}
 
@@ -54,6 +65,7 @@ chargementFilieres(){
    next:(response) => {
        console.log("Données recus :" , response);
        this.formations= response.items;
+       this.filtrerFilieres = this.formations;
        this.totalItems = response.total_items;  
        this.totalPages = Math.ceil(this.totalItems/this.pageSize);
        console.log("Formations :",this.formations);
@@ -79,21 +91,34 @@ chargementFilieres(){
 }
 
 
-  filterFormations() {
-    console.log("Recherche en cours :", this.searchQuery);
 
-
-
-
-
-
+    filtrerFormations() {
+      this.filtrerFilieres = this.formations.filter(formation =>
+        formation.filiere_formation?.toLowerCase().includes(this.rechercherFiliere.toLowerCase()) &&
+        formation.filiere_formation_detaillee?.toLowerCase().includes(this.rechercherFiliereDetaillee.toLowerCase()) &&
+        formation.effectif_total_candidats_formation?.toString().includes(this.rechercherNombreCandidats) &&
+        formation.effectif_total_candidats_admis?.toString().includes(this.rechercherNombreAdmis)
+      );
     }
-
-
-
-
+  
 
     
-  
+  goToFilieres(id : number) {
+    if(id){
+      console.log('Redirection vers la fonction ${id}');
+      this.router.navigate(['filieres/',id])
+      .then(success => console.log("Navigation réussie"))
+      .catch(err => console.error("Erreur de navigation :", err));
+    }
+    else {
+      console.error('Formation ID is undefined or null');
+    }
+  }
+
+    onPageChange(event: PageEvent) {
+      this.page = event.pageIndex + 1;
+      this.pageSize = event.pageSize;
+      this.chargementFilieres();
+    }
   
 }

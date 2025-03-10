@@ -7,7 +7,20 @@
 }
 
 
-
+.loading-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    /* background-color: rgba(255, 255, 255, 0.8); */
+    background-color: rgba(255, 255, 255, 4);
+}
 
 
 /* ===== Conteneur du tableau ===== */
@@ -83,3 +96,74 @@
     }
   }
   
+
+
+
+
+
+
+/* Changer le fond des options du menu déroulant */
+::ng-deep .mat-select-panel {
+    background-color: #000; /* Fond noir */
+    color: #fff;            /* Texte blanc */
+}
+
+::ng-deep .mat-paginator {
+    background-color: #000; /* Fond noir */
+    color: #fff;            /* Texte blanc */
+}
+
+::ng-deep .mat-paginator-range-label {
+    color:black; /* Texte blanc */
+}
+
+::ng-deep .mat-icon-button {
+    color:#d81b60;;; /* Rose vif pour les icônes */
+}
+
+.custom-paginator {
+    background-color: #d81b60;; /* Rose vif */
+    color: #000;               /* Texte noir */
+}
+
+.custom-paginator .mat-icon-button {
+    color: #d81b60;; /* Rose pour les flèches */
+}
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+    .search-bar {
+        width: 90%;
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    .search-bar input[type="text"] {
+        font-size: 0.85rem;
+    }
+
+    .search-bar p {
+        font-size: 0.75rem;
+    }
+
+    table {
+        font-size: 0.85rem;
+    }
+
+    th, td {
+        padding: 6px;
+    }
+
+    .pagination-controls button {
+        padding: 6px 14px;
+        font-size: 0.85rem;
+    }
+}
