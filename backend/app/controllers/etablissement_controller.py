@@ -91,3 +91,37 @@ def get_etablissement_by_effectif(
 
 
 
+
+
+
+
+
+@router.get("/filiere/Candidat/Bachelier/{filiereID:path}", response_model=List[Dict[str, Any]], tags=["Etablissement"])
+def get_filiere_by_details(
+    filiereID: int = Path(..., description="ID de l'établissement (élément ID sous forme de chaîne)"),
+    anneeactuelle: str = Query(..., description="Année de la session")
+):
+    """
+    Endpoint pour récupérer les informations d'un établissement par ID et année de session.
+    Retourne les effectifs des candidats et des bacheliers.
+    """
+    try:
+        # Appelle la méthode statique de la classe EtablissementManager
+        result = EtablissementManager.get_filiere_by_details(filiereID, anneeactuelle)
+
+        # Si aucun résultat n'est trouvé, lève une exception 404
+        if not result:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Aucun établissement trouvé pour l'ID {filiereID} et l'année {anneeactuelle}."
+            )
+
+        # Retourne les résultats au format JSON
+        return JSONResponse(content=result, headers={"Content-Type": "application/json; charset=utf-8"})
+    
+    except HTTPException as http_err:
+        raise http_err  # Lève l'erreur HTTP directement
+
+    except Exception as e:
+        print(f"Erreur dans get_filiere_by_details: {e}")
+        raise HTTPException(status_code=500, detail="Erreur interne du serveur")
