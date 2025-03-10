@@ -1,3 +1,17 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1 0 auto; /* Cela permet au contenu de prendre tout l'espace disponible */
+}
+
 .footer {
     width: 100%;
     color: white;
@@ -6,10 +20,10 @@
     justify-content: center;
     align-items: center;
     background: var(--blue);
-    z-index: 10; /* Priorité sur d'autres éléments */
+    z-index: 10;
     padding: 10px 0;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optionnel : ajoute une ombre */
-    margin-top: 20px; 
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
 ul {
