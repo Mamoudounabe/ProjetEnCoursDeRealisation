@@ -51,7 +51,7 @@
        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption">
          <mat-button-toggle value="mention_bien" class="bold-toggle">Candidatures</mat-button-toggle>
          <mat-button-toggle value="sexe" class="italic-toggle">Proposition d'admission</mat-button-toggle>
-         <mat-button-toggle value="bourse" class="underline-toggle">Admission</mat-button-toggle>
+         <mat-button-toggle value="Admission" class="underline-toggle">Admission</mat-button-toggle>
          <mat-button-toggle value="academie" class="academie-toggle">Académie</mat-button-toggle>
          <mat-button-toggle value="type_bac" class="bac-type-toggle">Type de bac</mat-button-toggle>
        </mat-button-toggle-group>
@@ -78,10 +78,47 @@
       </div> 
    
    
-    
+  
    
-   </div>
+
+    
+
+     <!-- Bloc 3 : Statistiques et Graphique -->
+  <div class="chart-box" *ngIf="selectedOption === 'Admission'">
+    <h3><strong>{{ totalCandidats }} candidats en 2024</strong></h3>
+    <p><span class="highlight">{{ neoBacheliers }} néo-bacheliers</span></p>
+  
+    <!-- Graphique -->
+    <div class="chart-container">
+      <canvas baseChart
+              [data]="barChartData"
+              [options]="barChartOptionss"
+              [type]="barChartTypee">
+      </canvas>
+    </div>
+  
+    <!-- Variation en pourcentage -->
+    <div class="variation">
+      <span class="down">↓ {{ baisseTotale }} % par rapport à 2023</span>
+      <span class="down secondary">(↓ {{ baisseNeoBacheliers }} %)</span>
+    </div>
+  
+     </div>
+    
+
+
+</div>
    
    
 
+
+
+ </div>
+
+
+<!-- 
+ <mat-drawer-container class="example-containers">
+    <mat-drawer mode="side" opened>Drawer content</mat-drawer>
+    <mat-drawer-content>Main content</mat-drawer-content>
+  </mat-drawer-container> -->
    

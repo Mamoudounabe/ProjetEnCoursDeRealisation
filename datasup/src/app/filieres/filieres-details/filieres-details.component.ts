@@ -24,6 +24,8 @@ import{ CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 Chart.register(...registerables, ChartDataLabels);
@@ -45,7 +47,8 @@ Chart.register(...registerables, ChartDataLabels);
     MatTabsModule,
     MatButtonToggleModule,
      MatCheckboxModule ,
-     CommonModule 
+     CommonModule,
+     MatSidenavModule
    ],
   templateUrl: './filieres-details.component.html',
   styleUrl: './filieres-details.component.css'
@@ -140,7 +143,10 @@ export class FilieresDetailsComponent {
    }
   
 
+   
 
+
+   
    chargementdata() {
     if (!this.filiereID || isNaN(this.filiereID) || !this.anneeactuelle) {
       console.error("Données invalides ! filiereID:", this.filiereID, "anneeactuelle:", this.anneeactuelle);
@@ -152,9 +158,10 @@ export class FilieresDetailsComponent {
           console.log("Données reçues :", response);
           this.filieres = response;
 
-          // Mise à jour des données du graphique
-      this.barChartData.labels = this.filieres.map(filiere => filiere.filiere_formation);
-      this.barChartData.datasets[0].data = this.filieres.map(filiere => filiere.effectif_total_candidats_formation);
+       // Vérification et mise à jour des données du graphique
+        this.barChartData.labels = this.filieres.map(filiere => filiere?.filiere_formation || "Inconnu");
+        this.barChartData.datasets[0].data = this.filieres.map(filiere => 
+         filiere?.effectif_total_candidats_formation ? Number(filiere.effectif_total_candidats_formation) : 0)
 
         },
         error: (error) => {

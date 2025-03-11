@@ -134,6 +134,16 @@
 
 
 
+/* Graphique */
+.chart-container {
+    display: flex;
+    justify-content: center; /* Centre le graphique */
+    align-items: center;
+    height: 300px; /* Fixe la hauteur du conteneur */
+    border: 1px solid #ddd; /* Bordure pour séparer visuellement */
+    background-color: #fff; /* Fond blanc */
+  }
+
 .chart-box {
     margin-top: 50px;
     margin-bottom: 50px;
@@ -157,3 +167,19 @@
     width: 100% !important;
     height: 100% !important;
   }
+
+
+
+
+
+  .example-containers {
+    width: auto;
+    height: 200px;
+    margin: 100px;
+    padding-bottom: 20px;
+    border: 1px solid #555;
+    /* The background property is added to clearly distinguish the borders between drawer and main
+       content */
+    background: #eee;
+  }
+  
