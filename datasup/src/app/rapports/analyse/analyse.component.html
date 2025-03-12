@@ -18,7 +18,42 @@
     <h1> Introduction</h1>
     <p>L’algorithme d’appariement de Parcoursup est basé sur un modèle d’appariement stable, inspiré de l’algorithme de Gale-Shapley ou algorithme des mariages stables<br>
     Objectif : attribuer les places disponibles dans les formations en respectant les vœux des candidats et les critères des établissements.</p>
-    
+       
+     
+
+    <h1>2. Le lien entre Gale-Shapley et Parcoursup</h1>
+    <ul>
+        <li>L’algorithme de Gale et Shapley est étroitement lié à l’algorithme d’appariement de Parcoursup.</li>
+        <li>L’algorithme de Parcoursup s’inspire du problème des mariages stables résolu par Gale et Shapley, mais il est adapté aux contraintes spécifiques de l’orientation scolaire en France.</li>
+        <li>Dans l’algorithme des mariages stables chaque homme (candidat  dans parcoursup) propose à la femme qu’il préfère (femme=formation). </li>
+        
+        <li> Chaque femme (formation) reçoit plusieurs propositions et choisit selon ses préférences.</li>
+        <li>Les refusés font de nouvelles propositions jusqu’à atteindre un état stable où aucun couple (candidat-formation) ne souhaite s’échanger.</li>
+    </ul>
+
+    <h1>3. Parcoursup (Appariement Candidats-Formations)</h1>
+    <ul>
+        <li>Chaque candidat classe ses formations préférées. Chaque formation classe les candidats en fonction de ses critères de sélection. Un processus d’appariement progressif a lieu, similaire à Gale-Shapley : Un candidat peut recevoir </li>
+       
+        <li> plusieurs propositions mais ne peut en accepter qu’une. Il peut refuser une proposition s’il espère en avoir une meilleure. Les places se libèrent progressivement lorsque les candidats acceptent ou refusent.</li>
+        
+    </ul>
+    <H1>Différences entre Gale-Shapley et Parcoursup</H1>
+    <ul>
+        <li>Gale-Shapley garantit un appariement stable mais ne gère pas de quotas, contraintes de groupes ou priorités spécifiques.</li>
+        <li>Parcoursup ajoute des critères supplémentaires : Les formations peuvent avoir des quotas spécifiques (ex : boursiers, académie locale). </li>
+        <li>Les candidats doivent attendre chaque jour pour voir les  nouvelles  propositions. </li>
+        <li>L’algorithme tourne pendant plusieurs jours, contrairement à Gale-Shapley qui converge en quelques itérations.</li>
+        <li>En conclusion : Gale-Shapley égale Base Théorique de Parcoursup </li>
+        
+
+
+        
+        <li>Parcoursup reprend l’idée de Gale et Shapley, mais l’adapte pour gérer des millions de candidats, des quotas, des places
+limitées et des listes d’attente évolutives.</li> 
+<li>En gros, Gale-Shapley est la version simple, et Parcoursup en est une version complexe et adaptée à l’enseignement supérieur !</li>
+    </ul>
+
     <h1>Contexte et Objectifs de l’Algorithme</h1>
     <p>L’algorithme de Parcoursup, basé sur le principe des mariages stables de Gale et Shapley, classe les candidats pour chaque formation en respectant à la fois les critères pédagogiques établis par les établissements et les quotas légaux.</p>
     

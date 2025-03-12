@@ -64,3 +64,11 @@ body {
     margin-right: 10px;
     color: orange;
 }
+ul{
+    list-style-type: disc;
+    padding-left: 20px;
+}
+li{
+    margin-bottom: 10px;
+    font-size: 16px;
+} 
