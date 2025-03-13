@@ -11,103 +11,10 @@
         </div>
     </div>
 
-<<<<<<< HEAD
     <section>
         <h1>Introduction</h1>
         <p>L’algorithme d’appariement de Parcoursup est basé sur un modèle d’appariement stable, inspiré de l’algorithme de Gale-Shapley ou algorithme des mariages stables. Objectif : attribuer les places disponibles dans les formations en respectant les vœux des candidats et les critères des établissements.</p>
     </section>
-=======
-    <h1> Introduction</h1>
-    <p>L’algorithme d’appariement de Parcoursup est basé sur un modèle d’appariement stable, inspiré de l’algorithme de Gale-Shapley ou algorithme des mariages stables.
-    L'objectif est d'attribuer les places disponibles dans les formations en respectant les vœux des candidats et les critères des établissements.
-
-        Chaque candidat classe ses formations préférées. Chaque formation classe les candidats en fonction de ses critères de sélection. Un processus d’appariement progressif a lieu, similaire à Gale-Shapley :  
-        
-         Un candidat peut recevoir plusieurs propositions mais ne peut en accepter qu’une. Il peut refuser une proposition s’il espère en avoir une meilleure Les places se libèrent progressivement lorsque les candidats acceptent ou refusent.</p>
-        
-    
-       
-     
-
-    <h1> Le lien entre Gale-Shapley et Parcoursup</h1>
-    <ul>
-        <li>L’algorithme de Gale et Shapley est étroitement lié à l’algorithme d’appariement de Parcoursup.</li>
-        <li>L’algorithme de Parcoursup s’inspire du problème des mariages stables résolu par Gale et Shapley, mais il est adapté aux contraintes spécifiques de l’orientation scolaire en France.</li>
-        <li>Dans l’algorithme des mariages stables chaque homme (candidat  dans parcoursup) propose à la femme qu’il préfère (femme=formation). </li>
-        
-        <li> Chaque femme (formation) reçoit plusieurs propositions et choisit selon ses préférences.</li>
-        <li>Les refusés font de nouvelles propositions jusqu’à atteindre un état stable où aucun couple (candidat-formation) ne souhaite s’échanger.</li>
-        L’appariement stable, basé sur l’algorithme de Gale et Shapley, garantit que personne ne peut améliorer sa situation sans nuire à quelqu’un d’autre. C’est une propriété fondamentale qui empêche des déséquilibres dans le système d’affectation
-    </ul>
-
-   
-    
-    <H1>Différences entre Gale-Shapley et Parcoursup</H1>
-    <ul>
-        <li>Gale-Shapley garantit un appariement stable mais ne gère pas de quotas, contraintes de groupes ou priorités spécifiques.</li>
-        <li>Parcoursup ajoute des critères supplémentaires : Les formations peuvent avoir des quotas spécifiques (ex : boursiers, académie locale). </li>
-        <li>Les candidats doivent attendre chaque jour pour voir les  nouvelles  propositions. </li>
-        <li>L’algorithme tourne pendant plusieurs jours, contrairement à Gale-Shapley qui converge en quelques itérations.</li>
-        <li>En conclusion : Gale-Shapley égale Base Théorique de Parcoursup </li>
-        
-
-
-        
-        <li>Parcoursup reprend l’idée de Gale et Shapley, mais l’adapte pour gérer des millions de candidats, des quotas, des places
-            limitées et des listes d’attente évolutives.</li> 
-        <li>En gros, Gale-Shapley est la version simple, et Parcoursup en est une version complexe et adaptée à l’enseignement supérieur !</li>
-    </ul>
-
-    <h2>Principes Clés et Fonctionnement de l’algorithme de parcpursup</h2>
-
-
-    <h3>Principes Clés de l’algorithme de parcpursup</h3>
-
-    <ul>
-        <li>Pas de rejet définitif immédiat : un candidat peut être en liste d’attente et recevoir une place plus tard.</li>
-        <li>Réaffectation dynamique : chaque jour, les places libérées sont réattribuées aux candidats en attente. </li>
-        <li>Priorité aux vœux des candidats : un candidat n’est jamais forcé d’accepter un choix inférieur à celui déjà proposé.</li>
-        <li>Appariement stable : à la fin du processus, personne ne peut trouver une meilleure option sans désavantager un autre candidat</li>
-    </ul>
-
-        <h3>Fonctionnement de l’algorithme de parcpursup</h3>
-    <ul>
-        <li><strong>Classement pédagogique initial :</strong> les établissements produisent un classement initial basé sur des critères tels que les notes et les dossiers des candidats.</li>
-        <li><strong>Ajustement pour les quotas légaux :</strong> cet ordre est modifié pour respecter les quotas légaux avant d’être utilisé pour calculer les propositions d’admission.</li>
-        <li><strong>Envoi des propositions :</strong> Une proposition correspond à une offre d’admission dans une formation.</li>
-    </ul>
-    
-    <h2>Ordonnancement des Propositions d’Admission</h2>
-    <p>L’un des rôles principaux de l’algorithme est de calculer un ordre d’appel, qui détermine dans quel ordre les propositions d’admission seront faites aux candidats.</p>
-    <ul>
-        <li>Taux minimum de boursiers</li>
-        <li>Taux minimum de résidents</li>
-    </ul>
-    
-    <h3>Exemple</h3>
-    <p>Considérons une formation avec un taux minimum de boursiers de 25 %. L’algorithme remonte ces candidats pour respecter le quota à chaque étape.</p>
-    
-    <h2>Calcul Quotidien des Propositions d’Admission</h2>
-    <p>Chaque jour, l’algorithme détermine combien de propositions d’admission envoyer pour chaque formation.</p>
-    <ul>
-        <li>La capacité de la formation</li>
-        <li>Le nombre de candidats ayant déjà reçu une proposition</li>
-        <li>Un taux d’appel supplémentaire</li>
-    </ul>
-    
-    <h2>Gestion des Internats</h2>
-    <p>Pour les formations avec hébergement en internat, l’algorithme doit gérer simultanément deux classements :</p>
-    <ul>
-        <li>Ordre d’appel pour l’accès à la formation</li>
-        <li>Classement spécifique pour l’attribution des places d’hébergement en internat</li>
-    </ul>
-    
-    <h3>Exemple</h3>
-    <p>Si une formation a une capacité de 10 places et un internat associé avec 5 places, la barre d’admission pour l’internat peut être fixée au 5e rang.</p>
-    
-    <h2>Phase Complémentaire</h2>
-    <p>La phase complémentaire est activée pour redistribuer les places vacantes. Les candidats non satisfaits peuvent formuler de nouveaux vœux.</p>
->>>>>>> d7d87ca53ae81ba323246721260af9010a41395a
 
     <section>
         <h1>Contexte et Objectifs de l’Algorithme</h1>
@@ -123,7 +30,6 @@
         </ul>
     </section>
 
-<<<<<<< HEAD
     <section>
         <h2>Ordonnancement des Propositions d’Admission</h2>
         <p>L’un des rôles principaux de l’algorithme est de calculer un ordre d’appel, qui détermine dans quel ordre les propositions d’admission seront faites aux candidats.</p>
@@ -131,44 +37,6 @@
             <li>Taux minimum de boursiers</li>
             <li>Taux minimum de résidents</li>
         </ul>
-=======
-<h2>Conséquences du Principes pour les Candidats</h2>
-<ul>
-    <li>Les mieux classés reçoivent vite une réponse positive. </li>
-    <li>Les listes d’attente évoluent au fil des désistements.</li>
-    <li>Les candidats doivent faire des choix stratégiques et ne pas attendre indéfiniment une réponse improbable. 
-        L’objectif est d’assurer une attribution équitable des places tout en respectant au mieux les préférences de chacun.</li>
-</ul>
-    
-   
-<h2>Les Critiques sur parcoursup</h2>
-
-<ul>
-
-    <li>Stress des candidats face aux listes d’attente et aux délais.</li>
-    <li>Manque de transparence dans certains classements.</li>
-    <li>Difficulté d’accès à certaines formations pour des profils spécifiques.</li>
-
-</ul>
-
-<h2>Pourquoi y a-t-il des inégalités territoriales et sociales ?</h2>
-
-<ul>
-        Les inégalités territoriales et sociales sont dues à plusieurs facteurs : 
-    <li>Priorité académique : certaines universités privilégient les candidats de leur académie. </li>
-    <li>Répartition inégale des établissements : certaines régions ont moins d’universités et de grandes écoles.</li>
-    <li>Accès inégal à l’information et à l’orientation : certains lycées offrent un meilleur accompagnement pour Parcoursup.</li>
-    <li>Différences de notation entre lycées : les moyennes ne sont pas pondérées de la même manière partout.</li>
-</ul>
-
-
-
-
-
-
-
-
->>>>>>> d7d87ca53ae81ba323246721260af9010a41395a
 
         <h3>Exemple</h3>
         <p>Considérons une formation avec un taux minimum de boursiers de 25 %. L’algorithme remonte ces candidats pour respecter le quota à chaque étape.</p>
