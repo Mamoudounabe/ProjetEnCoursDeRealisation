@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-Comparatif-etablissements',
+  selector: 'app-comparatif-etablissements',
   standalone: true,
   imports: [],
-  templateUrl: './Comparatif-etablissements.component.html',
-  styleUrl: './Comparatif-etablissements.component.css'
+  templateUrl: './comparatif-etablissements.component.html',
+  styleUrl: './comparatif-etablissements.component.css'
 })
 export class ComparatifEtablissementsComponent {
 
