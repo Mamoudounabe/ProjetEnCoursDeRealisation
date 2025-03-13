@@ -50,6 +50,27 @@ export class ApiService {
 
 
 
+  // statistique par filiere
+
+ 
+  getFilieresByDetails(filiereID: number, anneeactuelle: string): Observable<any[]> {
+    if (!filiereID || isNaN(filiereID)) {
+      throw new Error('filiereID doit être un entier valide');
+    }
+    
+    return this.http.get<any[]>(`${this.apiUrl}/filiere/Candidat/Bachelier/${filiereID}`, {
+      params: { anneeactuelle: anneeactuelle }
+    });
+  }
+  
+
+
+/*   getFilieresByDetails(filiereID: number, anneeactuelle: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/filiere/Candidat/Bachelier/${filiereID}`, {
+      params: { anneeactuelle: anneeactuelle },
+  }
+   */
+
 }
 
 

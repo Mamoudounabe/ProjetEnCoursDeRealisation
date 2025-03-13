@@ -23,7 +23,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator'; // 
   templateUrl: './formations-page.component.html',
   styleUrls: ['./formations-page.component.css']
 })
-export class FormationComponent implements OnInit {
+export class FormationsPageComponent implements OnInit {
   formations: any[] = [];
   filteredFormations: any[] = [];
   searchQuery: string = '';
@@ -56,6 +56,9 @@ export class FormationComponent implements OnInit {
  formatLabel(value: number): string {
     return value.toString();
   }
+  
+
+
   fetchFormations() {
     this.isLoading = true;  // Affiche le spinner en début de chargement
 
@@ -72,6 +75,11 @@ export class FormationComponent implements OnInit {
       },
       error: (error) => {
         console.error("Erreur API :", error);
+        if (error.status === 200 && error.error instanceof SyntaxError) {
+          console.error("La réponse de l'API n'est pas au format JSON attendu.");
+        } else {
+          console.error("Erreur lors de la récupération des données :", error.message);
+        }
         this.isLoading = false;  // Arrête aussi le spinner en cas d'erreur
       }
     });
@@ -95,11 +103,29 @@ export class FormationComponent implements OnInit {
     );
   }
 
-  goToFormation(id: number) {
-    console.log(`Redirection vers la formation ${id}`);
-    // Implémente une redirection si nécessaire
-    this.router.navigate(['/formations', id]);
-  }
+ /*  goToFormation(id: number) {
+    if (id) {
+      console.log(`Redirection vers la formation ${id}`);
+      // Utiliser la route correcte pour naviguer vers la page de détails de la formation
+      this.router.navigate(['/formations', id]);
+    } else {
+      console.error('Formation ID is undefined or null');
+    }
+  } */
+
+
+
+    goToFormation(id: number) {
+      if (id) {
+        console.log(`Redirection vers la formation ${id}`);
+        this.router.navigate(['/formations', id])
+          .then(success => console.log("Navigation réussie"))
+          .catch(err => console.error("Erreur de navigation :", err));
+      } else {
+        console.error('Formation ID is undefined or null');
+      }
+    }
+    
 
   onPageChange(event: PageEvent) {
     this.page = event.pageIndex + 1;
