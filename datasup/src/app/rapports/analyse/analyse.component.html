@@ -1,68 +1,73 @@
-
-<body class="centrer">
+<div class="centrer">
     <h1>Algorithme d’Appariement de Parcoursup</h1>
-  
-    
 
     <div class="header">
         <h1>PARCOURSUP</h1>
-     
     </div>
+
     <div class="alert">
-       
         <div id="defiler">
-            <p> <strong>Auteur :</strong>:Ouédraogo Constant, Aydin Kieran, Diallo Aissatou, Maouassi Nouhad, Mandione Dia Seydina, Loum Talla, Nabé Mamoudou</p>
+            <p><strong>Auteur :</strong> Ouédraogo Constant, Aydin Kieran, Diallo Aissatou, Maouassi Nouhad, Mandione Dia Seydina, Loum Talla, Nabé Mamoudou</p>
         </div>
     </div>
 
-    <h1> Introduction</h1>
-    <p>L’algorithme d’appariement de Parcoursup est basé sur un modèle d’appariement stable, inspiré de l’algorithme de Gale-Shapley ou algorithme des mariages stables<br>
-    Objectif : attribuer les places disponibles dans les formations en respectant les vœux des candidats et les critères des établissements.</p>
-    
-    <h1>Contexte et Objectifs de l’Algorithme</h1>
-    <p>L’algorithme de Parcoursup, basé sur le principe des mariages stables de Gale et Shapley, classe les candidats pour chaque formation en respectant à la fois les critères pédagogiques établis par les établissements et les quotas légaux.</p>
-    
-    <h2>Fonctionnement de l’algorithme</h2>
-    <ul>
-        <li><strong>Classement pédagogique initial :</strong> les établissements produisent un classement initial basé sur des critères tels que les notes et les dossiers des candidats.</li>
-        <li><strong>Ajustement pour les quotas légaux :</strong> cet ordre est modifié pour respecter les quotas légaux avant d’être utilisé pour calculer les propositions d’admission.</li>
-        <li><strong>Envoi des propositions :</strong> Une proposition correspond à une offre d’admission dans une formation.</li>
-    </ul>
-    
-    <h2>Ordonnancement des Propositions d’Admission</h2>
-    <p>L’un des rôles principaux de l’algorithme est de calculer un ordre d’appel, qui détermine dans quel ordre les propositions d’admission seront faites aux candidats.</p>
-    <ul>
-        <li>Taux minimum de boursiers</li>
-        <li>Taux minimum de résidents</li>
-    </ul>
-    
-    <h3>Exemple</h3>
-    <p>Considérons une formation avec un taux minimum de boursiers de 25 %. L’algorithme remonte ces candidats pour respecter le quota à chaque étape.</p>
-    
-    <h2>Calcul Quotidien des Propositions d’Admission</h2>
-    <p>Chaque jour, l’algorithme détermine combien de propositions d’admission envoyer pour chaque formation.</p>
-    <ul>
-        <li>La capacité de la formation</li>
-        <li>Le nombre de candidats ayant déjà reçu une proposition</li>
-        <li>Un taux d’appel supplémentaire</li>
-    </ul>
-    
-    <h2>Gestion des Internats</h2>
-    <p>Pour les formations avec hébergement en internat, l’algorithme doit gérer simultanément deux classements :</p>
-    <ul>
-        <li>Ordre d’appel pour l’accès à la formation</li>
-        <li>Classement spécifique pour l’attribution des places d’hébergement en internat</li>
-    </ul>
-    
-    <h3>Exemple</h3>
-    <p>Si une formation a une capacité de 10 places et un internat associé avec 5 places, la barre d’admission pour l’internat peut être fixée au 5e rang.</p>
-    
-    <h2>Phase Complémentaire</h2>
-    <p>La phase complémentaire est activée pour redistribuer les places vacantes. Les candidats non satisfaits peuvent formuler de nouveaux vœux.</p>
+    <section>
+        <h1>Introduction</h1>
+        <p>L’algorithme d’appariement de Parcoursup est basé sur un modèle d’appariement stable, inspiré de l’algorithme de Gale-Shapley ou algorithme des mariages stables. Objectif : attribuer les places disponibles dans les formations en respectant les vœux des candidats et les critères des établissements.</p>
+    </section>
 
+    <section>
+        <h1>Contexte et Objectifs de l’Algorithme</h1>
+        <p>L’algorithme de Parcoursup, basé sur le principe des mariages stables de Gale et Shapley, classe les candidats pour chaque formation en respectant à la fois les critères pédagogiques établis par les établissements et les quotas légaux.</p>
+    </section>
 
+    <section>
+        <h2>Fonctionnement de l’algorithme</h2>
+        <ul>
+            <li><strong>Classement pédagogique initial :</strong> les établissements produisent un classement initial basé sur des critères tels que les notes et les dossiers des candidats.</li>
+            <li><strong>Ajustement pour les quotas légaux :</strong> cet ordre est modifié pour respecter les quotas légaux avant d’être utilisé pour calculer les propositions d’admission.</li>
+            <li><strong>Envoi des propositions :</strong> Une proposition correspond à une offre d’admission dans une formation.</li>
+        </ul>
+    </section>
 
+    <section>
+        <h2>Ordonnancement des Propositions d’Admission</h2>
+        <p>L’un des rôles principaux de l’algorithme est de calculer un ordre d’appel, qui détermine dans quel ordre les propositions d’admission seront faites aux candidats.</p>
+        <ul>
+            <li>Taux minimum de boursiers</li>
+            <li>Taux minimum de résidents</li>
+        </ul>
 
+        <h3>Exemple</h3>
+        <p>Considérons une formation avec un taux minimum de boursiers de 25 %. L’algorithme remonte ces candidats pour respecter le quota à chaque étape.</p>
+    </section>
+
+    <section>
+        <h2>Calcul Quotidien des Propositions d’Admission</h2>
+        <p>Chaque jour, l’algorithme détermine combien de propositions d’admission envoyer pour chaque formation.</p>
+        <ul>
+            <li>La capacité de la formation</li>
+            <li>Le nombre de candidats ayant déjà reçu une proposition</li>
+            <li>Un taux d’appel supplémentaire</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Gestion des Internats</h2>
+        <p>Pour les formations avec hébergement en internat, l’algorithme doit gérer simultanément deux classements :</p>
+        <ul>
+            <li>Ordre d’appel pour l’accès à la formation</li>
+            <li>Classement spécifique pour l’attribution des places d’hébergement en internat</li>
+        </ul>
+
+        <h3>Exemple</h3>
+        <p>Si une formation a une capacité de 10 places et un internat associé avec 5 places, la barre d’admission pour l’internat peut être fixée au 5e rang.</p>
+    </section>
+
+    <section>
+        <h2>Phase Complémentaire</h2>
+        <p>La phase complémentaire est activée pour redistribuer les places vacantes. Les candidats non satisfaits peuvent formuler de nouveaux vœux.</p>
+    </section>
 
     <div class="frame alert">
         <h2>Sources</h2>
@@ -72,5 +77,4 @@
             <li><a href="https://fr.wikipedia.org/wiki/Algorithme_de_parcours_en_profondeur">Wikipedia</a></li>
         </ul>
     </div>
-</body>
-
+</div>
