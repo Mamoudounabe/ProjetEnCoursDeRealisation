@@ -9,7 +9,7 @@ import { AccueilPageComponent } from './accueil-page/accueil-page.component';
 import { FormationsPageComponent } from './formations/formations-page/formations-page.component';
 import { FormationDetailComponent } from './formations/formation-detail/formation-detail.component';
 import { FilieresDetailsComponent } from './filieres/filieres-details/filieres-details.component';
-import { ComparatifEtablissementsComponent } from './filieres/filieres-region/comparatif-etablissements';
+import { ComparatifEtablissementsComponent } from './filieres/filieres-region/comparatif-etablissements.component';
 
 import{AproposComponent} from './apropos/apropos.component';
 export const routes: Routes = [
@@ -22,4 +22,4 @@ export const routes: Routes = [
     {path: 'apropos', component: AproposComponent},
     {path:'filieres/:id',component:FilieresDetailsComponent},
     {path:'etablissements',component:ComparatifEtablissementsComponent}
-];
+]
