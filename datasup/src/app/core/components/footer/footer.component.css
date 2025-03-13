@@ -1,5 +1,4 @@
-
-   .footer {
+.footer {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -12,14 +11,8 @@
     align-items: center;
     padding: 10px 0;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
- /*    position: relative;  */
-    position:fixed;
-  /*   margin-top: 50px; */
-  
-
-   
-} 
-
+    position: fixed;
+}
 
 ul {
     display: flex;
@@ -64,5 +57,3 @@ a:hover {
         font-size: 14px;
     }
 }
-
-

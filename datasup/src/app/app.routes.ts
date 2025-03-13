@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
+import { AnalyseComponent } from './rapports/analyse/analyse.component';
 import { FilieresPageComponent } from './filieres/filieres-page/filieres-page.component';
 import { RapportsPageComponent } from './rapports/rapports-page/rapports-page.component';
 import { StatistiquesPageComponent } from './statistiques/statistiques-page/statistiques-page.component';
@@ -19,7 +19,11 @@ export const routes: Routes = [
     { path: 'statistiques', component: StatistiquesPageComponent },
     {path: 'formations', component: FormationsPageComponent },
     { path: 'formations/:id', component: FormationDetailComponent },
+
     {path: 'apropos', component: AproposComponent},
     {path:'filieres/:id',component:FilieresDetailsComponent},
-    {path:'etablissements',component:ComparatifEtablissementsComponent}
+    {path:'etablissements',component:ComparatifEtablissementsComponent},
+
+    {path:'analyse',component:AnalyseComponent},
+
 ]
