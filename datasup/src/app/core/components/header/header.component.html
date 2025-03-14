@@ -1,75 +1,86 @@
-
-
 <div class="header">  
-<header >
-
-    <mat-toolbar class="header">
-      <!-- Bouton pour ouvrir/fermer le menu -->
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleMenu()">
-        <mat-icon>menu</mat-icon>
-      </button>
+  <header>
+      <mat-toolbar class="header">
+          <!-- Bouton pour ouvrir/fermer le menu -->
+          <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleMenu()">
+              <mat-icon>menu</mat-icon>
+          </button>
   
-
-     <!--  <svg class="fontawesomesvg rotate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="20" height="20">
-        <path fill="red" d="M384 160c-17.7 0-32-14.3-32-32s14.3-32 32-32H544c17.7 0 32 14.3 32 32V288c0 17.7-14.3 32-32 32s-32-14.3-32-32V205.3L342.6 374.6c-12.5 12.5-32.8 12.5-45.3 0L192 269.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160c12.5-12.5 32.8-12.5 45.3 0L320 306.7 466.7 160H384z"/>
-      </svg> -->
-
-      <!-- Logo -->
-       <div class="logo" >
-      <a routerLink=""    style="color: white;">DataSup</a> 
-      <span style="display: block; font-size: 8px; color: white;">BDIA Dijon</span>
-      </div>
+          <!-- Logo -->
+          <div class="logo">
+              <a routerLink="" style="color: white;">DataSup</a> 
+              <span style="display: block; font-size: 8px; color: white;">BDIA Dijon</span>
+          </div>
   
-      <!-- Espaceur -->
-      <span class="example-spacer"></span>
+          <!-- Espaceur -->
+          <span class="example-spacer"></span>
+      </mat-toolbar>
   
       <!-- Menu déroulant -->
-      <div *ngIf="isMenuOpen" class="menu-container" >
-        <ul>
-          <li>
-            <a routerLink="" class="menu-link">
-              <mat-icon class="menu-icon">insert_chart</mat-icon>
-              Statistiques
-            </a>
-            <ul class="submenu">
+      <div *ngIf="isMenuOpen" class="menu-container">
+          
+          <!-- En-tête du menu -->
+          <div class="menu-header">
+              <span class="menu-title">fermer</span>
+              <button class="menu-close" (click)="toggleMenu()">✖</button>
+          </div>
+  
+         
+          <ul>
               <li>
+<<<<<<< HEAD
                 <a href="geo-page">
                   <mat-icon class="menu-icon" >location_on</mat-icon>
                   <p style="color: white;">Géographiques </p>
                 </a>
+=======
+                  <a routerLink="" class="menu-link">
+                      <mat-icon class="menu-icon">insert_chart</mat-icon>
+                      Statistiques
+                  </a>
+                  <ul class="submenu">
+                      <li>
+                          <a href="">
+                              <mat-icon class="menu-icon">location_on</mat-icon>
+                              <p style="color: white;">Géographiques</p>
+                          </a>
+                      </li>
+                      <li>
+                          <a routerLink="formations">
+                              <mat-icon class="menu-icon">school</mat-icon>
+                              <p style="color: white;">Formations</p>
+                          </a>
+                      </li>
+                      <li>
+                          <a routerLink="filieres">
+                              <mat-icon class="menu-icon">class</mat-icon>
+                              <p style="color: white;">Filières</p>
+                          </a>
+                      </li>
+                  </ul>
+>>>>>>> 058a749 (modif menu)
               </li>
               <li>
-                <a routerLink="formations">
-                  <mat-icon class="menu-icon">school</mat-icon>
-                  <p style="color: white;">Formations </p>
-                </a>
+                  <a routerLink="etablissements" class="menu-link">
+                      <mat-icon class="menu-icon">compare</mat-icon>
+                      Comparatif des établissements
+                  </a>
               </li>
               <li>
-                <a routerLink="filieres">
-                  <mat-icon class="menu-icon">class</mat-icon>
-                  <p style="color: white;">Filières </p>
-                  
-                </a>
+                  <a routerLink="" class="menu-link">
+                      <mat-icon class="menu-icon">assignment</mat-icon>
+                      Rapports & Analyses
+                  </a>
+                  <ul class="submenu">
+                      <li><a href="" style="color: white;">Rapports</a></li>
+                      <li><a href="analyse" style="color: white;">Analyses</a></li>
+                  </ul>
               </li>
-            </ul>
-          </li>
-          <li>
-            <a routerLink="etablissements" class="menu-link">
-              <mat-icon class="menu-icon">compare</mat-icon>
-              Comparatif des établissements
-            </a>
-          </li>
-          <li>
-            <a routerLink="" class="menu-link">
-              <mat-icon class="menu-icon">assignment</mat-icon>
-              Rapports & Analyses
-            </a>
-            <ul class="submenu">
-              <li><a href=""  style="color: white;">Rapports</a></li>
-              <li><a href="analyse"   style="color: white;">Analyses</a></li>
-            </ul>
-          </li>
-          <li>
-            <a routerLink="apropos" class="menu-link">À propos</a>
-          </li>
-        </ul>
+              <li>
+                  <a routerLink="apropos" class="menu-link">À propos</a>
+              </li>
+          </ul>
+      </div>
+  </header>
+  </div>
+  
