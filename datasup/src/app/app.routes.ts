@@ -10,8 +10,10 @@ import { FormationsPageComponent } from './formations/formations-page/formations
 import { FormationDetailComponent } from './formations/formation-detail/formation-detail.component';
 import { FilieresDetailsComponent } from './filieres/filieres-details/filieres-details.component';
 import { ComparatifEtablissementsComponent } from './filieres/filieres-region/comparatif-etablissements.component';
-
 import{AproposComponent} from './apropos/apropos.component';
+import { GeoPageComponent } from './geo-page/geo-page.component';
+import { GeoDetailsComponent } from './geo-details/geo-details.component';
+
 export const routes: Routes = [
     { path: '', component: AccueilPageComponent },   
     { path: 'filieres', component: FilieresPageComponent },
@@ -19,11 +21,11 @@ export const routes: Routes = [
     { path: 'statistiques', component: StatistiquesPageComponent },
     {path: 'formations', component: FormationsPageComponent },
     { path: 'formations/:id', component: FormationDetailComponent },
-
     {path: 'apropos', component: AproposComponent},
     {path:'filieres/:id',component:FilieresDetailsComponent},
     {path:'etablissements',component:ComparatifEtablissementsComponent},
-
     {path:'analyse',component:AnalyseComponent},
+    {path:'geo-page',component:GeoPageComponent},
+    {path:'geo-details',component:GeoDetailsComponent}
 
 ]
