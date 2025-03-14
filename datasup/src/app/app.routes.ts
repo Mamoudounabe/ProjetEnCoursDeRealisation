@@ -11,8 +11,8 @@ import { FormationDetailComponent } from './formations/formation-detail/formatio
 import { FilieresDetailsComponent } from './filieres/filieres-details/filieres-details.component';
 import { ComparatifEtablissementsComponent } from './filieres/filieres-region/comparatif-etablissements.component';
 import{AproposComponent} from './apropos/apropos.component';
-import { GeoPageComponent } from './geo-page/geo-page.component';
-import { GeoDetailsComponent } from './geo-details/geo-details.component';
+import { GeoPageComponent } from './geographiques/geo-page/geo-page.component';
+import { GeoDetailsComponent } from './geographiques/geo-details/geo-details.component';
 
 export const routes: Routes = [
     { path: '', component: AccueilPageComponent },   
