@@ -125,3 +125,49 @@ def get_filiere_by_details(
     except Exception as e:
         print(f"Erreur dans get_filiere_by_details: {e}")
         raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+
+
+
+
+""" @router.get("/etablissement/Candidat/Bachelier/{etablissementID1:path,tablissementID2:path}", response_model=List[Dict[str, Any]], tags=["Etablissement"])
+def get_comp_etablissements(
+
+
+    etablissementID1: int = Path(..., description="ID de l'établissement (élément ID sous forme de chaîne)"),
+    etablissementID2: int = Path(..., description="ID de l'établissement (élément ID sous forme de chaîne)"),
+    anneeactuelle: str = Query(..., description="Année de la session")
+): """
+    
+
+
+
+@router.get("/etablissements/comparaison/{etablissementID1}/{etablissementID2}",response_model=List[Dict[str, Any]],tags=["Etablissement"])
+def get_comp_etablissements(
+    etablissementID1: int = Path(..., description="ID du premier établissement"),
+    etablissementID2: int = Path(..., description="ID du second établissement"),
+    anneeactuelle: str = Query(..., description="Année de la session")
+):
+    """
+    Endpoint pour comparer deux établissements en fonction de leurs ID et de l'année actuelle.
+    Retourne les effectifs et les statistiques des établissements.
+    """
+    try:
+        # Appel de la méthode du service
+        result = EtablissementManager.get_comp_etablissements(etablissementID1, etablissementID2, anneeactuelle)
+
+        # Si aucun résultat n'est trouvé, lève une exception 404
+        if not result:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Aucun établissement trouvé pour les ID {etablissementID1} et {etablissementID2} en {anneeactuelle}."
+            )
+
+        # Retourne les résultats sous forme de JSON
+        return JSONResponse(content=result, headers={"Content-Type": "application/json; charset=utf-8"})
+
+    except HTTPException as http_err:
+        raise http_err  # Relève l'erreur HTTP directement
+
+    except Exception as e:
+        print(f"Erreur dans comparer_etablissements: {e}")
+        raise HTTPException(status_code=500, detail="Erreur interne du serveur")
