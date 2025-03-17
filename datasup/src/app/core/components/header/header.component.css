@@ -1,4 +1,4 @@
-.header{
+.header {
   background: var(--blue); /* Utilisation de la variable --blue */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Ajout de l'ombre */
   height: 100px;
@@ -14,18 +14,16 @@ header ul {
   font-size: 16px;
 }
 
-
-
 header ul li {
   margin: 10px 0; /* Espacement vertical entre les éléments */
+  position: relative; /* Assure que le sous-menu est positionné par rapport à l'élément parent */
 }
 
 header ul li .submenu {
-  display: flex;
-  flex-direction: column; /* Afficher les sous-menus en colonne */
-  position: static; /* Réinitialiser la position */
-  opacity: 1;
-  visibility: visible;
+  display: none; /* Masquer le sous-menu par défaut */
+  position: absolute; /* Positionner de manière absolue */
+  top: 100%;
+  left: 0;
   background: var(--white);
   padding: 10px 0;
   list-style: none;
@@ -33,7 +31,10 @@ header ul li .submenu {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   z-index: 1000;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+header ul li:hover .submenu {
+  display: block; /* Afficher le sous-menu lorsque l'élément parent est survolé */
 }
 
 header ul li .submenu li {
@@ -51,194 +52,60 @@ header ul li .submenu li a:hover {
   color: var(--white);
 }
 
-
 .logo {
-    font-size: 25px;
-    font-weight: bold;
-    /* color: var(--white); */
-    color:#ccc;
-    margin-left: 15px;
-    
-    
-  }
-
-
-  .menu-item {
-    display: flex;
-    align-items: center; /* Aligne verticalement */
-    gap: 5px; /* Espace entre l’icône et le texte */
+  font-size: 25px;
+  font-weight: bold;
+  color: #ccc;
+  margin-left: 15px;
 }
 
-
-
-  
 .logo:hover {
-    color: var(--white);
-  }
-  
-  header ul li .submenu {
-    display: block;
-    opacity: 1;
-    visibility: hidden;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: var(--blue);
-    padding: 10px 0;
-    list-style: none;
-    min-width: 200px;
-    box-shadow: 0px 4px 6px white(0, 1, 1, 1);
-    border-radius: 4px;
-    z-index: 1000;
-    transition: opacity 0.3s ease, visibility 1s ease;
-  }
-  
-  header ul li:hover .submenu {
-    opacity: 1;
-    visibility: visible;
-  }
-  
-  header ul li .submenu li {
-    margin: 0;
-  }
-  
-  header ul li .submenu li a {
-    color: var(--dark-gray);
-    padding: 10px 20px;
-    transition: background 0.3s ease, color 0.3s ease;
-  }
-  
-  header ul li .submenu li a:hover {
-    background: var(--blue);
-    color: var(--white);
-  }
-  
-  header ul li .submenu {
-    right: auto;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .header ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-  }
-  
-  .header li {
-    margin-right: 20px;
-    position: relative;
-  }
-  
-  .header a {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    align-items: center;
-  }
-  
-  .header .fontawesomesvg {
-   /*  margin-right: 5px; */
-    margin-left: 15px;
-    
-  }
-  
-  .header .submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-  }
-  
-  .header li:hover .submenu {
-    display: block;
-  }
-  
-  .rotate {
-    animation: rotate 2s linear infinite;
-  }
-  
-/*   @keyframes rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  } */
-  
-  .fontawesomeicon {
-    margin-right: 5px;
-  }
+  color: var(--white);
+}
 
+.menu-item {
+  display: flex;
+  align-items: center; /* Aligne verticalement */
+  gap: 5px; /* Espace entre l’icône et le texte */
+}
 
-  .fontawesomeicon::before {
-    display: inline-block;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
- }
+.menu-link {
+  color: red; /* Applique la couleur rouge au texte */
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem; /* Ajuste la taille du texte */
+}
 
-.Map-Location-Dot::before {
-   font: var(--fa-font-solid);
-    content: ' \f5a0';
- }
+.menu-icon {
+  color: red; /* Applique la couleur rouge à l'icône */
+  font-size: 1.2rem; /* Assure que l'icône a la même taille que le texte */
+  margin-right: 3px; /* Ajoute un petit espace entre l'icône et le texte */
+}
 
+.example-spacer {
+  flex: 1 1 auto;
+}
 
-
-
-
- .example-spacer {
-    flex: 1 1 auto;
-  }
- 
-  
-
-  .menu-link {
-    color: red; /* Applique la couleur rouge au texte */
-    display: flex;
-    align-items: center;
-    font-size: 1.2rem; /* Ajuste la taille du texte */
-  }
-  
-  .menu-icon {
-    color: red; /* Applique la couleur rouge à l'icône */
-    font-size: 1.2rem; /* Assure que l'icône a la même taille que le texte */
-    margin-right: 3px; /* Ajoute un petit espace entre l'icône et le texte */
-    
-  }
-  
-
-
-  .example-spacer {
-    flex: 1 1 auto;
-  }
-  
-
-
-
-
-  .menu-container {
+.menu-container {
   position: absolute;
   top: 5px; /* Ajustez en fonction de la hauteur de votre toolbar */
-  left: 1;
+  left: 0;
   background-color: white;
   border: 1px solid #ccc;
   z-index: 2000;
+  width: 300px; /* Largeur du menu */
+  height: 500px;
+  overflow-y: auto;
 }
 
 .menu-container ul {
   list-style-type: none;
-  padding: 10;
-  margin: 10;
+  padding: 10px;
+  margin: 0;
 }
 
 .menu-container ul li {
-  padding: 30px;
+  padding: 10px 20px;
 }
 
 .menu-container ul li a {
@@ -252,82 +119,22 @@ header ul li .submenu li a:hover {
   margin-right: 8px;
 }
 
-.submenu {
-  padding-left: 20px;
-}
-
-
-
-
-
-.menu-link {
-  color: red; /* Changer la couleur du texte en bleu */
+.menu-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 10px;
+  background-color: var(--blue);
+  color: white;
+}
+
+.menu-close {
+  margin-left: auto;
+  background: none;
+  border: none;
   font-size: 1.2rem;
+  cursor: pointer;
 }
-
-.menu-icon {
-  color: red; /* Changer la couleur des icônes en bleu */
-  font-size: 1.2rem;
-  margin-right: 5px;
-}
-
-
-.menu-link {
-  color: red; /* Changer la couleur du texte en bleu */
-  display: flex;
-  align-items: center;
-  font-size: 1.2rem;
-}
-
-.menu-icon {
-  color: red; /* Changer la couleur des icônes en bleu */
-  font-size: 1.2rem;
-  margin-right: 5px;
-}
-
-
-
-/* .example-icon {
-  background: orange; 
-  color: white; 
-}
-
-.favorite-icon {
-  background: orange; 
-  color: white; 
-}
- */
-
-
- ul {
-  list-style: none; /* Supprime les puces */
-  padding: 0;
-  margin: 0;
-}
-
-.menu-container ul li {
-  margin-bottom: 0px; /* Réduit l’espace entre chaque élément du menu */
-}
-
-
- .example-icon {
-  background: var(--red); 
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  color: white; 
- }
-.favorite-icon {
-  background: var(--red); 
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-
- color: white;
-}
- 
-
-
-
-
 
 .logo p {
   font-size: 24px;
@@ -343,5 +150,7 @@ header ul li .submenu li a:hover {
   margin-top: 0px; /* Supprime l’espace au-dessus du slogan */
   font-weight: bold;
   text-align: center;
-
+}
+.content{
+  margin-left: 300px;
 }
