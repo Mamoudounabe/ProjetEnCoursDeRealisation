@@ -325,3 +325,23 @@ header ul li .submenu li a:hover {
 }
  
 
+
+
+
+
+.logo p {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: -15px; /* Réduit l’espace sous "Parcoursup" */
+}
+
+.slogan {
+  font-size: 9px;
+  color: #d11717;
+  display: block;
+  margin-top: 0px; /* Supprime l’espace au-dessus du slogan */
+  font-weight: bold;
+  text-align: center;
+
+}
