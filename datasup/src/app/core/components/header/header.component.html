@@ -3,14 +3,14 @@
     <header>
       <mat-toolbar class="header">
         <!-- Bouton pour ouvrir/fermer le menu -->
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleMenu()">
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleMenu()" style="color: white;">
           <mat-icon>menu</mat-icon>
         </button>
 
         <!-- Logo -->
         <div class="logo">
-          <p><a routerLink="">DataSup</a></p>
-          <span class="slogan">BDIA Dijon</span>
+          <p><a routerLink=""  style="color: red;">DataSup</a></p>
+          <span class="slogan"  style="color: white;">BDIA Dijon</span>
         </div>
 
         <!-- Espaceur -->
@@ -21,7 +21,7 @@
       <div *ngIf="isMenuOpen" class="menu-container">
         <!-- En-tête du menu -->
         <div class="menu-header">
-          <span class="menu-title">fermer</span>
+          <span class="menu-title">Fermer</span>
           <button class="menu-close" (click)="toggleMenu()">✖</button>
         </div>
 
@@ -75,6 +75,6 @@
   </div>
   <div class="content">
     <!-- Votre contenu principal ici -->
-    <p>Contenu principal de la page...</p>
+  <!--   <p>Contenu principal de la page...</p> -->
   </div>
 </div>
