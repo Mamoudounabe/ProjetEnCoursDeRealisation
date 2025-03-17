@@ -1,0 +1,265 @@
+/* Styles généraux */
+h1 {
+    
+    font-size: 1.6rem;
+    color:  red;
+    margin-bottom: 20px;
+    
+}
+
+
+
+
+
+.search-bar input[type="text"] {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    border: 2px solid  red;;
+    border-radius: 5px;
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 0px;
+    padding-left: 20px;
+}
+
+.search-bar input[type="text"]:focus {
+    border-color:  red;
+    box-shadow: 0 0 5px red(0, 0, 255, 0.5);
+}
+
+.search-bar p {
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 8px;
+    text-align: center;
+    width: 100%;
+}
+
+
+
+.formation-table {
+    margin-top: 20px;
+    width: 100%;
+    overflow-x: auto;
+    font-size: 0.71rem; /* Réduire la taille de la police */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 0.71rem; /* Réduire la taille de la police */
+    border: 1px solid #ccc;
+}
+
+
+
+
+
+
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+.no-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin: 0 auto;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    color: #d81b60;;
+}
+
+.loading-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    /* background-color: rgba(255, 255, 255, 0.8); */
+    background-color: rgba(255, 255, 255, 4);
+}
+
+.loading-container p {
+    margin-left: 10px;
+    font-size: 1rem;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .search-bar {
+        width: 90%;
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    .search-bar input[type="text"] {
+        font-size: 0.85rem;
+    }
+
+    .search-bar p {
+        font-size: 0.75rem;
+    }
+
+    table {
+        font-size: 0.85rem;
+    }
+
+    th, td {
+        padding: 6px;
+    }
+
+    .pagination-controls button {
+        padding: 6px 14px;
+        font-size: 0.85rem;
+    }
+}
+
+
+/* Changer le fond des options du menu déroulant */
+::ng-deep .mat-select-panel {
+    background-color: #000; /* Fond noir */
+    color: #fff;            /* Texte blanc */
+}
+
+::ng-deep .mat-paginator {
+    background-color: #000; /* Fond noir */
+    color: #fff;            /* Texte blanc */
+}
+
+::ng-deep .mat-paginator-range-label {
+    color:black; /* Texte blanc */
+}
+
+::ng-deep .mat-icon-button {
+    color:#d81b60;;; /* Rose vif pour les icônes */
+}
+
+.custom-paginator {
+    background-color: #d81b60;; /* Rose vif */
+    color: #000;               /* Texte noir */
+}
+
+.custom-paginator .mat-icon-button {
+    color: #d81b60;; /* Rose pour les flèches */
+}
+
+
+
+  
+  .statistique-logo {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: red;
+    padding-left: 20px; /* Pousse tout le bloc vers la droite */
+    margin-bottom: 10px;
+    gap: 10px; /* Espace entre l'icône et le texte */
+  }
+  
+
+
+
+
+
+  .statistique-logo svg {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .stat-text {
+    color: red;
+   
+  }
+  
+   h2{
+
+    padding-left: 20px;
+  } 
+
+
+  .fontawesomesvg {width: 1em;
+    height: 1em;
+    vertical-align: -.125em;
+  }
+
+  .non-disponible {
+    color: red;
+  }
+
+
+
+
+
+
+
+  /* Personnalisation du mat-paginator */
+
+/*   .custom-paginator{ */
+    /* background-color: #fff;  *//* Couleur de fond */
+   /*  color: #000; */ /* Couleur du texte */
+    /* padding-bottom: 20px;  *//* Espace en bas */
+    /* padding: 38px; */
+    /* margin: 20px; */
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+
+/* Section header */
+.header-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, var(--blue), var(--red));
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    font-size: 14px;
+    color: #f1f1f1;
+    margin-bottom: 15px;
+}
+
+.breadcrumb-link {
+    text-decoration: none;
+    color: var(--red);
+}
+
+.breadcrumb-link:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-active {
+    font-weight: bold;
+    color: #fff;
+}
