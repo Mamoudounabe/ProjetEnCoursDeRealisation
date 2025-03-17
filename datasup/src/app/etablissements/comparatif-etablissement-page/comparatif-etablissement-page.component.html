@@ -148,10 +148,15 @@
           </th>
         </tr>
       </thead>
-      <tbody *ngIf="filteredFormations.length > 0">  
+      <!-- <tbody *ngIf="filteredFormations.length > 0">  
         <tr *ngFor="let formation of filteredFormations" (click)="selectEtablissement(formation)">
          
-          <td>{{ formation.etablissement }}</td>
+          <!-- <mat-checkbox> <td>{{ formation.etablissement }}</td> </mat-checkbox> -->
+     <!-- 
+          <td>
+            <mat-checkbox>{{ formation.etablissement }}</mat-checkbox>
+          </td>
+          
           <td [ngClass]="{'non-disponible': !formation.commune_etablissement}">
             {{ formation.commune_etablissement || 'Non disponible' }}
           </td>
@@ -168,7 +173,40 @@
           </td> 
           
         </tr>
+      </tbody> --> 
+      <tbody *ngIf="filteredFormations.length > 0">  
+        <tr *ngFor="let formation of filteredFormations" (click)="selectEtablissement(formation)">
+          <td>
+            <!-- <mat-checkbox [(ngModel)]="formation.selected"   style="color: black;>{{ formation.etablissement }}></mat-checkbox> -->
+          
+            <mat-checkbox  class="custom-checkbox" >
+              <span style="color: black;">{{ formation.etablissement }}</span>
+            </mat-checkbox>
+            
+
+          </td>
+          
+          <td [ngClass]="{'non-disponible': !formation.commune_etablissement}">
+            {{ formation.commune_etablissement || 'Non disponible' }}
+          </td>
+          <td>{{ formation.academie_etablissement }}</td>
+          <td>{{ formation.filiere_formation }}</td>
+          <td>{{ formation.filiere_formation_detaillee }}</td>
+          <td [ngClass]="{'non-disponible': !formation.filiere_formation_tres_detaillee}">
+            {{ formation.filiere_formation_tres_detaillee || 'Non disponible' }}
+          </td>
+          <td>{{ formation.statut_etablissement_filiere }}</td>
+          <td>{{ formation.selectivite }}</td>
+          <td [ngClass]="{'non-disponible': !formation.effectif_total_candidats_admis}">
+            {{ formation.effectif_total_candidats_admis || 'Non disponible' }}
+          </td> 
+        </tr>
       </tbody>
+      
+
+
+
+
     </table>
 
 

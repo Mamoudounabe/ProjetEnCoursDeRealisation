@@ -210,6 +210,9 @@ tbody tr:hover {
   
   .stat-text {
     color: red;
+    padding: 20 px;
+    padding-top:  30px;
+    padding-bottom: 10px;
    
   }
   
@@ -244,22 +247,3 @@ tbody tr:hover {
     /* margin: 20px; */
   
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

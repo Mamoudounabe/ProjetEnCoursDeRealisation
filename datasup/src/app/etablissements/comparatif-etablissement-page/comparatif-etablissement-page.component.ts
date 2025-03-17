@@ -13,6 +13,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 @Component({
   selector: 'app-comparatif-etablissement-page',
@@ -27,7 +29,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSortModule
+    MatSortModule,
+    MatCheckboxModule
   ],
   templateUrl: './comparatif-etablissement-page.component.html',
   styleUrl: './comparatif-etablissement-page.component.css'
@@ -182,18 +185,7 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
 
         disableSelect = new FormControl(false);
 
-// Colonnes à afficher
-displayedColumns: string[] = [
-  'etablissement',
-  'commune',
-  'academie',
-  'filiere',
-  'filiereDetaillee',
-  'filiereTresDetaillee',
-  'statut',
-  'selectivite',
-  'effectif'
-];
+
   
     onPageChange(event: PageEvent) {
       this.page = event.pageIndex + 1;
