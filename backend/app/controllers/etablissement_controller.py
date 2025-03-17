@@ -171,3 +171,42 @@ def get_comp_etablissements(
     except Exception as e:
         print(f"Erreur dans comparer_etablissements: {e}")
         raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+
+
+
+
+
+
+
+
+
+
+@router.get("/etablissements/comparaison", response_model=List[Dict[str, Any]], tags=["Etablissement"])
+def get_comp_plus_etablissements(
+    etablissementIDs: List[int] = Query(..., description="Liste des IDs des établissements à comparer"),
+    anneeactuelle: str = Query(..., description="Année de la session")
+):
+    """
+    Endpoint pour comparer plusieurs établissements en fonction de leurs IDs et de l'année actuelle.
+    Retourne les effectifs et les statistiques des établissements.
+    """
+    try:
+        # Appel de la méthode du service
+        result = EtablissementManager.get_comp_plus_etablissements(etablissementIDs, anneeactuelle)
+
+        # Si aucun résultat n'est trouvé, lève une exception 404
+        if not result:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Aucun établissement trouvé pour les IDs {etablissementIDs} en {anneeactuelle}."
+            )
+
+        # Retourne les résultats sous forme de JSON
+        return JSONResponse(content=result, headers={"Content-Type": "application/json; charset=utf-8"})
+
+    except HTTPException as http_err:
+        raise http_err  # Relève l'erreur HTTP directement
+
+    except Exception as e:
+        print(f"Erreur dans comparer_etablissements: {e}")
+        raise HTTPException(status_code=500, detail="Erreur interne du serveur")
