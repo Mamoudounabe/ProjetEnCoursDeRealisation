@@ -599,7 +599,7 @@ class EtablissementManager:
         MATCH (e:Etablissement)-[:HAS_ADMISSION]->(a:Admission)
         MATCH (e:Etablissement)-[:OFFERS]->(f:Filiere)
         MATCH (e:Etablissement)-[:HAS_TAUX_ACCES]->(cl:ClassementRang)
-        WHERE e.ID IN $etablissementIDs AND s.annee = $anneeactuelle
+        WHERE ID(e) IN $etablissementIDs AND s.annee = $anneeactuelle
         RETURN e.etablissement AS NomEtablissement,
             e.academie_etablissement AS academie, 
             e.region_etablissement AS region, 
