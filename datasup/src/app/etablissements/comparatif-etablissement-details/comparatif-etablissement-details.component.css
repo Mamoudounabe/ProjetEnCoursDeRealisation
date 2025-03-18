@@ -33,3 +33,22 @@
     font-weight: bold;
     color: #fff;
 }
+
+
+
+.titre {
+    text-align: center;
+    color: #333;
+    font-size: 2em;
+    margin-top: 20px;
+  }
+
+
+  body {
+    margin: 0;
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    background-color: #f4f4f4;
+  }

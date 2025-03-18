@@ -25,6 +25,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ApiService} from '../../core/services/api.service';
+import { faSignal } from '@fortawesome/free-solid-svg-icons'; 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-comparatif-etablissement-details',
@@ -42,11 +44,16 @@ import { ApiService} from '../../core/services/api.service';
     MatTabsModule,
     MatButtonToggleModule,
      MatCheckboxModule ,
-     CommonModule ],
+     CommonModule,
+     FontAwesomeModule
+
+    ],
   templateUrl: './comparatif-etablissement-details.component.html',
   styleUrl: './comparatif-etablissement-details.component.css'
 })
 export class ComparatifEtablissementDetailsComponent implements OnInit  {
+
+  faSignal = faSignal;
 
   etablissementsIDs: number[] = [];
   selectedYear = new FormControl('2021'); 
