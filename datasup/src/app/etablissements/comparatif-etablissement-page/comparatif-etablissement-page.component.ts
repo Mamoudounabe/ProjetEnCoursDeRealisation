@@ -60,8 +60,8 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
     private timeoutId: any; // Identifier pour le setTimeout
     disableSelect = new FormControl(false);
     selectedEtablissements: any[] = [];
-
-
+    allFilteredFormations: any[] = [];
+    pagesContainingResults: number[] = []; // Liste des pages contenant les résultats
 
 
   
@@ -105,7 +105,7 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
       });
     }
   
-    filterFormations() {
+  /*   filterFormations() {
       const query = this.searchQuery.toLowerCase();
       this.filteredFormations = this.formations.filter(formation => 
         (formation.filiere_formation?.toLowerCase().includes(query) ||
@@ -122,7 +122,58 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
         formation.effectif_total_candidats_admis?.toString().includes(this.searchEffectif)
       );
     }
-  
+   */
+
+
+
+    filterFormations() {
+      const query = this.searchQuery.toLowerCase();
+      
+      // Filtrage sur toutes les formations
+      this.allFilteredFormations = this.formations.filter(formation => 
+        (formation.filiere_formation?.toLowerCase().includes(query) ||
+        formation.etablissement?.toLowerCase().includes(query) ||
+        formation.commune_etablissement?.toLowerCase().includes(query)) &&
+        formation.etablissement?.toLowerCase().includes(this.searchEtablissement.toLowerCase()) &&
+        formation.commune_etablissement?.toLowerCase().includes(this.searchCommune.toLowerCase()) &&
+        formation.academie_etablissement?.toLowerCase().includes(this.searchAcademie.toLowerCase()) &&
+        formation.filiere_formation?.toLowerCase().includes(this.searchFiliere.toLowerCase()) &&
+        formation.filiere_formation_detaillee?.toLowerCase().includes(this.searchFiliereDetaillee.toLowerCase()) &&
+        formation.filiere_formation_tres_detaillee?.toLowerCase().includes(this.searchFiliereTresDetaillee.toLowerCase()) &&
+        formation.statut_etablissement_filiere?.toLowerCase().includes(this.searchStatut.toLowerCase()) &&
+        formation.selectivite?.toLowerCase().includes(this.searchSelectivite.toLowerCase()) &&
+        formation.effectif_total_candidats_admis?.toString().includes(this.searchEffectif)
+      );
+    
+      // Calcul du nombre total de pages
+      this.totalPages = Math.ceil(this.allFilteredFormations.length / this.pageSize);
+    
+      // Trouver les pages où il y a des résultats
+      this.calculatePagesContainingResults();
+    
+      // Mettre à jour l'affichage de la page actuelle
+      this.updatePaginatedFormations();
+    }
+
+
+
+
+    calculatePagesContainingResults() {
+      this.pagesContainingResults = [];
+    
+      for (let i = 0; i < this.totalPages; i++) {
+        const startIndex = i * this.pageSize;
+        const endIndex = startIndex + this.pageSize;
+        const hasResults = this.allFilteredFormations.slice(startIndex, endIndex).length > 0;
+    
+        if (hasResults) {
+          this.pagesContainingResults.push(i + 1); // +1 pour commencer à 1 (au lieu de 0)
+        }
+      }
+    }
+    
+
+
 
         selectEtablissement(formation: any) {
           const index = this.selectedEtablissements.findIndex(e => e.id_etablissement === formation.id_etablissement);
@@ -148,9 +199,29 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
         
 
   
-    onPageChange(event: PageEvent) {
+   /*  onPageChange(event: PageEvent) {
       this.page = event.pageIndex + 1;
       this.pageSize = event.pageSize;
       this.fetchFormations();
-    }
+    } */
+
+
+      onPageChange(event: PageEvent) {
+        this.page = event.pageIndex + 1;
+        this.pageSize = event.pageSize;
+        this.updatePaginatedFormations(); // Met à jour l'affichage après changement de page
+      }
+      
+      updatePaginatedFormations() {
+        const startIndex = (this.page - 1) * this.pageSize;
+        const endIndex = startIndex + this.pageSize;
+      
+        this.filteredFormations = this.allFilteredFormations.slice(startIndex, endIndex);
+      }
+      
+
+
+
+
+
 }

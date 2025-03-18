@@ -195,3 +195,13 @@
    aria-label="Select page"
    (page)="onPageChange($event)">
   </mat-paginator>
+
+
+  <p *ngIf="searchQuery && pagesContainingResults.length > 0">
+    Résultat trouvé sur 
+    <b>{{ pagesContainingResults.length }}</b> page(s) :
+    <span *ngFor="let page of pagesContainingResults; let i = index">
+      <b>{{ page }}</b>{{ i < pagesContainingResults.length - 1 ? ', ' : '' }}
+    </span>
+  </p>
+  
