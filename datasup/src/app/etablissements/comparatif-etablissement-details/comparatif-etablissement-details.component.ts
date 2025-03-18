@@ -59,6 +59,8 @@ export class ComparatifEtablissementDetailsComponent implements OnInit  {
   selectedYear = new FormControl('2021'); 
   anneeactuelle: string = '2021'; 
   etablissementsData: any[] = [];
+  selectedOption: string = 'mention_bien';
+
 
 constructor(private apiService: ApiService, private route: ActivatedRoute) {}
 
