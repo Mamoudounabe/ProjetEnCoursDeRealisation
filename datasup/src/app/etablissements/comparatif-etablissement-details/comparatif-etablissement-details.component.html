@@ -9,18 +9,32 @@
 
 
 
-<!-- <h1 class="titre">Informations Générales</h1> -->
+<div  class="block">
 
+
+
+<div class="une">   <h2 >{{ etablissementsData[0].NomEtablissement }} - {{ etablissementsData[0].NomFormation }}</h2>  </div>
+
+
+<!-- Bloc 1 : Informations sur l'établissement -->
+<div class="fg1" *ngIf="etablissementsData && etablissementsData.length > 0">
+  <h2 >{{ etablissementsData[0].NomEtablissement }} - {{ etablissementsData[0].NomFormation }}</h2>
+  <p><strong>Académie :</strong> {{ etablissementsData[0].academie }}</p>
+  <p><strong>Région :</strong> {{ etablissementsData[0].region }}</p>
+  <p><strong> Sélectivité :</strong> {{ etablissementsData[0].selectivite }}</p>
+</div>
+
+
+
+
+<div class="fd1">
 <h1 class="titre">
   <fa-icon [icon]="faSignal"></fa-icon> Informations Générales
 </h1>
 
+</div>
 
 
-<!-- <h1 class="titre">
-  <svg width="20" height="20" viewBox="0 0 24 24">
-    <path d="M2 20h2v-2H2v2zm4-4h2v-6H6v6zm4 2h2V8h-2v10zm4-4h2V4h-2v10zm4 6h2V2h-2v16z"></path>
-  </svg>
-  Informations Générales
-</h1>
- -->
+
+</div>
+
