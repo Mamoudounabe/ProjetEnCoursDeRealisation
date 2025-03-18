@@ -3,10 +3,7 @@
     <p>Chargement des formations en cours...</p>
   </div>
   
- <!--  <div class="statistique-logo">
-    <svg class="fontawesomesvg rotate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="30" height="30">
-      <path fill="red" d="M384 160c-17.7 0-32-14.3-32-32s14.3-32 32-32H544c17.7 0 32 14.3 32 32V288c0 17.7-14.3 32-32 32s-32-14.3-32-32V205.3L342.6 374.6c-12.5 12.5-32.8 12.5-45.3 0L192 269.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160c12.5-12.5 32.8-12.5 45.3 0L320 306.7 466.7 160H384z"/>
-    </svg> -->
+
 
 <div class="statistique-logo">
     <span class="stat-text">Sélectionner Deux Établissements pour Comparaison</span>
@@ -148,42 +145,16 @@
           </th>
         </tr>
       </thead>
-      <!-- <tbody *ngIf="filteredFormations.length > 0">  
-        <tr *ngFor="let formation of filteredFormations" (click)="selectEtablissement(formation)">
-         
-          <!-- <mat-checkbox> <td>{{ formation.etablissement }}</td> </mat-checkbox> -->
-     <!-- 
-          <td>
-            <mat-checkbox>{{ formation.etablissement }}</mat-checkbox>
-          </td>
-          
-          <td [ngClass]="{'non-disponible': !formation.commune_etablissement}">
-            {{ formation.commune_etablissement || 'Non disponible' }}
-          </td>
-          <td>{{ formation.academie_etablissement }}</td>
-          <td>{{ formation.filiere_formation }}</td>
-          <td>{{ formation.filiere_formation_detaillee }}</td>
-          <td [ngClass]="{'non-disponible': !formation.filiere_formation_tres_detaillee}">
-            {{ formation.filiere_formation_tres_detaillee || 'Non disponible' }}
-          </td>
-          <td>{{ formation.statut_etablissement_filiere }}</td>
-          <td>{{ formation.selectivite }}</td>
-          <td [ngClass]="{'non-disponible': !formation.effectif_total_candidats_admis}">
-            {{ formation.effectif_total_candidats_admis || 'Non disponible' }}
-          </td> 
-          
-        </tr>
-      </tbody> --> 
+    
       <tbody *ngIf="filteredFormations.length > 0">  
-        <tr *ngFor="let formation of filteredFormations" (click)="selectEtablissement(formation)">
+        <tr *ngFor="let formation of filteredFormations">
           <td>
-            <!-- <mat-checkbox [(ngModel)]="formation.selected"   style="color: black;>{{ formation.etablissement }}></mat-checkbox> -->
-          
-            <mat-checkbox  class="custom-checkbox" >
+            <mat-checkbox 
+              class="custom-checkbox" 
+              (change)="selectEtablissement(formation)" 
+              [checked]="isEtablissementSelected(formation)">
               <span style="color: black;">{{ formation.etablissement }}</span>
             </mat-checkbox>
-            
-
           </td>
           
           <td [ngClass]="{'non-disponible': !formation.commune_etablissement}">
@@ -203,24 +174,20 @@
         </tr>
       </tbody>
       
-
-
-
-
+  
     </table>
 
-
-
-
-    <div class="compare-btn-container">
-        <button mat-raised-button 
-                color="primary" 
-                (click)="goToEtablissementComp()" 
-                [disabled]="selectedEtablissements.length !== 2">
-          Comparer les établissements sélectionnés
-        </button>
+   <div class="compare-btn-container">
+    <button mat-raised-button 
+            color="primary" 
+            (click)="goToEtablissementComp()" 
+            [disabled]="selectedEtablissements.length < 2">
+      Comparer {{ selectedEtablissements.length }} établissement(s) sélectionné(s)
+    </button>
   </div>
   
+
+
   <mat-paginator class="custom-paginator"
    [length]="totalItems"
    [pageSize]="pageSize"

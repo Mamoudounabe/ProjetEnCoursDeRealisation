@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -35,6 +36,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   templateUrl: './comparatif-etablissement-page.component.html',
   styleUrl: './comparatif-etablissement-page.component.css'
 })
+
 export class ComparatifEtablissementPageComponent implements OnInit  {
 
 
@@ -56,23 +58,27 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
     totalItems: number = 0;
     isLoading: boolean = true;
     private timeoutId: any; // Identifier pour le setTimeout
+    disableSelect = new FormControl(false);
+    selectedEtablissements: any[] = [];
+
+
+
+
   
-    constructor(private apiService: ApiService, private cdr: ChangeDetectorRef, private router: Router) {}
+  constructor(private apiService: ApiService, private cdr: ChangeDetectorRef, private router: Router,private route: ActivatedRoute) {}
   
     ngOnInit() {
-      this.fetchFormations();
+      this.fetchFormations(); // Charge les formations
+      
     }
-  
-  
-  
+    
     rangeValues: number[] = [0, 100];
   
    formatLabel(value: number): string {
       return value.toString();
     }
     
-  
-  
+
     fetchFormations() {
       this.isLoading = true;  // Affiche le spinner en début de chargement
   
@@ -117,74 +123,29 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
       );
     }
   
-   /*  goToFormation(id: number) {
-      if (id) {
-        console.log(`Redirection vers la formation ${id}`);
-        // Utiliser la route correcte pour naviguer vers la page de détails de la formation
-        this.router.navigate(['/formations', id]);
-      } else {
-        console.error('Formation ID is undefined or null');
-      }
-    } */
-  
-  
-  
-      goToFormation(id: number) {
-        if (id) {
-          console.log(`Redirection vers la formation ${id}`);
-          this.router.navigate(['/formations', id])
-            .then(success => console.log("Navigation réussie"))
-            .catch(err => console.error("Erreur de navigation :", err));
-        } else {
-          console.error('Formation ID is undefined or null');
-        }
-      }
-      
 
-   /*    goToEtablissementComp(id1: number,id2:number) {
-        if (id1 && id2) {
-          console.log(`Redirection vers la formation ${id1}/${id2}`);
-          /* this.router.navigate(['/etablissement', id1,id2]) */
-          /* this.router.navigate([`/etablissement/${id1}/${id2}`]) *//* 
-          this.router.navigate(['/etablissements/comparaison', id1, id2])
-            .then(success => console.log("Navigation réussie"))
-            .catch(err => console.error("Erreur de navigation :", err));
-        } else {
-          console.error('Formation ID is undefined or null');
-        }
-      } */ 
-
-
-
-        selectedEtablissements: any[] = []; // Stocke les établissements sélectionnés
-
-        // Autres variables...
-        
-        // Méthode pour gérer la sélection des établissements
         selectEtablissement(formation: any) {
-          if (this.selectedEtablissements.length < 2) {
-            this.selectedEtablissements.push(formation); // Ajouter l'établissement sélectionné
+          const index = this.selectedEtablissements.findIndex(e => e.id_etablissement === formation.id_etablissement);
+          if (index === -1) {
+            this.selectedEtablissements.push(formation);
           } else {
-            alert('Vous avez déjà sélectionné 2 établissements !'); // Limiter à 2 établissements
+            this.selectedEtablissements.splice(index, 1);
           }
         }
-      
-        // Rediriger l'utilisateur vers la page de comparaison
+        
+        isEtablissementSelected(formation: any): boolean {
+          return this.selectedEtablissements.some(e => e.id_etablissement === formation.id_etablissement);
+        }
+        
         goToEtablissementComp() {
-          if (this.selectedEtablissements.length === 2) {
-            const id1 = this.selectedEtablissements[0].id_etablissement;
-            const id2 = this.selectedEtablissements[1].id_etablissement;
-            
-            // Rediriger vers la page de comparaison avec les identifiants des établissements
-            this.router.navigate(['/etablissements/comparaison', id1, id2]);
+          if (this.selectedEtablissements.length >= 2) {
+            const ids = this.selectedEtablissements.map(e => e.id_etablissement).join(',');
+            this.router.navigate(['/etablissements/comparaison', ids]);
           } else {
-            alert('Veuillez sélectionner 2 établissements à comparer.');
+            alert('Veuillez sélectionner au moins 2 établissements à comparer.');
           }
         }
-
-
-        disableSelect = new FormControl(false);
-
+        
 
   
     onPageChange(event: PageEvent) {
