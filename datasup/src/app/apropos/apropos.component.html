@@ -1,33 +1,37 @@
+<section class="decalerdroite">
+
 
 <div class="timeline">
-    <h2 class="title">Chronologie du projet</h2>
-    
-    <div *ngFor="let event of events; let i = index" class="timeline-item">
-      <!-- Icône check -->
-      <div class="icon" [ngClass]="{'completed': event.completed}">✓</div>
+  <h2 class="title">Chronologie du projet</h2>
   
-      <!-- Ligne verticale -->
-      <div *ngIf="i < events.length - 1" class="timeline-line"></div>
-  
-      <!-- Contenu -->
-      <div class="content">
-        <h3>{{ event.title }}</h3>
-        <p class="date">{{ event.date }}</p>
-        <p>{{ event.description }}</p>
-      </div>
+  <div *ngFor="let event of events; let i = index" class="timeline-item">
+    <!-- Icône check -->
+    <div class="icon" [ngClass]="{'completed': event.completed}">✓</div>
+
+    <!-- Ligne verticale -->
+    <div *ngIf="i < events.length - 1" class="timeline-line"></div>
+
+    <!-- Contenu -->
+    <div class="content">
+      <h3>{{ event.title }}</h3>
+      <p class="date">{{ event.date }}</p>
+      <p>{{ event.description }}</p>
     </div>
   </div>
-  
+</div>
+
 
 <p>
-    Nous sommes une équipe dynamique de 10 étudiants passionnés par l'analyse et l'innovation. Au cours du premier semestre, nous étions 10 étudiants, dont 4 en alternance, à nous lancer dans un projet ambitieux : réaliser une analyse complète de Parcoursup. Cette expérience nous a permis d'explorer en profondeur les mécanismes de cette plateforme et de proposer des perspectives intéressantes pour son amélioration.
+  Nous sommes une équipe dynamique de 10 étudiants passionnés par l'analyse et l'innovation. Au cours du premier semestre, nous étions 10 étudiants, dont 4 en alternance, à nous lancer dans un projet ambitieux : réaliser une analyse complète de Parcoursup. Cette expérience nous a permis d'explorer en profondeur les mécanismes de cette plateforme et de proposer des perspectives intéressantes pour son amélioration.
 </p>
 <p>
-    Au deuxième semestre, nous sommes 6 à poursuivre cette aventure, déterminés à approfondir nos recherches et à concrétiser nos idées. Notre équipe, bien que réduite, reste motivée et soudée pour relever de nouveaux défis et apporter des solutions innovantes.
+  Au deuxième semestre, nous sommes 6 à poursuivre cette aventure, déterminés à approfondir nos recherches et à concrétiser nos idées. Notre équipe, bien que réduite, reste motivée et soudée pour relever de nouveaux défis et apporter des solutions innovantes.
 </p>
 <p>
-    Ensemble, nous combinons nos compétences, notre créativité et notre engagement pour faire avancer des projets qui ont du sens. Rejoignez-nous dans notre démarche et découvrez nos réalisations !
+  Ensemble, nous combinons nos compétences, notre créativité et notre engagement pour faire avancer des projets qui ont du sens. Rejoignez-nous dans notre démarche et découvrez nos réalisations !
 </p>
 <p>
-    <strong>L'équipe DataSup</strong>
+  <strong>L'équipe DataSup</strong>
 </p>
+
+</section>

@@ -147,7 +147,7 @@ header ul li .submenu li a:hover {
   font-size: 15px;
   color: #ef0909;
   display: block;
-  margin-top: 3px; /* Supprime l’espace au-dessus du slogan */
+  margin-top: 5px; /* Supprime l’espace au-dessus du slogan */
   text-align: justify;
   text-align: center;
 }
@@ -160,3 +160,4 @@ header ul li .submenu li a:hover {
   color: #ece4e4;
   text-decoration: none;
 }
+
