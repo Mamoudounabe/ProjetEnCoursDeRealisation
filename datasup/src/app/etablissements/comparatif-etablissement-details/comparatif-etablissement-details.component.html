@@ -32,7 +32,7 @@
   <fa-icon [icon]="faSignal"></fa-icon> Informations Générales
 </h1>
 <div class="bouton2">  
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption">
+  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
     <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">Nombre de candidats</mat-button-toggle>
     <mat-button-toggle value="sexe" class="italic-toggle">Nombre d'amis</mat-button-toggle>
     <mat-button-toggle value="Admission" class="underline-toggle">Néo-bacheliers</mat-button-toggle>
@@ -57,12 +57,7 @@
 </div>
 
 
-<div *ngIf="selectedOption === 'nombre_de_candidats'"  class="nombre_de_candidats">
 
-  <!-- <canvas id="etablissementsChart"></canvas> -->
-  <canvas #etablissementsChart></canvas>
-  
-  </div>
 
 
 <div *ngIf="selectedOption === 'sexe'">
@@ -75,3 +70,26 @@
   </div>  
 
 
+
+
+
+  <!-- Contenu affiché selon la sélection -->
+<div *ngIf="selectedOption === 'nombre_de_candidats'" class="nombre_de_candidats">
+  <canvas #etablissementsChart></canvas>
+</div>
+
+<div *ngIf="selectedOption === 'sexe'" class="sexe">
+  <p>Affichage des statistiques sur le nombre d'amis.</p>
+</div>
+
+<div *ngIf="selectedOption === 'Admission'" class="admission">
+  <p>Affichage des données des néo-bacheliers.</p>
+</div>
+
+<div *ngIf="selectedOption === 'academie'" class="academie">
+  <p>Affichage de tous les candidats.</p>
+</div>
+
+<div *ngIf="selectedOption === 'type_bac'" class="bac-type">
+  <p>Affichage des types de bac.</p>
+</div>

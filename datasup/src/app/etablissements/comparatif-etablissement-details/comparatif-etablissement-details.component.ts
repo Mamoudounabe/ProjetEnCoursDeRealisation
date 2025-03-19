@@ -90,6 +90,10 @@ export class ComparatifEtablissementDetailsComponent implements OnInit  {
   etablissementData: any;
   
 
+
+  
+
+
 constructor(private apiService: ApiService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
 
 ngOnInit(): void {
@@ -182,16 +186,16 @@ getEtablissementData(annee: string, etablissementsIDs: number[]): void {
 
       // Vérifier si la réponse contient des données valides
       if (!Array.isArray(data) || data.length === 0) {
-        console.warn('⚠️ Aucune donnée valide reçue !', data);
+        console.warn(' Aucune donnée valide reçue !', data);
         return;
       }
 
-      console.log("✅ Données brutes reçues :", data);
+      console.log(" Données brutes reçues :", data);
 
       // Vérifie si la clé 'effectif_total_candidats_phase_principale' existe dans les données
       const firstItem = data[0];
       if (!firstItem.hasOwnProperty("effectif_total_candidats_phase_principale")) {
-        console.error("❌ Clé 'effectif_total_candidats_phase_principale' introuvable dans la réponse !");
+        console.error(" Clé 'effectif_total_candidats_phase_principale' introuvable dans la réponse !");
       } else {
         console.log("🔎 Exemple valeur avant conversion :", firstItem.effectif_autres_candidats_phase_principale);
       }
@@ -202,14 +206,14 @@ getEtablissementData(annee: string, etablissementsIDs: number[]): void {
         this.safeNumber(a.effectif_autres_candidats_phase_principale)
       );
 
-      console.log('🔍 Données triées:', this.etablissementsData);
+      console.log(' Données triées:', this.etablissementsData);
 
       // Détecte les changements et crée le graphique
       this.cdr.detectChanges();
       this.createChart();
     },
     (error) => {
-      console.error('❌ Erreur lors de la récupération des données:', error);
+      console.error(' Erreur lors de la récupération des données:', error);
     }
   );
 }

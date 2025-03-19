@@ -60,7 +60,7 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
     private timeoutId: any; // Identifier pour le setTimeout
     disableSelect = new FormControl(false);
     selectedEtablissements: any[] = [];
-    allFilteredFormations: any[] = [];
+    /* filteredFormations: any[] = []; */
     pagesContainingResults: number[] = []; // Liste des pages contenant les résultats
 
 
@@ -130,7 +130,9 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
       const query = this.searchQuery.toLowerCase();
     
       // Filtrer toutes les formations
-      this.allFilteredFormations = this.formations.filter(formation => 
+      console.log(query);
+      console.table(this.formations);
+      this.filteredFormations = this.formations.filter(formation => 
         (formation.filiere_formation?.toLowerCase().includes(query) ||
         formation.etablissement?.toLowerCase().includes(query) ||
         formation.commune_etablissement?.toLowerCase().includes(query)) &&
@@ -145,8 +147,9 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
         formation.effectif_total_candidats_admis?.toString().includes(this.searchEffectif)
       );
     
+      console.table(this.filteredFormations);
       // Mise à jour du nombre total d'éléments et de pages
-      this.totalItems = this.allFilteredFormations.length;
+      this.totalItems = this.filteredFormations.length;
       this.totalPages = Math.ceil(this.totalItems / this.pageSize);
     
       // Calculer les pages où il y a des résultats
@@ -165,7 +168,7 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
       for (let i = 0; i < this.totalPages; i++) {
         const startIndex = i * this.pageSize;
         const endIndex = startIndex + this.pageSize;
-        const hasResults = this.allFilteredFormations.slice(startIndex, endIndex).length > 0;
+        const hasResults = this.filteredFormations.slice(startIndex, endIndex).length > 0;
     
         if (hasResults) {
           this.pagesContainingResults.push(i + 1); // Page 1, 2, 3, etc.
@@ -218,7 +221,7 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
         const startIndex = (this.page - 1) * this.pageSize;
         const endIndex = startIndex + this.pageSize;
       
-        this.filteredFormations = this.allFilteredFormations.slice(startIndex, endIndex);
+        this.filteredFormations = this.filteredFormations.slice(startIndex, endIndex);
       }
       
  */
