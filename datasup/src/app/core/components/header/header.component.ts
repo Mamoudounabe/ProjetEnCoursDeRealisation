@@ -1,16 +1,16 @@
-import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, HostListener } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-header',
-  standalone: true,
+  standalone: true, // Assure-toi d'utiliser Angular 15+
   imports: [
-    CommonModule,
     RouterLink,
+    CommonModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule
@@ -30,5 +30,14 @@ export class HeaderComponent {
 
   navigateToFormationspage(): void {
     this.router.navigate(['/formations']);
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeMenuOutsideClick(event: Event) {
+    const menu = document.querySelector('.menu-container');
+    const button = document.querySelector('button[mat-icon-button]');
+    if (this.isMenuOpen && menu && !menu.contains(event.target as Node) && !button?.contains(event.target as Node)) {
+      this.isMenuOpen = false;
+    }
   }
 }

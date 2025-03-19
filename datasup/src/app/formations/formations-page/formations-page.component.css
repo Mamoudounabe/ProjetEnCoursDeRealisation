@@ -121,6 +121,7 @@ tbody tr:hover {
     margin-left: 10px;
     font-size: 1rem;
     color: #333;
+    
 }
 
 @media (max-width: 768px) {
@@ -178,6 +179,10 @@ tbody tr:hover {
 .custom-paginator {
     background-color: #d81b60;; /* Rose vif */
     color: #000;               /* Texte noir */
+    margin: 10px;
+    width: 100vw;
+    height: 10vh;
+    text-align: center;
 }
 
 .custom-paginator .mat-icon-button {
@@ -227,6 +232,10 @@ tbody tr:hover {
   .non-disponible {
     color: red;
   }
+.decalerdroite{
+    margin-left: 300px;
+
+}
 
 
 
@@ -234,15 +243,5 @@ tbody tr:hover {
 
 
 
-  /* Personnalisation du mat-paginator */
-
-/*   .custom-paginator{ */
-    /* background-color: #fff;  *//* Couleur de fond */
-   /*  color: #000; */ /* Couleur du texte */
-    /* padding-bottom: 20px;  *//* Espace en bas */
-    /* padding: 38px; */
-    /* margin: 20px; */
-  
-  
 
 

@@ -1,80 +1,88 @@
 <div class="main-container" [ngClass]="{'split-view': isMenuOpen}">
-  <div class="header">
-    <header>
-      <mat-toolbar class="header">
-        <!-- Bouton pour ouvrir/fermer le menu -->
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleMenu()" style="color: white;">
-          <mat-icon>menu</mat-icon>
-        </button>
+  
+ 
+  <section class="decalerdroite">
+    <div class="header">
+      <header>
+        <mat-toolbar class="header">
+          <!-- Bouton pour ouvrir/fermer le menu -->
+          <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleMenu()">
+            <mat-icon class="m">menu</mat-icon>
+          </button>
+  
+          <!-- Logo -->
+          <div class="logo">
+            <p><a routerLink="" class="supm">DataSup</a></p>
+            <span class="slogan">BDIA Dijon</span>
+          </div>
+  
+          <!-- Espaceur -->
+          <span class="example-spacer"></span>
+        </mat-toolbar>
+      </header>
+    </div>
+  </section>
 
-        <!-- Logo -->
-        <div class="logo">
-          <p><a routerLink=""  style="color: red;">DataSup</a></p>
-          <span class="slogan"  style="color: white;">BDIA Dijon</span>
-        </div>
+  <!-- Menu déroulant -->
+  <section>
 
-        <!-- Espaceur -->
-        <span class="example-spacer"></span>
-      </mat-toolbar>
-
-      <!-- Menu déroulant -->
-      <div *ngIf="isMenuOpen" class="menu-container">
-        <!-- En-tête du menu -->
-        <div class="menu-header">
-          <span class="menu-title">Fermer</span>
-          <button class="menu-close" (click)="toggleMenu()">✖</button>
-        </div>
-
-        <ul>
-          <li>
-            <a href="" class="menu-link">
-              <mat-icon class="menu-icon">insert_chart</mat-icon>
-              Statistiques
-            </a>
-          </li>
-          <li>
-            <a href="geo-page" class="menu-item">
-              <mat-icon class="menu-icon">location_on</mat-icon>
-              <span>Géographiques</span>
-            </a>
-          </li>
-          <li>
-            <a href="formations">
-              <mat-icon class="menu-icon">school</mat-icon>
-              <span>Formations</span>
-            </a>
-          </li>
-          <li>
-            <a href="filieres">
-              <mat-icon class="menu-icon">class</mat-icon>
-              <span>Filières</span>
-            </a>
-          </li>
-          <li>
-            <a href="etablissements" class="menu-link">
-              <mat-icon class="menu-icon">compare</mat-icon>
-              <span>Comparatif des établissements</span>
-            </a>
-          </li>
-          <li>
-            <a href="" class="menu-link">
-              <mat-icon class="menu-icon">assignment</mat-icon>
-              Rapports & Analyses
-            </a>
-            <ul class="submenu">
-              <li><a routerLink="Rapports" style="color: white;">Rapports</a></li>
-              <li><a routerLink="analyse" style="color: white;">Analyses</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="apropos" class="menu-link">À propos</a>
-          </li>
-        </ul>
+    <div class="menu-container" *ngIf="isMenuOpen">
+      <!-- En-tête du menu -->
+      <div class="menu-header">
+        <span class="menu-title">Fermer</span>
+        <button class="menu-close" (click)="toggleMenu()">✖</button>
       </div>
-    </header>
-  </div>
-  <div class="content">
-    <!-- Votre contenu principal ici -->
-  <!--   <p>Contenu principal de la page...</p> -->
-  </div>
+  
+      <ul>
+        <li>
+          <a href="" class="menu-link">
+            <mat-icon class="menu-icon">insert_chart</mat-icon>
+            Statistiques
+          </a>
+        </li>
+        <li>
+          <a href="geo-page" class="menu-item">
+            <mat-icon class="menu-icon">location_on</mat-icon>
+            <span>Géographiques</span>
+          </a>
+        </li>
+        <li>
+          <a href="formations">
+            <mat-icon class="menu-icon">school</mat-icon>
+            <span>Formations</span>
+          </a>
+        </li>
+        <li>
+          <a href="filieres">
+            <mat-icon class="menu-icon">class</mat-icon>
+            <span>Filières</span>
+          </a>
+        </li>
+        <li>
+          <a href="etablissements" class="menu-link">
+            <mat-icon class="menu-icon">compare</mat-icon>
+            <span>Comparatif des établissements</span>
+          </a>
+        </li>
+        <li>
+          <a href="" class="menu-link">
+            <mat-icon class="menu-icon">assignment</mat-icon>
+            Rapports & Analyses
+          </a>
+          <ul class="">
+            <li><a href="" style="color: white;">Rapports</a></li>
+            <li><a routerLink="analyse" style="color: white;">Analyses</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="apropos" class="menu-link">À propos</a>
+        </li>
+      </ul>
+      <img src="/M1ProjetTutore_Parcoursup/datasup/src/app/assets/image/sup.png" alt="">
+  
+    </div>
+  
+    
+  </section>
 </div>
+
