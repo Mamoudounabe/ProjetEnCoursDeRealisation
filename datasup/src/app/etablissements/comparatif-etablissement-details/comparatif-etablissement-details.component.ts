@@ -85,16 +85,14 @@ export class ComparatifEtablissementDetailsComponent implements OnInit  {
   etablissementsData: any[] = [];
   selectedOption: string = 'nombre_de_candidats'; 
  /*  chart: any; */
-  chart!: Chart;
+ chart!: Chart | null;
   @ViewChild('etablissementsChart', { static: false }) chartRef!: ElementRef;
   etablissementData: any;
   
 
 constructor(private apiService: ApiService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
 
-
 ngOnInit(): void {
-  // Récupérer les IDs des établissements depuis l'URL
   const etablissementsParam = this.route.snapshot.paramMap.get('ids');
   if (!etablissementsParam) {
     console.error("Aucun ID d'établissements trouvé dans l'URL !");
@@ -120,89 +118,170 @@ ngOnInit(): void {
 
 
 
+private safeNumber(val: any): number {
+  if (val === null || val === undefined) {
+    console.warn("⚠️ Valeur null ou undefined détectée, remplacée par 0.");
+    return 0;
+  }
 
-  
+  const num = Number(val);
+  if (isNaN(num)) {
+    console.warn("⚠️ Valeur NaN détectée, remplacée par 0:", val);
+    return 0;
+  }
+
+  return num;
+}
 
 
-  getEtablissementData(annee: string,etablissementsIDs: number[]): void {
-    console.log(`Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
 
-    this.apiService.getEtablissementsByComp(etablissementsIDs, annee).subscribe(
+
+/* getEtablissementData(annee: string, etablissementsIDs: number[]): void {
+  console.log(`Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
+
+  this.apiService.getEtablissementsByComp(etablissementsIDs, annee).subscribe(
+    (response) => {
      
-      (response) => {
-        // Vérification et tri des données
-        if (response && response.length > 0) {
-          this.etablissementsData = response.sort((a, b) => 
-            toInteger(b.effectif_total_candidats_phase_principale) - toInteger(a.effectif_total_candidats_phase_principale)
-          );
+      console.log('Réponse de l\'API:', response);
+  
+      if (response && response.length > 0) {
 
-          console.log('Données triées:', this.etablissementsData);
-          this.cdr.detectChanges();
-          this.createChart();
-        } else {
-          console.warn('Aucune donnée reçue.');
-        }
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération des données:', error);
+      
+        console.log(" Données récupérées :", this.etablissementData);
+        this.etablissementsData = response.sort((a, b) => 
+          this.safeNumber(b.effectif_total_candidats_phase_principale) - this.safeNumber(a.effectif_total_candidats_phase_principale)
+        );
+
+        console.log('Données triées:', this.etablissementsData);
+        this.cdr.detectChanges();
+        this.createChart();
+      } else {
+        console.warn('Aucune donnée reçue.');
       }
-    );
-  }
+    },
+    (error) => {
+      console.error('Erreur lors de la récupération des données:', error);
+    }
+  );
+}
+ */
 
 
-  createChart(): void {
-    setTimeout(() => { 
-      if (!this.etablissementsData || this.etablissementsData.length === 0) {
-        console.warn("Pas de données disponibles pour créer le graphique.");
+
+getEtablissementData(annee: string, etablissementsIDs: number[]): void {
+  console.log(`📡 Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
+
+  this.apiService.getEtablissementsByComp(etablissementsIDs, annee).subscribe(
+    (response) => {
+      console.log('🛠 Réponse brute de l\'API:', response);
+
+      // Vérifie si 'body' existe ou non et accède à la donnée
+      const data = (response as any).body || response;
+      
+      console.log('Structure complète des données reçues:', data);
+
+      // Vérifier si la réponse contient des données valides
+      if (!Array.isArray(data) || data.length === 0) {
+        console.warn('⚠️ Aucune donnée valide reçue !', data);
         return;
       }
 
-      if (!this.chartRef?.nativeElement) {
-        console.error("Le canvas n'est pas encore disponible !");
-        return;
+      console.log("✅ Données brutes reçues :", data);
+
+      // Vérifie si la clé 'effectif_total_candidats_phase_principale' existe dans les données
+      const firstItem = data[0];
+      if (!firstItem.hasOwnProperty("effectif_total_candidats_phase_principale")) {
+        console.error("❌ Clé 'effectif_total_candidats_phase_principale' introuvable dans la réponse !");
+      } else {
+        console.log("🔎 Exemple valeur avant conversion :", firstItem.effectif_autres_candidats_phase_principale);
       }
 
-      const ctx = this.chartRef.nativeElement.getContext('2d');
+      // Trie les données en fonction de 'effectif_autres_candidats_phase_principale'
+      this.etablissementsData = data.sort((a, b) =>
+        this.safeNumber(b.effectif_autres_candidats_phase_principale) - 
+        this.safeNumber(a.effectif_autres_candidats_phase_principale)
+      );
 
-      if (this.chart) {
-        this.chart.destroy();
-      }
+      console.log('🔍 Données triées:', this.etablissementsData);
 
-      this.chart = new Chart(ctx, { 
-        type: 'bar' as ChartType,
-        data: {
-          labels: this.etablissementsData.map(etab => etab.NomEtablissement),
-          datasets: [{
-            label: 'Nombre de Candidats',
-            data: this.etablissementsData.map(etab => toInteger(etab.effectif_total_candidats_phase_principale)),
-            backgroundColor: 'rgba(58, 104, 156, 0.6)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          scales: {
-            x: { beginAtZero: true }
-          }
-        }
-      });
-
-    }, 200); 
-  }
-
-  tryCreateChart(): void {
-    setTimeout(() => { 
-      if (!this.chartRef?.nativeElement) {
-        console.error("Le canvas n'est pas encore disponible !");
-        return;
-      }
-
+      // Détecte les changements et crée le graphique
+      this.cdr.detectChanges();
       this.createChart();
-    }, 200);
-  }
- 
+    },
+    (error) => {
+      console.error('❌ Erreur lors de la récupération des données:', error);
+    }
+  );
+}
+
+
+
+/**
+ * Fonction pour convertir un nombre en toute sécurité
+ * @param val Valeur à convertir
+ * @returns Nombre converti ou 0 si invalide
+ */
+
+
+
+
+
+
+createChart(): void {
+  setTimeout(() => {
+    if (!this.etablissementsData || this.etablissementsData.length === 0) {
+      console.warn("Pas de données disponibles pour créer le graphique.");
+      return;
+    }
+
+    if (!this.chartRef?.nativeElement) {
+      console.error("Le canvas n'est pas encore disponible !");
+      return;
+    }
+
+    const ctx = this.chartRef.nativeElement.getContext('2d');
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    console.log('Labels:', this.etablissementsData.map(etab => etab.NomEtablissement));
+    console.log('Données:', this.etablissementsData.map(etab => this.safeNumber(etab.effectif_autres_candidats_phase_principale)));
+
+    this.chart = new Chart(ctx, {
+      type: 'bar' as ChartType,
+      data: {
+        labels: this.etablissementsData.map(etab => etab.NomEtablissement),
+        datasets: [{
+          label: 'Nombre de Candidats',
+          data: this.etablissementsData.map(etab => this.safeNumber(etab.effectif_autres_candidats_phase_principale)),
+          backgroundColor: 'rgba(58, 104, 156, 0.6)',
+          borderColor: 'rgb(206, 36, 64)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        scales: {
+          x: { beginAtZero: true }
+        }
+      }
+    });
+  }, 200);
+}
+
+tryCreateChart(): void {
+  setTimeout(() => {
+    if (!this.chartRef?.nativeElement) {
+      console.error("Le canvas n'est pas encore disponible !");
+      return;
+    }
+
+    this.createChart();
+  }, 200);
+}
+
 
 
   

@@ -24,10 +24,10 @@
 }
 
 * {
-    font-family: 'LTVeritas';
+    /* font-family: 'LTVeritas';
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; */
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

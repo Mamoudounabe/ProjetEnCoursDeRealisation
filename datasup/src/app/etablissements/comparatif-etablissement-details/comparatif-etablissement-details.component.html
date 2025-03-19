@@ -18,7 +18,7 @@
 
 <!-- Bloc 1 : Informations sur l'établissement -->
 <div class="fg1" *ngIf="etablissementsData && etablissementsData.length > 0">
-  <h2 >{{ etablissementsData[0].NomEtablissement }} - {{ etablissementsData[0].NomFormation }}</h2>
+<!--   <h2 >{{ etablissementsData[0].NomEtablissement }} - {{ etablissementsData[0].NomFormation }}</h2> -->
   <p><strong>Académie :</strong> {{ etablissementsData[0].academie }}</p>
   <p><strong>Région :</strong> {{ etablissementsData[0].region }}</p>
   <p><strong> Sélectivité :</strong> {{ etablissementsData[0].selectivite }}</p>
@@ -73,3 +73,5 @@
     <mat-grid-tile>4</mat-grid-tile>
   </mat-grid-list>
   </div>  
+
+

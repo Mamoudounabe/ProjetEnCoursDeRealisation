@@ -128,8 +128,8 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
 
     filterFormations() {
       const query = this.searchQuery.toLowerCase();
-      
-      // Filtrage sur toutes les formations
+    
+      // Filtrer toutes les formations
       this.allFilteredFormations = this.formations.filter(formation => 
         (formation.filiere_formation?.toLowerCase().includes(query) ||
         formation.etablissement?.toLowerCase().includes(query) ||
@@ -145,14 +145,15 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
         formation.effectif_total_candidats_admis?.toString().includes(this.searchEffectif)
       );
     
-      // Calcul du nombre total de pages
-      this.totalPages = Math.ceil(this.allFilteredFormations.length / this.pageSize);
+      // Mise à jour du nombre total d'éléments et de pages
+      this.totalItems = this.allFilteredFormations.length;
+      this.totalPages = Math.ceil(this.totalItems / this.pageSize);
     
-      // Trouver les pages où il y a des résultats
+      // Calculer les pages où il y a des résultats
       this.calculatePagesContainingResults();
     
-      // Mettre à jour l'affichage de la page actuelle
-      this.updatePaginatedFormations();
+      // Mise à jour de l'affichage de la page actuelle
+/*       this.updatePaginatedFormations(); */
     }
 
 
@@ -167,10 +168,11 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
         const hasResults = this.allFilteredFormations.slice(startIndex, endIndex).length > 0;
     
         if (hasResults) {
-          this.pagesContainingResults.push(i + 1); // +1 pour commencer à 1 (au lieu de 0)
+          this.pagesContainingResults.push(i + 1); // Page 1, 2, 3, etc.
         }
       }
     }
+    
     
 
 
@@ -199,13 +201,13 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
         
 
   
-   /*  onPageChange(event: PageEvent) {
+   onPageChange(event: PageEvent) {
       this.page = event.pageIndex + 1;
       this.pageSize = event.pageSize;
       this.fetchFormations();
-    } */
+    } 
 
-
+/* 
       onPageChange(event: PageEvent) {
         this.page = event.pageIndex + 1;
         this.pageSize = event.pageSize;
@@ -219,8 +221,7 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
         this.filteredFormations = this.allFilteredFormations.slice(startIndex, endIndex);
       }
       
-
-
+ */
 
 
 
