@@ -84,18 +84,38 @@ class EtablissementManager:
 
 
     @staticmethod
-    def get_filiere_etablissement_admission(page: int = 1, page_size: int = 10) -> dict:
+    def get_filiere_etablissement_admission(query: str, page: int = 1, page_size: int = 10) -> dict:
         """
         Retourne les établissements par nombre total de candidats décroissant avec pagination.
         """
         # Calculer l'offset pour la pagination
         skip = (page - 1) * page_size
 
-        # Requête pour récupérer les établissements
-        query = f"""
+        # Construction de la requête de base
+        base_query = """
         MATCH (f:Filiere)<-[offers:OFFERS]-(e:Etablissement)-[has_admission:HAS_ADMISSION]->(a:Admission)
-         MATCH (e:Etablissement)-[:HAS_CANDIDAT]->(c:Candidat)
-        RETURN  DISTINCT
+        MATCH (e:Etablissement)-[:HAS_CANDIDAT]->(c:Candidat)
+        """
+
+        # Ajouter un filtre sur la variable `query` si elle est fournie
+        if query:
+            base_query += """
+            WHERE toLower(e.etablissement) CONTAINS toLower($query) OR
+                    toLower(f.filiere_formation) CONTAINS toLower($query) OR
+                    toLower(f.filiere_formation_detaillee) CONTAINS toLower($query) OR
+                    toLower(f.filiere_formation_tres_detaillee) CONTAINS toLower($query) OR
+                    toLower(e.academie_etablissement) CONTAINS toLower($query) OR
+                    toLower(e.statut_etablissement_filiere) CONTAINS toLower($query) OR
+                    toLower(e.commune_etablissement) CONTAINS toLower($query) OR
+                    toLower(f.selectivite ) CONTAINS toLower($query) OR
+                    toLower(a.effectif_total_candidats_admis) CONTAINS toLower($query)
+
+            """
+
+
+        # Ajouter la partie de retour et la pagination
+        base_query += f"""
+        RETURN DISTINCT
             e.etablissement AS etablissement,
             e.commune_etablissement AS commune_etablissement, 
             f.filiere_formation AS filiere_formation,
@@ -104,21 +124,24 @@ class EtablissementManager:
             e.academie_etablissement AS academie_etablissement,
             e.statut_etablissement_filiere AS statut_etablissement_filiere,
             f.selectivite AS selectivite,
+            toInteger(f.capacite_etablissement_formation) AS capacite,
             toInteger(c.effectif_total_candidats_formation) AS effectif_total_candidats_formation,
-            toInteger( a.effectif_total_candidats_admis) AS effectif_total_candidats_admis,
+            toInteger(a.effectif_total_candidats_admis) AS effectif_total_candidats_admis,
             ID(e) AS id_etablissement,
             ID(f) AS id_filiere
-         
         SKIP {skip} LIMIT {page_size}
-
         """
 
         try:
             db = Neo4JDriver.get_driver()  # Remplace par la bonne fonction pour te connecter à la base de données Neo4J
             with db.session() as session:
+                # Ajout du print pour vérifier que le paramètre query est passé
+                print(f"Query envoyée à Neo4J: {query}")
+                
                 # Exécution de la requête pour récupérer les établissements
-                results = session.run(query)
+                results = session.run(base_query, {"query": query})  
                 records = [record.data() for record in results]
+                print(f"Nombre d'établissements trouvés: {len(records)}")
 
                 # Vérifier si les résultats sont valides (c'est-à-dire si ce sont des dictionnaires)
                 if not all(isinstance(r, dict) for r in records):
@@ -127,26 +150,44 @@ class EtablissementManager:
                 # Calcul du nombre total d'établissements
                 count_query = """
                 MATCH (f:Filiere)<-[offers:OFFERS]-(e:Etablissement)-[has_admission:HAS_ADMISSION]->(a:Admission)
+                MATCH (e:Etablissement)-[:HAS_CANDIDAT]->(c:Candidat)
+                """
+                if query:
+                    count_query += """
+                    WHERE toLower(e.etablissement) CONTAINS toLower($query) OR
+                          toLower(f.filiere_formation) CONTAINS toLower($query) OR
+                          toLower(f.filiere_formation_detaillee) CONTAINS toLower($query) OR
+                          toLower(f.filiere_formation_tres_detaillee) CONTAINS toLower($query) OR
+                          toLower(e.academie_etablissement) CONTAINS toLower($query) OR
+                          toLower(e.statut_etablissement_filiere) CONTAINS toLower($query) OR
+                          toLower(e.commune_etablissement) CONTAINS toLower($query) OR
+                          toLower(f.selectivite) CONTAINS toLower($query) OR
+                          toLower(a.effectif_total_candidats_admis) CONTAINS toLower($query)
+                    """
+                count_query += """
                 RETURN count(DISTINCT e) AS total_count
                 """
-                count_results = session.run(count_query)
-            
+                
+                count_results = session.run(count_query, {"query": query})
+                count_data = count_results.single()
+                
                 # Vérification du résultat de la requête de comptage
-                if count_results.peek() is None:
+                if count_data is None:
                     total_count = 0  # Si aucun résultat trouvé
                 else:
-                  total_count = count_results.single()[0]  # Récupérer le total count
+                    total_count = count_data[0]  # Récupérer le total count
+                print(f"Total d'établissements correspondant à la requête : {total_count}")
             
                 # Calcul du nombre total de pages
                 total_pages = (total_count + page_size - 1) // page_size  # Arrondir le nombre total de pages
 
                 return {
-                "page": page,
-                "page_size": page_size,
-                "total_items": total_count,
-                "total_pages": total_pages,
-                "items": records
-             }
+                    "page": page,
+                    "page_size": page_size,
+                    "total_items": total_count,
+                    "total_pages": total_pages,
+                    "items": records
+                }
 
         except ValueError as ve:
             print(f"Erreur de données : {ve}")
@@ -156,8 +197,6 @@ class EtablissementManager:
             print(f"Erreur dans get_filiere_etablissement_admission: {e}")
             print(traceback.format_exc())  # Affiche l'exception complète pour le débogage
             return {"error": "Erreur lors de la récupération des données"}
-
-
 
   
 
@@ -181,6 +220,7 @@ class EtablissementManager:
                e.statut_etablissement_filiere AS statut,
                 e.commune_etablissement AS commune,
                 e.coordonnees_gps_formation AS localisation,
+                
 
 
 
@@ -191,6 +231,7 @@ class EtablissementManager:
                 f.filiere_formation_tres_detaillee AS filiere_formation_tres_detaillee,
                 f.lien_parcoursup AS lien_parcoursup,
                 f.selectivite AS selectivite,
+                toInteger(f.capacite_etablissement_formation) AS capacite,
                
                 
 
@@ -328,6 +369,7 @@ class EtablissementManager:
                 f.filiere_formation_tres_detaillee AS filiere_formation_tres_detaillee,
                 f.lien_parcoursup AS lien_parcoursup,
                 f.selectivite AS selectivite,
+                toInteger(f.capacite_etablissement_formation) AS capacite,
                
                 
 
@@ -461,6 +503,7 @@ class EtablissementManager:
                 f.filiere_formation_tres_detaillee AS filiere_formation_tres_detaillee,
                 f.lien_parcoursup AS lien_parcoursup,
                 f.selectivite AS selectivite,
+                toInteger(f.capacite_etablissement_formation) AS capacite,
                
                 
 
@@ -481,6 +524,7 @@ class EtablissementManager:
                toInteger(c.effectif_total_candidats_formation) AS TotalCandidat,
                toInteger(c.effectif_total_candidats_phase_principale),
                toInteger(c.effectif_candidates_formation),
+               toInteger(f.capacite_etablissement_formation) AS capacite,
 
 
                toInteger(b.effectif_neo_bacheliers_generaux_phase_principale) AS NeoBacheliersGeneraux,
@@ -626,7 +670,7 @@ class EtablissementManager:
             toInteger(b.effectif_neo_bacheliers_technologiques_phase_principale) AS NeoBacheliersTechnologiques,
             toInteger(b.effectif_neo_bacheliers_professionnels_phase_principale) AS NeoBacheliersProfessionnels,
             toInteger(b.effectif_boursiers_professionnels_phase_principale),
-            toInteger(b.effectif_autres_candidats_phase_principale),
+            toInteger(b.effectif_autres_candidats_phase_principale) AS effectif_autres_candidats_phase_principale,
             toInteger(b.effectif_boursiers_generaux_phase_principale),
             toInteger(b.effectif_boursiers_technologiques_phase_principale),
             toInteger(a.effectif_admis_proposition_avant_fin_procedure_principale),
@@ -654,7 +698,8 @@ class EtablissementManager:
             toInteger(a.effectif_admis_meme_academie_paris_creteil_versailles),
             toInteger(a.effectif_admis_proposition_avant_baccalaureat),
             toInteger(a.effectif_generaux_mention_bac_admis),
-            toInteger(a.effectif_technologiques_admis)
+            toInteger(a.effectif_technologiques_admis),
+            toInteger(f.capacite_etablissement_formation) AS capacite
         """
         try:
               # Récupère le driver Neo4j

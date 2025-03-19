@@ -42,17 +42,33 @@ def get_etablissement_by_popularity_candidates():
 
 
 
-@router.get("/filiere/etablissement/admission", response_model=List[dict], tags=["Etablissement"])
+""" @router.get("/filiere/etablissement/admission", response_model=List[dict], tags=["Etablissement"])
 def get_filiere_etablissement_admission(page: int = Query(1, ge=1), page_size: int = Query(8, le=100)):
-    """
-    Endpoint pour récupérer les établissements par nombre total de candidats décroissant avec pagination.
-    """
+  
     try:
         result = EtablissementManager.get_filiere_etablissement_admission(page, page_size)
         return JSONResponse(content=result, headers={"Content-Type": "application/json; charset=utf-8"})
     except Exception as e:
         print(f"Error in get_filiere_etablissement_admission: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
+
+
+ """
+
+
+
+@router.get("/filiere/etablissement/admission", response_model=List[dict], tags=["Etablissement"])
+def get_filiere_etablissement_admission(query: str, page: int = Query(1, ge=1), page_size: int = Query(8, le=100)):
+    """
+    Endpoint pour récupérer les établissements par nombre total de candidats décroissant avec pagination.
+    """
+    try:
+        result = EtablissementManager.get_filiere_etablissement_admission(query=query,page=page, page_size=page_size)
+        return JSONResponse(content=result, headers={"Content-Type": "application/json; charset=utf-8"})
+    except Exception as e:
+        print(f"Error in get_filiere_etablissement_admission: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+
 
 
 
