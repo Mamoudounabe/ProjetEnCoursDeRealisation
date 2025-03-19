@@ -109,7 +109,9 @@
     margin-left: 20px;
 }
 
-
+mat-grid-tile {
+    background: lightblue;
+  }
 
 
 

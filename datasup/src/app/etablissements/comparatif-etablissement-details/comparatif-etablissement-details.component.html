@@ -33,14 +33,36 @@
 </h1>
 <div class="bouton2">  
   <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption">
-    <mat-button-toggle value="mention_bien" class="bold-toggle">Candidatures</mat-button-toggle>
-    <mat-button-toggle value="sexe" class="italic-toggle">Proposition d'admission</mat-button-toggle>
-    <mat-button-toggle value="Admission" class="underline-toggle">Admission</mat-button-toggle>
-    <mat-button-toggle value="academie" class="academie-toggle">Académie</mat-button-toggle>
+    <mat-button-toggle value="mention_bien" class="bold-toggle">Nombre de candidats</mat-button-toggle>
+    <mat-button-toggle value="sexe" class="italic-toggle">Nombre d'amis</mat-button-toggle>
+    <mat-button-toggle value="Admission" class="underline-toggle">Néo-bacheliers</mat-button-toggle>
+    <mat-button-toggle value="academie" class="academie-toggle">Tous les candidats</mat-button-toggle>
     <mat-button-toggle value="type_bac" class="bac-type-toggle">Type de bac</mat-button-toggle>
   </mat-button-toggle-group>
 </div>
 </div>
+
+
+<div *ngIf="selectedOption === 'mention_bien'">
+
+<!-- <canvas id="etablissementsChart"></canvas> -->
+<canvas #etablissementsChart></canvas>
+
+</div>  
+
+
+
+<div *ngIf="selectedOption === 'sexe'">
+<mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-tile>1</mat-grid-tile>
+  <mat-grid-tile>2</mat-grid-tile>
+  <mat-grid-tile>3</mat-grid-tile>
+  <mat-grid-tile>4</mat-grid-tile>
+</mat-grid-list>
+
+</div>  
+
+
 
 
 

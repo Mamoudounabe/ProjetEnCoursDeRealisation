@@ -1,4 +1,24 @@
+// Méthode pour récupérer les données des établissements
+/* getEtablissementData(annee: string, etablissementsIDs: number[]): void {
+ 
+  console.log(`Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
+  
+  this.apiService.getEtablissementsByComp(etablissementsIDs, annee).subscribe(
+    (response) => {
+     
+      this.etablissementsData = response;
+      console.log('Données récupérées:', response);
+    },
+    (error) => {
+     
+      console.error('Erreur lors de la récupération des données des établissements:', error);
+    }
+  );
+} */
+
+
 import { Component, OnInit, ElementRef, ViewChild, Input,ChangeDetectionStrategy, signal  } from '@angular/core';
+import {  AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Formation } from '../../core/models/formation.model';
 import { FormationService } from '../../core/services/formations.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -18,7 +38,6 @@ import { MatSelectModule } from '@angular/material/select';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { NgChartsModule } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js'; 
 import { ChartDataset,ChartData } from 'chart.js';
 import{ CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -27,6 +46,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ApiService} from '../../core/services/api.service';
 import { faSignal } from '@fortawesome/free-solid-svg-icons'; 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+import { toInteger } from 'lodash'; // Si lodash est installé, sinon utilise `parseInt`
 
 @Component({
   selector: 'app-comparatif-etablissement-details',
@@ -59,10 +80,13 @@ export class ComparatifEtablissementDetailsComponent implements OnInit  {
   selectedYear = new FormControl('2021'); 
   anneeactuelle: string = '2021'; 
   etablissementsData: any[] = [];
-  selectedOption: string = 'mention_bien';
+  selectedOption: string = 'mention_bien'; 
+ /*  chart: any; */
+  chart!: Chart;
+  @ViewChild('etablissementsChart', { static: false }) chartRef!: ElementRef;
+  
 
-
-constructor(private apiService: ApiService, private route: ActivatedRoute) {}
+constructor(private apiService: ApiService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
 
 
 ngOnInit(): void {
@@ -97,26 +121,101 @@ ngOnInit(): void {
   console.log("Année sélectionnée:", this.selectedYear.value);
 }
 
-// Méthode pour récupérer les données des établissements
-getEtablissementData(annee: string, etablissementsIDs: number[]): void {
-  // Afficher les IDs des établissements et l'année dans la console
-  console.log(`Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
+
+
+
   
-  // Appeler le service pour récupérer les données
-  this.apiService.getEtablissementsByComp(etablissementsIDs, annee).subscribe(
-    (response) => {
-      // Traiter la réponse ici
-      this.etablissementsData = response;
-      console.log('Données récupérées:', response);
-    },
-    (error) => {
-      // Traiter l'erreur ici
-      console.error('Erreur lors de la récupération des données des établissements:', error);
-    }
-  );
-}
+  
+  ngAfterViewInit(): void {
+    console.log("ngAfterViewInit - chartRef:", this.chartRef);
+    this.tryCreateChart();
+  }
+
+
+  getEtablissementData(annee: string,etablissementsIDs: number[]): void {
+    console.log(`Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
+
+    this.apiService.getEtablissementsByComp(etablissementsIDs, annee).subscribe(
+      (response) => {
+        // Vérification et tri des données
+        if (response && response.length > 0) {
+          this.etablissementsData = response.sort((a, b) => 
+            toInteger(b.effectif_total_candidats_phase_principale) - toInteger(a.effectif_total_candidats_phase_principale)
+          );
+
+          console.log('Données triées:', this.etablissementsData);
+          this.cdr.detectChanges();
+          this.createChart();
+        } else {
+          console.warn('Aucune donnée reçue.');
+        }
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des données:', error);
+      }
+    );
+  }
+
+
+
+
+  createChart(): void {
+    setTimeout(() => {  // Délai pour laisser le DOM se mettre à jour
+      if (!this.etablissementsData || this.etablissementsData.length === 0) {
+        console.warn("Pas de données disponibles pour créer le graphique.");
+        return;
+      }
+
+      if (!this.chartRef?.nativeElement) {
+        console.error("Le canvas n'est pas encore disponible !");
+        return;
+      }
+
+      const ctx = this.chartRef.nativeElement.getContext('2d');
+
+      if (this.chart) {
+        this.chart.destroy();
+      }
+
+      this.chart = new Chart(ctx, { 
+        type: 'bar' as ChartType,
+        data: {
+          labels: this.etablissementsData.map(etab => etab.NomEtablissement),
+          datasets: [{
+            label: 'Nombre de Candidats',
+            data: this.etablissementsData.map(etab => toInteger(etab.effectif_total_candidats_phase_principale)),
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          scales: {
+            x: { beginAtZero: true }
+          }
+        }
+      });
+
+    }, 200); // Augmenté à 200ms pour plus de fiabilité
+  }
+
+  tryCreateChart(): void {
+    setTimeout(() => { 
+      if (!this.chartRef?.nativeElement) {
+        console.error("Le canvas n'est pas encore disponible !");
+        return;
+      }
+
+      this.createChart();
+    }, 200);
+  }
+
+
+
   
 
 
-
+  
 }
