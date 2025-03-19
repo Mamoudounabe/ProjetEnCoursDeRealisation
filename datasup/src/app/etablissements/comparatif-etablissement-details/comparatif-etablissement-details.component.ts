@@ -46,6 +46,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ApiService} from '../../core/services/api.service';
 import { faSignal } from '@fortawesome/free-solid-svg-icons'; 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {MatGridListModule} from '@angular/material/grid-list';
+
 
 import { toInteger } from 'lodash'; // Si lodash est installé, sinon utilise `parseInt`
 
@@ -66,7 +68,8 @@ import { toInteger } from 'lodash'; // Si lodash est installé, sinon utilise `p
     MatButtonToggleModule,
      MatCheckboxModule ,
      CommonModule,
-     FontAwesomeModule
+     FontAwesomeModule,
+     MatGridListModule
 
     ],
   templateUrl: './comparatif-etablissement-details.component.html',
@@ -80,10 +83,11 @@ export class ComparatifEtablissementDetailsComponent implements OnInit  {
   selectedYear = new FormControl('2021'); 
   anneeactuelle: string = '2021'; 
   etablissementsData: any[] = [];
-  selectedOption: string = 'mention_bien'; 
+  selectedOption: string = 'nombre_de_candidats'; 
  /*  chart: any; */
   chart!: Chart;
   @ViewChild('etablissementsChart', { static: false }) chartRef!: ElementRef;
+  etablissementData: any;
   
 
 constructor(private apiService: ApiService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
@@ -98,25 +102,18 @@ ngOnInit(): void {
   }
 
   this.etablissementsIDs = etablissementsParam.split(',').map(id => Number(id));
-
-  // Vérification qu'il y a au moins deux établissements à comparer
   if (this.etablissementsIDs.length < 2) {
     console.error("Il faut au moins deux établissements à comparer !");
     return;
   }
-
-  // Vérification que tous les IDs sont valides
   if (this.etablissementsIDs.some(id => isNaN(id) || id <= 0)) {
     console.error("Un ou plusieurs IDs d'établissements sont invalides !");
     return;
   }
-
-  // Souscrire aux changements de l'année sélectionnée
   this.selectedYear.valueChanges.subscribe((anneeactuelle) => {
     this.getEtablissementData(anneeactuelle || '2021', this.etablissementsIDs);
   });
 
-  // Charger les données pour la première fois
   this.getEtablissementData(this.selectedYear.value || '2021', this.etablissementsIDs);
   console.log("Année sélectionnée:", this.selectedYear.value);
 }
@@ -125,17 +122,13 @@ ngOnInit(): void {
 
 
   
-  
-  ngAfterViewInit(): void {
-    console.log("ngAfterViewInit - chartRef:", this.chartRef);
-    this.tryCreateChart();
-  }
 
 
   getEtablissementData(annee: string,etablissementsIDs: number[]): void {
     console.log(`Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
 
     this.apiService.getEtablissementsByComp(etablissementsIDs, annee).subscribe(
+     
       (response) => {
         // Vérification et tri des données
         if (response && response.length > 0) {
@@ -157,10 +150,8 @@ ngOnInit(): void {
   }
 
 
-
-
   createChart(): void {
-    setTimeout(() => {  // Délai pour laisser le DOM se mettre à jour
+    setTimeout(() => { 
       if (!this.etablissementsData || this.etablissementsData.length === 0) {
         console.warn("Pas de données disponibles pour créer le graphique.");
         return;
@@ -184,7 +175,7 @@ ngOnInit(): void {
           datasets: [{
             label: 'Nombre de Candidats',
             data: this.etablissementsData.map(etab => toInteger(etab.effectif_total_candidats_phase_principale)),
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            backgroundColor: 'rgba(58, 104, 156, 0.6)',
             borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1
           }]
@@ -198,7 +189,7 @@ ngOnInit(): void {
         }
       });
 
-    }, 200); // Augmenté à 200ms pour plus de fiabilité
+    }, 200); 
   }
 
   tryCreateChart(): void {
@@ -211,7 +202,7 @@ ngOnInit(): void {
       this.createChart();
     }, 200);
   }
-
+ 
 
 
   

@@ -108,9 +108,10 @@
 .fg1{
     margin-left: 20px;
 }
-
+/*  lightblue; */
 mat-grid-tile {
-    background: lightblue;
+    background: white;
+    border: 3px solid;
   }
 
 
@@ -167,3 +168,15 @@ mat-grid-tile {
     margin-top: 40px;
   }
   
+
+
+
+
+
+  .nombre_de_candidats{
+
+    height: 300px;
+    font-weight: 300 px;
+    
+
+  }

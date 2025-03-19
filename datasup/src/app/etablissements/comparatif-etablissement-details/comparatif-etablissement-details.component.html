@@ -33,7 +33,7 @@
 </h1>
 <div class="bouton2">  
   <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption">
-    <mat-button-toggle value="mention_bien" class="bold-toggle">Nombre de candidats</mat-button-toggle>
+    <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">Nombre de candidats</mat-button-toggle>
     <mat-button-toggle value="sexe" class="italic-toggle">Nombre d'amis</mat-button-toggle>
     <mat-button-toggle value="Admission" class="underline-toggle">Néo-bacheliers</mat-button-toggle>
     <mat-button-toggle value="academie" class="academie-toggle">Tous les candidats</mat-button-toggle>
@@ -43,24 +43,12 @@
 </div>
 
 
-<div *ngIf="selectedOption === 'mention_bien'">
-
-<!-- <canvas id="etablissementsChart"></canvas> -->
-<canvas #etablissementsChart></canvas>
-
-</div>  
+  
 
 
 
-<div *ngIf="selectedOption === 'sexe'">
-<mat-grid-list cols="2" rowHeight="2:1">
-  <mat-grid-tile>1</mat-grid-tile>
-  <mat-grid-tile>2</mat-grid-tile>
-  <mat-grid-tile>3</mat-grid-tile>
-  <mat-grid-tile>4</mat-grid-tile>
-</mat-grid-list>
 
-</div>  
+
 
 
 
@@ -68,3 +56,20 @@
 
 </div>
 
+
+<div *ngIf="selectedOption === 'nombre_de_candidats'"  class="nombre_de_candidats">
+
+  <!-- <canvas id="etablissementsChart"></canvas> -->
+  <canvas #etablissementsChart></canvas>
+  
+  </div>
+
+
+<div *ngIf="selectedOption === 'sexe'">
+  <mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-tile>1</mat-grid-tile>
+    <mat-grid-tile>2</mat-grid-tile>
+    <mat-grid-tile>3</mat-grid-tile>
+    <mat-grid-tile>4</mat-grid-tile>
+  </mat-grid-list>
+  </div>  
