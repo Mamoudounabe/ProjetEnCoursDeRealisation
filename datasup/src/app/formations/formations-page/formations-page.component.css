@@ -121,6 +121,7 @@ tbody tr:hover {
     margin-left: 10px;
     font-size: 1rem;
     color: #333;
+    
 }
 
 @media (max-width: 768px) {
@@ -227,7 +228,10 @@ tbody tr:hover {
   .non-disponible {
     color: red;
   }
+.decalerdroite{
+    margin-left: 300px;
 
+}
 
 
 

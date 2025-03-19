@@ -1,7 +1,10 @@
+
+
+
 .header {
   background: var(--blue); /* Utilisation de la variable --blue */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Ajout de l'ombre */
-  height: 100px;
+  
+  height: 55px;
 }
 
 header ul {
@@ -28,9 +31,11 @@ header ul li .submenu {
   padding: 10px 0;
   list-style: none;
   min-width: 200px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 6px rgba(200, 171, 171, 0.1);
   border-radius: 4px;
   z-index: 1000;
+  width: 200px;
+
 }
 
 header ul li:hover .submenu {
@@ -52,12 +57,7 @@ header ul li .submenu li a:hover {
   color: var(--white);
 }
 
-.logo {
-  font-size: 25px;
-  font-weight: bold;
-  color: #ccc;
-  margin-left: 15px;
-}
+
 
 .logo:hover {
   color: var(--white);
@@ -90,11 +90,11 @@ header ul li .submenu li a:hover {
   position: absolute;
   top: 5px; /* Ajustez en fonction de la hauteur de votre toolbar */
   left: 0;
-  background-color: white;
-  border: 1px solid #ccc;
+  background-color: rgb(33, 33, 81);
+  border: 2px solid #d2d1d7;
   z-index: 2000;
   width: 300px; /* Largeur du menu */
-  height: 500px;
+  height: 100%;
   overflow-y: auto;
 }
 
@@ -110,7 +110,7 @@ header ul li .submenu li a:hover {
 
 .menu-container ul li a {
   text-decoration: none;
-  color: black;
+  color: rgb(224, 215, 215);
   display: flex;
   align-items: center;
 }
@@ -125,7 +125,7 @@ header ul li .submenu li a:hover {
   align-items: center;
   padding: 10px;
   background-color: var(--blue);
-  color: white;
+  color: rgb(220, 220, 227);
 }
 
 .menu-close {
@@ -139,18 +139,24 @@ header ul li .submenu li a:hover {
 .logo p {
   font-size: 24px;
   font-weight: bold;
-  color: #fff;
+  color: #9d2222;
   margin-bottom: -15px; /* Réduit l’espace sous "Parcoursup" */
 }
 
 .slogan {
-  font-size: 9px;
-  color: #d11717;
+  font-size: 15px;
+  color: #ef0909;
   display: block;
-  margin-top: 0px; /* Supprime l’espace au-dessus du slogan */
-  font-weight: bold;
+  margin-top: 3px; /* Supprime l’espace au-dessus du slogan */
+  text-align: justify;
   text-align: center;
 }
-.content{
-  margin-left: 300px;
+
+.m{
+  color: rgb(230, 205, 213);
+  
+}
+.supm{
+  color: #ece4e4;
+  text-decoration: none;
 }
