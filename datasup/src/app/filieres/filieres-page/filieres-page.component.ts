@@ -56,7 +56,7 @@ ngOnInit(){
   this.chargementFilieres();
 }
 
-
+/* 
 
 chargementFilieres(){
   this.isloading = true;
@@ -89,7 +89,41 @@ chargementFilieres(){
 
   );
 }
+ */
 
+
+
+
+chargementFilieres(query: string = '') {
+  this.isloading = true;  // Affiche le spinner en début de chargement
+
+  // Assurez-vous que `query` est une chaîne
+  if (typeof query !== 'string') {
+    query = '';
+  }
+
+  // Envoyer les paramètres en tant qu'entiers, sans conversion en chaîne
+  this.apiService.getFiliereEtablissements(query, this.page, this.pageSize).subscribe({
+    next: (response) => {
+      console.log("Données reçues :", response);
+      this.formations = response.items || [];
+      this.filtrerFilieres = [...this.formations]; // Initialisation correcte
+      this.totalItems = response.total_items; // Mise à jour du nombre total d'éléments
+      this.totalPages = Math.ceil(this.totalItems / this.pageSize); // Mise à jour du nombre total de pages
+      console.log("Formations :", this.formations);
+      this.isloading = false;  // Arrête le spinner après que les données soient reçues
+    },
+    error: (error) => {
+      console.error("Erreur API :", error);
+      if (error.status === 200 && error.error instanceof SyntaxError) {
+        console.error("La réponse de l'API n'est pas au format JSON attendu.");
+      } else {
+        console.error("Erreur lors de la récupération des données :", error.message);
+      }
+      this.isloading = false;  // Arrête aussi le spinner en cas d'erreur
+    }
+  });
+}
 
 
     filtrerFormations() {

@@ -198,8 +198,8 @@ tbody tr:hover {
     font-size: 18px;
     font-weight: bold;
     color: red;
-    padding-left: 20px; /* Pousse tout le bloc vers la droite */
-    margin-bottom: 10px;
+   /*  padding-left: 20px;  *//* Pousse tout le bloc vers la droite */
+    /* margin-bottom: 10px; */
     gap: 10px; /* Espace entre l'icône et le texte */
   }
   
@@ -233,7 +233,7 @@ tbody tr:hover {
     color: red;
   }
 .decalerdroite{
-    margin-left: 300px;
+    /* margin-left: 300px; */
 
 }
 

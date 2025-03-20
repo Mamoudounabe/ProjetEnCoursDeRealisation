@@ -60,15 +60,17 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
     private timeoutId: any; // Identifier pour le setTimeout
     disableSelect = new FormControl(false);
     selectedEtablissements: any[] = [];
-    /* filteredFormations: any[] = []; */
+     /* filteredFormations: any[] = []; */ 
     pagesContainingResults: number[] = []; // Liste des pages contenant les résultats
-
+   /*  query: string = ''; */
 
   
   constructor(private apiService: ApiService, private cdr: ChangeDetectorRef, private router: Router,private route: ActivatedRoute) {}
   
     ngOnInit() {
-      this.fetchFormations(); // Charge les formations
+      this.fetchFormations(''); // Charge les formations
+      this.page = 1;  // Initialisation si nécessaire
+      this.pageSize = 8;
       
     }
     
@@ -79,18 +81,24 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
     }
     
 
-    fetchFormations() {
+
+    fetchFormations(query: string = '') {
       this.isLoading = true;  // Affiche le spinner en début de chargement
-  
-      this.apiService.getFiliereEtablissements(this.page, this.pageSize).subscribe({
+    
+      // Assurez-vous que `query` est une chaîne
+      if (typeof query !== 'string') {
+        query = '';
+      }
+    
+      // Envoyer les paramètres en tant qu'entiers, sans conversion en chaîne
+      this.apiService.getFiliereEtablissements(query, this.page, this.pageSize).subscribe({
         next: (response) => {
           console.log("Données reçues :", response);
-          this.formations = response.items;
-          this.filteredFormations = this.formations;
+          this.formations = response.items || [];
+          this.filteredFormations = [...this.formations]; // Initialisation correcte
           this.totalItems = response.total_items; // Mise à jour du nombre total d'éléments
           this.totalPages = Math.ceil(this.totalItems / this.pageSize); // Mise à jour du nombre total de pages
           console.log("Formations :", this.formations);
-          
           this.isLoading = false;  // Arrête le spinner après que les données soient reçues
         },
         error: (error) => {
@@ -104,25 +112,10 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
         }
       });
     }
+    
+     
   
-  /*   filterFormations() {
-      const query = this.searchQuery.toLowerCase();
-      this.filteredFormations = this.formations.filter(formation => 
-        (formation.filiere_formation?.toLowerCase().includes(query) ||
-        formation.etablissement?.toLowerCase().includes(query) ||
-        formation.commune_etablissement?.toLowerCase().includes(query)) &&
-        formation.etablissement?.toLowerCase().includes(this.searchEtablissement.toLowerCase()) &&
-        formation.commune_etablissement?.toLowerCase().includes(this.searchCommune.toLowerCase()) &&
-        formation.academie_etablissement?.toLowerCase().includes(this.searchAcademie.toLowerCase()) &&
-        formation.filiere_formation?.toLowerCase().includes(this.searchFiliere.toLowerCase()) &&
-        formation.filiere_formation_detaillee?.toLowerCase().includes(this.searchFiliereDetaillee.toLowerCase()) &&
-        formation.filiere_formation_tres_detaillee?.toLowerCase().includes(this.searchFiliereTresDetaillee.toLowerCase()) &&
-        formation.statut_etablissement_filiere?.toLowerCase().includes(this.searchStatut.toLowerCase()) &&
-        formation.selectivite?.toLowerCase().includes(this.searchSelectivite.toLowerCase()) &&
-        formation.effectif_total_candidats_admis?.toString().includes(this.searchEffectif)
-      );
-    }
-   */
+
 
 
 
@@ -210,6 +203,38 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
       this.fetchFormations();
     } 
 
+
+}
+
+
+
+     /* fetchFormations() {
+      this.isLoading = true;  
+  
+      this.apiService.getFiliereEtablissements(this.page, this.pageSize).subscribe({
+        next: (response) => {
+          console.log("Données reçues :", response);
+          this.formations = response.items;
+          this.filteredFormations = this.formations;
+          this.totalItems = response.total_items; 
+          this.totalPages = Math.ceil(this.totalItems / this.pageSize); 
+          console.log("Formations :", this.formations);
+          
+          this.isLoading = false;  
+        },
+        error: (error) => {
+          console.error("Erreur API :", error);
+          if (error.status === 200 && error.error instanceof SyntaxError) {
+            console.error("La réponse de l'API n'est pas au format JSON attendu.");
+          } else {
+            console.error("Erreur lors de la récupération des données :", error.message);
+          }
+          this.isLoading = false;  
+        }
+      });
+    } */
+  
+
 /* 
       onPageChange(event: PageEvent) {
         this.page = event.pageIndex + 1;
@@ -228,4 +253,4 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
 
 
 
-}
+

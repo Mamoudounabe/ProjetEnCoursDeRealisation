@@ -17,18 +17,33 @@ export class ApiService {
 
 // Récupérer les établissements avec pagination
  // Récupérer les établissements avec pagination
- getFiliereEtablissements(page: number = 1, pageSize: number = 8): Observable<any> {
+/*  getFiliereEtablissements(page: number = 1, pageSize: number = 8): Observable<any> {
   let params = new HttpParams()
     .set('page', page.toString())
     .set('page_size', pageSize.toString());
 
-  // Log de l'URL pour vérifier si c'est correct
   console.log(`Request URL: ${this.apiUrl}/filiere/etablissement/admission?page=${page}&page_size=${pageSize}`);
 
   return this.http.get<any>(`${this.apiUrl}/filiere/etablissement/admission`, { params });
-}
+} */
 
 
+
+  getFiliereEtablissements(query: string = '', page: number = 1, pageSize: number = 8): Observable<any> {
+    let params = new HttpParams()
+      .set('query', query || '') 
+      .set('page', page.toString())
+      .set('page_size', pageSize.toString());
+  
+    // Log de l'URL pour vérifier si c'est correct
+    console.log(`Request URL: ${this.apiUrl}/filiere/etablissement/admission?query=${query}&page=${page}&page_size=${pageSize}`);
+  
+    return this.http.get<any>(`${this.apiUrl}/filiere/etablissement/admission`, { 
+      params, 
+      headers: { 'Content-Type': 'application/json; charset=utf-8' } 
+    });
+  }
+  
 
 
 
