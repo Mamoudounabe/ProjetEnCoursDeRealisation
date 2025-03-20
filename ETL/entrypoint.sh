@@ -9,5 +9,3 @@ done
 
 echo "Neo4j est prêt, démarrage de l'ETL..."
 python main.py
-
-
