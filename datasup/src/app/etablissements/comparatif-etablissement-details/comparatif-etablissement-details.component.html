@@ -41,12 +41,7 @@
     <mat-button-toggle value="quotas_applicables" class="underline-toggle">Quotas applicables</mat-button-toggle>
   </mat-button-toggle-group>
 
-    <!-- debut bloc  nombre_de_candidats-->
-    <!-- <div *ngIf="selectedOption === 'nombre_de_candidatss'" class="nombre_de_candidats">
->
-      <canvas #chartCandidatsRef></canvas>
-    </div> -->
-    <!-- fin nombre_de_candidats-->
+   
 <!-- class="italic-toggle" 
     class="underline-toggle"
  -->
@@ -60,6 +55,19 @@
       <mat-button-toggle value="neoBachierliers" class="bold-toggle">Néo_bacheliers_technologiques</mat-button-toggle> 
     </mat-button-toggle-group>
     </div>
+
+
+
+ <!-- debut bloc  nombre_de_candidats-->
+ <div *ngIf="selectedSousOption === 'neo_admis'" class="nombre_de_candidats">
+  >
+        <canvas #chartCandidatsRef></canvas>
+      </div> 
+      <!-- fin nombre_de_candidats-->
+
+ 
+    
+
      <!--fin sous bouton 1 -->
 
      <!-- debut bloc  nombre_de_candidats-->
@@ -104,9 +112,10 @@
    <!-- debut sous bouton 3-->
    <div class="sous-boutons2" *ngIf="selectedOption === 'quotas_applicables'"   > 
     <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
-    <mat-button-toggle value="neo_admis1"  class="italic-toggle">Néo-bacheliers</mat-button-toggle>
-    <mat-button-toggle value="neoBachierliers1" class="italic-toggle">Tous les candidats</mat-button-toggle> 
-    <mat-button-toggle value="neoBachierliers1" class="italic-toggle">Néo_bacheliers_technologiques</mat-button-toggle> 
+    <mat-button-toggle value="neo_admis1"  class="italic-toggle">Boursiers du secondaires</mat-button-toggle>
+    <mat-button-toggle value="neoBachierliers1" class="underline-toggle">Candidats hors secteur</mat-button-toggle> 
+    <mat-button-toggle value="neoBachierliers1" class="underline-toggle">Lycéens technologiques</mat-button-toggle> 
+    <mat-button-toggle value="neoBachierliers1" class="underline-toggle">Lycéens professionnels</mat-button-toggle> 
   </mat-button-toggle-group>
   </div>
    <!--fin sous bouton 3 -->
@@ -183,31 +192,11 @@
 
 
 
-<!-- 
-<div  class="block2">
 
-  <div class="une" >   <h2 >{{ etablissementsData[0].NomEtablissement }} - {{ etablissementsData[0].NomFormation }}</h2>  </div>
- 
-  <div class="fg1" *ngIf="etablissementsData && etablissementsData.length > 0">
-
-    <p><strong>Académie :</strong> {{ etablissementsData[0].academie }}</p>
-    <p><strong>Région :</strong> {{ etablissementsData[0].region }}</p>
-    <p><strong> Sélectivité :</strong> {{ etablissementsData[0].selectivite }}</p>
-  </div>
-  
+  <div  class="block2">
   <div class="fd1">
-  <h1 class="titre">
-    <fa-icon [icon]="faSignal"></fa-icon> Informations Générales
-  </h1>
-  <div class="bouton2">  
-    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
-      <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">Nombre de candidats</mat-button-toggle>
-      <mat-button-toggle value="sexe" class="italic-toggle">Nombre d'amis</mat-button-toggle>
-      <mat-button-toggle value="Admission" class="underline-toggle">Néo-bacheliers</mat-button-toggle>
-      <mat-button-toggle value="academie" class="academie-toggle">Tous les candidats</mat-button-toggle>
-      <mat-button-toggle value="type_bac" class="bac-type-toggle">Type de bac</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
-  </div>
-  
-  </div> -->
+<h1 class="titre">
+  <fa-icon [icon]="faSignal"></fa-icon> Informations Générales
+</h1>
+</div>
+</div>
