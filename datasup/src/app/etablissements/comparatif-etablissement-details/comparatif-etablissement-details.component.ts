@@ -83,7 +83,9 @@ export class ComparatifEtablissementDetailsComponent implements OnInit  {
   selectedYear = new FormControl('2021'); 
   anneeactuelle: string = '2021'; 
   etablissementsData: any[] = [];
-  selectedOption: string = 'neo_admis';  
+  selectedOption: string = 'nombre_de_candidats'; 
+  selectedSousOption: string= 'neo_admis'; 
+/*   selectedSousOption: string= 'neo_admis'; */
  /*  selectedOption: string = 'nombre_de_candidats';  */
  /*  chart: any; */
  chart!: Chart | null;

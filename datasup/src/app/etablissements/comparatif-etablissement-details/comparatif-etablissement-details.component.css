@@ -180,11 +180,23 @@ mat-grid-tile {
   .bouton2{
     margin-left: 200px;
     margin-top: 40px;
+    
   }
   
 
+  .sous-boutons1{
+
+    /* margin-left: 100px; */
+    margin-top: 30px;
+  }
 
 
+  .sous-boutons2
+  {
+
+    margin-top: 30px;
+
+  }
 
 
   /* .nombre_de_candidats{
