@@ -63,6 +63,7 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
      /* filteredFormations: any[] = []; */ 
     pagesContainingResults: number[] = []; // Liste des pages contenant les résultats
    /*  query: string = ''; */
+   totalWords: number = 0;
 
   
   constructor(private apiService: ApiService, private cdr: ChangeDetectorRef, private router: Router,private route: ActivatedRoute) {}
@@ -82,24 +83,20 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
     
 
 
-    fetchFormations(query: string = '') {
-      this.isLoading = true;  // Affiche le spinner en début de chargement
-    
-      // Assurez-vous que `query` est une chaîne
+  /*   fetchFormations(query: string = '') {
+      this.isLoading = true; 
       if (typeof query !== 'string') {
         query = '';
       }
-    
-      // Envoyer les paramètres en tant qu'entiers, sans conversion en chaîne
       this.apiService.getFiliereEtablissements(query, this.page, this.pageSize).subscribe({
         next: (response) => {
           console.log("Données reçues :", response);
           this.formations = response.items || [];
-          this.filteredFormations = [...this.formations]; // Initialisation correcte
-          this.totalItems = response.total_items; // Mise à jour du nombre total d'éléments
-          this.totalPages = Math.ceil(this.totalItems / this.pageSize); // Mise à jour du nombre total de pages
+          this.filteredFormations = [...this.formations]; 
+          this.totalItems = response.total_items; 
+          this.totalPages = Math.ceil(this.totalItems / this.pageSize); 
           console.log("Formations :", this.formations);
-          this.isLoading = false;  // Arrête le spinner après que les données soient reçues
+          this.isLoading = false;  
         },
         error: (error) => {
           console.error("Erreur API :", error);
@@ -108,12 +105,12 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
           } else {
             console.error("Erreur lors de la récupération des données :", error.message);
           }
-          this.isLoading = false;  // Arrête aussi le spinner en cas d'erreur
+          this.isLoading = false; 
         }
       });
     }
     
-     
+      */
   
 
 
@@ -121,8 +118,6 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
 
     filterFormations() {
       const query = this.searchQuery.toLowerCase();
-    
-      // Filtrer toutes les formations
       console.log(query);
       console.table(this.formations);
       this.filteredFormations = this.formations.filter(formation => 
@@ -141,15 +136,11 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
       );
     
       console.table(this.filteredFormations);
-      // Mise à jour du nombre total d'éléments et de pages
       this.totalItems = this.filteredFormations.length;
       this.totalPages = Math.ceil(this.totalItems / this.pageSize);
-    
-      // Calculer les pages où il y a des résultats
       this.calculatePagesContainingResults();
     
-      // Mise à jour de l'affichage de la page actuelle
-/*       this.updatePaginatedFormations(); */
+
     }
 
 
@@ -164,7 +155,7 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
         const hasResults = this.filteredFormations.slice(startIndex, endIndex).length > 0;
     
         if (hasResults) {
-          this.pagesContainingResults.push(i + 1); // Page 1, 2, 3, etc.
+          this.pagesContainingResults.push(i + 1); 
         }
       }
     }
@@ -202,6 +193,86 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
       this.pageSize = event.pageSize;
       this.fetchFormations();
     } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    fetchFormations(query: string = '') {
+      this.isLoading = true;  
+      if (typeof query !== 'string') {
+        query = '';
+      }
+    
+      // Envoyer les paramètres en tant qu'entiers
+      this.apiService.getFiliereEtablissements(query, this.page, this.pageSize).subscribe({
+        next: (response) => {
+          console.log("Données reçues :", response);
+          
+          // Met à jour les données des formations
+          this.formations = response.items || [];
+          this.filteredFormations = [...this.formations]; // Copie pour filtrage
+          this.totalItems = response.total_items; // Nombre total d'éléments
+          this.totalPages = response.total_pages; // Nombre total de pages
+          
+          // Calcul du nombre total de mots dans tous les champs textuels
+          this.totalWords = this.calculateTotalWords(this.formations);
+    
+          console.log(`Total items : ${this.totalItems}, Total pages : ${this.totalPages}`);
+          console.log(`Nombre total de mots : ${this.totalWords}`);
+    
+          this.isLoading = false;  // Arrête le spinner après que les données soient reçues
+        },
+        error: (error) => {
+          console.error("Erreur API :", error);
+          if (error.status === 200 && error.error instanceof SyntaxError) {
+            console.error("La réponse de l'API n'est pas au format JSON attendu.");
+          } else {
+            console.error("Erreur lors de la récupération des données :", error.message);
+          }
+          this.isLoading = false;  // Arrête aussi le spinner en cas d'erreur
+        }
+      });
+    }
+    
+
+    
+    // Fonction pour calculer le nombre total de mots
+    calculateTotalWords(formations: any[]): number {
+      let totalWords = 0;
+      
+      formations.forEach(item => {
+        Object.values(item).forEach(value => {
+          if (typeof value === 'string') {
+            totalWords += value.split(/\s+/).length; // Compte les mots en séparant par les espaces
+          }
+        });
+      });
+    
+      return totalWords;
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

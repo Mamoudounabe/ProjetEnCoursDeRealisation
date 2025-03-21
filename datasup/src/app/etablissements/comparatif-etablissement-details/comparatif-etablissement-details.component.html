@@ -9,12 +9,14 @@
 
 
 
-<div  class="block">
+<div  class="block1">
 
 
-
-<div class="une" >   <h2 >{{ etablissementsData[0].NomEtablissement }} - {{ etablissementsData[0].NomFormation }}</h2>  </div>
-
+ <!-- debut partie1 --> 
+ <div class="une" >  
+   <h2 >{{ etablissementsData[0].NomEtablissement }} - {{ etablissementsData[0].NomFormation }}</h2> 
+ </div>
+ <!-- fin partie1 --> 
 
 <!-- Bloc 1 : Informations sur l'établissement -->
 <div class="fg1" *ngIf="etablissementsData && etablissementsData.length > 0">
@@ -24,26 +26,56 @@
   <p><strong> Sélectivité :</strong> {{ etablissementsData[0].selectivite }}</p>
 </div>
 
-
-
-
 <div class="fd1">
 <h1 class="titre">
   <fa-icon [icon]="faSignal"></fa-icon> Informations Générales
 </h1>
+
+
+
+<!-- debu bloc  bounton2-->
 <div class="bouton2">  
   <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
     <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">Nombre de candidats</mat-button-toggle>
-    <mat-button-toggle value="sexe" class="italic-toggle">Nombre d'amis</mat-button-toggle>
-    <mat-button-toggle value="Admission" class="underline-toggle">Néo-bacheliers</mat-button-toggle>
+    <mat-button-toggle value="neo_admis" class="italic-toggle">Nombre d'amis</mat-button-toggle>
+    <mat-button-toggle value="neoBachierliers" class="underline-toggle">Néo-bacheliers</mat-button-toggle>
     <mat-button-toggle value="academie" class="academie-toggle">Tous les candidats</mat-button-toggle>
     <mat-button-toggle value="type_bac" class="bac-type-toggle">Type de bac</mat-button-toggle>
   </mat-button-toggle-group>
-</div>
-</div>
 
+    <!-- debut bloc  nombre_de_candidats-->
+    <div *ngIf="selectedOption === 'nombre_de_candidats'" class="nombre_de_candidats">
+      <!-- <canvas #etablissementsChart></canvas> -->
+      <canvas #chartCandidatsRef></canvas>
+    </div>
+    <!-- fin nombre_de_candidats-->
+
+
+      <!-- debut bloc  nombre_de_candidats-->
+      <div *ngIf="selectedOption === 'neo_admis'" class="nombre_de_candidats">
+        
+        <canvas #chartNeoBacheliersRef></canvas> 
+        
+      </div>
+      <!-- fin nombre_de_candidats-->
 
   
+    <div *ngIf="selectedOption === 'sexe'">
+      <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile>1</mat-grid-tile>
+        <mat-grid-tile>2</mat-grid-tile>
+        <mat-grid-tile>3</mat-grid-tile>
+        <mat-grid-tile>4</mat-grid-tile>
+      </mat-grid-list>
+      </div>  
+
+
+<!-- fin bloc  bounton2-->
+</div>
+<!-- fin bloc  bounton2-->
+
+
+
 
 
 
@@ -55,28 +87,21 @@
 
 
 </div>
+<!-- fin bloc 1 -->
 
 
 
 
 
-<div *ngIf="selectedOption === 'sexe'">
-  <mat-grid-list cols="2" rowHeight="2:1">
-    <mat-grid-tile>1</mat-grid-tile>
-    <mat-grid-tile>2</mat-grid-tile>
-    <mat-grid-tile>3</mat-grid-tile>
-    <mat-grid-tile>4</mat-grid-tile>
-  </mat-grid-list>
-  </div>  
 
 
 
 
 
   <!-- Contenu affiché selon la sélection -->
-<div *ngIf="selectedOption === 'nombre_de_candidats'" class="nombre_de_candidats">
+<!-- <div *ngIf="selectedOption === 'nombre_de_candidats'" class="nombre_de_candidats">
   <canvas #etablissementsChart></canvas>
-</div>
+</div> -->
 
 <div *ngIf="selectedOption === 'sexe'" class="sexe">
   <p>Affichage des statistiques sur le nombre d'amis.</p>
@@ -93,3 +118,39 @@
 <div *ngIf="selectedOption === 'type_bac'" class="bac-type">
   <p>Affichage des types de bac.</p>
 </div>
+
+
+</div>
+
+
+
+
+
+
+<div  class="block2">
+
+  <div class="une" >   <h2 >{{ etablissementsData[0].NomEtablissement }} - {{ etablissementsData[0].NomFormation }}</h2>  </div>
+  <!-- Bloc 1 : Informations sur l'établissement -->
+  <div class="fg1" *ngIf="etablissementsData && etablissementsData.length > 0">
+  <!--   <h2 >{{ etablissementsData[0].NomEtablissement }} - {{ etablissementsData[0].NomFormation }}</h2> -->
+    <p><strong>Académie :</strong> {{ etablissementsData[0].academie }}</p>
+    <p><strong>Région :</strong> {{ etablissementsData[0].region }}</p>
+    <p><strong> Sélectivité :</strong> {{ etablissementsData[0].selectivite }}</p>
+  </div>
+  
+  <div class="fd1">
+  <h1 class="titre">
+    <fa-icon [icon]="faSignal"></fa-icon> Informations Générales
+  </h1>
+  <div class="bouton2">  
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
+      <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">Nombre de candidats</mat-button-toggle>
+      <mat-button-toggle value="sexe" class="italic-toggle">Nombre d'amis</mat-button-toggle>
+      <mat-button-toggle value="Admission" class="underline-toggle">Néo-bacheliers</mat-button-toggle>
+      <mat-button-toggle value="academie" class="academie-toggle">Tous les candidats</mat-button-toggle>
+      <mat-button-toggle value="type_bac" class="bac-type-toggle">Type de bac</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  </div>
+  
+  </div>

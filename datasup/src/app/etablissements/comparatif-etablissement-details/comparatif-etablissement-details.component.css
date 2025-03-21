@@ -59,13 +59,17 @@
  
 
 
-    .block{
+    .block1{
         
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
    /*  grid-template-rows: 50px 100px 200px; */
    grid-template-rows: 150px  250px;
     gap: 10px;
+
+
+    margin-bottom: 400px;
+    padding-bottom: 100px;
         
     }
 
@@ -116,6 +120,16 @@ mat-grid-tile {
 
 
 
+
+  .nombre_de_candidats{
+
+    width: 100%;
+  height: 500px; /* Augmente la hauteur du graphique */
+  max-width: 3000px; /* Largeur maximale */
+  margin: auto;
+
+
+  }
 
 
 
@@ -173,10 +187,25 @@ mat-grid-tile {
 
 
 
-  .nombre_de_candidats{
+  /* .nombre_de_candidats{
 
     height: 300px;
     font-weight: 300 px;
     
 
   }
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

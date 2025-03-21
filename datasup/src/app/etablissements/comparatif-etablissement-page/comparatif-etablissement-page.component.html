@@ -149,12 +149,14 @@
       <tbody *ngIf="filteredFormations.length > 0">  
         <tr *ngFor="let formation of filteredFormations">
           <td>
+            <section class="example-section">
             <mat-checkbox 
               class="custom-checkbox" 
               (change)="selectEtablissement(formation)" 
               [checked]="isEtablissementSelected(formation)">
               <span style="color: black;">{{ formation.etablissement }}</span>
             </mat-checkbox>
+          </section>
           </td>
           
           <td [ngClass]="{'non-disponible': !formation.commune_etablissement}">

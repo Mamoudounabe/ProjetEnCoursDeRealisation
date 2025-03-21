@@ -34,3 +34,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 
+.mdc-checkbox__native-control {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    opacity: 0.5;
+    cursor: inherit;
+    background-color: #d81b60;
+    border: #000 1px solid;
+}
+  

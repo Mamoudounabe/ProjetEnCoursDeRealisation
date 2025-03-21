@@ -83,11 +83,13 @@ export class ComparatifEtablissementDetailsComponent implements OnInit  {
   selectedYear = new FormControl('2021'); 
   anneeactuelle: string = '2021'; 
   etablissementsData: any[] = [];
-  selectedOption: string = 'nombre_de_candidats'; 
+  selectedOption: string = 'neo_admis';  
+ /*  selectedOption: string = 'nombre_de_candidats';  */
  /*  chart: any; */
  chart!: Chart | null;
   @ViewChild('etablissementsChart', { static: false }) chartRef!: ElementRef;
   etablissementData: any;
+  etablissementsDataBacheliers: any[] = [];
   
 
 
@@ -124,13 +126,13 @@ ngOnInit(): void {
 
 private safeNumber(val: any): number {
   if (val === null || val === undefined) {
-    console.warn("⚠️ Valeur null ou undefined détectée, remplacée par 0.");
+    console.warn(" Valeur null ou undefined détectée, remplacée par 0.");
     return 0;
   }
 
   const num = Number(val);
   if (isNaN(num)) {
-    console.warn("⚠️ Valeur NaN détectée, remplacée par 0:", val);
+    console.warn(" Valeur NaN détectée, remplacée par 0:", val);
     return 0;
   }
 
@@ -172,51 +174,8 @@ private safeNumber(val: any): number {
 
 
 
-getEtablissementData(annee: string, etablissementsIDs: number[]): void {
-  console.log(`📡 Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
 
-  this.apiService.getEtablissementsByComp(etablissementsIDs, annee).subscribe(
-    (response) => {
-      console.log('🛠 Réponse brute de l\'API:', response);
 
-      // Vérifie si 'body' existe ou non et accède à la donnée
-      const data = (response as any).body || response;
-      
-      console.log('Structure complète des données reçues:', data);
-
-      // Vérifier si la réponse contient des données valides
-      if (!Array.isArray(data) || data.length === 0) {
-        console.warn(' Aucune donnée valide reçue !', data);
-        return;
-      }
-
-      console.log(" Données brutes reçues :", data);
-
-      // Vérifie si la clé 'effectif_total_candidats_phase_principale' existe dans les données
-      const firstItem = data[0];
-      if (!firstItem.hasOwnProperty("effectif_total_candidats_phase_principale")) {
-        console.error(" Clé 'effectif_total_candidats_phase_principale' introuvable dans la réponse !");
-      } else {
-        console.log("🔎 Exemple valeur avant conversion :", firstItem.effectif_autres_candidats_phase_principale);
-      }
-
-      // Trie les données en fonction de 'effectif_autres_candidats_phase_principale'
-      this.etablissementsData = data.sort((a, b) =>
-        this.safeNumber(b.effectif_autres_candidats_phase_principale) - 
-        this.safeNumber(a.effectif_autres_candidats_phase_principale)
-      );
-
-      console.log(' Données triées:', this.etablissementsData);
-
-      // Détecte les changements et crée le graphique
-      this.cdr.detectChanges();
-      this.createChart();
-    },
-    (error) => {
-      console.error(' Erreur lors de la récupération des données:', error);
-    }
-  );
-}
 
 
 
@@ -229,7 +188,7 @@ getEtablissementData(annee: string, etablissementsIDs: number[]): void {
 
 
 
-
+/* 
 
 createChart(): void {
   setTimeout(() => {
@@ -257,7 +216,8 @@ createChart(): void {
       data: {
         labels: this.etablissementsData.map(etab => etab.NomEtablissement),
         datasets: [{
-          label: 'Nombre de Candidats',
+         label: 'Nombre de Candidats', 
+         
           data: this.etablissementsData.map(etab => this.safeNumber(etab.effectif_autres_candidats_phase_principale)),
           backgroundColor: 'rgba(58, 104, 156, 0.6)',
           borderColor: 'rgb(206, 36, 64)',
@@ -273,9 +233,11 @@ createChart(): void {
       }
     });
   }, 200);
-}
+} */
 
-tryCreateChart(): void {
+
+
+/* tryCreateChart(): void {
   setTimeout(() => {
     if (!this.chartRef?.nativeElement) {
       console.error("Le canvas n'est pas encore disponible !");
@@ -285,8 +247,127 @@ tryCreateChart(): void {
     this.createChart();
   }, 200);
 }
+ */
 
 
+@ViewChild('chartCandidatsRef', { static: false }) chartCandidatsRef!: ElementRef;
+  @ViewChild('chartNeoBacheliersRef', { static: false }) chartNeoBacheliersRef!: ElementRef;
+
+
+
+  ngAfterViewInit(): void {
+    // Une fois la vue initialisée, tu peux accéder aux éléments canvas
+    console.log('Canvas Candidats:', this.chartCandidatsRef);
+    console.log('Canvas Neo-bacheliers:', this.chartNeoBacheliersRef);
+    
+    // Appeler la méthode createChart avec les bonnes références
+    this.createChart(this.chartCandidatsRef, 'effectif_autres_candidats_phase_principale', 'Nombre de Candidats');
+    this.createChart(this.chartNeoBacheliersRef, 'effectif_neo_bacheliers_admis', 'Néo-bacheliers Admis');
+  }
+
+  createChart(chartRef: ElementRef, dataKey: string, label: string): void {
+    setTimeout(() => {
+      if (!this.etablissementsData || this.etablissementsData.length === 0) {
+        console.warn("Pas de données disponibles pour créer le graphique.");
+        return;
+      }
+  
+      if (!chartRef?.nativeElement) {
+        console.error("Le canvas n'est pas encore disponible !");
+        return;
+      }
+  
+      const ctx = chartRef.nativeElement.getContext('2d');
+  
+      // Vérifier si un graphique existe déjà pour cet élément et le détruire
+      if (chartRef.nativeElement.chartInstance) {
+        chartRef.nativeElement.chartInstance.destroy();
+      }
+  
+      console.log(`📊 Création du graphique : ${label}`);
+      console.log('Labels:', this.etablissementsData.map(etab => etab.NomEtablissement));
+      console.log(`Données (${dataKey}):`, this.etablissementsData.map(etab => this.safeNumber(etab[dataKey])));
+  
+      chartRef.nativeElement.chartInstance = new Chart(ctx, {
+        type: 'bar' as ChartType,
+        data: {
+          labels: this.etablissementsData.map(etab => etab.NomEtablissement),
+          datasets: [{
+            label: label,  // Dynamique
+            data: this.etablissementsData.map(etab => this.safeNumber(etab[dataKey])),
+            backgroundColor: 'rgba(58, 104, 156, 0.6)',
+            borderColor: 'rgb(206, 36, 64)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          scales: {
+            x: { beginAtZero: true }
+          }
+        }
+      });
+    }, 200);
+  }
+  
+
+  // Récupérer les données via l'API
+  getEtablissementData(annee: string, etablissementsIDs: number[]): void {
+    console.log(`📡 Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
+  
+    this.apiService.getEtablissementsByComp(etablissementsIDs, annee).subscribe(
+      (response) => {
+        console.log('🛠 Réponse brute de l\'API:', response);
+  
+        // Vérifie si 'body' existe ou non et accède à la donnée
+        const data = (response as any).body || response;
+  
+        // Vérifier si la réponse contient des données valides
+        if (!Array.isArray(data) || data.length === 0) {
+          console.warn('Aucune donnée valide reçue !', data);
+          return;
+        }
+  
+        console.log("Données brutes reçues :", data);
+  
+        // Trier les données en fonction de 'effectif_autres_candidats_phase_principale'
+        this.etablissementsData = data.sort((a, b) =>
+          this.safeNumber(b.effectif_autres_candidats_phase_principale) - 
+          this.safeNumber(a.effectif_autres_candidats_phase_principale)
+        );
+        console.log('Données triées (Candidats) :', this.etablissementsData);
+  
+        // Trier les données en fonction de 'effectif_neo_bacheliers_admis'
+        this.etablissementsData = this.etablissementsData.sort((a, b) =>
+          this.safeNumber(b.effectif_neo_bacheliers_admis) - 
+          this.safeNumber(a.effectif_neo_bacheliers_admis)
+        );
+        console.log('Données triées (Neo-Bacheliers) :', this.etablissementsData);
+  
+        // Une fois les données récupérées et triées, on met à jour les graphiques
+        // Graphique pour les candidats
+        this.createChart(this.chartCandidatsRef, 'effectif_autres_candidats_phase_principale', 'Nombre de Candidats');
+  
+        // Graphique pour les néo-bacheliers
+        this.createChart(this.chartNeoBacheliersRef, 'effectif_neo_bacheliers_admis', 'Néo-bacheliers Admis');
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des données:', error);
+      }
+    );
+  }
+  
+
+tryCreateCharts(): void {
+  if (!this.chartCandidatsRef?.nativeElement || !this.chartNeoBacheliersRef?.nativeElement) {
+    console.error(" Les canvas ne sont pas encore disponibles !");
+    return;
+  }
+
+  this.createChart(this.chartCandidatsRef, 'effectif_autres_candidats_phase_principale', 'Nombre de Candidats');
+  this.createChart(this.chartNeoBacheliersRef, 'effectif_neo_bacheliers_admis', 'Néo-bacheliers admis');
+}
 
   
 
