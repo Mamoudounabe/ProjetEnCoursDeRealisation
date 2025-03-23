@@ -9,23 +9,9 @@
 
 
 
-<div  class="block1">
+<div  class="block">
 
-
- <!-- debut partie1 --> 
- <div class="une" >  
-   <h2 >{{ etablissementsData[0].NomEtablissement }} - {{ etablissementsData[0].NomFormation }}</h2> 
- </div>
- <!-- fin partie1 --> 
-
-<!-- Bloc 1 : Informations sur l'établissement -->
-<div class="fg1" *ngIf="etablissementsData && etablissementsData.length > 0">
-<!--   <h2 >{{ etablissementsData[0].NomEtablissement }} - {{ etablissementsData[0].NomFormation }}</h2> -->
-  <p><strong>Académie :</strong> {{ etablissementsData[0].academie }}</p>
-  <p><strong>Région :</strong> {{ etablissementsData[0].region }}</p>
-  <p><strong> Sélectivité :</strong> {{ etablissementsData[0].selectivite }}</p>
-</div>
-
+<div class="menu">
 <div class="fd1">
 <h1 class="titre">
   <fa-icon [icon]="faSignal"></fa-icon> Informations Générales
@@ -34,169 +20,48 @@
 
 
 <!-- debu bloc  bounton2-->
-<div class="bouton2">  
+<div class="bouton">  
   <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
     <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">Nombre de candidats</mat-button-toggle>
     <mat-button-toggle value="nombre_damis" class="italic-toggle">Nombre d'admis</mat-button-toggle>
     <mat-button-toggle value="quotas_applicables" class="underline-toggle">Quotas applicables</mat-button-toggle>
   </mat-button-toggle-group>
 
-   
-<!-- class="italic-toggle" 
-    class="underline-toggle"
- -->
 
- 
-    <!-- debut sous bouton 1 -->
-    <div class="sous-boutons1" *ngIf="selectedOption === 'nombre_de_candidats'"   > 
-      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption"> 
-      <mat-button-toggle value="neo_admis"  class="bold-toggle">Néo-bacheliers</mat-button-toggle>
-      <mat-button-toggle value="neoBachierliers" class="bold-toggle">Tous les candidats</mat-button-toggle> 
-      <mat-button-toggle value="neoBachierliers" class="bold-toggle">Néo_bacheliers_technologiques</mat-button-toggle> 
-    </mat-button-toggle-group>
-    </div>
+</div>
+
+
+<!--  *ngIf="selectedOption === 'nombre_de_candidats'"  -->
+   <!-- debut sous bouton 1 -->
+   <div class="sous-boutons"   > 
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption"> 
+    <mat-button-toggle value="neo_admis"  class="bold-toggle">Néo-bacheliers</mat-button-toggle>
+    <mat-button-toggle value="neoBachierliers" class="bold-toggle">Tous les candidats</mat-button-toggle> 
+    <mat-button-toggle value="neoBachierliers" class="bold-toggle">Néo_bacheliers_technologiques</mat-button-toggle> 
+  </mat-button-toggle-group>
 
 
 
- <!-- debut bloc  nombre_de_candidats-->
- <div *ngIf="selectedSousOption === 'neo_admis'" class="nombre_de_candidats">
-  >
-        <canvas #chartCandidatsRef></canvas>
+
+        <!-- debut bloc  nombre_de_candidats-->
+      <div *ngIf="selectedSousOption === 'neo_admis'" class="graphe">
+        
+        <canvas #chartNeoBacheliersRef></canvas>
       </div> 
       <!-- fin nombre_de_candidats-->
 
- 
-    
 
-     <!--fin sous bouton 1 -->
-
-     <!-- debut bloc  nombre_de_candidats-->
- <!--  <div *ngIf="selectedSousOption === 'neo_admis'" class="nombre_de_candidats">
-        
-    <canvas #chartNeoBacheliersRef></canvas> 
-    
-  </div>   -->
-  <!-- fin nombre_de_candidats-->
-
-
-
-
-
-      <!-- debut sous bouton 2 -->
-    <div class="sous-boutons2" *ngIf="selectedOption === 'nombre_damis'"   > 
-      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
-      <mat-button-toggle value="neo_admis1"  class="italic-toggle">Néo-bacheliers</mat-button-toggle>
-      <mat-button-toggle value="neoBachierliers1" class="italic-toggle">Tous les candidats</mat-button-toggle> 
-      <mat-button-toggle value="neoBachierliers1" class="italic-toggle">Néo_bacheliers_technologiques</mat-button-toggle> 
-    </mat-button-toggle-group>
-    </div>
-     <!--fin sous bouton 1 -->
-
-
-
-  <!-- debut bloc  nombre_de_candidats-->
- <!--  <div *ngIf="selectedSousOption === 'neo_admis'" class="nombre_de_candidats">
-        
-    <canvas #chartNeoBacheliersRef></canvas> 
-    
-  </div> --> 
-  <!-- fin nombre_de_candidats-->
-
-
-
-
-
-   
-
-
-   <!-- debut sous bouton 3-->
-   <div class="sous-boutons2" *ngIf="selectedOption === 'quotas_applicables'"   > 
-    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
-    <mat-button-toggle value="neo_admis1"  class="italic-toggle">Boursiers du secondaires</mat-button-toggle>
-    <mat-button-toggle value="neoBachierliers1" class="underline-toggle">Candidats hors secteur</mat-button-toggle> 
-    <mat-button-toggle value="neoBachierliers1" class="underline-toggle">Lycéens technologiques</mat-button-toggle> 
-    <mat-button-toggle value="neoBachierliers1" class="underline-toggle">Lycéens professionnels</mat-button-toggle> 
-  </mat-button-toggle-group>
   </div>
-   <!--fin sous bouton 3 -->
-
-
-
-
-
-
-  
-    <div *ngIf="selectedOption === 'sexe'">
-      <mat-grid-list cols="2" rowHeight="2:1">
-        <mat-grid-tile>1</mat-grid-tile>
-        <mat-grid-tile>2</mat-grid-tile>
-        <mat-grid-tile>3</mat-grid-tile>
-        <mat-grid-tile>4</mat-grid-tile>
-      </mat-grid-list>
-      </div>  
-
-
-<!-- fin bloc  bounton2-->
-</div>
-<!-- fin bloc  bounton2-->
-
-
-
-
-
-
-
-
-
-
-
-
 
 </div>
-<!-- fin bloc 1 -->
-
-
-
-
-
-
-
-
-
-
-  <!-- Contenu affiché selon la sélection -->
-<!-- <div *ngIf="selectedOption === 'nombre_de_candidats'" class="nombre_de_candidats">
-  <canvas #etablissementsChart></canvas>
-</div> -->
-
-<div *ngIf="selectedOption === 'sexe'" class="sexe">
-  <p>Affichage des statistiques sur le nombre d'amis.</p>
-</div>
-
-<div *ngIf="selectedOption === 'Admission'" class="admission">
-  <p>Affichage des données des néo-bacheliers.</p>
-</div>
-
-<div *ngIf="selectedOption === 'academie'" class="academie">
-  <p>Affichage de tous les candidats.</p>
-</div>
-
-<div *ngIf="selectedOption === 'type_bac'" class="bac-type">
-  <p>Affichage des types de bac.</p>
-</div>
-
 
 </div>
 
 
 
 
+<!--  --------------------------   block 2 ----------------------------------- -->
 
 
-  <div  class="block2">
-  <div class="fd1">
-<h1 class="titre">
-  <fa-icon [icon]="faSignal"></fa-icon> Informations Générales
-</h1>
-</div>
-</div>
+
+

@@ -126,6 +126,10 @@ ngOnInit(): void {
 
 
 
+
+
+
+
 private safeNumber(val: any): number {
   if (val === null || val === undefined) {
     console.warn(" Valeur null ou undefined détectée, remplacée par 0.");
@@ -144,40 +148,6 @@ private safeNumber(val: any): number {
 
 
 
-/* getEtablissementData(annee: string, etablissementsIDs: number[]): void {
-  console.log(`Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
-
-  this.apiService.getEtablissementsByComp(etablissementsIDs, annee).subscribe(
-    (response) => {
-     
-      console.log('Réponse de l\'API:', response);
-  
-      if (response && response.length > 0) {
-
-      
-        console.log(" Données récupérées :", this.etablissementData);
-        this.etablissementsData = response.sort((a, b) => 
-          this.safeNumber(b.effectif_total_candidats_phase_principale) - this.safeNumber(a.effectif_total_candidats_phase_principale)
-        );
-
-        console.log('Données triées:', this.etablissementsData);
-        this.cdr.detectChanges();
-        this.createChart();
-      } else {
-        console.warn('Aucune donnée reçue.');
-      }
-    },
-    (error) => {
-      console.error('Erreur lors de la récupération des données:', error);
-    }
-  );
-}
- */
-
-
-
-
-
 
 
 
@@ -190,67 +160,6 @@ private safeNumber(val: any): number {
 
 
 
-/* 
-
-createChart(): void {
-  setTimeout(() => {
-    if (!this.etablissementsData || this.etablissementsData.length === 0) {
-      console.warn("Pas de données disponibles pour créer le graphique.");
-      return;
-    }
-
-    if (!this.chartRef?.nativeElement) {
-      console.error("Le canvas n'est pas encore disponible !");
-      return;
-    }
-
-    const ctx = this.chartRef.nativeElement.getContext('2d');
-
-    if (this.chart) {
-      this.chart.destroy();
-    }
-
-    console.log('Labels:', this.etablissementsData.map(etab => etab.NomEtablissement));
-    console.log('Données:', this.etablissementsData.map(etab => this.safeNumber(etab.effectif_autres_candidats_phase_principale)));
-
-    this.chart = new Chart(ctx, {
-      type: 'bar' as ChartType,
-      data: {
-        labels: this.etablissementsData.map(etab => etab.NomEtablissement),
-        datasets: [{
-         label: 'Nombre de Candidats', 
-         
-          data: this.etablissementsData.map(etab => this.safeNumber(etab.effectif_autres_candidats_phase_principale)),
-          backgroundColor: 'rgba(58, 104, 156, 0.6)',
-          borderColor: 'rgb(206, 36, 64)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        scales: {
-          x: { beginAtZero: true }
-        }
-      }
-    });
-  }, 200);
-} */
-
-
-
-/* tryCreateChart(): void {
-  setTimeout(() => {
-    if (!this.chartRef?.nativeElement) {
-      console.error("Le canvas n'est pas encore disponible !");
-      return;
-    }
-
-    this.createChart();
-  }, 200);
-}
- */
-
 
 @ViewChild('chartCandidatsRef', { static: false }) chartCandidatsRef!: ElementRef;
   @ViewChild('chartNeoBacheliersRef', { static: false }) chartNeoBacheliersRef!: ElementRef;
@@ -258,14 +167,70 @@ createChart(): void {
 
 
   ngAfterViewInit(): void {
-    // Une fois la vue initialisée, tu peux accéder aux éléments canvas
+  
     console.log('Canvas Candidats:', this.chartCandidatsRef);
     console.log('Canvas Neo-bacheliers:', this.chartNeoBacheliersRef);
     
-    // Appeler la méthode createChart avec les bonnes références
+   
     this.createChart(this.chartCandidatsRef, 'effectif_autres_candidats_phase_principale', 'Nombre de Candidats');
     this.createChart(this.chartNeoBacheliersRef, 'effectif_neo_bacheliers_admis', 'Néo-bacheliers Admis');
   }
+
+
+
+
+/*    createChart(chartRef: ElementRef, dataKey: string, label: string): void {
+    setTimeout(() => {
+      if (!this.etablissementsData || this.etablissementsData.length === 0) {
+        console.warn("Pas de données disponibles pour créer le graphique.");
+        return;
+      }
+  
+      if (!chartRef?.nativeElement) {
+        console.error("Le canvas n'est pas encore disponible !");
+        return;
+      }
+  
+      const ctx = chartRef.nativeElement.getContext('2d');
+  
+      
+      if (chartRef.nativeElement.chartInstance) {
+        chartRef.nativeElement.chartInstance.destroy();
+      }
+  
+      console.log(`📊 Création du graphique : ${label}`);
+      console.log('Labels:', this.etablissementsData.map(etab => etab.NomEtablissement));
+      console.log(`Données (${dataKey}):`, this.etablissementsData.map(etab => this.safeNumber(etab[dataKey])));
+  
+      chartRef.nativeElement.chartInstance = new Chart(ctx, {
+        type: 'bar' as ChartType,
+        data: {
+          labels: this.etablissementsData.map(etab => etab.NomEtablissement),
+          datasets: [{
+            label: label, 
+            data: this.etablissementsData.map(etab => this.safeNumber(etab[dataKey])),
+            backgroundColor: 'rgba(58, 104, 156, 0.6)',
+            borderColor: 'rgb(206, 36, 64)',
+            borderWidth: 1,
+            barThickness: 100 ,
+            maxBarThickness: 100
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          scales: {
+            x: { beginAtZero: true
+             
+             }
+          }
+        }
+      });
+    }, 200);
+  }  
+  
+ */
+
 
   createChart(chartRef: ElementRef, dataKey: string, label: string): void {
     setTimeout(() => {
@@ -281,7 +246,7 @@ createChart(): void {
   
       const ctx = chartRef.nativeElement.getContext('2d');
   
-      // Vérifier si un graphique existe déjà pour cet élément et le détruire
+      // Si un graphique existe déjà, le détruire avant de le recréer
       if (chartRef.nativeElement.chartInstance) {
         chartRef.nativeElement.chartInstance.destroy();
       }
@@ -290,29 +255,79 @@ createChart(): void {
       console.log('Labels:', this.etablissementsData.map(etab => etab.NomEtablissement));
       console.log(`Données (${dataKey}):`, this.etablissementsData.map(etab => this.safeNumber(etab[dataKey])));
   
+      // Tableau de couleurs alternées
+      const colors = [
+        'rgba(58, 104, 156, 0.6)', // Bleu
+        'rgba(206, 36, 64, 0.6)', // Rouge
+        'rgba(52, 168, 83, 0.6)', // Vert
+        'rgba(251, 188, 5, 0.6)', // Jaune
+        'rgba(155, 81, 224, 0.6)', // Violet
+      ];
+  
+      // Création du graphique
       chartRef.nativeElement.chartInstance = new Chart(ctx, {
         type: 'bar' as ChartType,
         data: {
-          labels: this.etablissementsData.map(etab => etab.NomEtablissement),
+          labels: this.etablissementsData.map(etab => etab.NomEtablissement), // Labels des établissements
           datasets: [{
-            label: label,  // Dynamique
-            data: this.etablissementsData.map(etab => this.safeNumber(etab[dataKey])),
-            backgroundColor: 'rgba(58, 104, 156, 0.6)',
-            borderColor: 'rgb(206, 36, 64)',
-            borderWidth: 1
+            label: label,
+            data: this.etablissementsData.map(etab => this.safeNumber(etab[dataKey])), // Données pour le graphique
+            backgroundColor: this.etablissementsData.map((_, index) => colors[index % colors.length]), // Alterner les couleurs
+            borderColor: this.etablissementsData.map((_, index) => colors[index % colors.length]), // Alterner les couleurs des bordures
+            borderWidth: 1, // Largeur de la bordure des barres
+            barThickness: 30, // Épaisseur des barres (ajustez selon vos besoins)
+            barPercentage: 0.6, // Réduire la largeur des barres (60% de l'espace disponible)
+            categoryPercentage: 0.8, // Augmenter l'espacement entre les catégories (80% de l'espace utilisé)
           }]
         },
         options: {
-          indexAxis: 'y',
-          responsive: true,
+          indexAxis: 'y', // Les barres seront affichées horizontalement
+          responsive: true, // Le graphique s'adapte à la taille de son conteneur
+          maintainAspectRatio: false, // Permet de redimensionner le graphique selon le conteneur
+          plugins: {
+            legend: {
+              labels: {
+                color: '#333', // Couleur des labels de la légende
+                font: {
+                  size: 14, // Taille de police des labels de la légende
+                },
+              },
+            },
+          },
           scales: {
-            x: { beginAtZero: true }
-          }
-        }
+            x: {
+              beginAtZero: true, // Commencer à zéro pour l'axe des X (l'axe des catégories)
+              ticks: {
+                color: '#333', // Couleur des labels de l'axe X
+                font: {
+                  size: 12, // Taille de police des labels de l'axe X
+                },
+                autoSkip: false, // Éviter que les labels se chevauchent
+              },
+              grid: {
+                drawOnChartArea: false, // Ne pas dessiner de grille verticale
+                color: '#e0e0e0', // Couleur de la grille
+              },
+            },
+            y: {
+              beginAtZero: true, // Commencer à zéro pour l'axe des Y (l'axe des barres)
+              ticks: {
+                color: '#333', // Couleur des labels de l'axe Y
+                font: {
+                  size: 12, // Taille de police des labels de l'axe Y
+                },
+                stepSize: 10, // Ajuster le pas des ticks sur l'axe Y si nécessaire
+              },
+              grid: {
+                drawOnChartArea: true, // Dessiner la grille pour l'axe des Y
+                color: '#e0e0e0', // Couleur de la grille
+              },
+            },
+          },
+        },
       });
     }, 200);
   }
-  
 
   // Récupérer les données via l'API
   getEtablissementData(annee: string, etablissementsIDs: number[]): void {
