@@ -16,6 +16,7 @@
 <h1 class="titre">
   <fa-icon [icon]="faSignal"></fa-icon> Informations Générales
 </h1>
+</div>
 
 
 
@@ -65,3 +66,89 @@
 
 
 
+<div  class="block">
+  <div class="menu">
+  <h1 class="titre">
+    <fa-icon [icon]="faSignal"></fa-icon> 
+    Profil des candidats admis
+  </h1>
+  </div>
+
+
+
+  <div class="bouton">  
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
+      <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">Mention au bac</mat-button-toggle>
+      <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">sexe</mat-button-toggle>
+      <mat-button-toggle value="nombre_damis" class="italic-toggle">bourse</mat-button-toggle>
+      <mat-button-toggle value="quotas_applicables" class="underline-toggle">Academie</mat-button-toggle>
+      <mat-button-toggle value="quotas_applicables" class="underline-toggle">Type de bac</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  
+  
+
+   <!-- debut sous bouton  -->
+   <div class="sous-boutons"   > 
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption"> 
+    <mat-button-toggle value="neo_admis"  class="bold-toggle">Mention tres bien avec félicitations</mat-button-toggle>
+    <mat-button-toggle value="neoBachierliers" class="bold-toggle">Mention tres bien</mat-button-toggle> 
+    <mat-button-toggle value="neoBachierliers" class="bold-toggle">Mention  bien</mat-button-toggle> 
+  </mat-button-toggle-group>
+   </div>
+  <!-- debut sous bouton  -->
+  <div class="sous-boutons"   > 
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption"> 
+    <mat-button-toggle value="neo_admis"  class="bold-toggle">Mention assez bien </mat-button-toggle>
+    <mat-button-toggle value="neoBachierliers" class="bold-toggle">Mention  passable</mat-button-toggle> 
+    <mat-button-toggle value="neoBachierliers" class="bold-toggle"> Sans Mention</mat-button-toggle> 
+    <mat-button-toggle value="neoBachierliers" class="bold-toggle">  Mention technologique</mat-button-toggle> 
+  </mat-button-toggle-group>
+  </div>
+
+
+    <!-- debut bloc  nombre_de_candidats-->
+    <div *ngIf="selectedSousOption === 'neo_admis'" class="graphe">
+        
+      <canvas #chartNeoBacheliersRef></canvas>
+    </div> 
+    <!-- fin nombre_de_candidats-->
+
+
+
+
+
+
+
+</div>
+  
+
+
+
+
+<!-- ------------------------------------------------------- block 3 -------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<div  class="block">
+
+  <div class="menu">
+  <div class="fd1">
+  <h1 class="titre">
+    <fa-icon [icon]="iconPerformance" ></fa-icon>
+    Indicateurs de performance
+  </h1>
+  </div>
+
+
+
+
+</div>
+
+</div>
+  

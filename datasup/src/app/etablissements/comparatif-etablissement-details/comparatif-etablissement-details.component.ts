@@ -47,6 +47,10 @@ import { ApiService} from '../../core/services/api.service';
 import { faSignal } from '@fortawesome/free-solid-svg-icons'; 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { faChartBar } from '@fortawesome/free-solid-svg-icons';
+
 
 
 import { toInteger } from 'lodash'; // Si lodash est installé, sinon utilise `parseInt`
@@ -69,7 +73,9 @@ import { toInteger } from 'lodash'; // Si lodash est installé, sinon utilise `p
      MatCheckboxModule ,
      CommonModule,
      FontAwesomeModule,
-     MatGridListModule
+     MatGridListModule,
+     MatToolbarModule,
+     MatIconModule
 
     ],
   templateUrl: './comparatif-etablissement-details.component.html',
@@ -78,6 +84,7 @@ import { toInteger } from 'lodash'; // Si lodash est installé, sinon utilise `p
 export class ComparatifEtablissementDetailsComponent implements OnInit  {
 
   faSignal = faSignal;
+  faChartBar = faChartBar;
 
   etablissementsIDs: number[] = [];
   selectedYear = new FormControl('2021'); 
