@@ -73,6 +73,7 @@ body {
   margin-bottom: 30px;
   margin-left: 60px;
   margin-right: 60px;
+  font-size: 12px;
 }
 
 /* ----------------------------- */
@@ -95,7 +96,35 @@ body {
   margin-top: 20px;
   display: flex;
   gap: 20px; /* Espacement entre les boutons */
+  font-size: 8px;
+
 }
+
+
+
+
+
+
+/* Partie inférieure rectangulaire */
+.mat-button-toggle {
+   border-radius: 10px 10px 10px 10px;  /* Arrondi uniquement en bas */
+
+  /* border-radius: 10px 10px 0 0;  *//* Arrondi en haut, coins inférieurs droits */
+ 
+  height: 3rem; /* Hauteur relative */
+
+ 
+}
+
+
+
+
+
+
+
+
+
+
 
 .sous-boutons {
   margin-top: 20px;
@@ -124,7 +153,7 @@ mat-button-toggle:hover {
 
 /* Styles pour les boutons sélectionnés */
 .bold-toggle.mat-button-toggle-checked {
-  background-color: #007BFF; /* Couleur de fond pour le bouton "Mention au bac" */
+  background-color:  #007BFF;  /* Couleur de fond pour le bouton "Mention au bac" */
   color: white;
 }
 

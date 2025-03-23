@@ -15,18 +15,17 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 @Component({
-  selector: 'app-filieres-page',
-  standalone: true,
-  imports: [ FormsModule,
-    FormsModule,
-    MatPaginatorModule,
-    MatSliderModule,
-    MatProgressSpinnerModule,
-    CommonModule,
-    MatProgressBarModule
-  ],
-  templateUrl: './filieres-page.component.html',
-  styleUrl: './filieres-page.component.css'
+    selector: 'app-filieres-page',
+    imports: [FormsModule,
+        FormsModule,
+        MatPaginatorModule,
+        MatSliderModule,
+        MatProgressSpinnerModule,
+        CommonModule,
+        MatProgressBarModule
+    ],
+    templateUrl: './filieres-page.component.html',
+    styleUrl: './filieres-page.component.css'
 })
 export class FilieresPageComponent {
 

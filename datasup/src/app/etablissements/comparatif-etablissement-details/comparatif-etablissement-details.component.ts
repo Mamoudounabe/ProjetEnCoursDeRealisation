@@ -56,30 +56,28 @@ import { faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { toInteger } from 'lodash'; // Si lodash est installé, sinon utilise `parseInt`
 
 @Component({
-  selector: 'app-comparatif-etablissement-details',
-  standalone: true,
-  imports: [ RouterLink,
-    NgIf,
-    MatInputModule,
-    MatFormFieldModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgChartsModule,
-    MatTabsModule,
-    MatButtonToggleModule,
-     MatCheckboxModule ,
-     CommonModule,
-     FontAwesomeModule,
-     MatGridListModule,
-     MatToolbarModule,
-     MatIconModule
-
+    selector: 'app-comparatif-etablissement-details',
+    imports: [RouterLink,
+        NgIf,
+        MatInputModule,
+        MatFormFieldModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgChartsModule,
+        MatTabsModule,
+        MatButtonToggleModule,
+        MatCheckboxModule,
+        CommonModule,
+        FontAwesomeModule,
+        MatGridListModule,
+        MatToolbarModule,
+        MatIconModule
     ],
-  templateUrl: './comparatif-etablissement-details.component.html',
-  styleUrl: './comparatif-etablissement-details.component.css'
+    templateUrl: './comparatif-etablissement-details.component.html',
+    styleUrl: './comparatif-etablissement-details.component.css'
 })
 export class ComparatifEtablissementDetailsComponent implements OnInit  {
 
@@ -91,7 +89,8 @@ export class ComparatifEtablissementDetailsComponent implements OnInit  {
   anneeactuelle: string = '2021'; 
   etablissementsData: any[] = [];
   selectedOption: string = 'nombre_de_candidats'; 
-  selectedSousOption: string= 'neo_admis'; 
+  selectedSousOption: string= 'neobachelier'; 
+  selectedSousOption1: string= 'ppneo';
 /*   selectedSousOption: string= 'neo_admis'; */
  /*  selectedOption: string = 'nombre_de_candidats';  */
  /*  chart: any; */

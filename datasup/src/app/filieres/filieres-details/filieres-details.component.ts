@@ -31,27 +31,26 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 Chart.register(...registerables, ChartDataLabels);
 
 @Component({
-  selector: 'app-filieres-details',
-  standalone: true,
-  imports: [ 
-    RouterLink,
-    NgIf,
-    MatInputModule,
-    MatFormFieldModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgChartsModule,
-    MatTabsModule,
-    MatButtonToggleModule,
-     MatCheckboxModule ,
-     CommonModule,
-     MatSidenavModule
-   ],
-  templateUrl: './filieres-details.component.html',
-  styleUrl: './filieres-details.component.css'
+    selector: 'app-filieres-details',
+    imports: [
+        RouterLink,
+        NgIf,
+        MatInputModule,
+        MatFormFieldModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgChartsModule,
+        MatTabsModule,
+        MatButtonToggleModule,
+        MatCheckboxModule,
+        CommonModule,
+        MatSidenavModule
+    ],
+    templateUrl: './filieres-details.component.html',
+    styleUrl: './filieres-details.component.css'
 })
 export class FilieresDetailsComponent {
 

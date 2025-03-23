@@ -32,29 +32,26 @@ Chart.register(...registerables, ChartDataLabels);
 const defaultCoordinates = [45.0672, 4.8345]; // Ajoutez cette ligne pour définir les coordonnées par défaut
 
 @Component({
-  selector: 'app-formation-detail',
-  standalone: true,
-  imports: [
-    RouterLink,
-    NgIf,
-    MatInputModule,
-    MatFormFieldModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgChartsModule,
-    MatTabsModule,
-    MatButtonToggleModule,
-     MatCheckboxModule ,
-     CommonModule 
-   
-    
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './formation-detail.component.html',
-  styleUrls: ['./formation-detail.component.css']
+    selector: 'app-formation-detail',
+    imports: [
+        RouterLink,
+        NgIf,
+        MatInputModule,
+        MatFormFieldModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgChartsModule,
+        MatTabsModule,
+        MatButtonToggleModule,
+        MatCheckboxModule,
+        CommonModule
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './formation-detail.component.html',
+    styleUrls: ['./formation-detail.component.css']
 })
 export class FormationDetailComponent implements OnInit {
   private apiUrl = config.apiUrl; // Utilise l'URL de l'API depuis le fichier de configuration

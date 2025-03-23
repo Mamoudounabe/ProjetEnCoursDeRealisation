@@ -18,23 +18,21 @@ import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
-  selector: 'app-comparatif-etablissement-page',
-  standalone: true,
-  imports: [ CommonModule,
-    FormsModule,
-    MatProgressSpinnerModule,
-    MatProgressBarModule,
-    MatPaginatorModule,
-    MatSliderModule,
-  
-    MatTableModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSortModule,
-    MatCheckboxModule
-  ],
-  templateUrl: './comparatif-etablissement-page.component.html',
-  styleUrl: './comparatif-etablissement-page.component.css'
+    selector: 'app-comparatif-etablissement-page',
+    imports: [CommonModule,
+        FormsModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatPaginatorModule,
+        MatSliderModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSortModule,
+        MatCheckboxModule
+    ],
+    templateUrl: './comparatif-etablissement-page.component.html',
+    styleUrl: './comparatif-etablissement-page.component.css'
 })
 
 export class ComparatifEtablissementPageComponent implements OnInit  {

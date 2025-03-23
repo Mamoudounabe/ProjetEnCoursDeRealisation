@@ -6,18 +6,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
-  selector: 'app-header',
-  standalone: true, // Assure-toi d'utiliser Angular 15+
-  imports: [
-    RouterLink,
-    CommonModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+    selector: 'app-header', // Assure-toi d'utiliser Angular 15+
+    imports: [
+        RouterLink,
+        CommonModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
   isMenuOpen = false;

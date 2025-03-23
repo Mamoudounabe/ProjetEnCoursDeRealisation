@@ -18,18 +18,17 @@ import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
-  selector: 'app-formations-page',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatProgressSpinnerModule,
-    MatProgressBarModule,
-    MatPaginatorModule,
-    MatSliderModule
-  ],
-  templateUrl: './formations-page.component.html',
-  styleUrls: ['./formations-page.component.css']
+    selector: 'app-formations-page',
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatPaginatorModule,
+        MatSliderModule
+    ],
+    templateUrl: './formations-page.component.html',
+    styleUrls: ['./formations-page.component.css']
 })
 export class FormationsPageComponent implements OnInit {
 
