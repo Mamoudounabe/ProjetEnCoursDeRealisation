@@ -93,16 +93,35 @@ export class ComparatifEtablissementDetailsComponent implements OnInit  {
   selectedSousOption: string= 'neobachelier'; 
   selectedSousOption1: string= 'ppneo';
  chart!: Chart | null;
-  @ViewChild('etablissementsChart', { static: false }) chartRef!: ElementRef;
-  @ViewChild('chart_effectif_total_candidats_formation', { static: false }) chartEffectifTotalCandidatsFormationRef!: ElementRef;
-  @ViewChild('chart_capacite_etablissement_formation', { static: false }) chartCapaciteEtablissementFormationRef!: ElementRef;
-  @ViewChild('chart_taux_acces', { static: false }) chartTauxAccesRef!: ElementRef;
-  @ViewChild('chart_rang_dernier_appele_groupe_3', { static: false }) chartRangDernierAppeleGroupe3Ref!: ElementRef;
-  @ViewChild('chart_rang_dernier_appele_groupe_2', { static: false }) chartRangDernierAppeleGroupe2Ref!: ElementRef;
-  @ViewChild('chart_rang_dernier_appele_groupe_1', { static: false }) chartRangDernierAppeleGroupe1Ref!: ElementRef;
+
+  @ViewChild('chartEffectifTotalCandidatsFormationRef', { static: false }) chartEffectifTotalCandidatsFormationRef!: ElementRef;
+  @ViewChild('chartCapaciteEtablissementFormationRef', { static: false }) chartCapaciteEtablissementFormationRef!: ElementRef;
+  @ViewChild('chartTauxAccesRef', { static: false }) chartTauxAccesRef!: ElementRef;
+  @ViewChild('chartRangDernierAppeleGroupe3Ref', { static: false }) chartRangDernierAppeleGroupe3Ref!: ElementRef;
+  @ViewChild('chartRangDernierAppeleGroupe2Re', { static: false }) chartRangDernierAppeleGroupe2Ref!: ElementRef;
+  @ViewChild('chartRangDernierAppeleGroupe1Ref', { static: false }) chartRangDernierAppeleGroupe1Ref!: ElementRef;
   etablissementData: any;
   etablissementsDataBacheliers: any[] = [];
   
+
+
+
+
+  @ViewChild('chartCandidatsRef', { static: false }) chartCandidatsRef!: ElementRef;
+  @ViewChild('chartNeoBacheliersRef', { static: false }) chartNeoBacheliersRef!: ElementRef;
+
+
+
+  ngAfterViewInit(): void {
+  
+    console.log('Canvas Candidats:', this.chartCandidatsRef);
+    console.log('Canvas Neo-bacheliers:', this.chartNeoBacheliersRef);
+    
+   
+   /*  this.createChart(this.chartCandidatsRef, 'effectif_autres_candidats_phase_principale', 'Nombre de Candidats');
+    this.createChart(this.chartNeoBacheliersRef, 'effectif_neo_bacheliers_admis', 'Néo-bacheliers Admis'); */
+  }
+
 
 
   
@@ -255,7 +274,23 @@ getEtablissementData(annee: string, etablissementsIDs: number[]): void {
         }
       });
 
-      // Créer le graphique pour 'effectif_total_candidats_formation'
+
+      console.log('Données triées (Neo-Bacheliers) :', this.etablissementsData);
+
+  /*     this.createChart(this.chartCandidatsRef, 'effectif_autres_candidats_phase_principale', 'Nombre de Candidats');
+  
+      this.createChart(this.chartNeoBacheliersRef, 'effectif_neo_bacheliers_admis', 'Néo-bacheliers Admis');*/
+
+
+ const canvasEffectifTotalCandidatsFormation = this.chartCandidatsRef.nativeElement;
+      if (canvasEffectifTotalCandidatsFormation) {
+        this.createChart(canvasEffectifTotalCandidatsFormation, 'effectif_autres_candidats_phase_principale', 'Nombre de Candidats');
+  
+      }
+
+
+
+     /*  // Créer le graphique pour 'effectif_total_candidats_formation'
       const canvasEffectifTotalCandidatsFormation = this.chartEffectifTotalCandidatsFormationRef.nativeElement;
       if (canvasEffectifTotalCandidatsFormation) {
         this.createChart(canvasEffectifTotalCandidatsFormation, 'effectif_total_candidats_formation', 'Effectif Total Candidats Formation');
@@ -285,13 +320,18 @@ getEtablissementData(annee: string, etablissementsIDs: number[]): void {
       const canvasRangDernierAppeleGroupe1 = this.chartRangDernierAppeleGroupe1Ref.nativeElement;
       if (canvasRangDernierAppeleGroupe1) {
         this.createChart(canvasRangDernierAppeleGroupe1, 'rang_dernier_appele_groupe_1', 'Rang Dernier Appelé Groupe 1');
-      }
+      } */
     },
     (error) => {
       console.error('Erreur lors de la récupération des données:', error);
     }
   );
 }
+
+
+
+
+
 
 createChart(canvas: HTMLCanvasElement, dataKey: string, label: string): void {
   setTimeout(() => {
@@ -394,5 +434,17 @@ createChart(canvas: HTMLCanvasElement, dataKey: string, label: string): void {
   
 
 
-  
+
+
+tryCreateCharts(): void {
+  if (!this.chartCandidatsRef?.nativeElement || !this.chartNeoBacheliersRef?.nativeElement) {
+    console.error("Les canvas ne sont pas encore disponibles !");
+    return;
+  }
+
+  this.createChart(this.chartCandidatsRef.nativeElement, 'effectif_autres_candidats_phase_principale', 'Nombre de Candidats');
+  this.createChart(this.chartNeoBacheliersRef.nativeElement, 'effectif_neo_bacheliers_phase_principale', 'Nombre de Néos-Bacheliers');
+}
+
+
 }

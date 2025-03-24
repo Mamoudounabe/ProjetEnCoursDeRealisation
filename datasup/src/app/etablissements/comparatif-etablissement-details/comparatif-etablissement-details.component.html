@@ -265,7 +265,8 @@
     <!-- debut bloc  nombre_de_candidats-->
     <div *ngIf="selectedSousOption === 'neo_admis'" class="graphe">
         
-      <canvas #chartNeoBacheliersRef></canvas>
+      <!-- <canvas #chartNeoBacheliersRef></canvas> -->
+      <canvas #chartEffectifTotalCandidatsFormationRef></canvas>
     </div> 
     <!-- fin nombre_de_candidats-->
 
@@ -411,9 +412,17 @@
 
 <!-- <canvas #chartNeoBacheliersRef></canvas>
 <canvas #chart_effectif_total_candidats_formation></canvas> -->
-<canvas #chartEffectifTotalCandidatsFormationRef></canvas> 
- 
-<!-- <canvas #chart_taux_acces></canvas>
+<!-- <canvas #chartEffectifTotalCandidatsFormationRef></canvas> 
+<canvas #chart_capacite_etablissement_formation></canvas>
+<canvas #chart_taux_acces></canvas>
 <canvas #chart_rang_dernier_appele_groupe_3></canvas>
 <canvas #chart_rang_dernier_appele_groupe_2></canvas>
 <canvas #chart_rang_dernier_appele_groupe_1></canvas> -->
+
+
+<div id="chartsContainer">
+  <div id="chart_rang_dernier_appele_groupe_2_container">
+    <canvas #chartCandidatsRef></canvas>
+  </div>
+  <!-- Ajoutez d'autres conteneurs pour les autres variables ici -->
+</div>
