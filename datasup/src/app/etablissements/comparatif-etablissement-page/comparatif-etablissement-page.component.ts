@@ -15,10 +15,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs';
 
 
 @Component({
     selector: 'app-comparatif-etablissement-page',
+    standalone: true,
     imports: [CommonModule,
         FormsModule,
         MatProgressSpinnerModule,
@@ -58,7 +60,7 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
     private timeoutId: any; // Identifier pour le setTimeout
     disableSelect = new FormControl(false);
     selectedEtablissements: any[] = [];
-     /* filteredFormations: any[] = []; */ 
+  isAllSelected: boolean = false;
     pagesContainingResults: number[] = []; // Liste des pages contenant les résultats
    /*  query: string = ''; */
    totalWords: number = 0;
@@ -142,6 +144,47 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
     }
 
 
+    selectAllEtablissements(){
+      this.filteredFormations.forEach(formation => { 
+        this.isAllSelected = !this.isAllSelected;
+        this.selectEtablissement(formation);
+        
+      });
+
+      console.log(this.filteredFormations);
+    }
+
+
+
+
+    filterFormations2() {
+
+      const query = this.searchQuery.toLowerCase();
+      console.log(query);
+      this.apiService.getFiliereEtablissements(query, this.page, this.pageSize).subscribe({
+        next: (response) => {
+          console.log("Données reçues :", response);
+          const Listformations = response.items || [];
+          this.filteredFormations = [...Listformations]; 
+          this.totalItems = response.total_items; 
+          this.totalPages = Math.ceil(this.totalItems / this.pageSize); 
+          this.isLoading = false;  
+        },
+        error: (error) => {
+          console.error("Erreur API :", error);
+          if (error.status === 200 && error.error instanceof SyntaxError) {
+            console.error("La réponse de l'API n'est pas au format JSON attendu.");
+          } else {
+            console.error("Erreur lors de la récupération des données :", error.message);
+          }
+          this.isLoading = false; 
+        }
+
+
+      });
+    }
+
+
 
 
     calculatePagesContainingResults() {
@@ -189,7 +232,13 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
    onPageChange(event: PageEvent) {
       this.page = event.pageIndex + 1;
       this.pageSize = event.pageSize;
-      this.fetchFormations();
+
+
+      this.filterFormations2();
+
+     /*  this.fetchFormations(); */
+
+
     } 
 
 

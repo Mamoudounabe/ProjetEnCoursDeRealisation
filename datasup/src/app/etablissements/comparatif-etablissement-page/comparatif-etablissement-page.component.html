@@ -16,7 +16,7 @@
       placeholder='Rechercher une formation, ex: "Licence Informatique", "Licence Dijon", "Informatique", "BUT Informatique Dijon", "Dijon", etc.'
       aria-label="Search"
       [(ngModel)]="searchQuery"
-      (input)="filterFormations()">
+      (keypress)="filterFormations2()">
   </div>
   
   <div class="formation-table">
@@ -25,6 +25,15 @@
         <tr>
           <th>
             <div style="text-align: center; font-weight: bold; margin-bottom: 10px;">
+
+              <mat-checkbox 
+              class="custom-checkbox" 
+              color="secondary"
+              (change)="selectAllEtablissements()" 
+              [checked]="isAllSelected">
+              <span style="color: black;">  </span>
+            </mat-checkbox>
+
               Établissement
             </div>
             <div style="border-top: 2px solid #ccc; padding-top: 30px;">
@@ -152,6 +161,7 @@
             <section class="example-section">
             <mat-checkbox 
               class="custom-checkbox" 
+              color="secondary"
               (change)="selectEtablissement(formation)" 
               [checked]="isEtablissementSelected(formation)">
               <span style="color: black;">{{ formation.etablissement }}</span>

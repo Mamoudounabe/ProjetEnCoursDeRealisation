@@ -19,6 +19,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-formations-page',
+    standalone: true,
     imports: [
         CommonModule,
         FormsModule,

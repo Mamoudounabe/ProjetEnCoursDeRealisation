@@ -33,6 +33,7 @@ const defaultCoordinates = [45.0672, 4.8345]; // Ajoutez cette ligne pour défin
 
 @Component({
     selector: 'app-formation-detail',
+    standalone: true,
     imports: [
         RouterLink,
         NgIf,
