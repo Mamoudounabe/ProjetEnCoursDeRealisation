@@ -643,7 +643,13 @@ class EtablissementManager:
         MATCH (e:Etablissement)-[:HAS_ADMISSION]->(a:Admission)
         MATCH (e:Etablissement)-[:OFFERS]->(f:Filiere)
         MATCH (e:Etablissement)-[:HAS_TAUX_ACCES]->(cl:ClassementRang)
+        MATCH (c)-[:HAS_COMPLEMENT_PHASE]->(cp:ComplementPhase)
+        MATCH (a)-[:HAS_TERMINALE]->(t:Terminale) 
+        MATCH (e)-[:HAS_CLASSEMENT]->(cla:Classement)
+        MATCH (a)-[:HAS_PROPORTION]->(p:Proportion) 
+
         WHERE ID(e) IN $etablissementIDs AND s.annee = $anneeactuelle
+
         RETURN e.etablissement AS NomEtablissement,
             e.academie_etablissement AS academie, 
             e.region_etablissement AS region, 
@@ -656,50 +662,88 @@ class EtablissementManager:
             f.filiere_formation_tres_detaillee AS filiere_formation_tres_detaillee,
             f.lien_parcoursup AS lien_parcoursup,
             f.selectivite AS selectivite,
-            toInteger(cl.taux_acces) ,
-            toInteger(cl.rang_dernier_appele_groupe_3) ,
-            toInteger(cl.rang_dernier_appele_groupe_2) ,
-            toInteger(cl.rang_dernier_appele_groupe_1) ,
-            toInteger(cl.part_terminales_generales_position_recevoir_proposition_phase_principale),
-            toInteger(cl.part_terminales_technologiques_position_recevoir_proposition_phase_principale),
-            toInteger(cl.part_terminales_professionnelles_position_recevoir_proposition_phase_principale),
-            toInteger(c.effectif_total_candidats_formation) AS TotalCandidat,
-            toInteger(c.effectif_total_candidats_phase_principale),
-            toInteger(c.effectif_candidates_formation),
-            toInteger(b.effectif_neo_bacheliers_generaux_phase_principale) AS NeoBacheliersGeneraux,
-            toInteger(b.effectif_neo_bacheliers_technologiques_phase_principale) AS NeoBacheliersTechnologiques,
-            toInteger(b.effectif_neo_bacheliers_professionnels_phase_principale) AS NeoBacheliersProfessionnels,
-            toInteger(b.effectif_boursiers_professionnels_phase_principale),
+            toInteger(f.capacite_etablissement_formation) AS capacite_etablissement_formation,
+
+             
+
+            
+            toInteger(cl.taux_acces) AS taux_acces,
+            toInteger(cl.rang_dernier_appele_groupe_3) AS rang_dernier_appele_groupe_3,
+            toInteger(cl.rang_dernier_appele_groupe_2) AS rang_dernier_appele_groupe_2,
+            toInteger(cl.rang_dernier_appele_groupe_1) AS rang_dernier_appele_groupe_1,
+            toInteger(cl.part_terminales_generales_position_recevoir_proposition_phase_principale) AS part_terminales_generales_position_recevoir_proposition_phase_principale,
+            toInteger(cl.part_terminales_technologiques_position_recevoir_proposition_phase_principale) AS part_terminales_technologiques_position_recevoir_proposition_phase_principale,
+            toInteger(cl.part_terminales_professionnelles_position_recevoir_proposition_phase_principale) AS part_terminales_professionnelles_position_recevoir_proposition_phase_principale,
+            toInteger(c.effectif_total_candidats_formation) AS effectif_total_candidats_formation,
+            toInteger(c.effectif_total_candidats_phase_principale) AS effectif_total_candidats_phase_principale,
+            toInteger(c.effectif_candidates_formation) AS effectif_candidates_formation,
+
+            
+            toInteger(p.proportion_neo_bacheliers_meme_etablissement_bts_cpge) AS proportion_neo_bacheliers_meme_etablissement_bts_cpge,
+            toInteger(p.proportion_technologiques_admis_mention) AS proportion_technologiques_admis_mention,
+            toInteger(p.proportion_neo_bacheliers_meme_academie) AS proportion_neo_bacheliers_meme_academie,
+            toInteger(p.proportion_neo_bacheliers_admis) AS proportion_neo_bacheliers_admis,
+            toInteger(p.proportion_neo_bacheliers_sans_mention_bac_admis) AS proportion_neo_bacheliers_sans_mention_bac_admis,
+            toInteger(p.proportion_professionnels_admis_mention) AS proportion_professionnels_admis_mention,
+            toInteger(p.proportion_neo_bacheliers_boursiers) AS proportion_neo_bacheliers_boursiers, 
+
+
+            
+            toInteger(t.effectif_candidats_terminal_technologique_proposition_admission) AS effectif_candidats_terminal_technologique_proposition_admission,
+            toInteger(t.effectif_boursiers_terminal_generale_professionnelle_proposition_admission) AS effectif_boursiers_terminal_generale_professionnelle_proposition_admission,
+            toInteger(t.effectif_boursiers_terminal_generale_proposition_admission) AS effectif_boursiers_terminal_generale_proposition_admission,
+            toInteger(t.effectif_candidats_terminal_professionnelle_proposition_admission) AS effectif_candidats_terminal_professionnelle_proposition_admission,
+            toInteger(t.effectif_boursiers_terminal_technologique_proposition_admission) AS effectif_boursiers_terminal_technologique_proposition_admission,
+
+            toInteger(b.effectif_neo_bacheliers_generaux_phase_principale) AS effectif_neo_bacheliers_generaux_phase_principale,
+            toInteger(b.effectif_neo_bacheliers_technologiques_phase_principale) AS effectif_neo_bacheliers_technologiques_phase_principale,
+            toInteger(b.effectif_neo_bacheliers_professionnels_phase_principale) AS effectif_neo_bacheliers_professionnels_phase_principale,
+            toInteger(b.effectif_boursiers_professionnels_phase_principale) AS effectif_boursiers_professionnels_phase_principale,
             toInteger(b.effectif_autres_candidats_phase_principale) AS effectif_autres_candidats_phase_principale,
-            toInteger(b.effectif_boursiers_generaux_phase_principale),
-            toInteger(b.effectif_boursiers_technologiques_phase_principale),
-            toInteger(a.effectif_admis_proposition_avant_fin_procedure_principale),
-            toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis),
-            toInteger(a.effectif_candidates_admises),
-            toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis),
-            toInteger(a.effectif_admis_phase_principale),
-            toInteger(a.effectif_total_candidats_proposition_admission),
-            toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis),
-            toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis),
+            toInteger(b.effectif_boursiers_generaux_phase_principale) AS effectif_boursiers_generaux_phase_principale,
+            toInteger(b.effectif_boursiers_technologiques_phase_principale) AS effectif_boursiers_technologiques_phase_principale,
+
+
+            
+
+
+            toInteger(cp.effectif_neo_bacheliers_technologiques_phase_complementaire) AS effectif_neo_bacheliers_technologiques_phase_complementaire,
+            toInteger(cp.effectif_neo_bacheliers_generaux_phase_complementaire) AS effectif_neo_bacheliers_generaux_phase_complementaire,
+            toInteger(cp.effectif_total_candidats_phase_complementaire) AS effectif_total_candidats_phase_complementaire,
+
+            
+            
+             
+
+            toInteger(a.effectif_admis_proposition_avant_fin_procedure_principale) AS effectif_admis_proposition_avant_fin_procedure_principale,
+            toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis) AS effectif_neo_bacheliers_mention_bien_bac_admis,
+            toInteger(a.effectif_candidates_admises) AS effectif_candidates_admises,
+            toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis) AS effectif_neo_bacheliers_mention_assez_bien_bac_admis,
+            toInteger(a.effectif_admis_phase_principale) AS effectif_admis_phase_principale,
+            toInteger(a.effectif_total_candidats_proposition_admission) AS effectif_total_candidats_proposition_admission,
+            toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis) AS effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis,
+            toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis) AS effectif_neo_bacheliers_sans_mention_bac_admis,
             toInteger(a.effectif_generaux_admis) AS effectif_generaux_admis,
-            toInteger(a.effectif_admises_meme_etablissement_bts_cpge),
-            toInteger(a.effectif_total_candidats_admis),
-            toInteger(a.effectif_technologiques_mention_bac_admis),
+            toInteger(a.effectif_admises_meme_etablissement_bts_cpge) AS effectif_admises_meme_etablissement_bts_cpge,
+            toInteger(a.effectif_total_candidats_admis) AS effectif_total_candidats_admis,
+            toInteger(a.effectif_technologiques_mention_bac_admis) AS effectif_technologiques_mention_bac_admis,
             toInteger(a.effectif_neo_bacheliers_admis) AS effectif_neo_bacheliers_admis,
-            toInteger(a.effectif_professionnels_mention_bac_admis),
-            toInteger(a.effectif_professionnels_admis),
-            toInteger(a.effectif_autres_admis),
-            toInteger(a.effectif_boursiers_admis),
-            toInteger(a.effectif_admis_meme_academie),
-            toInteger(a.effectif_admis_meme_etablissement_bts_cpge),
-            toInteger(a.effectif_admis_proposition_ouverture_phase_principale),
-            toInteger(a.effectif_admis_phase_complementaire),
-            toInteger(a.effectif_neo_bacheliers_mention_tres_bien_bac_admis),
-            toInteger(a.effectif_admis_meme_academie_paris_creteil_versailles),
-            toInteger(a.effectif_admis_proposition_avant_baccalaureat),
-            toInteger(a.effectif_generaux_mention_bac_admis),
-            toInteger(a.effectif_technologiques_admis),
-            toInteger(f.capacite_etablissement_formation) AS capacite
+            toInteger(a.effectif_professionnels_mention_bac_admis) AS effectif_professionnels_mention_bac_admis,
+            toInteger(a.effectif_professionnels_admis) AS effectif_professionnels_admis,
+            toInteger(a.effectif_autres_admis) AS effectif_autres_admis,
+            toInteger(a.effectif_boursiers_admis) AS effectif_boursiers_admis,
+            toInteger(a.effectif_admis_meme_academie) AS effectif_admis_meme_academie,
+            toInteger(a.effectif_admis_meme_etablissement_bts_cpge) AS effectif_admis_meme_etablissement_bts_cpge,
+            toInteger(a.effectif_admis_proposition_ouverture_phase_principale) AS effectif_admis_proposition_ouverture_phase_principale,
+            toInteger(a.effectif_admis_phase_complementaire)    AS effectif_admis_phase_complementaire,
+            toInteger(a.effectif_neo_bacheliers_mention_tres_bien_bac_admis) AS effectif_neo_bacheliers_mention_tres_bien_bac_admis,
+            toInteger(a.effectif_admis_meme_academie_paris_creteil_versailles) AS effectif_admis_meme_academie_paris_creteil_versailles,
+            toInteger(a.effectif_admis_proposition_avant_baccalaureat) AS effectif_admis_proposition_avant_baccalaureat,
+            toInteger(a.effectif_generaux_mention_bac_admis) AS effectif_generaux_mention_bac_admis,
+            toInteger(a.effectif_technologiques_admis) AS effectif_technologiques_admis
+
+
+            
         """
         try:
               # Récupère le driver Neo4j
