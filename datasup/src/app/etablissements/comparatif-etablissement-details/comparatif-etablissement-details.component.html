@@ -54,20 +54,46 @@
 
   <div  *ngSwitchCase="'neobachelier'">
     <div class="sous-boutons"   > 
-      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"  > 
       <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
       <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complementaire</mat-button-toggle> 
     </mat-button-toggle-group>
   
     </div>
 
-    <div *ngIf="selectedSousOption1 === 'ppneo'" class="graphe">
+     <!-- <div *ngIf="selectedSousOption1 === 'ppneo'" class="graphe">
         
-      <canvas #chartNeoBacheliersRef></canvas>
+       <canvas  #chartNeoBacheliersPhasePrincipaleRef></canvas>
+     
     </div> 
+ 
+    <div *ngIf="selectedSousOption1 === 'pcneo'" class="graphe">
+        
+       <canvas  #chartNeoBacheliersPhaseComplementaireRef ></canvas>
 
-  </div>
+  </div> -->
 
+
+  <!-- 
+----------------------OK----------------------------------
+chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef
+  chartEffectifTotalCandidatsPhasePrincipaleRef
+  chartNeoBacheliersPhasePrincipaleRef
+  chartNeoBachelierTechnologiquePhasePrincipaleRef
+-------------------------------------------------------
+chartEffectifTotalCandidatsPhaseComplementaireRef
+  chartNeoBacheliersPhaseComplementaireRef
+  
+  -->
+<!-- ------------------------------ ic pour tester les graphiques-------------------------------------------------------------------- -->
+  <div *ngIf="selectedSousOption1 === 'pcneo'" class="graphe">
+        
+    <canvas  #chartEffectifTotalCandidatsPhaseComplementaireRef ></canvas>
+
+</div>
+
+<!-- -------------------------------------------------------------------------------------------------- -->
+  
 <!-- --------------------------------------------------------------------------------------- -->
   <div  *ngSwitchCase="'touslescandidats'">
 <!-- --------------------------------------------------------------------------------------- -->
@@ -92,6 +118,14 @@
     </mat-button-toggle-group>
   
     </div>
+
+    <!-- chartEffectifTotalCandidatsPhasePrincipaleRef 
+     chartNeoBacheliersRef
+     -->
+
+   
+
+
   </div>
 
 
@@ -178,17 +212,14 @@
 
 <div *ngSwitchCase="'quotas_applicables'" >
   <div class="sous-boutons"   > 
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption"> 
+  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
   <mat-button-toggle value="neo_admis"  class="bold-toggle">Boursiers du secondaire</mat-button-toggle>
   <mat-button-toggle value="neoBachierliers" class="bold-toggle">candidats hors secteur</mat-button-toggle> 
   <mat-button-toggle value="neoBachierliers" class="bold-toggle">Lycéens technologiques</mat-button-toggle> 
   <mat-button-toggle value="neoBachierliers" class="bold-toggle">Lycéens professionnels</mat-button-toggle> 
 </mat-button-toggle-group>
       <!-- debut bloc  nombre_de_candidats-->
-    <div *ngIf="selectedSousOption === 'neo_admis'" class="graphe">
-      
-      <canvas #chartNeoBacheliersRef></canvas>
-    </div> 
+   
     <!-- fin nombre_de_candidats-->
 </div>
 </div>
@@ -263,11 +294,7 @@
 
 
     <!-- debut bloc  nombre_de_candidats-->
-    <div *ngIf="selectedSousOption === 'neo_admis'" class="graphe">
-        
-      <!-- <canvas #chartNeoBacheliersRef></canvas> -->
-      <canvas #chartEffectifTotalCandidatsFormationRef></canvas>
-    </div> 
+
     <!-- fin nombre_de_candidats-->
 
 
@@ -408,21 +435,11 @@
 </div>
 
 
-<p>comparatif-etablissement-details works!</p>
-
-<!-- <canvas #chartNeoBacheliersRef></canvas>
-<canvas #chart_effectif_total_candidats_formation></canvas> -->
-<!-- <canvas #chartEffectifTotalCandidatsFormationRef></canvas> 
-<canvas #chart_capacite_etablissement_formation></canvas>
-<canvas #chart_taux_acces></canvas>
-<canvas #chart_rang_dernier_appele_groupe_3></canvas>
-<canvas #chart_rang_dernier_appele_groupe_2></canvas>
-<canvas #chart_rang_dernier_appele_groupe_1></canvas> -->
 
 
-<div id="chartsContainer">
-  <div id="chart_rang_dernier_appele_groupe_2_container">
-    <canvas #chartCandidatsRef></canvas>
-  </div>
-  <!-- Ajoutez d'autres conteneurs pour les autres variables ici -->
-</div>
+
+
+
+
+
+

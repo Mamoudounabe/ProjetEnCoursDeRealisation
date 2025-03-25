@@ -1,22 +1,3 @@
-// Méthode pour récupérer les données des établissements
-/* getEtablissementData(annee: string, etablissementsIDs: number[]): void {
- 
-  console.log(`Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
-  
-  this.apiService.getEtablissementsByComp(etablissementsIDs, annee).subscribe(
-    (response) => {
-     
-      this.etablissementsData = response;
-      console.log('Données récupérées:', response);
-    },
-    (error) => {
-     
-      console.error('Erreur lors de la récupération des données des établissements:', error);
-    }
-  );
-} */
-
-
 import { Component, OnInit, ElementRef, ViewChild, Input,ChangeDetectionStrategy, signal  } from '@angular/core';
 import {  AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Formation } from '../../core/models/formation.model';
@@ -25,7 +6,6 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { Chart, registerables, ChartOptions,ChartType } from 'chart.js';
 import { NgModule } from '@angular/core';
-
 import { HttpClient } from '@angular/common/http';
 import { config } from '../../../environments/config';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -50,10 +30,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { faChartBar } from '@fortawesome/free-solid-svg-icons';
-
-
-
-import { toInteger } from 'lodash'; // Si lodash est installé, sinon utilise `parseInt`
+import { toInteger } from 'lodash'; 
 
 @Component({
     selector: 'app-comparatif-etablissement-details',
@@ -91,45 +68,74 @@ export class ComparatifEtablissementDetailsComponent implements OnInit  {
   etablissementsData: any[] = [];
   selectedOption: string = 'nombre_de_candidats'; 
   selectedSousOption: string= 'neobachelier'; 
-  selectedSousOption1: string= 'ppneo';
+  selectedSousOption1: string= 'pcneo';/* 'ppneo'; */
  chart!: Chart | null;
+ etablissementData: any;
+ etablissementsDataBacheliers: any[] = [];
 
-  @ViewChild('chartEffectifTotalCandidatsFormationRef', { static: false }) chartEffectifTotalCandidatsFormationRef!: ElementRef;
+
+/*   @ViewChild('chartEffectifTotalCandidatsFormationRef', { static: false }) chartEffectifTotalCandidatsFormationRef!: ElementRef;
   @ViewChild('chartCapaciteEtablissementFormationRef', { static: false }) chartCapaciteEtablissementFormationRef!: ElementRef;
   @ViewChild('chartTauxAccesRef', { static: false }) chartTauxAccesRef!: ElementRef;
-  @ViewChild('chartRangDernierAppeleGroupe3Ref', { static: false }) chartRangDernierAppeleGroupe3Ref!: ElementRef;
-  @ViewChild('chartRangDernierAppeleGroupe2Re', { static: false }) chartRangDernierAppeleGroupe2Ref!: ElementRef;
-  @ViewChild('chartRangDernierAppeleGroupe1Ref', { static: false }) chartRangDernierAppeleGroupe1Ref!: ElementRef;
-  etablissementData: any;
-  etablissementsDataBacheliers: any[] = [];
+
+ */
+
+
+
+
+  @ViewChild('chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef', { static: false }) chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef!: ElementRef;
+
+
+  @ViewChild('chartCandidatsRef', { static: false }) chartCandidatsRef!: ElementRef;
+  @ViewChild('chartNeoBachelierTechnologiquePhasePrincipaleRef', { static: false }) chartNeoBachelierTechnologiquePhasePrincipaleRef!: ElementRef;
+
+  @ViewChild(' chartEffectifTotalCandidatsPhaseComplementaireRef', { static: false })  chartEffectifTotalCandidatsPhaseComplementaireRef!: ElementRef;
+
+  @ViewChild('chartEffectifTotalCandidatsPhasePrincipaleRef', { static: false }) chartEffectifTotalCandidatsPhasePrincipaleRef!: ElementRef;
+  /* --------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+
+  @ViewChild('chartNeoBacheliersPhasePrincipaleRef', { static: false }) chartNeoBacheliersPhasePrincipaleRef!: ElementRef;
+  @ViewChild('chartNeoBacheliersPhaseComplementaireRef', { static: false }) chartNeoBacheliersPhaseComplementaireRef!: ElementRef;
+
+
+  /* --------------------------------------------------------------------------------------------------------------------------------------------------- */
   
 
 
 
 
-  @ViewChild('chartCandidatsRef', { static: false }) chartCandidatsRef!: ElementRef;
-  @ViewChild('chartNeoBacheliersRef', { static: false }) chartNeoBacheliersRef!: ElementRef;
 
 
 
   ngAfterViewInit(): void {
   
-    console.log('Canvas Candidats:', this.chartCandidatsRef);
-    console.log('Canvas Neo-bacheliers:', this.chartNeoBacheliersRef);
+    console.log('Effectif Néo-Bacheliers Phase Principale:', this.chartNeoBacheliersPhasePrincipaleRef);
+    console.log('Effectif Néo-Bacheliers Phase Complémentaire:', this.chartNeoBacheliersPhaseComplementaireRef);
+
+
     
+
+    this.createChart(this.chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef.nativeElement, 'effectif_neo_bacheliers_technologiques_phase_complementaire', 'Effectif Néo-Bacheliers technologique Phase complementaire');
+
+    this.createChart(this.chartNeoBachelierTechnologiquePhasePrincipaleRef.nativeElement, 'effectif_neo_bacheliers_technologiques_phase_principale', 'Effectif Néo-Bacheliers technologique Phase principale');
+    this.createChart(this.chartNeoBacheliersPhaseComplementaireRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_complementaire', 'Effectif Néo-Bacheliers Phase Complémentaire');
+
+
+    this.createChart(this.chartEffectifTotalCandidatsPhaseComplementaireRef.nativeElement, 'effectif_total_candidats_phase_complementaire','Effectif total candidats Phase complémentaire');
+    this.createChart(this.chartEffectifTotalCandidatsPhasePrincipaleRef.nativeElement, 'effectif_total_candidats_phase_principale','Effectif total candidats Phase Principale');
+    this.createChart(this.chartNeoBacheliersPhasePrincipaleRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_principale', 'Effectif Néo-Bacheliers Phase Principale');
+
    
-   /*  this.createChart(this.chartCandidatsRef, 'effectif_autres_candidats_phase_principale', 'Nombre de Candidats');
-    this.createChart(this.chartNeoBacheliersRef, 'effectif_neo_bacheliers_admis', 'Néo-bacheliers Admis'); */
   }
-
-
-
-  
 
 
 constructor(private apiService: ApiService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
 
 ngOnInit(): void {
+
+  console.log("Valeur initiale:", this.selectedSousOption1)
+
   const etablissementsParam = this.route.snapshot.paramMap.get('ids');
   if (!etablissementsParam) {
     console.error("Aucun ID d'établissements trouvé dans l'URL !");
@@ -277,27 +283,58 @@ getEtablissementData(annee: string, etablissementsIDs: number[]): void {
 
       console.log('Données triées (Neo-Bacheliers) :', this.etablissementsData);
 
-  /*     this.createChart(this.chartCandidatsRef, 'effectif_autres_candidats_phase_principale', 'Nombre de Candidats');
-  
-      this.createChart(this.chartNeoBacheliersRef, 'effectif_neo_bacheliers_admis', 'Néo-bacheliers Admis');*/
 
+/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+     // Créer le graphique pour 'effectif néo-bacheliers phase principale'
+     const canvasEffectifNeoBachelierpp = this.chartNeoBacheliersPhasePrincipaleRef.nativeElement;
+     if (canvasEffectifNeoBachelierpp) {
+       this.createChart(canvasEffectifNeoBachelierpp, 'effectif_neo_bacheliers_generaux_phase_principale', 'Effectif Néo-Bacheliers Phase Principale');
+     }
 
- const canvasEffectifTotalCandidatsFormation = this.chartCandidatsRef.nativeElement;
-      if (canvasEffectifTotalCandidatsFormation) {
-        this.createChart(canvasEffectifTotalCandidatsFormation, 'effectif_autres_candidats_phase_principale', 'Nombre de Candidats');
-  
+     // Créer le graphique pour 'effectif  neo-bacheliers phase complémentaire'
+      const canvasEffectifNeoBachelierpc = this.chartNeoBacheliersPhaseComplementaireRef.nativeElement;
+      if (canvasEffectifNeoBachelierpc) {
+        this.createChart(canvasEffectifNeoBachelierpc, 'effectif_neo_bacheliers_generaux_phase_complementaire', 'Effectif Néo-Bacheliers Phase Complémentaire');
       }
 
+      // Créer le graphique pour 'effectif total candidats phase principale'
+      const canvasEffectifTotalCandidatsPhasePrincipale = this.chartEffectifTotalCandidatsPhasePrincipaleRef.nativeElement;
+      if (canvasEffectifTotalCandidatsPhasePrincipale) {
+        this.createChart(canvasEffectifTotalCandidatsPhasePrincipale, 'effectif_total_candidats_phase_principale', 'Effectif Total Candidats Phase Principale');
+      }
+
+      // Créer le graphique pour 'effectif total candidats phase complémentaire'
+      const canvasEffectifTotalCandidatsPhaseComplementaire = this.chartEffectifTotalCandidatsPhaseComplementaireRef.nativeElement;
+      if (canvasEffectifTotalCandidatsPhaseComplementaire) {
+        this.createChart(canvasEffectifTotalCandidatsPhaseComplementaire, 'effectif_total_candidats_phase_complementaire', 'Effectif Total Candidats Phase Complémentaire');
+      }
+        
+
+      // creer le graphique pour effectif neo-bachelier technologique phase principale
+      const canvasEffectifNeoBachelierTechnologiquePhasePrincipale = this.chartNeoBachelierTechnologiquePhasePrincipaleRef.nativeElement;
+      if (canvasEffectifNeoBachelierTechnologiquePhasePrincipale) {
+        this.createChart(canvasEffectifNeoBachelierTechnologiquePhasePrincipale, 'effectif_neo_bacheliers_technologiques_phase_principale', 'Effectif Néo-Bacheliers Technologiques Phase Principale');
+      }
+ 
 
 
-     /*  // Créer le graphique pour 'effectif_total_candidats_formation'
-      const canvasEffectifTotalCandidatsFormation = this.chartEffectifTotalCandidatsFormationRef.nativeElement;
+      // creer le graphique pour effectif neo-bachelier technologique phase complementaire
+       const canvasEffectifNeoBachelierTechnologiquePhaseComplementaire = this.chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef.nativeElement;
+      if (canvasEffectifNeoBachelierTechnologiquePhaseComplementaire) {
+        this.createChart(canvasEffectifNeoBachelierTechnologiquePhaseComplementaire, 'effectif_neo_bacheliers_technologiques_phase_complementaire', 'Effectif Néo-Bacheliers Technologiques Phase Complémentaire');
+      } 
+
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+      // Créer le graphique pour 'effectif_total_candidats_formation'
+      const canvasEffectifTotalCandidatsFormation = this.chartCandidatsRef.nativeElement;
       if (canvasEffectifTotalCandidatsFormation) {
         this.createChart(canvasEffectifTotalCandidatsFormation, 'effectif_total_candidats_formation', 'Effectif Total Candidats Formation');
       }
 
       // Créer les graphiques pour les autres variables
-      const canvasCapaciteEtablissementFormation = this.chartCapaciteEtablissementFormationRef.nativeElement;
+      /* const canvasCapaciteEtablissementFormation = this.chartCapaciteEtablissementFormationRef.nativeElement;
       if (canvasCapaciteEtablissementFormation) {
         this.createChart(canvasCapaciteEtablissementFormation, 'capacite_etablissement_formation', 'Capacité Établissement Formation');
       }
@@ -305,22 +342,8 @@ getEtablissementData(annee: string, etablissementsIDs: number[]): void {
       const canvasTauxAcces = this.chartTauxAccesRef.nativeElement;
       if (canvasTauxAcces) {
         this.createChart(canvasTauxAcces, 'taux_acces', 'Taux d\'Accès');
-      }
-  
-      const canvasRangDernierAppeleGroupe3 = this.chartRangDernierAppeleGroupe3Ref.nativeElement;
-      if (canvasRangDernierAppeleGroupe3) {
-        this.createChart(canvasRangDernierAppeleGroupe3, 'rang_dernier_appele_groupe_3', 'Rang Dernier Appelé Groupe 3');
-      }
-  
-      const canvasRangDernierAppeleGroupe2 = this.chartRangDernierAppeleGroupe2Ref.nativeElement;
-      if (canvasRangDernierAppeleGroupe2) {
-        this.createChart(canvasRangDernierAppeleGroupe2, 'rang_dernier_appele_groupe_2', 'Rang Dernier Appelé Groupe 2');
-      }
-  
-      const canvasRangDernierAppeleGroupe1 = this.chartRangDernierAppeleGroupe1Ref.nativeElement;
-      if (canvasRangDernierAppeleGroupe1) {
-        this.createChart(canvasRangDernierAppeleGroupe1, 'rang_dernier_appele_groupe_1', 'Rang Dernier Appelé Groupe 1');
       } */
+  
     },
     (error) => {
       console.error('Erreur lors de la récupération des données:', error);
@@ -346,16 +369,19 @@ createChart(canvas: HTMLCanvasElement, dataKey: string, label: string): void {
       return;
     }
 
-    // Si un graphique existe déjà, le détruire avant de le recréer
+    // Détruire l'ancien graphique s'il existe
     if ((canvas as any).chartInstance) {
       (canvas as any).chartInstance.destroy();
     }
 
     console.log(`📊 Création du graphique : ${label}`);
-    console.log('Labels:', this.etablissementsData.map(etab => etab.NomEtablissement));
-    console.log(`Données (${dataKey}):`, this.etablissementsData.map(etab => this.safeNumber(etab[dataKey])));
+    
+    // Labels et données
+    const labelsFiliere = this.etablissementsData.map(etab =>   etab.NomEtablissement); // Afficher sur le graphique
+    const labelsEtablissement = this.etablissementsData.map(etab => etab.filiere_formation_detaillee); // Pour le tooltip
+    const dataValues = this.etablissementsData.map(etab => this.safeNumber(etab[dataKey]));
 
-    // Tableau de couleurs alternées
+    // Palette de couleurs alternées
     const colors = [
       'rgba(58, 104, 156, 0.6)', // Bleu
       'rgba(206, 36, 64, 0.6)', // Rouge
@@ -368,83 +394,77 @@ createChart(canvas: HTMLCanvasElement, dataKey: string, label: string): void {
     const chartInstance = new Chart(ctx, {
       type: 'bar' as ChartType,
       data: {
-        labels: this.etablissementsData.map(etab => etab.NomEtablissement), // Labels des établissements
+        labels: labelsFiliere, // Afficher la filière sur l'axe Y
         datasets: [{
-          label: label,
-          data: this.etablissementsData.map(etab => this.safeNumber(etab[dataKey])), // Données pour le graphique
-          backgroundColor: this.etablissementsData.map((_, index) => colors[index % colors.length]), // Alterner les couleurs
-          borderColor: this.etablissementsData.map((_, index) => colors[index % colors.length]), // Alterner les couleurs des bordures
-          borderWidth: 1, // Largeur de la bordure des barres
-          barThickness: 30, // Épaisseur des barres (ajustez selon vos besoins)
-          barPercentage: 0.6, // Réduire la largeur des barres (60% de l'espace disponible)
-          categoryPercentage: 0.8, // Augmenter l'espacement entre les catégories (80% de l'espace utilisé)
+          label: label, // Titre du dataset
+          data: dataValues,
+          backgroundColor: labelsFiliere.map((_, index) => colors[index % colors.length]),
+          borderColor: labelsFiliere.map((_, index) => colors[index % colors.length]),
+          borderWidth: 1,
+          barThickness: 30,
+          barPercentage: 0.6,
+          categoryPercentage: 0.8,
         }]
       },
       options: {
-        indexAxis: 'y', // Les barres seront affichées horizontalement
-        responsive: true, // Le graphique s'adapte à la taille de son conteneur
-        maintainAspectRatio: false, // Permet de redimensionner le graphique selon le conteneur
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
         plugins: {
+          tooltip: {
+            callbacks: {
+              label: (tooltipItem) => {
+                const index = tooltipItem.dataIndex;
+                return `${labelsEtablissement[index]}: ${tooltipItem.raw}`;
+              }
+            }
+          },
           legend: {
             labels: {
-              color: '#333', // Couleur des labels de la légende
-              font: {
-                size: 14, // Taille de police des labels de la légende
-              },
+              color: '#333',
+              font: { size: 14 },
             },
           },
         },
         scales: {
           x: {
-            beginAtZero: true, // Commencer à zéro pour l'axe des X (l'axe des catégories)
-            ticks: {
-              color: '#333', // Couleur des labels de l'axe X
-              font: {
-                size: 12, // Taille de police des labels de l'axe X
-              },
-              autoSkip: false, // Éviter que les labels se chevauchent
-            },
-            grid: {
-              drawOnChartArea: false, // Ne pas dessiner de grille verticale
-              color: '#e0e0e0', // Couleur de la grille
-            },
+            beginAtZero: true,
+            ticks: { color: '#333', font: { size: 12 }, autoSkip: false },
+            grid: { drawOnChartArea: false, color: '#e0e0e0' },
           },
           y: {
-            beginAtZero: true, // Commencer à zéro pour l'axe des Y (l'axe des barres)
-            ticks: {
-              color: '#333', // Couleur des labels de l'axe Y
-              font: {
-                size: 12, // Taille de police des labels de l'axe Y
-              },
-              stepSize: 10, // Ajuster le pas des ticks sur l'axe Y si nécessaire
-            },
-            grid: {
-              drawOnChartArea: true, // Dessiner la grille pour l'axe des Y
-              color: '#e0e0e0', // Couleur de la grille
-            },
+            beginAtZero: true,
+            ticks: { color: '#333', font: { size: 12 }, stepSize: 10 },
+            grid: { drawOnChartArea: true, color: '#e0e0e0' },
           },
         },
       },
     });
 
-    // Stocker l'instance du graphique dans l'élément canvas
+    // Stocker l'instance du graphique pour éviter les doublons
     (canvas as any).chartInstance = chartInstance;
   }, 200);
 }
-  
 
 
 
 
-tryCreateCharts(): void {
+
+/* tryCreateCharts(): void {
   if (!this.chartCandidatsRef?.nativeElement || !this.chartNeoBacheliersRef?.nativeElement) {
     console.error("Les canvas ne sont pas encore disponibles !");
     return;
   }
 
-  this.createChart(this.chartCandidatsRef.nativeElement, 'effectif_autres_candidats_phase_principale', 'Nombre de Candidats');
-  this.createChart(this.chartNeoBacheliersRef.nativeElement, 'effectif_neo_bacheliers_phase_principale', 'Nombre de Néos-Bacheliers');
-}
+  this.createChart(this.chartNeoBacheliersPhasePrincipaleRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_principale', 'Effectif Néo-Bacheliers Phase Principale');
+  this.createChart(this.chartNeoBacheliersPhaseComplementaireRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_complementaire', 'Effectif Néo-Bacheliers Phase Complémentaire');
+
+  
+
+  this.createChart(this.chartCandidatsRef.nativeElement, 'effectif_total_candidats_phase_principale', 'Effectif Total Candidats Phase Principale');
+  this.createChart(this.chartCandidatsRef.nativeElement, 'effectif_total_candidats_phase_complementaire', 'Effectif Total Candidats Phase Complémentaire');
+
+} */
 
 
 }
