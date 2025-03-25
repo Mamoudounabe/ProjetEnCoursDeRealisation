@@ -91,7 +91,7 @@ selectedSousOption2 : string = '';
 
 /* --------------------------------------------bloc 4------------------------------------------------------------------- */
 
-selectedOption3 : string = '';
+selectedOption3 : string = 'moyenne';
 
 selectedSousOption3 : string = '';
 
@@ -118,6 +118,12 @@ selectedSousOption3 : string = '';
     @ViewChild('chartCapaciteEtablissementFormationRef', { static: false }) chartCapaciteEtablissementFormationRef!: ElementRef;
     
    */
+
+
+    @ViewChild('distributionChart', { static: false }) distributionChartRef!: ElementRef<HTMLCanvasElement>;
+
+
+
     
 
     @ViewChild('chartTauxAccesRef', { static: false }) chartTauxAccesRef!: ElementRef;
@@ -182,8 +188,10 @@ selectedSousOption3 : string = '';
     console.log('Effectif Néo-Bacheliers Phase Principale:', this.chartNeoBacheliersPhasePrincipaleRef);
     console.log('Effectif Néo-Bacheliers Phase Complémentaire:', this.chartNeoBacheliersPhaseComplementaireRef);
 
-
+  
    
+
+    
 
     this.createChart(this.chartTauxAccesRef.nativeElement, 'taux_acces', 'Taux d\'Accès');
 
@@ -249,6 +257,130 @@ selectedSousOption3 : string = '';
     return num;
   }
 
+
+
+
+
+
+
+
+  calculateSpecificAverages(data: any[]): { [key: string]: number } {
+    const keysToCalculate = [
+      'effectif_technologiques_admis',
+      'effectif_boursiers_admis',
+      'effectif_professionnels_admis',
+      'effectif_neo_bacheliers_admis',
+      'effectif_generaux_admis',
+      'effectif_autres_admis',
+      'effectif_total_candidats_admis'
+    ];
+  
+    const sums: { [key: string]: number } = {};
+    const counts: { [key: string]: number } = {};
+  
+    data.forEach(item => {
+      keysToCalculate.forEach(key => {
+        const value = parseFloat(item[key]);
+        if (!isNaN(value)) {
+          if (!sums[key]) {
+            sums[key] = 0;
+            counts[key] = 0;
+          }
+          sums[key] += value;
+          counts[key] += 1;
+        }
+      });
+    });
+  
+    const averages: { [key: string]: number } = {};
+    keysToCalculate.forEach(key => {
+      if (counts[key] > 0) {
+        averages[key] = sums[key] / counts[key];
+      }
+    });
+  
+    return averages;
+  }
+
+
+
+
+
+
+  createDistributionChart(averages: { [key: string]: number }): void {
+    const canvas = this.distributionChartRef.nativeElement;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      console.error("Le contexte du canvas n'est pas disponible !");
+      return;
+    }
+
+    const labels = Object.keys(averages);
+    const data = Object.values(averages);
+
+    new Chart(ctx, {
+      type: 'line' as ChartType,
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Moyennes des effectifs',
+          data: data,
+          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          fill: true,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: {
+              color: '#333',
+              font: {
+                size: 12,
+              },
+            },
+            grid: {
+              color: '#e0e0e0',
+            },
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: '#333',
+              font: {
+                size: 12,
+              },
+              stepSize: 10,
+            },
+            grid: {
+              color: '#e0e0e0',
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: '#333',
+              font: {
+                size: 14,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+
+
+
+
+
+
+
   getEtablissementData(annee: string, etablissementsIDs: number[]): void {
     console.log(`📡 Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
 
@@ -266,6 +398,15 @@ selectedSousOption3 : string = '';
         }
 
         console.log("Données brutes reçues :", data);
+
+
+
+         // Calculer les moyennes des valeurs des propriétés spécifiques
+      const averages = this.calculateSpecificAverages(data);
+      console.log("Moyennes calculées :", averages);
+      this.createDistributionChart(averages);
+
+
 
         // Liste des clés à trier
         const keysToSort = [
