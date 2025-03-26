@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 
 @Component({
     selector: 'app-geo-page',
+    standalone:true,
     imports: [],
     templateUrl: './geo-page.component.html',
     styleUrl: './geo-page.component.css'
