@@ -99,6 +99,7 @@ selectedSousOption3 : string = '';
 
 /* -----------------------------------------------bloc 5---------------------------------------------------------------- */
 
+selectedOption4 : string = 'resultats_academiques';
 
 
 /* --------------------------------------------bloc 6------------------------------------------------------------------- */
@@ -117,12 +118,16 @@ selectedSousOption3 : string = '';
   /*   @ViewChild('chartEffectifTotalCandidatsFormationRef', { static: false }) chartEffectifTotalCandidatsFormationRef!: ElementRef;
     @ViewChild('chartCapaciteEtablissementFormationRef', { static: false }) chartCapaciteEtablissementFormationRef!: ElementRef;
     
+chartResultatAcademiqueRef
+
    */
+
+    @ViewChild('chartResultatAcademiqueRef', { static: false }) chartResultatAcademiqueRef!: ElementRef;
 
 
     @ViewChild('distributionChart', { static: false }) distributionChartRef!: ElementRef<HTMLCanvasElement>;
 
-
+   
 
     
 
@@ -188,10 +193,10 @@ selectedSousOption3 : string = '';
     console.log('Effectif Néo-Bacheliers Phase Principale:', this.chartNeoBacheliersPhasePrincipaleRef);
     console.log('Effectif Néo-Bacheliers Phase Complémentaire:', this.chartNeoBacheliersPhaseComplementaireRef);
 
-  
+   
    
 
-    
+    this.createChart(this.chartResultatAcademiqueRef.nativeElement, 'effectif_admis_meme_academie', 'Résultats académiques');
 
     this.createChart(this.chartTauxAccesRef.nativeElement, 'taux_acces', 'Taux d\'Accès');
 
@@ -405,6 +410,7 @@ selectedSousOption3 : string = '';
       const averages = this.calculateSpecificAverages(data);
       console.log("Moyennes calculées :", averages);
       this.createDistributionChart(averages);
+    
 
 
 
@@ -556,6 +562,15 @@ selectedSousOption3 : string = '';
         if (canvasTauxAcces) {
           this.createChart(canvasTauxAcces, 'taux_acces', 'Taux d\'Accès');
         } 
+
+
+
+        const canvasResultatAcademique = this.chartResultatAcademiqueRef?.nativeElement;
+        if (canvasResultatAcademique) {
+          this.createChart(canvasResultatAcademique, 'effectif_admis_meme_academie', 'Resultat academique');
+        } 
+
+
 
       },
       (error) => {

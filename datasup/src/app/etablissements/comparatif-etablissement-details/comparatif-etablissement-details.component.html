@@ -439,7 +439,7 @@ chartEffectifTotalCandidatsPhaseComplementaireRef
 
 
 <div class="bouton">  
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
+  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption4"> 
     <mat-button-toggle value="resultats_academiques" class="bold-toggle">Résultats academiques</mat-button-toggle>
     <mat-button-toggle value="competence_academique" class="bold-toggle"> Competences academiques</mat-button-toggle>
     <mat-button-toggle value="engagement_et_activite" class="bold-toggle"> Engagements et activités</mat-button-toggle>
@@ -447,14 +447,27 @@ chartEffectifTotalCandidatsPhaseComplementaireRef
 </div>
 
 
-<div class="dernier">
+
 <!-- debut sous bouton  -->
 <div class="sous-boutons"   > 
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption"> 
+  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption4"> 
   <mat-button-toggle value="projet_et_motivation"  class="bold-toggle"> projet et motivation </mat-button-toggle>
   <mat-button-toggle value="savoir_etre" class="bold-toggle"> Savoir-etre </mat-button-toggle> 
 </mat-button-toggle-group>
  </div>
+
+
+
+<div *ngIf="selectedOption4 === 'resultats_academiques'" class="graphe">
+  <p>Résultats academique</p>
+  <canvas #chartResultatAcademiqueRef > </canvas>
+</div>
+
+
+
+
+<div class="dernier">
+
 </div>
 
 <!-- fin du bloc -->
