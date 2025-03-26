@@ -3,11 +3,20 @@
     <p>Chargement des formations en cours...</p>
   </div>
   
+ <!--  <h2 class="section-title">Sélectionner les Établissements pour Comparaison</h2> -->
+
+ <div class="bouton">  
+  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" > 
+    <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">Sélectionner les Établissements pour Comparaison</mat-button-toggle>
+  </mat-button-toggle-group>
 
 
+</div>
+
+<!-- 
 <div class="statistique-logo">
-    <span class="stat-text">Sélectionner Deux Établissements pour Comparaison</span>
-  </div>
+    <span class="stat-text">Sélectionner les Établissements pour Comparaison</span>
+  </div -->
   
   <div class="search-bar">
     <!-- <h2>Rechercher une formation</h2> -->
@@ -36,7 +45,7 @@
 
               Établissement
             </div>
-            <div style="border-top: 2px solid #ccc; padding-top: 30px;">
+            <div style="border-top: 2px solid #ccc; padding-top: 30px; ">
               <input 
                 type="text" 
                 [(ngModel)]="searchEtablissement" 
@@ -98,10 +107,15 @@
                 type="text" 
                 [(ngModel)]="searchFiliereDetaillee" 
                 placeholder="" 
-                (input)="filterFormations()"
+                (keypress)="filterFormations()"
                 aria-label="Rechercher une filière détaillée"
                 style="width: 100%; height: 40px; padding: 8px; font-size: 16px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9;">
-            </div>
+            
+            
+         
+            
+            
+              </div>
           </th>
           <th>
             <div style="text-align: center; font-weight: bold; margin-bottom: 10px;">
@@ -146,7 +160,7 @@
             </div>
           </th>
           <th>
-            <div style="text-align: center; font-weight: bold; margin-bottom: 10px;">
+            <div style="text-align: center; font-weight: bold; margin-bottom: 10px;  ">
               Nombre d'admis
             </div>
             <mat-slider min="0" max="100000" step="1000" showTickMarks discrete [displayWith]="formatLabel">

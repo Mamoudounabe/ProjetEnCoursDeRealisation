@@ -192,10 +192,15 @@ tbody tr:hover {
     align-items: center;
     font-size: 18px;
     font-weight: bold;
-    color: red;
+    color: white;
     padding-left: 20px; /* Pousse tout le bloc vers la droite */
     margin-bottom: 10px;
+    margin-top: 10px;
     gap: 10px; /* Espace entre l'icône et le texte */
+
+    /* background-color:  #d81b60; */
+    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
 
@@ -271,4 +276,45 @@ tbody tr:hover {
         cursor: inherit;
         background-color: #d81b60;
     }
+      
+
+
+   /* Styles pour les boutons sélectionnés */
+    .bold-toggle.mat-button-toggle-checked {
+      background-color:   #d81b60;  /* Couleur de fond pour le bouton "Mention au bac" */
+      color: white;
+    }
+
+    .bouton {
+        margin-top: 20px;
+        display: flex;
+        gap: 20px; /* Espacement entre les boutons */
+        font-size: 8px;
+        margin-bottom: 20px;
+        align-items: center;
+      
+      }
+      
+
+      .mat-button-toggle {
+        border-radius: 10px 10px 10px 10px;  /* Arrondi uniquement en bas */
+      
+       height: 3rem; /* Hauteur relative */
+      }
+
+
+
+     mat-button-toggle-group {
+        border: none !important; /* Supprime les lignes de séparation */
+        display: flex;
+        gap: 15px;
+      }
+      
+      mat-button-toggle {
+        padding: 2px 2px;
+        color: white; /* Couleur du texte lorsqu'il n'est pas sélectionné */
+        background-color: #d81b60;/* Couleur de fond par défaut */
+        transition: background-color 0.3s ease; /* Transition fluide */
+        border: 1px solid #ddd; /* Bordure gris clair */
+      }
       
