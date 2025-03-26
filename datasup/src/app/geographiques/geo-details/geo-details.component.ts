@@ -15,3 +15,4 @@ export class GeoDetailsComponent {
         console.log('Région sélectionnée:', regionName);
       }
 }
+ 

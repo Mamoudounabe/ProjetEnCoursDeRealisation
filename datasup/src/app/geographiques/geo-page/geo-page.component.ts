@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+ import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -29,4 +29,6 @@ export class GeoPageComponent implements AfterViewInit{
 
   
 }
+
+ 
 

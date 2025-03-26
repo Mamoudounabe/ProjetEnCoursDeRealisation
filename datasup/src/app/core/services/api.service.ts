@@ -48,15 +48,25 @@ export class ApiService {
 
 
   // Méthode pour obtenir les établissements par région
-  getEtablissementsByRegion(region: string): Observable<any[]> {
+ /*  getEtablissementsByRegion(region: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/etablissements/region`,
       {
       params: { region_name: region }
     });
-  }
+  } */
+
+
+    getEtablissementsByRegion(region: string, annee: string): Observable<any[]> {
+      const params = new HttpParams()
+        .set('region', region)
+        .set('annee', annee);
+  
+      return this.http.get<any[]>(`${this.apiUrl}/etablissements/infos`, { params });
+    }
 
 
 
+  
 
   // statistique par filiere
 
