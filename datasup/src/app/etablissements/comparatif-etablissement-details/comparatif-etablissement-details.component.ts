@@ -30,6 +30,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { toInteger } from 'lodash';
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+
 
 @Component({
     selector: 'app-comparatif-etablissement-details',
@@ -50,7 +54,8 @@ import { toInteger } from 'lodash';
         FontAwesomeModule,
         MatGridListModule,
         MatToolbarModule,
-        MatIconModule
+        MatIconModule,
+        RouterModule 
     ],
     templateUrl: './comparatif-etablissement-details.component.html',
     styleUrl: './comparatif-etablissement-details.component.css'
@@ -218,7 +223,7 @@ chartResultatAcademiqueRef
 
   } 
 
-  constructor(private apiService: ApiService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) { }
+  constructor(private apiService: ApiService, private route: ActivatedRoute, private cdr: ChangeDetectorRef,private router: Router) { }
 
   ngOnInit(): void {
 
@@ -691,5 +696,11 @@ chartResultatAcademiqueRef
     this.createChart(this.chartCandidatsRef.nativeElement, 'effectif_total_candidats_phase_complementaire', 'Effectif Total Candidats Phase Complémentaire');
   
   } */
+
+
+    retourListe() {
+      this.router.navigate(['/etablissements']);
+    }
+    
 
 }

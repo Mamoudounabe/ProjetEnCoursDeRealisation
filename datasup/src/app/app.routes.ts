@@ -28,7 +28,6 @@ export const routes: Routes = [
     {path:'analyse',component:AnalyseComponent},
     {path:'geo-page',component:GeoPageComponent},
     {path:'geo-details/:region',component:GeoDetailsComponent},
-   /*  {path:'etablissements/comparaison/:id1/:id2',component:ComparatifEtablissementDetailsComponent} */
    { path: 'etablissements/comparaison/:ids', component: ComparatifEtablissementDetailsComponent }
 
 
