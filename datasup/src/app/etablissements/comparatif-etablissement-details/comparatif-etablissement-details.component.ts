@@ -166,34 +166,35 @@ chartResultatAcademiqueRef
 /*   ngAfterViewInit(): void {
     this.updateCharts();
   } */
-   
-  onSousOptionChange(event: any): void {
-    console.log('Sous option changée:', event.value);
-    this.updateCharts();
+
+
+  
+chartInstance: any; // Pour stocker l'instance du graphe
+
+onSousOptionChange(event: any) {
+  console.log("Sous-option changée :", event.value);
+  this.selectedSousOption1 = event.value;
+  
+  setTimeout(() => {
+    this.updateChart();
+  }, 100);
+}
+
+updateChart() {
+  if (this.chartInstance) {
+    this.chartInstance.destroy(); // Détruit l'ancien graphe avant d'en créer un nouveau
   }
-
-  updateCharts(): void {
-    if (this.selectedSousOption1 === 'ppneo' && this.chartNeoBacheliersPhasePrincipaleRef) {
-      const canvas = this.chartNeoBacheliersPhasePrincipaleRef.nativeElement;
-      this.createChart(canvas, 'effectif_neo_bacheliers_generaux_phase_principale', 'Effectif Néo-Bacheliers Phase Principale');
-    } else if (this.selectedSousOption1 === 'pcneo' && this.chartNeoBachelierTechnologiquePhasePrincipaleRef) {
-      const canvas = this.chartNeoBachelierTechnologiquePhasePrincipaleRef.nativeElement;
-      this.createChart(canvas, 'effectif_neo_bacheliers_technologiques_phase_principale', 'Effectif Néo-Bacheliers Technologiques Phase Principale');
-    }
-      
-
-    console.log('pp','effectif_neo_bacheliers_generaux_phase_principale');
-    console.log('pc','effectif_neo_bacheliers_technologiques_phase_principale');
-
-
-  }
- 
+    
+} 
 
 
 
 
+/* 
 
    ngAfterViewInit(): void {
+
+    this.updateChart();
 
     console.log('Effectif Néo-Bacheliers Phase Principale:', this.chartNeoBacheliersPhasePrincipaleRef);
     console.log('Effectif Néo-Bacheliers Phase Complémentaire:', this.chartNeoBacheliersPhaseComplementaireRef);
@@ -209,7 +210,7 @@ chartResultatAcademiqueRef
     this.createChart(this.chartEffectifTechnologiquesMentionBacAdmisRef.nativeElement, 'effectif_technologiques_mention_bac_admis', 'effectif technologiques mention bac dmis');
 
 
-    this.createChart(this.chartEffectifNeoBacheliermentionTresBienFelicitationBacAdmisRef.nativeElement, 'effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis', 'effectif néo bacheliers mention tres bien felicitation bac admis');
+    this.createChart(this.chartEffectifNeoBacheliermentionTresBienFelicitationBacAdmisRef?.nativeElement, 'effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis', 'effectif néo bacheliers mention tres bien felicitation bac admis');
 
 
     this.createChart(this.chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef.nativeElement, 'effectif_neo_bacheliers_technologiques_phase_complementaire', 'Effectif Néo-Bacheliers technologique Phase complementaire');
@@ -221,7 +222,30 @@ chartResultatAcademiqueRef
     this.createChart(this.chartEffectifTotalCandidatsPhasePrincipaleRef.nativeElement, 'effectif_total_candidats_phase_principale', 'Effectif total candidats Phase Principale');
     this.createChart(this.chartNeoBacheliersPhasePrincipaleRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_principale', 'Effectif Néo-Bacheliers Phase Principale');
 
-  } 
+  }  */
+
+
+
+
+    ngAfterViewInit(): void {
+      console.log('Effectif Néo-Bacheliers Phase Principale:', this.chartNeoBacheliersPhasePrincipaleRef);
+      console.log('Effectif Néo-Bacheliers Phase Complémentaire:', this.chartNeoBacheliersPhaseComplementaireRef);
+    
+      const sortedData = this.etablissementsData; // Utilisez les données triées appropriées
+    
+      this.createChart(this.chartResultatAcademiqueRef.nativeElement, 'effectif_admis_meme_academie', 'Résultats académiques', sortedData);
+      this.createChart(this.chartTauxAccesRef.nativeElement, 'taux_acces', 'Taux d\'Accès', sortedData);
+      this.createChart(this.chartEffectifTechnologiquesMentionBacAdmisRef.nativeElement, 'effectif_technologiques_mention_bac_admis', 'effectif technologiques mention bac admis', sortedData);
+      this.createChart(this.chartEffectifNeoBacheliermentionTresBienFelicitationBacAdmisRef.nativeElement, 'effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis', 'effectif néo bacheliers mention tres bien felicitation bac admis', sortedData);
+      this.createChart(this.chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef.nativeElement, 'effectif_neo_bacheliers_technologiques_phase_complementaire', 'Effectif Néo-Bacheliers technologique Phase complémentaire', sortedData);
+      this.createChart(this.chartNeoBachelierTechnologiquePhasePrincipaleRef.nativeElement, 'effectif_neo_bacheliers_technologiques_phase_principale', 'Effectif Néo-Bacheliers technologique Phase principale', sortedData);
+      this.createChart(this.chartNeoBacheliersPhaseComplementaireRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_complementaire', 'Effectif Néo-Bacheliers Phase Complémentaire', sortedData);
+      this.createChart(this.chartEffectifTotalCandidatsPhaseComplementaireRef.nativeElement, 'effectif_total_candidats_phase_complementaire', 'Effectif total candidats Phase complémentaire', sortedData);
+      this.createChart(this.chartEffectifTotalCandidatsPhasePrincipaleRef.nativeElement, 'effectif_total_candidats_phase_principale', 'Effectif total candidats Phase Principale', sortedData);
+      this.createChart(this.chartNeoBacheliersPhasePrincipaleRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_principale', 'Effectif Néo-Bacheliers Phase Principale', sortedData);
+    }
+
+
 
   constructor(private apiService: ApiService, private route: ActivatedRoute, private cdr: ChangeDetectorRef,private router: Router) { }
 
@@ -389,36 +413,29 @@ chartResultatAcademiqueRef
 
 
 
-
-
   getEtablissementData(annee: string, etablissementsIDs: number[]): void {
     console.log(`📡 Chargement des données pour les établissements ${etablissementsIDs.join(', ')} pour l'année ${annee}`);
-
+  
     this.apiService.getEtablissementsByComp(etablissementsIDs, annee).subscribe(
       (response) => {
         console.log('🛠 Réponse brute de l\'API:', response);
-
+  
         // Vérifie si 'body' existe ou non et accède à la donnée
         const data = (response as any).body || response;
-
+  
         // Vérifier si la réponse contient des données valides
         if (!Array.isArray(data) || data.length === 0) {
           console.warn('Aucune donnée valide reçue !', data);
           return;
         }
-
+  
         console.log("Données brutes reçues :", data);
-
-
-
-         // Calculer les moyennes des valeurs des propriétés spécifiques
-      const averages = this.calculateSpecificAverages(data);
-      console.log("Moyennes calculées :", averages);
-      this.createDistributionChart(averages);
-    
-
-
-
+  
+        // Calculer les moyennes des valeurs des propriétés spécifiques
+        const averages = this.calculateSpecificAverages(data);
+        console.log("Moyennes calculées :", averages);
+        this.createDistributionChart(averages);
+  
         // Liste des clés à trier
         const keysToSort = [
           'capacite_etablissement_formation',
@@ -481,102 +498,87 @@ chartResultatAcademiqueRef
           'effectif_generaux_mention_bac_admis',
           'effectif_technologiques_admis'
         ];
-
+  
         // Trier les données pour chaque clé et créer un graphique
         keysToSort.forEach(key => {
-          this.etablissementsData = data.sort((a, b) =>
+          const sortedData = [...data].sort((a, b) =>
             this.safeNumber(b[key]) - this.safeNumber(a[key])
           );
-          console.log(`Données triées (${key}) :`, this.etablissementsData);
-
+          console.log(`Données triées (${key}) :`, sortedData);
+  
           const canvas = (this as any)[`chart_${key}`]?.nativeElement;
           if (canvas) {
-            this.createChart(canvas, key, key.replace(/_/g, ' '));
+            this.createChart(canvas, key, key.replace(/_/g, ' '), sortedData);
           }
         });
-
+  
         console.log('Données triées (Neo-Bacheliers) :', this.etablissementsData);
-
-        /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+  
         // Créer le graphique pour 'effectif néo-bacheliers phase principale'
         const canvasEffectifNeoBachelierpp = this.chartNeoBacheliersPhasePrincipaleRef?.nativeElement;
         if (canvasEffectifNeoBachelierpp) {
-          this.createChart(canvasEffectifNeoBachelierpp, 'effectif_neo_bacheliers_generaux_phase_principale', 'Effectif Néo-Bacheliers Phase Principale');
-        }
-        else{
+          this.createChart(canvasEffectifNeoBachelierpp, 'effectif_neo_bacheliers_generaux_phase_principale', 'Effectif Néo-Bacheliers Phase Principale', data);
+        } else {
           console.log("Canvas non disponible");
         }
-
+  
         // Créer le graphique pour 'effectif  neo-bacheliers phase complémentaire'
-      /*   const canvasEffectifNeoBachelierpc = this.chartNeoBacheliersPhaseComplementaireRef?.nativeElement;
+        /* const canvasEffectifNeoBachelierpc = this.chartNeoBacheliersPhaseComplementaireRef?.nativeElement;
         if (canvasEffectifNeoBachelierpc) {
-          this.createChart(canvasEffectifNeoBachelierpc, 'effectif_neo_bacheliers_generaux_phase_complementaire', 'Effectif Néo-Bacheliers Phase Complémentaire');
+          this.createChart(canvasEffectifNeoBachelierpc, 'effectif_neo_bacheliers_generaux_phase_complementaire', 'Effectif Néo-Bacheliers Phase Complémentaire', data);
         } */
-
+  
         // Créer le graphique pour 'effectif total candidats phase principale'
         const canvasEffectifTotalCandidatsPhasePrincipale = this.chartEffectifTotalCandidatsPhasePrincipaleRef?.nativeElement;
         if (canvasEffectifTotalCandidatsPhasePrincipale) {
-          this.createChart(canvasEffectifTotalCandidatsPhasePrincipale, 'effectif_total_candidats_phase_principale', 'Effectif Total Candidats Phase Principale');
+          this.createChart(canvasEffectifTotalCandidatsPhasePrincipale, 'effectif_total_candidats_phase_principale', 'Effectif Total Candidats Phase Principale', data);
         }
-
+  
         // Créer le graphique pour 'effectif total candidats phase complémentaire'
- /*        const canvasEffectifTotalCandidatsPhaseComplementaire = this.chartEffectifTotalCandidatsPhaseComplementaireRef?.nativeElement;
+        /* const canvasEffectifTotalCandidatsPhaseComplementaire = this.chartEffectifTotalCandidatsPhaseComplementaireRef?.nativeElement;
         if (canvasEffectifTotalCandidatsPhaseComplementaire) {
-          this.createChart(canvasEffectifTotalCandidatsPhaseComplementaire, 'effectif_total_candidats_phase_complementaire', 'Effectif Total Candidats Phase Complémentaire');
-        }
- */
-        // creer le graphique pour effectif neo-bachelier technologique phase principale
+          this.createChart(canvasEffectifTotalCandidatsPhaseComplementaire, 'effectif_total_candidats_phase_complementaire', 'Effectif Total Candidats Phase Complémentaire', data);
+        } */
+  
+        // Créer le graphique pour 'effectif neo-bachelier technologique phase principale'
         const canvasEffectifNeoBachelierTechnologiquePhasePrincipale = this.chartNeoBachelierTechnologiquePhasePrincipaleRef?.nativeElement;
         if (canvasEffectifNeoBachelierTechnologiquePhasePrincipale) {
-          this.createChart(canvasEffectifNeoBachelierTechnologiquePhasePrincipale, 'effectif_neo_bacheliers_technologiques_phase_principale', 'Effectif Néo-Bacheliers Technologiques Phase Principale');
+          this.createChart(canvasEffectifNeoBachelierTechnologiquePhasePrincipale, 'effectif_neo_bacheliers_technologiques_phase_principale', 'Effectif Néo-Bacheliers Technologiques Phase Principale', data);
         }
-
-
-        
-
-        
-
+  
         const canvasEffectifNeoBacheliermentionTresBienFelicitationBacAdmis = this.chartEffectifNeoBacheliermentionTresBienFelicitationBacAdmisRef?.nativeElement;
         if (canvasEffectifNeoBacheliermentionTresBienFelicitationBacAdmis) {
-          this.createChart(canvasEffectifNeoBacheliermentionTresBienFelicitationBacAdmis, 'effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis', 'effectif néo bacheliers mention tres bien felicitation bac admis');
+          this.createChart(canvasEffectifNeoBacheliermentionTresBienFelicitationBacAdmis, 'effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis', 'effectif néo bacheliers mention tres bien felicitation bac admis', data);
         }
-
-
-
-        // creer le graphique pour effectif neo-bachelier technologique phase complementaire
-   /*      const canvasEffectifNeoBachelierTechnologiquePhaseComplementaire = this.chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef.nativeElement;
+  
+        // Créer le graphique pour 'effectif neo-bachelier technologique phase complémentaire'
+        /* const canvasEffectifNeoBachelierTechnologiquePhaseComplementaire = this.chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef.nativeElement;
         if (canvasEffectifNeoBachelierTechnologiquePhaseComplementaire) {
-          this.createChart(canvasEffectifNeoBachelierTechnologiquePhaseComplementaire, 'effectif_neo_bacheliers_technologiques_phase_complementaire', 'Effectif Néo-Bacheliers Technologiques Phase Complémentaire');
-        }
- */
-        /* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
+          this.createChart(canvasEffectifNeoBachelierTechnologiquePhaseComplementaire, 'effectif_neo_bacheliers_technologiques_phase_complementaire', 'Effectif Néo-Bacheliers Technologiques Phase Complémentaire', data);
+        } */
+  
         // Créer le graphique pour 'effectif_total_candidats_formation'
         const canvasEffectifTotalCandidatsFormation = this.chartCandidatsRef?.nativeElement;
         if (canvasEffectifTotalCandidatsFormation) {
-          this.createChart(canvasEffectifTotalCandidatsFormation, 'effectif_total_candidats_formation', 'Effectif Total Candidats Formation');
+          this.createChart(canvasEffectifTotalCandidatsFormation, 'effectif_total_candidats_formation', 'Effectif Total Candidats Formation', data);
         }
-
+  
         // Créer les graphiques pour les autres variables
         const canvasEctifTechnologiquesMentionBacAdmis = this.chartEffectifTechnologiquesMentionBacAdmisRef?.nativeElement;
         if (canvasEctifTechnologiquesMentionBacAdmis) {
-          this.createChart(canvasEctifTechnologiquesMentionBacAdmis, 'effectif_technologiques_mention_bac_admis', 'effectif technologiques mention bac admis');
+          this.createChart(canvasEctifTechnologiquesMentionBacAdmis, 'effectif_technologiques_mention_bac_admis', 'effectif technologiques mention bac admis', data);
         }
-    
+  
         const canvasTauxAcces = this.chartTauxAccesRef?.nativeElement;
         if (canvasTauxAcces) {
-          this.createChart(canvasTauxAcces, 'taux_acces', 'Taux d\'Accès');
-        } 
-
-
-
+          this.createChart(canvasTauxAcces, 'taux_acces', 'Taux d\'Accès', data);
+        }
+  
         const canvasResultatAcademique = this.chartResultatAcademiqueRef?.nativeElement;
         if (canvasResultatAcademique) {
-          this.createChart(canvasResultatAcademique, 'effectif_admis_meme_academie', 'Resultat academique');
-        } 
-
-
-
+          this.createChart(canvasResultatAcademique, 'effectif_admis_meme_academie', 'Resultat academique', data);
+        }
+  
       },
       (error) => {
         console.error('Erreur lors de la récupération des données:', error);
@@ -585,48 +587,40 @@ chartResultatAcademiqueRef
   }
 
 
-
-
-
-
-
-
-
-  
-  createChart(canvas: HTMLCanvasElement, dataKey: string, label: string): void {
+  createChart(canvas: HTMLCanvasElement, dataKey: string, label: string, sortedData: any[]): void {
     setTimeout(() => {
-      if (!this.etablissementsData || this.etablissementsData.length === 0) {
+      if (!sortedData || sortedData.length === 0) {
         console.warn("Pas de données disponibles pour créer le graphique.");
         return;
       }
-
+  
       const ctx = canvas.getContext('2d');
       if (!ctx) {
         console.error("Le contexte du canvas n'est pas disponible !");
         return;
       }
-
+  
       // Détruire l'ancien graphique s'il existe
       if ((canvas as any).chartInstance) {
         (canvas as any).chartInstance.destroy();
       }
-
+  
       console.log(`📊 Création du graphique : ${label}`);
-
+  
       // Labels et données
-      const labelsFiliere = this.etablissementsData.map(etab => etab.NomEtablissement); // Afficher sur le graphique
-      const labelsEtablissement = this.etablissementsData.map(etab => etab.filiere_formation_detaillee); // Pour le tooltip
-      const dataValues = this.etablissementsData.map(etab => this.safeNumber(etab[dataKey]));
-
+      const labelsFiliere = sortedData.map(etab => etab.NomEtablissement); // Afficher sur le graphique
+      const labelsEtablissement = sortedData.map(etab => etab.filiere_formation_detaillee); // Pour le tooltip
+      const dataValues = sortedData.map(etab => this.safeNumber(etab[dataKey]));
+  
       // Palette de couleurs alternées
       const colors = [
         'rgba(58, 104, 156, 0.6)', // Bleu
         'rgba(206, 36, 64, 0.6)', // Rouge
         'rgba(52, 168, 83, 0.6)', // Vert
-        'rgba(251, 188, 5, 0.6)', // Jaune
+       /*  'rgba(251, 188, 5, 0.6)',  */// Jaune
         'rgba(155, 81, 224, 0.6)', // Violet
       ];
-
+  
       // Création du graphique
       const chartInstance = new Chart(ctx, {
         type: 'bar' as ChartType,
@@ -638,7 +632,7 @@ chartResultatAcademiqueRef
             backgroundColor: labelsFiliere.map((_, index) => colors[index % colors.length]),
             borderColor: labelsFiliere.map((_, index) => colors[index % colors.length]),
             borderWidth: 1,
-            barThickness: 30,
+            barThickness: 100,
             barPercentage: 0.6,
             categoryPercentage: 0.8,
           }]
@@ -671,31 +665,19 @@ chartResultatAcademiqueRef
             },
             y: {
               beginAtZero: true,
-              ticks: { color: '#333', font: { size: 12 }, stepSize: 10 },
+              ticks: { color: '#333', font: { size: 13 }, stepSize: 10 },
               grid: { drawOnChartArea: true, color: '#e0e0e0' },
             },
           },
         },
       });
-
+  
       // Stocker l'instance du graphique pour éviter les doublons
       (canvas as any).chartInstance = chartInstance;
     }, 200);
   }
 
-  /* tryCreateCharts(): void {
-    if (!this.chartCandidatsRef?.nativeElement || !this.chartNeoBacheliersRef?.nativeElement) {
-      console.error("Les canvas ne sont pas encore disponibles !");
-      return;
-    }
-  
-    this.createChart(this.chartNeoBacheliersPhasePrincipaleRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_principale', 'Effectif Néo-Bacheliers Phase Principale');
-    this.createChart(this.chartNeoBacheliersPhaseComplementaireRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_complementaire', 'Effectif Néo-Bacheliers Phase Complémentaire');
-  
-    this.createChart(this.chartCandidatsRef.nativeElement, 'effectif_total_candidats_phase_principale', 'Effectif Total Candidats Phase Principale');
-    this.createChart(this.chartCandidatsRef.nativeElement, 'effectif_total_candidats_phase_complementaire', 'Effectif Total Candidats Phase Complémentaire');
-  
-  } */
+
 
 
     retourListe() {
