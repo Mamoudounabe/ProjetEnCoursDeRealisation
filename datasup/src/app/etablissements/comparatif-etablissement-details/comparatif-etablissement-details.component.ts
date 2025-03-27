@@ -98,7 +98,7 @@ selectedSousOption2 : string = '';
 
 selectedOption3 : string = 'moyenne';
 
-selectedSousOption3 : string = '';
+selectedSousOption3 : string = 'generales';
 
 /* ---------------------------------------------------------------------------------------------------------------------- */
 
