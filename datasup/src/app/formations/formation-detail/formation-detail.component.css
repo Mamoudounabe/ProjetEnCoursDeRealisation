@@ -1,269 +1,273 @@
 /* Réinitialisation de base */
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
-    line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
 }
 
 /* Conteneur principal de la formation */
 .single-formation {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Section header */
 .header-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 30px 20px;
-    background: linear-gradient(135deg, var(--blue), var(--red));
-    color: #fff;
-    text-align: center;
-    margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, var(--blue), var(--red));
+  color: #fff;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 /* Breadcrumbs */
 .breadcrumbs {
-    font-size: 14px;
-    color: #f1f1f1;
-    margin-bottom: 15px;
+  font-size: 14px;
+  color: #f1f1f1;
+  margin-bottom: 15px;
 }
 
 .breadcrumb-link {
-    text-decoration: none;
-    color: var(--red);
+  text-decoration: none;
+  color: var(--red);
 }
 
 .breadcrumb-link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .breadcrumb-active {
-    font-weight: bold;
-    color: #fff;
+  font-weight: bold;
+  color: #fff;
 }
 
 /* Titre de la formation et établissement */
 .title-formation {
-    font-size: 32px;
-    font-weight: 700;
-    margin: 10px 0;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 10px 0;
 }
 
 .title-etablissement {
-    font-size: 20px;
-    font-weight: 500;
-    margin: 5px 0;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 5px 0;
 }
 
 /* Détails de la formation */
 .formation-details {
-    font-size: 16px;
-    color: #e0e0e0;
+  font-size: 16px;
+  color: #e0e0e0;
 }
 
 /* Sélection de l'année */
 .year-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .year-label {
-    font-size: 16px;
-    font-weight: 500;
-    color: #333;
-    margin-right: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-right: 10px;
 }
 
 .year-combobox {
-    padding: 8px 12px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
-    color: #333;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.3s ease;
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
 .year-combobox:hover {
-    border-color: #007BFF;
+  border-color: #007bff;
 }
 
 .year-combobox:focus {
-    border-color: #0056b3;
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.6);
+  border-color: #0056b3;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.6);
 }
 
 /* Contenu principal */
 .main-content {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
 }
 
 /* Cartes d'information */
-.infos-etablissement, .infos-formation, .infos-statistiques {
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #f8f9fa;
-    border: 1px solid #e0e0e0;
+.infos-etablissement,
+.infos-formation,
+.infos-statistiques {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
 }
 
-.infos-etablissement h3, .infos-formation h3, .infos-statistiques h3 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: #333;
+.infos-etablissement h3,
+.infos-formation h3,
+.infos-statistiques h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #333;
 }
 
 /* Info items */
 .info-label {
-    font-weight: bold;
-    color: #555;
+  font-weight: bold;
+  color: #555;
 }
 
 .info-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .info-item .label {
-    font-weight: 500;
-    color: #666;
+  font-weight: 500;
+  color: #666;
 }
 
 .info-item .value {
-    font-weight: bold;
-    color: #333;
+  font-weight: bold;
+  color: #333;
 }
 
 /* Liens Parcoursup */
 .parcoursup-link {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #fff;
-    background-color: var(--blue);
-    border-radius: 5px;
-    text-decoration: none;
-    text-align: center;
-    transition: background-color 0.3s;
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background-color: var(--blue);
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s;
 }
 
 .parcoursup-link:hover {
-    background-color: var(--red);
+  background-color: var(--red);
 }
 
 /* Statistiques formation */
 .statistiques-formation {
-    height: 500px;
-    width: 100%;
-    background: red;
+  height: 500px;
+  width: 100%;
+  background: red;
 }
 
 /* Styles pour les éléments graphiques */
 .chart-container {
-    width: 700px;
-    height: 400px;
-    margin: auto;
+  width: 700px;
+  height: 400px;
+  margin: auto;
 }
 
 /* Styles pour l'autocomplete */
 .mat-option {
-    padding: 10px 20px;
-    font-size: 14px;
-    color: #000;
-    cursor: pointer;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #000;
+  cursor: pointer;
 }
 
 .mat-option.mat-selected {
-    background-color: black;
-    color: #000;
+  background-color: black;
+  color: #000;
 }
 
 .mat-option:hover {
-    background-color: #f1f1f1;
+  background-color: #f1f1f1;
 }
 
 .mat-option.mat-option-disabled {
-    color: #999;
-    cursor: not-allowed;
+  color: #999;
+  cursor: not-allowed;
 }
 
 .mat-option-text {
-    font-weight: 500;
-    color: #000;
+  font-weight: 500;
+  color: #000;
 }
 
 /* Scrollbar personnalisé */
 .mat-autocomplete-panel::-webkit-scrollbar {
-    width: 12px;
+  width: 12px;
 }
 
 .mat-autocomplete-panel::-webkit-scrollbar-track {
-    background: black;
+  background: black;
 }
 
 .mat-autocomplete-panel::-webkit-scrollbar-thumb {
-    background-color: black;
-    border-radius: 10px;
-    border: 3px solid black;
+  background-color: black;
+  border-radius: 10px;
+  border: 3px solid black;
 }
 
 .mat-autocomplete-panel::-webkit-scrollbar-thumb:hover {
-    background-color: black;
+  background-color: black;
 }
 
 .mat-autocomplete-panel {
-    scrollbar-width: thin;
-    scrollbar-color: black black;
+  scrollbar-width: thin;
+  scrollbar-color: black black;
 }
 
 .mat-autocomplete-panel {
-    -ms-overflow-style: -ms-autohiding-scrollbar;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
 /* Styles de formulaire */
 .example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
 }
 
 .example-full-width {
-    width: 100%;
+  width: 100%;
 }
 
 /* Sélecteurs pour l'année */
 ::ng-deep .example-panel-2020.mat-mdc-select-panel {
-    background: rgba(255, 0, 0, 0.5);
+  background: rgba(255, 0, 0, 0.5);
 }
 
 ::ng-deep .example-panel-2021.mat-mdc-select-panel {
-    background: rgba(0, 255, 0, 0.5);
+  background: rgba(0, 255, 0, 0.5);
 }
 
 ::ng-deep .example-panel-2022.mat-mdc-select-panel {
-    background: rgba(0, 0, 255, 0.5);
+  background: rgba(0, 0, 255, 0.5);
 }
 
 ::ng-deep .example-panel-2023.mat-mdc-select-panel {
-    background: rgba(255, 255, 0, 0.5);
+  background: rgba(255, 255, 0, 0.5);
 }
 
 /* Conteneur carte (map) */
@@ -272,7 +276,7 @@ body {
     height: 250px;
     border-radius: 10px;
 }  */
-.annee{
+.annee {
   width: 50%;
 }
 
@@ -292,40 +296,39 @@ body {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Augmente l'ombre portée pour un effet de focus */
 }
 
-
 /* Flexbox pour les blocs */
 .bloc {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    flex-direction: row-reverse;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-direction: row-reverse;
 }
 
 .bloc-left {
-    flex: 1;
+  flex: 1;
 }
 
 .bloc-right {
-    flex: 2;
+  flex: 2;
 }
 
 /* Conteneur des cartes de graphiques */
 .charts-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .chart-box {
-    width: 50%;
+  width: 50%;
 }
 
 /* Styles généraux */
 .none-style {
-    text-decoration: none;
+  text-decoration: none;
 }
 
-/* Partie 1 *//* 
+/* Partie 1 */ /* 
 .partie1 {
     display: flex;
     flex-wrap: nowrap;
@@ -347,8 +350,6 @@ body {
 
 /* Partie 2 */
 
-
-
 .mat-container {
   display: flex;
   flex-direction: column;
@@ -365,8 +366,6 @@ body {
   background-color: #fff; /* Fond blanc */
 }
 
-
-
 .partie3 {
   display: flex;
   flex-direction: column; /* Aligne les éléments en colonne */
@@ -379,10 +378,9 @@ body {
   box-shadow: 0 4px 8px rgba(97, 10, 10, 0.1); /* Ombre portée */
 }
 
-
 .partie2 {
   display: flex;
-  /* flex-direction: column;  *//* Aligne les éléments en colonne */
+  /* flex-direction: column;  */ /* Aligne les éléments en colonne */
   flex-direction: row; /* Aligne les éléments en colonne */
   gap: 20px; /* Espacement entre chaque élément */
   padding: 20px; /* Espacement interne autour du contenu */
@@ -392,13 +390,8 @@ body {
   box-shadow: 0 4px 8px rgba(3, 3, 3, 0.1); /* Ombre portée */
   margin: 20px 0; /* Espacement vertical autour du cadre */
 
-
-
   justify-content: space-between; /* Espace entre les deux sections : gauche et droite */
-
-
 }
-
 
 .gauche2 {
   flex: 1; /* Occupe la moitié de l'espace disponible dans partie2 */
@@ -408,13 +401,10 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre légère autour de la section */
 }
 
-
 .gauche2 svg {
   vertical-align: middle; /* Aligner l'icône avec le texte */
   margin-right: 10px; /* Un petit espace entre l'icône et le texte */
 }
-
-
 
 .droite2 {
   flex: 1; /* Occupe l'autre moitié de l'espace */
@@ -422,39 +412,33 @@ body {
   padding: 20px; /* Padding autour du contenu */
   border-radius: 8px; /* Coins arrondis */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre légère autour de la section */
-  align-items: center; 
-  height: 100%;  
+  align-items: center;
+  height: 100%;
 }
-
 
 .droite2 p {
   font-size: 16px; /* Taille de police */
   color: #333; /* Couleur du texte */
   line-height: 1.6; /* Espacement entre les lignes */
-
 }
-
 
 /* 
 .bouton2 mat-button-toggle-group {
   display: flex; */
-/*   flex-direction: row;  *//* Les boutons seront alignés verticalement */
-  /* gap: 10px; */ /* Espacement entre les boutons */
+/*   flex-direction: row;  */ /* Les boutons seront alignés verticalement */
+/* gap: 10px; */ /* Espacement entre les boutons */
 /* }
  */
 
-
- .bouton2 mat-button-toggle {
- /*  background-color: #f0f0f0; */ /* Fond des boutons */
+.bouton2 mat-button-toggle {
+  /*  background-color: #f0f0f0; */ /* Fond des boutons */
   color: #333; /* Couleur du texte */
   padding: 10px 20px; /* Espacement à l'intérieur des boutons */
   border-radius: 5px; /* Coins arrondis */
   border: 1px solid #ddd; /* Bordure grise pour les boutons */
   gap: 150px; /* Ajout d'un espace de 15px entre chaque bouton */
- /*  margin-bottom: 10px; */ /* Ajoute un espace de 10px entre chaque bouton */
- 
+  /*  margin-bottom: 10px; */ /* Ajoute un espace de 10px entre chaque bouton */
 }
-
 
 /* Si vous voulez un espace après le dernier bouton, vous pouvez aussi définir : */
 .droite2 mat-button-toggle:last-child {
@@ -470,20 +454,17 @@ body {
   margin-bottom: 0; /* Évite l'espace supplémentaire après le dernier bouton */
 }
 
-
 /* .bouton2 mat-button-toggle.mat-button-toggle-checked { */
-  /* background-color: #007BFF; */ /* Couleur de fond lorsqu'un bouton est sélectionné */
-  /* color: white; */ /* Couleur du texte lorsque sélectionné */
-/*  }*/ 
-
+/* background-color: #007BFF; */ /* Couleur de fond lorsqu'un bouton est sélectionné */
+/* color: white; */ /* Couleur du texte lorsque sélectionné */
+/*  }*/
 
 .bouton2 mat-button-toggle.mat-button-toggle-checked:hover {
-  background-color: #0056b3; 
-}/* Couleur de fond au survol d'un bouton sélectionné */
-
+  background-color: #0056b3;
+} /* Couleur de fond au survol d'un bouton sélectionné */
 
 .partie1 {
-   /* Bordure bleue */
+  /* Bordure bleue */
   padding: 20px; /* Espacement à l'intérieur du cadre */
   margin: 20px 0; /* Espacement vertical autour du cadre */
   border-radius: 10px; /* Coins arrondis */
@@ -500,7 +481,7 @@ body {
 .chart-box {
   margin-top: 50px;
   margin-bottom: 50px;
-  
+
   flex: 1 1 18%; /* Chaque bloc occupe 22% de la largeur de l'écran (avec flex-grow: 1) */
   min-width: 250px; /* Largeur minimale du bloc */
   height: 300px; /* Hauteur des blocs */
@@ -530,19 +511,15 @@ canvas {
 
 .chart-info p {
   margin: 5px 0;
-  
 }
 
 .red-text {
   color: red !important; /* Utiliser !important pour forcer l'application */
 }
 
-
-
 .fontawesomesvg {
   margin-right: 5px;
 }
-
 
 .fontawesomeicon::before {
   display: inline-block;
@@ -550,36 +527,29 @@ canvas {
   -webkit-font-smoothing: antialiased;
 }
 
-
-
-
-
-
-
-
 /* Changer la couleur de fond et du texte des boutons */
 .bold-toggle.mat-button-toggle-checked {
-  background-color: #007BFF; /* Couleur de fond pour le bouton "Mention au bac" */
+  background-color: #007bff; /* Couleur de fond pour le bouton "Mention au bac" */
   color: white;
 }
 
 .italic-toggle.mat-button-toggle-checked {
-  background-color: #28A745; 
+  background-color: #28a745;
   color: white;
 }
 
 .underline-toggle.mat-button-toggle-checked {
-  background-color: #FFC107; /* Couleur de fond pour le bouton "Bourse" */
+  background-color: #ffc107; /* Couleur de fond pour le bouton "Bourse" */
   color: white;
 }
 
 .academie-toggle.mat-button-toggle-checked {
-  background-color: #DC3545; /* Couleur de fond pour le bouton "Académie" */
+  background-color: #dc3545; /* Couleur de fond pour le bouton "Académie" */
   color: white;
 }
 
 .bac-type-toggle.mat-button-toggle-checked {
-  background-color: #17A2B8; /* Couleur de fond pour le bouton "Type de bac" */
+  background-color: #17a2b8; /* Couleur de fond pour le bouton "Type de bac" */
   color: white;
 }
 
@@ -589,5 +559,88 @@ canvas {
 }
 
 .mat-button-toggle:hover {
-  background-color: #F1F1F1; /* Couleur de fond sur survol */
+  background-color: #f1f1f1; /* Couleur de fond sur survol */
+}
+
+.formation-detail-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.formation-detail-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #2c3e50;
+}
+
+.formation-detail-container p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.stat-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-buttons button {
+  background-color: #e0e0e0;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.stat-buttons button:hover {
+  background-color: #ccc;
+}
+
+.stat-buttons button.active {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.chart-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.chart-container canvas {
+  max-width: 100%;
+  height: 400px;
+}
+
+.chart-container p {
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  color: #555;
+}
+
+.back-button {
+  display: block;
+  margin: 0 auto;
+  background-color: #34495e;
+  color: #fff;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #2c3e50;
 }
