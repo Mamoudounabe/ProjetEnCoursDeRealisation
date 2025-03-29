@@ -1,0 +1,96 @@
+<!-- <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Chargement des universités en cours...</p>
+  </div> -->
+  
+  <!-- Sélectionner les Universités pour Comparaison -->
+  <div class="bouton">
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+      <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">Sélectionner les Universités pour Comparaison</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder='Rechercher une université, ex: "Université Paris", "Aix Marseille Université", "Université Grenoble", etc.'
+      aria-label="Search"
+      [(ngModel)]="searchQuery"
+      (keypress)="filterUniversites()">
+  </div>
+  
+  <div class="universite-table">
+    <table>
+      <thead>
+        <tr>
+          <th>
+            <div style="text-align: left; font-weight: bold; margin-bottom: 10px;">
+              <mat-checkbox 
+                class="custom-checkbox" 
+                color="secondary"
+                (change)="selectAllUniversites()" 
+                [checked]="isAllSelected">
+                <span style="color: black;"></span>
+              </mat-checkbox>
+              
+              Université
+             
+            </div>
+          </th>
+          <th>
+            <div style="text-align: center; font-weight: bold; margin-bottom: 10px;">
+              Région
+            </div>
+          </th>
+        </tr>
+      </thead>
+  
+      <tbody *ngIf="filteredUniversites.length > 0">
+        <tr *ngFor="let universite of filteredUniversites">
+          <td>
+            <section class="example-section">
+              <mat-checkbox 
+                class="custom-checkbox" 
+                color="secondary"
+                (change)="selectUniversite(universite)" 
+                [checked]="isUniversiteSelected(universite)">
+                <span style="color: black;">{{ universite.nom }}</span>
+              </mat-checkbox>
+            </section>
+          </td>
+          <td>
+            {{ universite.region }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="compare-btn-container">
+      <button mat-raised-button 
+              color="primary" 
+              (click)="goToUniversiteComp()" 
+              [disabled]="selectedUniversites.length < 2">
+        Comparer {{ selectedUniversites.length }} université(s) sélectionnée(s)
+      </button>
+    </div>
+  
+    <!-- Supprimé la barre en bas (mat-paginator) -->
+  </div>
+
+<div>
+  <input type="text" [(ngModel)]="searchQuery" placeholder="Rechercher une université" />
+  <input type="text" [(ngModel)]="searchUniversite" placeholder="Filtrer par université" />
+</div>
+
+<div>
+  <button (click)="goToUniversiteComp()">Comparer les universités</button>
+</div>
+
+<div *ngIf="searchQuery && pagesContainingResults.length > 0">
+  <p>
+    <b>{{ pagesContainingResults.length }}</b> page(s) :
+    <span *ngFor="let page of pagesContainingResults; let i = index">
+      <b>{{ page }}</b>{{ i < pagesContainingResults.length - 1 ? ', ' : '' }}
+    </span>
+  </p>
+</div>
