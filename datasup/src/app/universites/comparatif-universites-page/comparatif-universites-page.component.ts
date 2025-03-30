@@ -31,7 +31,7 @@ import { finalize } from 'rxjs';
     MatCheckboxModule,
     MatButtonToggleModule ],
   templateUrl: './comparatif-universites-page.component.html',
-  styleUrl: './comparatif-universites-page.component.css'
+  styleUrls: ['./comparatif-universites-page.component.css']
 })
 export class ComparatifUniversitesPageComponent  implements OnInit{
 
@@ -190,11 +190,20 @@ isUniversiteSelected(universite: any): boolean {
 goToComparisonPage() {
   if (this.selectedUniversites.length >= 2) {
     const ids = this.selectedUniversites.map(u => u.id).join(',');
+    console.log(' Navigation avec les IDs :', ids); 
+
+    // Vérification si les IDs sont bien un nombre
+    if (!ids || ids.includes('undefined') || ids.includes('null')) {
+      console.error(' Erreur : certains IDs sont invalides', this.selectedUniversites);
+      return;
+    }
+
     this.router.navigate(['/universites/comparaison', ids]);
   } else {
     alert('Veuillez sélectionner au moins 2 universités à comparer.');
   }
 }
+
 
 // Fonction pour calculer le nombre total de mots dans les champs textuels (utile pour l'optimisation)
 calculateTotalWords(formations: any[]): number {
@@ -217,7 +226,7 @@ formatLabel(value: number): string {
 goToUniversiteComp(): void {
   // Ajout de la méthode goToUniversiteComp
   console.log('Redirection vers la page de comparaison des universités');
-  this.router.navigate(['/universites/comparatif']);
+  this.router.navigate(['universites/comparaison/:ids']);
 }
 
 }

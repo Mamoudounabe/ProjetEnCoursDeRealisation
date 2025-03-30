@@ -19,6 +19,8 @@
       (keypress)="filterUniversites()">
   </div>
   
+
+  
   <div class="universite-table">
     <table>
       <thead>
@@ -45,8 +47,8 @@
         </tr>
       </thead>
   
-      <tbody *ngIf="filteredUniversites.length > 0">
-        <tr *ngFor="let universite of filteredUniversites">
+      <tbody *ngIf="paginatedUniversites.length > 0">
+        <tr *ngFor="let universite of paginatedUniversites">
           <td>
             <section class="example-section">
               <mat-checkbox 
@@ -68,13 +70,18 @@
     <div class="compare-btn-container">
       <button mat-raised-button 
               color="primary" 
-              (click)="goToUniversiteComp()" 
+              (click)="goToComparisonPage()" 
               [disabled]="selectedUniversites.length < 2">
         Comparer {{ selectedUniversites.length }} université(s) sélectionnée(s)
       </button>
     </div>
   
-    <!-- Supprimé la barre en bas (mat-paginator) -->
+    <mat-paginator
+      [length]="totalItems"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 25, 50]"
+      (page)="onPageChange($event)">
+    </mat-paginator>
   </div>
 
 <div>
