@@ -39,15 +39,18 @@ export class ComparatifUniversitesPageComponent  implements OnInit{
  universites: any[] = [
   { id: 1, nom: 'Université d\'Aix-Marseille', region: 'Provence-Alpes-Côte d\'Azur' },
   { id: 2, nom: 'Université d\'Angers', region: 'Pays de la Loire' },
+
   { id: 3, nom: 'Université de Bourgogne', region: 'Bourgogne-Franche-Comté' },
   { id: 4, nom: 'Université de Bretagne Occidentale', region: 'Bretagne' },
   { id: 5, nom: 'Université de Caen Normandie', region: 'Normandie' },
-  { id: 6, nom: 'Université de Cergy-Pontoise', region: 'Île-de-France' },
-  { id: 7, nom: 'Université de Clermont-Auvergne', region: 'Auvergne-Rhône-Alpes' },
-  { id: 8, nom: 'Université de Corse Pascal Paoli', region: 'Corse' },
-  { id: 9, nom: 'Université de Franche-Comté', region: 'Bourgogne-Franche-Comté' },
-  { id: 10, nom: 'Université de Grenoble Alpes', region: 'Auvergne-Rhône-Alpes' },
   { id: 11, nom: 'Université de Lille', region: 'Hauts-de-France' },
+  { id: 6, nom: 'Université de Cergy-Pontoise', region: 'Île-de-France' },
+  { id: 7, nom: 'Université Clermont Auvergne', region: 'Auvergne-Rhône-Alpes' },
+  { id: 8, nom: 'Université de Corte', region: 'Corse' },
+  { id: 9, nom: 'Université de Franche-Comté', region: 'Bourgogne-Franche-Comté' },
+  { id: 10, nom: 'Université Grenoble Alpes', region: 'Auvergne-Rhône-Alpes' },
+ 
+
   { id: 12, nom: 'Université de Limoges', region: 'Nouvelle-Aquitaine' },
   { id: 13, nom: 'Université de Lorraine', region: 'Grand Est' },
   { id: 14, nom: 'Université de Montpellier', region: 'Occitanie' },
@@ -186,23 +189,6 @@ isUniversiteSelected(universite: any): boolean {
   return this.selectedUniversites.some(u => u.id === universite.id);
 }
 
-// Fonction pour aller à la page de comparaison des universités sélectionnées
-goToComparisonPage() {
-  if (this.selectedUniversites.length >= 2) {
-    const ids = this.selectedUniversites.map(u => u.id).join(',');
-    console.log(' Navigation avec les IDs :', ids); 
-
-    // Vérification si les IDs sont bien un nombre
-    if (!ids || ids.includes('undefined') || ids.includes('null')) {
-      console.error(' Erreur : certains IDs sont invalides', this.selectedUniversites);
-      return;
-    }
-
-    this.router.navigate(['/universites/comparaison', ids]);
-  } else {
-    alert('Veuillez sélectionner au moins 2 universités à comparer.');
-  }
-}
 
 
 // Fonction pour calculer le nombre total de mots dans les champs textuels (utile pour l'optimisation)
@@ -223,10 +209,35 @@ formatLabel(value: number): string {
   return value.toString();
 }
 
+
+
+
 goToUniversiteComp(): void {
-  // Ajout de la méthode goToUniversiteComp
-  console.log('Redirection vers la page de comparaison des universités');
-  this.router.navigate(['universites/comparaison/:ids']);
+  if (this.selectedUniversites.length >= 2) {
+    // Récupère les noms des universités sélectionnées
+    const noms = this.selectedUniversites.map(u => u.nom).join(','); 
+
+    // Vérifie si les noms sont corrects avant de naviguer
+    console.log('✅ Noms sélectionnés :', noms);
+
+    // Navigation vers la page avec les noms dans l'URL
+    this.router.navigate(['/universites/comparaison', noms]);
+
+    // Affiche également les noms dans la console
+    console.log('✅ Navigation vers la page de comparaison avec les noms :', noms);
+  } else {
+    alert('Veuillez sélectionner au moins 2 universités à comparer.');
+  }
 }
 
+
+
+    
+    
+    
+    
+
 }
+
+
+

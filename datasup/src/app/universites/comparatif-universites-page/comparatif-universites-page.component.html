@@ -15,8 +15,7 @@
       type="text"
       placeholder='Rechercher une université, ex: "Université Paris", "Aix Marseille Université", "Université Grenoble", etc.'
       aria-label="Search"
-      [(ngModel)]="searchQuery"
-      (keypress)="filterUniversites()">
+      [(ngModel)]="searchQuery">
   </div>
   
 
@@ -70,7 +69,7 @@
     <div class="compare-btn-container">
       <button mat-raised-button 
               color="primary" 
-              (click)="goToComparisonPage()" 
+              (click)="goToUniversiteComp()" 
               [disabled]="selectedUniversites.length < 2">
         Comparer {{ selectedUniversites.length }} université(s) sélectionnée(s)
       </button>
