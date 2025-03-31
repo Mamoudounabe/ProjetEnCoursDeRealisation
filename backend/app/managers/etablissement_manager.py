@@ -776,4 +776,53 @@ class EtablissementManager:
 
 
 
+
+    @staticmethod
+    def get_comp_universite(nomuniversites: List[str], anneeactuelle: List[str]) -> List[Dict[str, Any]]:
+        """
+        Retourne les informations globales sur les universités en regroupant tous les sites
+        en fonction des noms des universités et de l'année de session.
+        """
+        query = """
+            MATCH (e:Etablissement)-[:HAS_CANDIDAT]->(c:Candidat)-[:HAS_BACHELIER]->(b:Bachelier)
+            MATCH (e:Etablissement)-[:HAS_ADMISSION]->(a:Admission)
+            MATCH (e:Etablissement)-[:OFFERS]->(f:Filiere)
+            MATCH (e:Etablissement)-[:HAS_TAUX_ACCES]->(cl:ClassementRang)
+            MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e)
+            WHERE ANY(nom IN $nomuniversites WHERE e.etablissement CONTAINS nom)
+            AND s.annee IN $anneeactuelle
+            WITH 
+                // Extraire le nom principal de l'université sans le site
+                split(e.etablissement, " - ")[0] AS universite_principale,  // On extrait la première partie avant " - "
+                SUM(toInteger(COALESCE(c.effectif_total_candidats_formation, "0"))) AS TotalCandidat, 
+                COUNT(DISTINCT f) AS nombre_filières
+            // On regroupe par université
+            RETURN universite_principale AS etablissement, 
+                nombre_filières, 
+                TotalCandidat;
+            """
+
+
         
+        try:
+            db = Neo4JDriver.get_driver()
+            print(f"Connexion à Neo4j établie : {db}")
+
+            with db.session() as session:
+                params = {"nomuniversites": nomuniversites, "anneeactuelle": anneeactuelle}
+                print(f"Exécution de la requête avec params={params}")
+
+                results = session.run(query, params)
+                records = [record.data() for record in results]
+
+                print(f"Résultats de la requête : {records}")
+                return records
+
+        except ValueError as ve:
+            print(f"Erreur de données : {ve}")
+            return []
+        except Exception as e:
+            import traceback
+            print(f"Erreur dans get_comp_universite: {e}")
+            print(traceback.format_exc())
+            return []

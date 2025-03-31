@@ -226,3 +226,44 @@ def get_comp_plus_etablissements(
     except Exception as e:
         print(f"Erreur dans comparer_etablissements: {e}")
         raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+
+
+
+
+
+@router.get("/universite/comparaison", response_model=List[Dict[str, Any]], tags=["Etablissement"])
+def get_comp_universite(
+    nomuniversites: List[str] = Query(..., description="Liste des noms des établissements à comparer"),
+    anneeactuelle: List[str] = Query(..., description="Année de la session")
+):
+    """
+    Endpoint pour comparer plusieurs universités en fonction de leurs noms et de l'année actuelle.
+    Retourne les effectifs et les statistiques des universités.
+    """
+    try:
+        # Validation des entrées
+        if not nomuniversites:
+            raise HTTPException(status_code=400, detail="La liste des noms des universités ne peut pas être vide.")
+        if not anneeactuelle:
+            raise HTTPException(status_code=400, detail="La liste des années ne peut pas être vide.")
+        
+        # Appel de la méthode du service avec les noms des universités et l'année actuelle
+        result = EtablissementManager.get_comp_universite(nomuniversites, anneeactuelle)
+
+        # Si aucun résultat n'est trouvé, lève une exception 404
+        if not result:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Aucun établissement trouvé pour les universités {', '.join(nomuniversites)} en {', '.join(anneeactuelle)}."
+            )
+
+        # Retourne les résultats sous forme de JSON
+        return result  # FastAPI s'occupe automatiquement de la conversion en JSON
+
+    except HTTPException as http_err:
+        raise http_err  # Relève l'erreur HTTP directement
+
+    except Exception as e:
+        # Log plus détaillé de l'erreur
+        print(f"Erreur dans get_comp_universite: {e}")
+        raise HTTPException(status_code=500, detail="Erreur interne du serveur. Veuillez réessayer plus tard.")
