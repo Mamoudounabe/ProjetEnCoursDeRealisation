@@ -792,12 +792,12 @@ class EtablissementManager:
             WHERE ANY(nom IN $nomuniversites WHERE e.etablissement CONTAINS nom)
             AND s.annee IN $anneeactuelle
             WITH 
-                // Extraire le nom principal de l'université sans le site
+                
                 split(e.etablissement, " - ")[0] AS universite_principale,  // On extrait la première partie avant " - "
                 SUM(toInteger(COALESCE(c.effectif_total_candidats_formation, "0"))) AS TotalCandidat, 
                 COUNT(DISTINCT f) AS nombre_filières,
                  s.annee AS annee
-            // On regroupe par université
+           
             RETURN universite_principale AS etablissement, 
                 nombre_filières, 
                 TotalCandidat,
@@ -806,6 +806,94 @@ class EtablissementManager:
 
 
         
+        try:
+            db = Neo4JDriver.get_driver()
+            print(f"Connexion à Neo4j établie : {db}")
+
+            with db.session() as session:
+                params = {"nomuniversites": nomuniversites, "anneeactuelle": anneeactuelle}
+                print(f"Exécution de la requête avec params={params}")
+
+                results = session.run(query, params)
+                records = [record.data() for record in results]
+
+                print(f"Résultats de la requête : {records}")
+                return records
+
+        except ValueError as ve:
+            print(f"Erreur de données : {ve}")
+            return []
+        except Exception as e:
+            import traceback
+            print(f"Erreur dans get_comp_universite: {e}")
+            print(traceback.format_exc())
+            return []
+
+
+
+
+
+
+    @staticmethod
+    def get_comp_universite(nomuniversites: List[str], anneeactuelle: List[str]) -> List[Dict[str, Any]]:
+        """
+        Retourne les informations globales sur les universités en regroupant tous les sites
+        en fonction des noms des universités et de l'année de session.
+        """
+        variables = [
+            'capacite_etablissement_formation', 'taux_acces', 'rang_dernier_appele_groupe_3',
+            'rang_dernier_appele_groupe_2', 'rang_dernier_appele_groupe_1',
+            'part_terminales_generales_position_recevoir_proposition_phase_principale',
+            'part_terminales_technologiques_position_recevoir_proposition_phase_principale',
+            'part_terminales_professionnelles_position_recevoir_proposition_phase_principale',
+            'effectif_total_candidats_formation', 'effectif_total_candidats_phase_principale',
+            'effectif_candidates_formation', 'proportion_neo_bacheliers_meme_etablissement_bts_cpge',
+            'proportion_technologiques_admis_mention', 'proportion_neo_bacheliers_meme_academie',
+            'proportion_neo_bacheliers_admis', 'proportion_neo_bacheliers_sans_mention_bac_admis',
+            'proportion_professionnels_admis_mention', 'proportion_neo_bacheliers_boursiers',
+            'effectif_candidats_terminal_technologique_proposition_admission',
+            'effectif_boursiers_terminal_generale_professionnelle_proposition_admission',
+            'effectif_boursiers_terminal_generale_proposition_admission',
+            'effectif_candidats_terminal_professionnelle_proposition_admission',
+            'effectif_boursiers_terminal_technologique_proposition_admission',
+            'effectif_neo_bacheliers_generaux_phase_principale', 'effectif_neo_bacheliers_technologiques_phase_principale',
+            'effectif_neo_bacheliers_professionnels_phase_principale', 'effectif_boursiers_professionnels_phase_principale',
+            'effectif_autres_candidats_phase_principale', 'effectif_boursiers_generaux_phase_principale',
+            'effectif_boursiers_technologiques_phase_principale', 'effectif_neo_bacheliers_technologiques_phase_complementaire',
+            'effectif_neo_bacheliers_generaux_phase_complementaire', 'effectif_total_candidats_phase_complementaire',
+            'effectif_admis_proposition_avant_fin_procedure_principale', 'effectif_neo_bacheliers_mention_bien_bac_admis',
+            'effectif_candidates_admises', 'effectif_neo_bacheliers_mention_assez_bien_bac_admis',
+            'effectif_admis_phase_principale', 'effectif_total_candidats_proposition_admission',
+            'effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis', 'effectif_neo_bacheliers_sans_mention_bac_admis',
+            'effectif_generaux_admis', 'effectif_admises_meme_etablissement_bts_cpge',
+            'effectif_total_candidats_admis', 'effectif_technologiques_mention_bac_admis',
+            'effectif_neo_bacheliers_admis', 'effectif_professionnels_mention_bac_admis',
+            'effectif_professionnels_admis', 'effectif_autres_admis', 'effectif_boursiers_admis',
+            'effectif_admis_meme_academie', 'effectif_admis_meme_etablissement_bts_cpge',
+            'effectif_admis_proposition_ouverture_phase_principale', 'effectif_admis_phase_complementaire',
+            'effectif_neo_bacheliers_mention_tres_bien_bac_admis', 'effectif_admis_meme_academie_paris_creteil_versailles',
+            'effectif_admis_proposition_avant_baccalaureat', 'effectif_generaux_mention_bac_admis',
+            'effectif_technologiques_admis'
+        ]
+
+        query = f"""
+            MATCH (e:Etablissement)-[:HAS_CANDIDAT]->(c:Candidat)-[:HAS_BACHELIER]->(b:Bachelier)
+            MATCH (e:Etablissement)-[:HAS_ADMISSION]->(a:Admission)
+            MATCH (e:Etablissement)-[:OFFERS]->(f:Filiere)
+            MATCH (e:Etablissement)-[:HAS_TAUX_ACCES]->(cl:ClassementRang)
+            MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e)
+            WHERE ANY(nom IN $nomuniversites WHERE e.etablissement CONTAINS nom)
+            AND s.annee IN $anneeactuelle
+            WITH 
+                split(e.etablissement, " - ")[0] AS universite_principale,  
+                COUNT(DISTINCT f) AS nombre_filières,
+                s.annee AS annee,
+                {', '.join([f"SUM(toIntegerOrNull(COALESCE(c.`{var}`, '0'))) AS `{var}`" for var in variables])}
+            RETURN universite_principale AS etablissement, 
+                nombre_filières, 
+                annee,
+                {', '.join(variables)};
+        """
         try:
             db = Neo4JDriver.get_driver()
             print(f"Connexion à Neo4j établie : {db}")
