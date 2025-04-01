@@ -61,14 +61,15 @@ import { RouterModule } from '@angular/router';
 export class ComparatifUniversitesDetailsComponent implements OnInit {
   universitesIDs: number[] = []; // Liste des IDs des universités sélectionnées
   universitesNames: string[] = []; // Liste des noms des universités sélectionnées
-  anneesActuelles: string[] = ['2020', '2021', '2022', '2023']; // À modifier selon besoin
-  universitesData: any[] = [];
+  /* anneesActuelles: string[] = ['2020', '2021', '2022', '2023']; */ // À modifier selon besoin
+  anneesActuelles: string[] = ['2020', '2021', '2022', '2023'];
+/*   universitesData: any[] = []; */
   faSignal = faSignal;
 
   chart: any;
 
 
-
+  universitesData: Record<string, any[]> = {};
 
 
 /* ---------------- Informations  Générales------- bloc 1--------------------------------------------------------------- */
@@ -233,7 +234,7 @@ selectedOption4 : string = 'resultats_academiques';
 
 
 
-
+/* 
  
   getUniversitesData(): void {
     if (!this.universitesNames || this.universitesNames.length < 2) {
@@ -251,14 +252,16 @@ selectedOption4 : string = 'resultats_academiques';
         (data: any[]) => {
           console.log("Données brutes reçues :", data);
   
-          // Transformer les données en un objet structuré par université et année
+          
           this.universitesData = data.reduce((acc, universite) => {
             if (!acc[universite.etablissement]) {
               acc[universite.etablissement] = [];
             }
             acc[universite.etablissement].push({ 
               annee: universite.annee, 
-              TotalCandidat: universite.TotalCandidat 
+              effectif_total_candidats_formation: universite.effectif_total_candidats_formation, 
+              effectif_total_candidats_phase_principale: universite.effectif_total_candidats_phase_principale,
+              effectif_candidates_formation: universite.effectif_candidates_formation
             });
             return acc;
           }, {} as any);
@@ -266,7 +269,15 @@ selectedOption4 : string = 'resultats_academiques';
           console.log("Données transformées :", this.universitesData);
           console.log("Années disponibles dans les données :", Object.values(this.universitesData).flat().map(d => d.annee));
 
-          this.createChart(); // 🔥 Créer le graphique après transformation
+           this.createChart(); 
+
+
+
+       
+        this.createChart('effectif_total_candidats_formation', 'chartCandidats', 'Total Candidats', ['#FF5733', '#33FF57']);
+        this.createChart('effectif_total_candidats_phase_principale', 'chartPhasePrincipale', 'Candidats Phase Principale', ['#009FE3', '#A3D39C']);
+        this.createChart('effectif_candidates_formation', 'chartCandidates', 'Candidates Formation', ['#FFC300', '#581845']);
+
         },
         (error) => {
           console.error('Erreur lors de la récupération des universités :', error);
@@ -274,25 +285,150 @@ selectedOption4 : string = 'resultats_academiques';
       );
   }
   
+ */
 
-  
-  createChart(): void {
-    console.log("Universités Data pour le graphique :", this.universitesData);
-   /*  const colors = ['#FF5733', '#33FF57'];  */
-   const colors = ['#009FE3', '#A3D39C'];
+
+
+
+  getUniversitesData(): void {
+    if (!this.universitesNames?.length || this.universitesNames.length < 2) {
+      console.error('Vous devez sélectionner au moins deux universités pour la comparaison.');
+      return;
+    }
+
+    if (!this.anneesActuelles?.length) {
+      console.error('Vous devez sélectionner au moins une année.');
+      return;
+    }
+
+    this.apiService.getUniversitesByComp(this.universitesNames, this.anneesActuelles)
+      .subscribe(
+        (data: any[]) => {
+          console.log("Données brutes reçues :", data);
+
+          // Transformer les données en un objet structuré par université et année
+          this.universitesData = data.reduce((acc, universite) => {
+            const etablissement = universite.etablissement;
+            if (!acc[etablissement]) {
+              acc[etablissement] = [];
+            }
+            acc[etablissement].push({
+              annee: universite.annee,
+              effectif_total_candidats_formation: universite.effectif_total_candidats_formation || 0,
+              effectif_total_candidats_phase_principale: universite.effectif_total_candidats_phase_principale || 0,
+              effectif_candidates_formation: universite.effectif_candidates_formation || 0
+            });
+            return acc;
+          }, {} as Record<string, any[]>);
+
+          console.log("Données transformées :", this.universitesData);
+          console.log("Années disponibles :", Object.values(this.universitesData).flat().map(d => d.annee));
+
+
+         /* ['#009FE3', '#A3D39C'] */
+
+          // Créer les graphiques après récupération des données
+          this.createChart('effectif_total_candidats_formation', 'chartCandidats', 'Total Candidats', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_total_candidats_phase_principale', 'chartPhasePrincipale', 'Candidats Phase Principale', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_candidates_formation', 'chartCandidates', 'Candidates Formation', ['#87A2C2', '#D77683']);
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération des universités :', error);
+        }
+      );
+  }
+
+
+
+
+  createChart(variable: string, chartId: string, label: string, colors: string[]): void {
+    setTimeout(() => {
+      const canvas = document.getElementById(chartId) as HTMLCanvasElement;
+      if (!canvas) {
+        console.error(`Canvas avec id "${chartId}" introuvable.`);
+        return;
+      }
+
+      if (this.chartInstances[chartId]) {
+        this.chartInstances[chartId].destroy(); // Détruire l'ancien graphique avant d'en créer un nouveau
+      }
+
+      const labels = this.anneesActuelles;
+      const datasets = this.universitesNames.map((name, index) => {
+        const dataValues = this.anneesActuelles.map(annee => {
+          const found = (this.universitesData as any)[name]?.find((entry: any) => entry.annee === annee);
+          return found ? found[variable] : 0;
+        });
+
+        return {
+          label: name,
+          data: dataValues,
+          backgroundColor: colors[index % colors.length],
+        };
+      });
+
+      this.chartInstances[chartId] = new Chart(canvas, {
+        type: 'bar',
+        data: { labels, datasets },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+    }, 100);
+  }
+
+
+
+/*   createChart(variable: string, chartId: string, label: string, colors: string[]): void {
     const labels = this.anneesActuelles;
     const datasets = this.universitesNames.map((name, index) => {
       const dataValues = this.anneesActuelles.map(annee => {
         const found = (this.universitesData as any)[name]?.find((entry: any) => entry.annee === annee);
-        return found ? found.TotalCandidat : 0;
+        return found ? found[variable] : 0;
       });
   
       return {
         label: name,
         data: dataValues,
         backgroundColor: colors[index % colors.length],
-         /* backgroundColor: `hsl(${index * 60}, 70%, 50%)`, */ 
-       /*  backgroundColor: colors[index % colors.length], */
+      };
+    });
+  
+    new Chart(chartId, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
+ */
+ 
+  chartInstances: Record<string, Chart> = {}; // Stockage des graphiques
+
+
+
+/* 
+  
+  createChart(): void {
+    console.log("Universités Data pour le graphique :", this.universitesData);
+  
+   const colors = ['#009FE3', '#A3D39C'];
+    const labels = this.anneesActuelles;
+    const datasets = this.universitesNames.map((name, index) => {
+      const dataValues = this.anneesActuelles.map(annee => {
+        const found = (this.universitesData as any)[name]?.find((entry: any) => entry.annee === annee);
+        return found ? found.effectif_total_candidats_formation : 0;
+      });
+  
+      return {
+        label: name,
+        data: dataValues,
+        backgroundColor: colors[index % colors.length],
       };
     });
   
@@ -312,7 +448,7 @@ selectedOption4 : string = 'resultats_academiques';
       }
     });
   }
-   
+    */
 
 
 
