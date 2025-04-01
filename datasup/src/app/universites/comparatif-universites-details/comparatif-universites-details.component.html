@@ -1,1 +1,256 @@
-<p>comparatif-universites-details works!</p>
+<div class="header-section">
+    <p class="breadcrumbs">
+      <button class="breadcrumb-link" [routerLink]="['/']">Accueil</button> /
+      <button class="btn-retour" [routerLink]="['/universites']">Retour aux universités</button>
+    </p>
+  </div>
+
+
+
+  
+<div  class="block">
+
+    <div class="menu">
+    <div class="fd1">
+    <h1 class="titre">
+      <fa-icon [icon]="faSignal"></fa-icon> Informations Générales
+    </h1>
+    </div>
+    
+    
+    
+    <!-- debut bloc  bounton1-->
+    <div class="bouton">  
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
+        <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">Nombre de candidats</mat-button-toggle>
+        <mat-button-toggle value="nombre_dadmis" class="italic-toggle">Nombre d'admis</mat-button-toggle>
+        <mat-button-toggle value="quotas_applicables" class="underline-toggle">Quotas applicables</mat-button-toggle>
+      </mat-button-toggle-group>
+    
+    
+    </div>
+    
+    
+    <!-- --------------------------------------------------------------------------------------- -->
+    <div [ngSwitch]="selectedOption">
+    
+    <!-- --------------------------------------------------------------------------------------- -->
+     
+    
+    <!-- debut sous bouton 1 -->
+    <div *ngSwitchCase="'nombre_de_candidats'" >
+       <div class="sous-boutons"   > 
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption"> 
+        <mat-button-toggle value="neobachelier"  class="bold-toggle">Néo-bacheliers</mat-button-toggle>
+        <mat-button-toggle value="touslescandidats" class="bold-toggle">Tous les candidats</mat-button-toggle> 
+        <mat-button-toggle value="neoBachierlierstechnologique" class="bold-toggle">Néo_bacheliers_technologiques</mat-button-toggle> 
+      </mat-button-toggle-group>
+      </div>
+    <!-- --------------------------------------------------------------------------------------- -->
+      <div [ngSwitch]="selectedSousOption">
+    
+    <!-- --------------------------------------------------------------------------------------- -->
+    
+      <div  *ngSwitchCase="'neobachelier'">
+        <div class="sous-boutons"   > 
+          <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"   > 
+          <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
+          <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle> 
+        </mat-button-toggle-group>
+      
+        </div>
+    
+        <!-- <div *ngIf="selectedSousOption1 === 'ppneo'" class="graphe">
+          <p>Nombre de candidats néo-bacheliers en phase principale</p>
+          <canvas  #chartNeoBacheliersPhasePrincipaleRef></canvas>
+     
+           
+      </div> -->
+    
+    
+     <!--  <div *ngIf="selectedSousOption1 === 'pcneo'" class="graphe">
+        <p>Nombre de candidats néo-bacheliers en phase complémentaire</p>
+        <canvas  #chartNeoBachelierTechnologiquePhasePrincipaleRef></canvas>
+    </div> -->
+
+    <div *ngIf="selectedSousOption1 === 'ppneo'" class="graphe">
+    <div class="chart-container">
+        <h2>Comparaison des Universités</h2>
+        <canvas id="universitesChart"></canvas>
+      </div>
+    </div>
+    
+      </div>
+    
+       
+    
+    
+      <!-- 
+    ----------------------OK----------------------------------
+    chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef
+      chartEffectifTotalCandidatsPhasePrincipaleRef
+      chartNeoBacheliersPhasePrincipaleRef
+      chartNeoBachelierTechnologiquePhasePrincipaleRef
+    -------------------------------------------------------
+    chartEffectifTotalCandidatsPhaseComplémentaireRef
+      chartNeoBacheliersPhaseComplémentaireRef
+      
+      -->
+    <!-- ------------------------------ ic pour tester les graphiques-------------------------------------------------------------------- -->
+      
+      
+    <!-- -------------------------------------------------------------------------------------------------- -->
+      
+    <!-- --------------------------------------------------------------------------------------- -->
+      <div  *ngSwitchCase="'touslescandidats'">
+    <!-- --------------------------------------------------------------------------------------- -->
+    
+        <div class="sous-boutons"   > 
+          <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
+          <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
+          <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle> 
+        </mat-button-toggle-group>
+      
+        </div>
+      </div>
+    
+    
+    <!-- --------------------------------------------------------------------------------------- -->
+      <div  *ngSwitchCase="'neoBachierlierstechnologique'">
+    <!-- --------------------------------------------------------------------------------------- -->
+        <div class="sous-boutons"   > 
+          <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
+          <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
+          <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle> 
+        </mat-button-toggle-group>
+      
+        </div>
+    
+        <!-- chartEffectifTotalCandidatsPhasePrincipaleRef 
+         chartNeoBacheliersRef
+         -->
+      </div>
+    
+    
+    
+    
+    
+    <!-- </div> -->
+    </div>
+    </div>
+    
+    <!-- --------------------------------------------- Fin nombre de candidats ------------------------------------------------------------------- -->
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- ------------------------------------- options pour nombre dadmis -------------------------------------------------- -->
+    
+    
+    
+    <div *ngSwitchCase="'nombre_dadmis'" >
+    
+      <div class="sous-boutons"   > 
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
+      <mat-button-toggle value="neo_admis"  class="italic-toggle">Néo-bacheliers</mat-button-toggle>
+      <mat-button-toggle value="touslescandidatsadmis" class="italic-toggle">Tous les candidats</mat-button-toggle> 
+      <mat-button-toggle value="neoBachierlierstechnoadmis" class="italic-toggle">Néo_bacheliers_technologiques</mat-button-toggle> 
+    </mat-button-toggle-group>
+    </div>
+    
+    
+       
+        <div [ngSwitch]="selectedSousOption1">
+    
+    
+        <div  *ngSwitchCase="'neo_admis'">
+          <div class="sous-boutons"   > 
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"  > 
+            <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
+            <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle> 
+          </mat-button-toggle-group>
+        
+          </div>
+        </div>
+      
+    
+        <div *ngSwitchCase="'touslescandidatsadmis'">
+    
+          <div class="sous-boutons"   > 
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
+            <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
+            <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle> 
+          </mat-button-toggle-group>
+        
+          </div>
+        </div>
+      
+    
+    
+        <div  *ngSwitchCase="'neoBachierlierstechnoadmis'">
+          <div class="sous-boutons"   > 
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
+            <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
+            <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complementaire</mat-button-toggle> 
+          </mat-button-toggle-group>
+        
+          </div>
+        </div>
+    
+    
+    
+    
+    
+    
+       </div>
+    </div>
+    
+    
+    
+    <!-- ------------------------------------ Fin option pour nombre d'admis Nombre d'admis--------------------------------------------------- -->
+    
+    
+    
+    
+    
+    <!-- -----------------------------------    options Quotas         ------------------------------------------------------------------- -->
+    
+    <div *ngSwitchCase="'quotas_applicables'" >
+      <div class="sous-boutons"   > 
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
+      <mat-button-toggle value="neo_admis"  class="underline-toggle">Boursiers du secondaire</mat-button-toggle>
+      <mat-button-toggle value="neoBachierliers" class="underline-toggle">candidats hors secteur</mat-button-toggle> 
+      <mat-button-toggle value="neoBachierliers" class="underline-toggle">Lycéens technologiques</mat-button-toggle> 
+      <mat-button-toggle value="neoBachierliers" class="underline-toggle">Lycéens professionnels</mat-button-toggle> 
+    </mat-button-toggle-group>
+          <!-- debut bloc  nombre_de_candidats-->
+       
+        <!-- fin nombre_de_candidats-->
+    </div>
+    </div>
+    
+    
+    <!-- ----------------------------------- Fin   options Quotas         ------------------------------------------------------------------- -->
+    
+    
+    
+    
+    
+    
+    
+    <!--  fin switch -->
+    <!-- </div> -->
+    
+    <!-- fin du bloc -->
+    </div>
+    </div>
+    </div>
+
+<!-- <div class="chart-container">
+  <h2>Comparaison des Universités</h2>
+  <canvas id="universitesChart"></canvas>
+</div> -->
