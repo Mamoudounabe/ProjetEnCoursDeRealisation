@@ -795,11 +795,13 @@ class EtablissementManager:
                 // Extraire le nom principal de l'université sans le site
                 split(e.etablissement, " - ")[0] AS universite_principale,  // On extrait la première partie avant " - "
                 SUM(toInteger(COALESCE(c.effectif_total_candidats_formation, "0"))) AS TotalCandidat, 
-                COUNT(DISTINCT f) AS nombre_filières
+                COUNT(DISTINCT f) AS nombre_filières,
+                 s.annee AS annee
             // On regroupe par université
             RETURN universite_principale AS etablissement, 
                 nombre_filières, 
-                TotalCandidat;
+                TotalCandidat,
+                 annee;
             """
 
 
