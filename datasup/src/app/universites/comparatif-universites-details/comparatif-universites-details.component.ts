@@ -279,6 +279,7 @@ selectedOption4 : string = 'resultats_academiques';
   createChart(): void {
     console.log("Universités Data pour le graphique :", this.universitesData);
    /*  const colors = ['#FF5733', '#33FF57'];  */
+   const colors = ['#009FE3', '#A3D39C'];
     const labels = this.anneesActuelles;
     const datasets = this.universitesNames.map((name, index) => {
       const dataValues = this.anneesActuelles.map(annee => {
@@ -289,7 +290,8 @@ selectedOption4 : string = 'resultats_academiques';
       return {
         label: name,
         data: dataValues,
-         backgroundColor: `hsl(${index * 60}, 70%, 50%)`, 
+        backgroundColor: colors[index % colors.length],
+         /* backgroundColor: `hsl(${index * 60}, 70%, 50%)`, */ 
        /*  backgroundColor: colors[index % colors.length], */
       };
     });

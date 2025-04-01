@@ -38,7 +38,7 @@ body {
   
   .breadcrumb-link {
     text-decoration: none;
-    color: var(--red);
+    color:black;/* var(--red) */;
   }
   
   .breadcrumb-link:hover {
