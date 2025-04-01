@@ -37,9 +37,8 @@ export class ComparatifUniversitesPageComponent  implements OnInit{
 
  // Liste des universités
  universites: any[] = [
-  { id: 1, nom: 'Université d\'Aix-Marseille', region: 'Provence-Alpes-Côte d\'Azur' },
-  { id: 2, nom: 'Université d\'Angers', region: 'Pays de la Loire' },
-
+  { id: 1, nom: 'Aix Marseille Université', region: 'Provence-Alpes-Côte d\'Azur' },
+  { id: 2, nom: 'Université Angers', region: 'Pays de la Loire' },
   { id: 3, nom: 'Université de Bourgogne', region: 'Bourgogne-Franche-Comté' },
   { id: 4, nom: 'Université de Bretagne Occidentale', region: 'Bretagne' },
   { id: 5, nom: 'Université de Caen Normandie', region: 'Normandie' },
@@ -106,7 +105,11 @@ export class ComparatifUniversitesPageComponent  implements OnInit{
   { id: 64, nom: 'Université de Rouen 2', region: 'Normandie' },
   { id: 65, nom: 'Université de Strasbourg 2', region: 'Grand Est' },
   { id: 66, nom: 'Université de Toulouse 2', region: 'Occitanie' },
-  { id: 67, nom: 'Université de Versailles 2', region: 'Île-de-France' }
+  { id: 67, nom: 'Université de Versailles 2', region: 'Île-de-France' },
+  { id: 67, nom: 'Université du Mans', region: '' }
+
+  
+
 ];
 
 filteredUniversites: any[] = [];
