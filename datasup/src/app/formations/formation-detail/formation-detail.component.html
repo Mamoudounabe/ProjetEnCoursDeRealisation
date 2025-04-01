@@ -131,61 +131,61 @@
   
     
     <h2 >{{ etablissementData[0].NomEtablissement }} - {{ etablissementData[0].filiere_formation  }}</h2>
-    <div *ngIf="selectedOption === 'mention_bien'">
-      <div>
-        <p> <strong> Mention au bac des candidats admis</strong></p>
-        <p> Tres bien avec Felicitation du jury: <strong> {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"] }} </strong> %</p>
-        <p> Bien: <strong> {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }} </strong> %</p>
-        <p>  Assez bien: <strong> {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis)"] }} </strong> %</p>
-        <p> Mension passable: <strong> {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"] }} </strong> %</p>
-        <p> Sans mention: <strong> {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"] }} </strong>%</p>
-     </div>  
-     </div>
-      
-  
-     <!-- BOURSE -->
+   <!-- MENTION AU BAC -->
+<div class="Graphique" *ngIf="selectedOption === 'mention_bien'">
+  <div>
+    <p><strong>Mention au bac des candidats admis</strong></p>
+    <p>Très bien avec Félicitations du jury: <strong>{{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"] }}</strong>%</p>
+    <p>Bien: <strong>{{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }}</strong>%</p>
+    <p>Assez bien: <strong>{{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis)"] }}</strong>%</p>
+    <p>Mention passable: <strong>{{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"] }}</strong>%</p>
+    <canvas id="mentionChart" class="canvas-mini"></canvas>
+  </div>
+</div>
+
+<!-- BOURSE -->
 <div *ngIf="selectedOption === 'bourse'">
   <p>Nombre de boursiers : 
-    <strong>{{ etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] }}</strong> 
+    <strong>{{ etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] }}</strong>
     ({{ ((etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100) | number:'1.0-2' }}%)
   </p>
   <p>Nombre de non-boursiers : 
-    <strong>{{ etablissementData[0]['toInteger(a.effectif_total_candidats_admis)'] - etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] }}</strong> 
+    <strong>{{ etablissementData[0]['toInteger(a.effectif_total_candidats_admis)'] - etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] }}</strong>
     ({{ (100 - ((etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100)) | number:'1.0-2' }}%)
   </p>
-  
+  <canvas id="bourseChart" class="canvas-mini"></canvas>
 </div>
+
 <!-- TYPE DE BAC -->
 <div *ngIf="selectedOption === 'type_bac'">
-  <p><strong>Répartition selon le type de bac :</strong></p>
-  <p>Bac général : 
-    <strong>{{ etablissementData[0]['toInteger(a.effectif_generaux_admis)'] }}</strong> 
+  <p><strong class="chart-small">Répartition selon le type de bac :</strong></p>
+  <p>Bac général :
+    <strong>{{ etablissementData[0]['toInteger(a.effectif_generaux_admis)'] }}</strong>
     ({{ ((etablissementData[0]['toInteger(a.effectif_generaux_admis)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100) | number:'1.0-2' }}%)
   </p>
-  <p>Bac technologique : 
-    <strong>{{ etablissementData[0]['toInteger(a.effectif_technologiques_admis)'] }}</strong> 
+  <p>Bac technologique :
+    <strong>{{ etablissementData[0]['toInteger(a.effectif_technologiques_admis)'] }}</strong>
     ({{ ((etablissementData[0]['toInteger(a.effectif_technologiques_admis)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100) | number:'1.0-2' }}%)
   </p>
-  <p>Bac professionnel : 
-    <strong>{{ etablissementData[0]['toInteger(a.effectif_professionnels_admis)'] }}</strong> 
+  <p>Bac professionnel :
+    <strong>{{ etablissementData[0]['toInteger(a.effectif_professionnels_admis)'] }}</strong>
     ({{ ((etablissementData[0]['toInteger(a.effectif_professionnels_admis)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100) | number:'1.0-2' }}%)
   </p>
+ 
+<canvas id="bacChart" class="canvas-mini"></canvas>
 </div>
 
-
+<!-- ORIGINE (ACADÉMIE) -->
 <div *ngIf="selectedOption === 'academie'">
   <p><strong>Répartition selon l'origine des candidats :</strong></p>
-
   <p>Même établissement :
     <strong>{{ etablissementData[0]['effectif_admis_meme_etablissement_bts_cpge'] }}</strong>
     ({{ ((etablissementData[0]['effectif_admis_meme_etablissement_bts_cpge'] / etablissementData[0]['effectif_total_candidats_admis']) * 100) | number:'1.0-2' }}%)
   </p>
-
   <p>Même académie :
     <strong>{{ etablissementData[0]['effectif_admis_meme_academie'] }}</strong>
     ({{ ((etablissementData[0]['effectif_admis_meme_academie'] / etablissementData[0]['effectif_total_candidats_admis']) * 100) | number:'1.0-2' }}%)
   </p>
-
   <p>Autre académie :
     <strong>
       {{
@@ -201,9 +201,10 @@
       / etablissementData[0]['effectif_total_candidats_admis']) * 100)
     ) | number:'1.0-2' }}%)
   </p>
-
-  
+  <canvas id="academieChart" class="canvas-mini"></canvas>
 </div>
+
+<!-- SEXE -->
 <div *ngIf="selectedOption === 'sexe'">
   <p><strong>Répartition des admis par sexe :</strong></p>
   <p>Hommes :
@@ -214,8 +215,15 @@
     <strong>{{ etablissementData[0]['a.effectif_candidats_femmes_admises'] }}</strong>
     ({{ ((etablissementData[0]['a.effectif_candidats_femmes_admises'] / etablissementData[0]['a.effectif_total_candidats_admis']) * 100) | number:'1.0-2' }}%)
   </p>
+  <canvas id="sexeChart" class="canvas-mini"></canvas>
 </div>
+
   
+
+
+
+
+
   </div>
   
   

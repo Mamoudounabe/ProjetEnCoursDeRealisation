@@ -423,7 +423,7 @@ body {
   border-radius: 8px; /* Coins arrondis */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre légère autour de la section */
   align-items: center; 
-  height: 100%;  
+ 
 }
 
 
@@ -496,14 +496,15 @@ body {
   margin: 20px 0; /* Espacement vertical autour du cadre */
 }
 
+
 /* Boîte contenant chaque graphique ou contenu */
 .chart-box {
   margin-top: 50px;
   margin-bottom: 50px;
   
   flex: 1 1 18%; /* Chaque bloc occupe 22% de la largeur de l'écran (avec flex-grow: 1) */
-  min-width: 250px; /* Largeur minimale du bloc */
-  height: 300px; /* Hauteur des blocs */
+ 
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -516,10 +517,7 @@ body {
 }
 
 /* Assurez-vous que les graphiques remplissent correctement leur container */
-canvas {
-  width: 100% !important;
-  height: 100% !important;
-}
+
 
 /* Variations supplémentaires */
 .chart-info {
@@ -576,6 +574,7 @@ canvas {
 .academie-toggle.mat-button-toggle-checked {
   background-color: #DC3545; /* Couleur de fond pour le bouton "Académie" */
   color: white;
+  
 }
 
 .bac-type-toggle.mat-button-toggle-checked {
@@ -590,4 +589,11 @@ canvas {
 
 .mat-button-toggle:hover {
   background-color: #F1F1F1; /* Couleur de fond sur survol */
+}
+/*partie 2 */
+
+
+.chart-box canvas {
+  max-width: 100%;
+  max-height: 100%;
 }

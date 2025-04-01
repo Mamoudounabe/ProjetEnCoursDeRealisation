@@ -1,11 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild, Input,ChangeDetectionStrategy, signal  } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, ChangeDetectionStrategy, signal } from '@angular/core';
 import { Formation } from '../../core/models/formation.model';
 import { FormationService } from '../../core/services/formations.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { Chart, registerables, ChartOptions,ChartType } from 'chart.js';
+import { Chart, registerables, ChartOptions } from 'chart.js';
 import { NgModule } from '@angular/core';
-
 import { HttpClient } from '@angular/common/http';
 import { config } from '../../../environments/config';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -19,176 +18,73 @@ import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js'; 
-import { ChartDataset,ChartData } from 'chart.js';
-import{ CommonModule } from '@angular/common';
+import { ChartDataset, ChartData } from 'chart.js';
+import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
-
-
 Chart.register(...registerables, ChartDataLabels);
 
-const defaultCoordinates = [45.0672, 4.8345]; // Ajoutez cette ligne pour définir les coordonnées par défaut
+const defaultCoordinates = [45.0672, 4.8345];
 
 @Component({
-    selector: 'app-formation-detail',
-    standalone: true,
-    imports: [
-        RouterLink,
-        NgIf,
-        MatInputModule,
-        MatFormFieldModule,
-        MatOptionModule,
-        MatSelectModule,
-        MatAutocompleteModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgChartsModule,
-        MatTabsModule,
-        MatButtonToggleModule,
-        MatCheckboxModule,
-        CommonModule
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './formation-detail.component.html',
-    styleUrls: ['./formation-detail.component.css']
+  selector: 'app-formation-detail',
+  standalone: true,
+  imports: [
+    RouterLink,
+    NgIf,
+    MatInputModule,
+    MatFormFieldModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgChartsModule,
+    MatTabsModule,
+    MatButtonToggleModule,
+    MatCheckboxModule,
+    CommonModule
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './formation-detail.component.html',
+  styleUrls: ['./formation-detail.component.css']
 })
 export class FormationDetailComponent implements OnInit {
-  private apiUrl = config.apiUrl; // Utilise l'URL de l'API depuis le fichier de configuration
+  private apiUrl = config.apiUrl;
   etablissementID!: number;
   etablissementData: any;
   chart: any;
   private map: L.Map | undefined;
-  selectedYear = new FormControl('2021'); // Initialisation de l'année sélectionnée
-  selectedOption: string = 'mention_bien'; 
+  selectedYear = new FormControl('2021');
 
+  private _selectedOption: string = 'mention_bien';
+  get selectedOption(): string {
+    return this._selectedOption;
+  }
+  set selectedOption(value: string) {
+    this._selectedOption = value;
+    setTimeout(() => this.createPieChart(), 0);
+  }
 
+  totalCandidats: number = 10000;
+  neoBacheliers: number = 5000;
+  baisseTotale: number = 10;
+  baisseNeoBacheliers: number = 8;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
-
-
-
-
-
-
- 
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 
-  totalCandidats = 175;
-  neoBacheliers = 147;
-  baisseTotale = -60;
-  baisseNeoBacheliers = -36;
-
-  // Données du graphique
-  lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: [2018, 2019, 2020, 2021, 2022, 2023, 2024],
-    datasets: [
-      {
-        data: [200, 220, 180, 210, 230, 260, 175], // Candidats totaux
-        label: 'Candidats',
-        borderColor: '#00A9C9',
-        backgroundColor: 'rgba(0, 169, 201, 0.2)',
-        fill: false,
-        tension: 0.4
-      },
-      {
-        data: [120, 130, 110, 140, 150, 160, 147], // Néo-bacheliers
-        label: 'Néo-bacheliers',
-        borderColor: '#C95479',
-        borderDash: [5, 5], // Ligne pointillée
-        backgroundColor: 'rgba(201, 84, 121, 0.2)',
-        fill: false,
-        tension: 0.4
-      }
-    ]
-  };
-
-  lineChartOptions: ChartConfiguration<'line'>['options'] = {
-    responsive: true,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { display: true },
-      y: { display: false }
-    },
-    elements: { point: { radius: 4 } }
-  };
- */
-
-
-
-
-
-  
-  public barChartOptions: ChartOptions<'bar'> = {
-    responsive: true,
-  };
-  barChartType: "bar" = "bar"; // Assign it to be "bar" explicitly
-
-
-  // Données pour les 3 graphiques
-  public barChartData1: ChartConfiguration<'bar'>['data'] = {
-    labels: ['Jan', 'Fév', 'Mar'],
-    datasets: [{ data: [10, 20, 30], label: 'Dataset 1', backgroundColor: ['red', 'blue', 'green'] }]
-  };
-
-  public barChartData2: ChartConfiguration<'bar'>['data'] = {
-    labels: ['Avr', 'Mai', 'Juin'],
-    datasets: [{ data: [15, 25, 35], label: 'Dataset 2', backgroundColor: ['purple', 'orange', 'cyan'] }]
-  };
-
-  public barChartData3: ChartConfiguration<'bar'>['data'] = {
-    labels: ['Juil', 'Août', 'Sep'],
-    datasets: [{ data: [5, 15, 25], label: 'Dataset 3', backgroundColor: ['yellow', 'pink', 'brown'] }]
-  };
-
-  
-
-
-  
-
-
-
-
-
-
-
-  totalCandidats: number = 10000; // Exemple de valeur, vous pouvez ajuster en fonction de vos données
-  neoBacheliers: number = 5000;   // Exemple de valeur
-  baisseTotale: number = 10;      // Exemple de pourcentage de baisse
-  baisseNeoBacheliers: number = 8; // Exemple de pourcentage de baisse
-
-  year = 2006; // Année affichée sur le graphique
-
-  public barChartData: ChartData<'bar'> = {
+  barChartData: ChartData<'bar'> = {
     labels: ['MySpace', 'Hi5'],
     datasets: [
-      { 
-        data: [40.7, 15.9], 
+      {
+        data: [40.7, 15.9],
         label: 'Utilisateurs (M)',
         backgroundColor: ['#17A2B8', '#17A2B8', '#FF5252', '#40C4FF', '#00E676', '#29B6F6', '#FF5722'],
       }
     ]
   };
 
-  // Options du graphique à barres
-  public barChartOptionss: ChartOptions<'bar'> = {
+  barChartOptionss: ChartOptions<'bar'> = {
     indexAxis: 'y',
     responsive: true,
     animation: {
@@ -200,41 +96,130 @@ export class FormationDetailComponent implements OnInit {
     }
   };
 
-  // Type du graphique
-  public barChartTypee: 'bar' = 'bar'; // Indiquer explicitement 'bar' comme type
+  barChartTypee: 'bar' = 'bar';
 
-  startChartRace() {
-    setInterval(() => {
-      this.year++; // Incrémente l'année
+  barChartOptions: ChartOptions<'bar'> = {
+    responsive: true,
+  };
 
-      // Simule des données évolutives
-      this.barChartData.datasets[0].data = this.barChartData.datasets[0].data.map((value) => 
-        Math.max(0, value + (Math.random() * 5 - 2)) // Variation aléatoire
-      );
+  barChartType: 'bar' = 'bar';
 
-      this.barChartData = { ...this.barChartData }; // Mise à jour du graphique
-    }, 2000);
+  barChartData2: ChartConfiguration<'bar'>['data'] = {
+    labels: ['Avr', 'Mai', 'Juin'],
+    datasets: [{ data: [15, 25, 35], label: 'Dataset 2', backgroundColor: ['purple', 'orange', 'cyan'] }]
+  };
+
+  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+// graphe de la partie 2
+
+  createPieChart(): void {
+    if (!this.etablissementData || !this.etablissementData[0]) return;
+
+    const data = this.etablissementData[0];
+    let ctx: any;
+    let labels: string[];
+    let dataset: number[];
+
+    switch (this.selectedOption) {
+      case 'mention_bien':
+        ctx = document.getElementById('mentionChart') as HTMLCanvasElement;
+        labels = ['Très bien', 'Bien', 'Assez bien', 'Passable'];
+        dataset = [
+          data["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"],
+          data["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"],
+          data["toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis)"],
+          data["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"]
+        ];
+        break;
+
+      case 'bourse':
+        ctx = document.getElementById('bourseChart') as HTMLCanvasElement;
+        const total = data['toInteger(a.effectif_total_candidats_admis)'];
+        const boursiers = data['toInteger(a.effectif_boursiers_admis)'];
+        labels = ['Boursiers', 'Non-boursiers'];
+        dataset = [boursiers, total - boursiers];
+        break;
+
+      case 'type_bac':
+        ctx = document.getElementById('bacChart') as HTMLCanvasElement;
+        labels = ['Général', 'Technologique', 'Professionnel'];
+        dataset = [
+          data['toInteger(a.effectif_generaux_admis)'],
+          data['toInteger(a.effectif_technologiques_admis)'],
+          data['toInteger(a.effectif_professionnels_admis)']
+        ];
+        break;
+
+      case 'academie':
+        ctx = document.getElementById('academieChart') as HTMLCanvasElement;
+        const totalAdmis = data['effectif_total_candidats_admis'];
+        const memeEtab = data['effectif_admis_meme_etablissement_bts_cpge'];
+        const memeAcademie = data['effectif_admis_meme_academie'];
+        const autreAcademie = totalAdmis - memeEtab - memeAcademie;
+        labels = ['Même établissement', 'Même académie', 'Autre académie'];
+        dataset = [memeEtab, memeAcademie, autreAcademie];
+        break;
+
+      case 'sexe':
+        ctx = document.getElementById('sexeChart') as HTMLCanvasElement;
+        labels = ['Hommes', 'Femmes'];
+        dataset = [
+          data['a.effectif_candidats_hommes_admis'],
+          data['a.effectif_candidats_femmes_admises']
+        ];
+        break;
+
+      default:
+        return;
+    }
+
+    if (!ctx) return;
+
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels,
+        datasets: [{
+          data: dataset,
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+        }]
+      },
+      options: {
+        
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          title: {
+            display: true,
+            text: `Répartition - ${this.selectedOption}`
+          }
+        }
+      }
+    });
   }
-
-
-
-
-
-
-
-
+  academies: string[] = [];
+  getAcademies(): void {
+    this.http.get<any[]>(`${this.apiUrl}/academies`).subscribe({
+      next: (data) => {
+        this.academies = data.map(item => item.academie);
+        console.log('📚 Académies récupérées :', this.academies);
+      },
+      error: (err) => console.error('Erreur lors de la récupération des académies :', err)
+    });
+  }
 
 
   ngOnInit(): void {
     this.etablissementID = Number(this.route.snapshot.paramMap.get('id'));
-
+    this.getAcademies(); // <-- ajout
     if (!this.etablissementID) {
       console.error("Aucun ID d'établissement trouvé dans l'URL !");
       return;
     }
 
     this.selectedYear.valueChanges.subscribe((anneeactuelle) => {
-      this.getEtablissementData(anneeactuelle || '2021'); // Utilise une valeur par défaut si null
+      this.getEtablissementData(anneeactuelle || '2021');
     });
 
     this.getEtablissementData(this.selectedYear.value || '2021');
@@ -243,7 +228,6 @@ export class FormationDetailComponent implements OnInit {
 
   panelColor = new FormControl('red');
 
-  // Fonction pour récupérer les données de l'établissement en fonction de l'année sélectionnée
   getEtablissementData(anneeactuelle: string): void {
     if (!this.etablissementID) {
       console.error("ID établissement non défini !");
@@ -266,8 +250,8 @@ export class FormationDetailComponent implements OnInit {
 
             if (Array.isArray(this.etablissementData) && this.etablissementData.length > 0) {
               this.etablissementData[0].coordonnees_gps = this.etablissementData[0].localisation;
-              setTimeout(() => this.createChart(), 0);
-              setTimeout(() => this.initMap(), 0); // Ajoutez cet appel pour initialiser la carte après avoir récupéré les données
+              setTimeout(() => this.createPieChart(), 0);
+              setTimeout(() => this.initMap(), 0);
             } else {
               console.error(" Données JSON invalides ou vides :", this.etablissementData);
             }
@@ -303,79 +287,5 @@ export class FormationDetailComponent implements OnInit {
         .bindPopup(`<b>${this.etablissementData[0].etablissement}</b><br>${this.etablissementData[0].region}`)
         .openPopup();
     }
-  }
-
-  // Fonction pour créer le graphique
-  createChart(): void {
-    if (!Array.isArray(this.etablissementData) || this.etablissementData.length === 0) {
-      console.error(" Données insuffisantes pour créer le graphique !");
-      return;
-    }
-
-    const etab = this.etablissementData[0]; // Prend le premier élément du tableau
-
-    const data = [
-      parseInt(etab.TotalCandidats) || 0,
-      parseInt(etab.NeoBacheliersGeneraux) || 0,
-      parseInt(etab.NeoBacheliersTechnologiques) || 0,
-      parseInt(etab.NeoBacheliersProfessionnels) || 0
-    ];
-
-    console.log(" Données utilisées pour le graphique :", data);
-
-    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    if (!canvas) {
-      console.error("Impossible de créer le graphique : élément <canvas> introuvable !");
-      return;
-    }
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      console.error("Impossible d'obtenir le contexte 2D du canvas !");
-      return;
-    }
-
-    if (this.chart) {
-      this.chart.destroy();
-    }
-
-    const labels = ['Tous les candidats', 'Bacheliers généraux', 'Bacheliers technologiques', 'Bacheliers professionnels'];
-
-    this.chart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Taux d\'accès (%)',
-            data: data,
-            backgroundColor: ['#27ae60', '#16a085', '#f1c40f', '#e74c3c'],
-            borderColor: ['#219150', '#128277', '#d4ac0d', '#c0392b'],
-            borderWidth: 1
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            ticks: {
-              font: { size: 12 },
-              maxRotation: 0, // Texte horizontal
-              minRotation: 0
-            }
-          },
-          y: {
-            beginAtZero: true,
-            ticks: {
-              callback: function (value) { 
-                return value + ' %'; 
-              }
-            }
-          }
-        }
-      }
-    });
   }
 }
