@@ -260,7 +260,7 @@ selectedOption4 : string = 'resultats_academiques';
             acc[universite.etablissement].push({ 
               annee: universite.annee, 
               effectif_total_candidats_formation: universite.effectif_total_candidats_formation, 
-              effectif_total_candidats_phase_principale: universite.effectif_total_candidats_phase_principale,
+              taux_acces: universite.taux_acces,
               effectif_candidates_formation: universite.effectif_candidates_formation
             });
             return acc;
@@ -275,7 +275,7 @@ selectedOption4 : string = 'resultats_academiques';
 
        
         this.createChart('effectif_total_candidats_formation', 'chartCandidats', 'Total Candidats', ['#FF5733', '#33FF57']);
-        this.createChart('effectif_total_candidats_phase_principale', 'chartPhasePrincipale', 'Candidats Phase Principale', ['#009FE3', '#A3D39C']);
+        this.createChart('taux_acces', 'chartPhasePrincipale', 'Candidats Phase Principale', ['#009FE3', '#A3D39C']);
         this.createChart('effectif_candidates_formation', 'chartCandidates', 'Candidates Formation', ['#FFC300', '#581845']);
 
         },
@@ -315,7 +315,7 @@ selectedOption4 : string = 'resultats_academiques';
             acc[etablissement].push({
               annee: universite.annee,
               effectif_total_candidats_formation: universite.effectif_total_candidats_formation || 0,
-              effectif_total_candidats_phase_principale: universite.effectif_total_candidats_phase_principale || 0,
+              taux_acces: universite.taux_acces || 0,
               effectif_candidates_formation: universite.effectif_candidates_formation || 0
             });
             return acc;
@@ -329,7 +329,7 @@ selectedOption4 : string = 'resultats_academiques';
 
           // Créer les graphiques après récupération des données
           this.createChart('effectif_total_candidats_formation', 'chartCandidats', 'Total Candidats', ['#009FE3', '#A3D39C']);
-          this.createChart('effectif_total_candidats_phase_principale', 'chartPhasePrincipale', 'Candidats Phase Principale', ['#009FE3', '#A3D39C']);
+          this.createChart('taux_acces', 'chartPhasePrincipale', 'Candidats Phase Principale', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_candidates_formation', 'chartCandidates', 'Candidates Formation', ['#87A2C2', '#D77683']);
         },
         (error) => {
