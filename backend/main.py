@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from app.routes import register_routes
+from app.routes_register import register_routes
+
 from fastapi.middleware.cors import CORSMiddleware
 
 

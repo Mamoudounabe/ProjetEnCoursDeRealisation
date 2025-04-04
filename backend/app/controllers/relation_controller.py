@@ -8,7 +8,13 @@ from app.models.relation_type.relation_type_with_node import RelationTypeWithNod
 
 router = APIRouter()
 
-relation_type_options = RelationTypeManager.get_all_relation_type()
+import os
+
+if os.getenv("DISABLE_AUTO_RELATION_TYPES") != "1":
+    relation_type_options = RelationTypeManager.get_all_relation_type()
+else:
+    relation_type_options = []
+
 name_relation_type_options = [relation_type.relation_type for relation_type in relation_type_options]
 relation_type_options_detail = RelationTypeManager.relation_details(relation_type_options)
 

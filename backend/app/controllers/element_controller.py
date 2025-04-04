@@ -10,7 +10,13 @@ from ..models.element_type.node_type import NodeType
 
 router = APIRouter()
 
-node_type_options = [node_type.name_node_type for node_type in NodeTypeManager.get_all_node_type()]
+import os
+
+if os.getenv("DISABLE_AUTO_NODE_TYPES") != "1":
+    node_type_options = [node_type.name_node_type for node_type in NodeTypeManager.get_all_node_type()]
+else:
+    node_type_options = []
+
 
 @router.get("/node-types", response_model=List[NodeType], tags=["Type de noeuds"])
 def get_all_node_type():

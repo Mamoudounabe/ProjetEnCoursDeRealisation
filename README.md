@@ -12,7 +12,7 @@ cd .\backend\
 ```
 Lancer le premier script avec la commande suivante.
 ```bash	
-docker build -t api .
+*docker build -t api .
 ```
 Et enfin lancer le deuxième script avec la commande suivante.
 ```bash
