@@ -16,3 +16,5 @@ test:
   script:
     - cd backend
     - pytest tests/
+    - export PYTHONPATH=$(pwd)
+  
