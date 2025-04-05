@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Formation } from '../../core/models/formation.model';
 import { FormationService } from '../../core/services/formations.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -55,7 +55,8 @@ export class FormationDetailComponent implements OnInit {
   private apiUrl = config.apiUrl;
   etablissementID!: number;
   etablissementData: any;
-  chart: any;
+  chart: Chart<'pie', number[], string> | undefined;
+
   private map: L.Map | undefined;
   selectedYear = new FormControl('2021');
 
@@ -65,7 +66,25 @@ export class FormationDetailComponent implements OnInit {
   }
   set selectedOption(value: string) {
     this._selectedOption = value;
-    setTimeout(() => this.createPieChart(), 0);
+    setTimeout(() => {
+      const canvas = document.getElementById(this.getCanvasIdFromOption(value));
+      if (canvas) {
+        this.createPieChart();
+      } else {
+        setTimeout(() => this.createPieChart(), 100);
+      }
+    }, 50);
+  }
+
+  getCanvasIdFromOption(option: string): string {
+    switch (option) {
+      case 'mention_bien': return 'mentionChart';
+      case 'sexe': return 'sexeChart';
+      case 'bourse': return 'bourseChart';
+      case 'academie': return 'academieChart';
+      case 'type_bac': return 'bacChart';
+      default: return '';
+    }
   }
 
   totalCandidats: number = 10000;
@@ -110,15 +129,14 @@ export class FormationDetailComponent implements OnInit {
   };
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {}
-// graphe de la partie 2
 
   createPieChart(): void {
     if (!this.etablissementData || !this.etablissementData[0]) return;
 
     const data = this.etablissementData[0];
     let ctx: any;
-    let labels: string[];
-    let dataset: number[];
+    let labels: string[] = [];
+    let dataset: number[] = [];
 
     switch (this.selectedOption) {
       case 'mention_bien':
@@ -134,10 +152,10 @@ export class FormationDetailComponent implements OnInit {
 
       case 'bourse':
         ctx = document.getElementById('bourseChart') as HTMLCanvasElement;
-        const total = data['toInteger(a.effectif_total_candidats_admis)'];
+        const totalBourse = data['toInteger(a.effectif_total_candidats_admis)'];
         const boursiers = data['toInteger(a.effectif_boursiers_admis)'];
         labels = ['Boursiers', 'Non-boursiers'];
-        dataset = [boursiers, total - boursiers];
+        dataset = [boursiers, totalBourse - boursiers];
         break;
 
       case 'type_bac':
@@ -152,9 +170,9 @@ export class FormationDetailComponent implements OnInit {
 
       case 'academie':
         ctx = document.getElementById('academieChart') as HTMLCanvasElement;
-        const totalAdmis = data['effectif_total_candidats_admis'];
-        const memeEtab = data['effectif_admis_meme_etablissement_bts_cpge'];
-        const memeAcademie = data['effectif_admis_meme_academie'];
+        const totalAdmis = data['toInteger(a.effectif_total_candidats_admis)'];
+        const memeEtab = data['toInteger(a.effectif_admis_meme_etablissement_bts_cpge)'];
+        const memeAcademie = data['toInteger(a.effectif_admis_meme_academie)'];
         const autreAcademie = totalAdmis - memeEtab - memeAcademie;
         labels = ['Même établissement', 'Même académie', 'Autre académie'];
         dataset = [memeEtab, memeAcademie, autreAcademie];
@@ -162,11 +180,11 @@ export class FormationDetailComponent implements OnInit {
 
       case 'sexe':
         ctx = document.getElementById('sexeChart') as HTMLCanvasElement;
+        const femmes = data['toInteger(a.effectif_candidates_admises)'];
+        const total = data['toInteger(a.effectif_generaux_admis)'];
+        const hommes = total - femmes;
         labels = ['Hommes', 'Femmes'];
-        dataset = [
-          data['a.effectif_candidats_hommes_admis'],
-          data['a.effectif_candidats_femmes_admises']
-        ];
+        dataset = [hommes, femmes];
         break;
 
       default:
@@ -175,7 +193,9 @@ export class FormationDetailComponent implements OnInit {
 
     if (!ctx) return;
 
-    new Chart(ctx, {
+    this.chart?.destroy();
+
+    this.chart = new Chart(ctx, {
       type: 'pie',
       data: {
         labels,
@@ -185,11 +205,8 @@ export class FormationDetailComponent implements OnInit {
         }]
       },
       options: {
-        
         plugins: {
-          legend: {
-            position: 'top'
-          },
+          legend: { position: 'top' },
           title: {
             display: true,
             text: `Répartition - ${this.selectedOption}`
@@ -198,6 +215,7 @@ export class FormationDetailComponent implements OnInit {
       }
     });
   }
+
   academies: string[] = [];
   getAcademies(): void {
     this.http.get<any[]>(`${this.apiUrl}/academies`).subscribe({
@@ -205,14 +223,14 @@ export class FormationDetailComponent implements OnInit {
         this.academies = data.map(item => item.academie);
         console.log('📚 Académies récupérées :', this.academies);
       },
-      error: (err) => console.error('Erreur lors de la récupération des académies :', err)
+      error: (err) => console.warn('⚠️ Academies non récupérées :', err)
     });
   }
 
-
   ngOnInit(): void {
     this.etablissementID = Number(this.route.snapshot.paramMap.get('id'));
-    this.getAcademies(); // <-- ajout
+    this.getAcademies();
+
     if (!this.etablissementID) {
       console.error("Aucun ID d'établissement trouvé dans l'URL !");
       return;
@@ -223,57 +241,45 @@ export class FormationDetailComponent implements OnInit {
     });
 
     this.getEtablissementData(this.selectedYear.value || '2021');
-    console.log(this.selectedYear.value);
   }
 
   panelColor = new FormControl('red');
 
   getEtablissementData(anneeactuelle: string): void {
-    if (!this.etablissementID) {
-      console.error("ID établissement non défini !");
-      return;
-    }
-
     const url = `${this.apiUrl}/Etablissement/Candidat/Bachelier/${this.etablissementID}?anneeactuelle=${anneeactuelle}`;
-    console.log("📡 Appel API avec ID :", this.etablissementID, "URL :", url);
+    console.log("📡 Appel API :", url);
 
     this.http.get(url, { observe: 'response' }).subscribe({
       next: (response) => {
-        const contentType = response.headers.get('Content-Type');
-        console.log("Content-Type :", contentType);
-
-        if (contentType && contentType.includes('application/json')) {
+        if (response.headers.get('Content-Type')?.includes('application/json')) {
           try {
             this.etablissementData = response.body;
-            console.log(" Données récupérées :", this.etablissementData);
-            console.log(" Taille du tableau :", Array.isArray(this.etablissementData) ? this.etablissementData.length : 'Non un tableau');
+            console.log("✅ Données établissement :", this.etablissementData);
 
             if (Array.isArray(this.etablissementData) && this.etablissementData.length > 0) {
               this.etablissementData[0].coordonnees_gps = this.etablissementData[0].localisation;
               setTimeout(() => this.createPieChart(), 0);
               setTimeout(() => this.initMap(), 0);
             } else {
-              console.error(" Données JSON invalides ou vides :", this.etablissementData);
+              console.error("❌ Données vides ou invalides :", this.etablissementData);
             }
           } catch (e) {
-            console.error("Erreur de parsing JSON :", e);
+            console.error("Erreur parsing JSON :", e);
           }
-        } else {
-          console.error("Réponse non JSON reçue :", response.body);
         }
       },
       error: (error) => {
-        console.error("Erreur lors de la récupération des données :", error);
+        console.error("Erreur API :", error);
       }
     });
   }
 
   initMap(): void {
-    if (this.map) {
-      this.map.remove();
-    }
+    if (this.map) this.map.remove();
 
-    const coordinates = this.etablissementData[0].coordonnees_gps ? this.etablissementData[0].coordonnees_gps.split(',').map(Number) : defaultCoordinates;
+    const coordinates = this.etablissementData[0].coordonnees_gps
+      ? this.etablissementData[0].coordonnees_gps.split(',').map(Number)
+      : defaultCoordinates;
 
     this.map = L.map('map').setView(coordinates, 13);
 
