@@ -8,13 +8,11 @@ variables:
   NEO4J_USERNAME: neo4j
   NEO4J_PASSWORD: password
 
-
 before_script:
   - pip install -r backend/requirements.txt
 
 test:
   script:
     - cd backend
-    - pytest tests/
     - export PYTHONPATH=$(pwd)
-  
+    - pytest tests/
