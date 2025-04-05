@@ -132,16 +132,78 @@
     
     <h2 >{{ etablissementData[0].NomEtablissement }} - {{ etablissementData[0].filiere_formation  }}</h2>
    <!-- MENTION AU BAC -->
-<div class="Graphique" *ngIf="selectedOption === 'mention_bien'">
-  <div>
-    <p><strong>Mention au bac des candidats admis</strong></p>
-    <p>Très bien avec Félicitations du jury: <strong>{{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"] }}</strong>%</p>
-    <p>Bien: <strong>{{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }}</strong>%</p>
-    <p>Assez bien: <strong>{{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis)"] }}</strong>%</p>
-    <p>Mention passable: <strong>{{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"] }}</strong>%</p>
-    <canvas id="mentionChart" class="canvas-mini"></canvas>
+   <div class="Graphique" *ngIf="selectedOption === 'mention_bien'">
+    <div>
+      <p><strong>Mention au bac des candidats admis</strong></p>
+  
+      <ng-container *ngIf="etablissementData && etablissementData.length > 0">
+        <ng-container *ngIf="etablissementData[0]['toInteger(a.effectif_total_candidats_admis)'] > 0">
+          <p>Très bien avec Félicitations du jury:
+            <strong>
+              {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"] }}
+            </strong>
+            (
+            {{
+              (
+                etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"] /
+                etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] * 100
+              ) | number:'1.0-2'
+            }}%
+            )
+          </p>
+  
+          <p>Bien:
+            <strong>
+              {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }}
+            </strong>
+            (
+            {{
+              (
+                etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] /
+                etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] * 100
+              ) | number:'1.0-2'
+            }}%
+            )
+          </p>
+  
+          <p>Assez bien:
+            <strong>
+              {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis)"] }}
+            </strong>
+            (
+            {{
+              (
+                etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis)"] /
+                etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] * 100
+              ) | number:'1.0-2'
+            }}%
+            )
+          </p>
+  
+          <p>Mention passable:
+            <strong>
+              {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"] }}
+            </strong>
+            (
+            {{
+              (
+                etablissementData[0]["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"] /
+                etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] * 100
+              ) | number:'1.0-2'
+            }}%
+            )
+          </p>
+        </ng-container>
+  
+        <ng-container *ngIf="etablissementData[0]['toInteger(a.effectif_total_candidats_admis)'] === 0">
+          <p>⚠️ Aucune donnée d’admis disponible pour cette formation.</p>
+        </ng-container>
+      </ng-container>
+  
+      <canvas id="mentionChart" class="canvas-mini"></canvas>
+    </div>
   </div>
-</div>
+  
 
 <!-- BOURSE -->
 <div *ngIf="selectedOption === 'bourse'">
