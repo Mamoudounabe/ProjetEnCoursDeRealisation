@@ -6,7 +6,8 @@ with patch("app.managers.element_type_manager.NodeTypeManager.get_all_node_type"
      patch("app.managers.relation_type_manager.RelationTypeManager.relation_details", return_value=[]):
 
     from main import app
-    from app.services.etablissement_service import EtablissementServi
+    from app.services.etablissement_service import EtablissementService
+
     class FakeEtablissementService:
         def get_etablissement_by_popularity_capacity(self):
             return [
