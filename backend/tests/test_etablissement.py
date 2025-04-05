@@ -1,15 +1,12 @@
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 
-# Mock pour les managers qui se déclenchent au chargement de l'app
 with patch("app.managers.element_type_manager.NodeTypeManager.get_all_node_type", return_value=[]), \
      patch("app.managers.relation_type_manager.RelationTypeManager.get_all_relation_type", return_value=[]), \
      patch("app.managers.relation_type_manager.RelationTypeManager.relation_details", return_value=[]):
 
     from main import app
-    from app.services.etablissement_service import EtablissementService
-
-    # Fake Service global
+    from app.services.etablissement_service import EtablissementServi
     class FakeEtablissementService:
         def get_etablissement_by_popularity_capacity(self):
             return [
@@ -35,15 +32,13 @@ with patch("app.managers.element_type_manager.NodeTypeManager.get_all_node_type"
         def get_filiere_etablissement_admission(self, query: str, page: int, page_size: int):
             return [{"filiere": "Informatique", "etablissement": "IUT Lille", "admis": 85}]
 
-    # On override le vrai service par le faux
+
     app.dependency_overrides[EtablissementService] = lambda: FakeEtablissementService()
 
     client = TestClient(app)
 
 
-# ------------------------------------------------------------
-# ✅ TESTS
-# ------------------------------------------------------------
+
 
 def test_get_etablissement_by_effectif():
     response = client.get("/api/Etablissement/Candidat/Bachelier/1?anneeactuelle=2023")

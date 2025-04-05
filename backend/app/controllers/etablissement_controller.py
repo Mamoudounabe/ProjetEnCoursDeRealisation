@@ -12,13 +12,13 @@ def get_etablissement_by_region(
 ):
     return service.get_etablissement_by_region(region_name)
 
-# ✅ 3. Capacité décroissante
+
 @router.get("/etablissements/popularite/capacite", response_model=List[dict], tags=["Etablissement"])
 def get_etablissement_by_popularity_capacity():
     return EtablissementService().get_etablissement_by_popularity_capacity()
 
 
-# ✅ 5. Admission par filière (avec pagination)
+
 @router.get("/filiere/etablissement/admission", response_model=List[dict], tags=["Etablissement"])
 def get_filiere_etablissement_admission(
     query: str,
@@ -32,7 +32,7 @@ def get_filiere_etablissement_admission(
         print(f"Erreur dans get_filiere_etablissement_admission: {e}")
         raise HTTPException(status_code=500, detail="Erreur interne du serveur")
 
-# ✅ 6. Effectif Candidat/Bachelier par établissement
+
 @router.get("/Etablissement/Candidat/Bachelier/{etablissementID}", response_model=List[Dict[str, Any]], tags=["Etablissement"])
 def get_etablissement_by_effectif(
     etablissementID: int,
@@ -41,7 +41,6 @@ def get_etablissement_by_effectif(
 ):
     return service.get_etablissement_by_effectif(etablissementID, anneeactuelle)
 
-# ✅ 7. Effectif Candidat/Bachelier par filière
 @router.get("/filiere/Candidat/Bachelier/{filiereID}", response_model=List[Dict[str, Any]], tags=["Etablissement"])
 def get_filiere_by_details(
     filiereID: int,
@@ -49,7 +48,7 @@ def get_filiere_by_details(
 ):
     return EtablissementService().get_filiere_by_details(filiereID, anneeactuelle)
 
-# ✅ 8. Comparaison de 2 établissements
+
 @router.get("/etablissements/comparaison/{etablissementID1}/{etablissementID2}", response_model=List[Dict[str, Any]], tags=["Etablissement"])
 def get_comp_etablissements(
     etablissementID1: int,
@@ -58,7 +57,6 @@ def get_comp_etablissements(
 ):
     return EtablissementService().get_comp_etablissements(etablissementID1, etablissementID2, anneeactuelle)
 
-# ✅ 9. Comparaison de plusieurs établissements
 @router.get("/etablissements/comparaison", response_model=List[Dict[str, Any]], tags=["Etablissement"])
 def get_comp_plus_etablissements(
     etablissementIDs: List[int] = Query(..., description="Liste des IDs"),
