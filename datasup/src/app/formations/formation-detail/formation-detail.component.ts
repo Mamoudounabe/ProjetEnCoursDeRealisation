@@ -86,11 +86,34 @@ export class FormationDetailComponent implements OnInit {
       default: return '';
     }
   }
+// graphe partie1
+candidatsBarChartData: ChartData<'bar'> = {
+  labels: ['Candidats admis', 'Néo-bacheliers admis'],
+  datasets: [
+    {
+      data: [0, 0],
+      label: 'Répartition',
+      backgroundColor: ['#42A5F5', '#66BB6A']
+    }
+  ]
+};
 
-  totalCandidats: number = 10000;
-  neoBacheliers: number = 5000;
-  baisseTotale: number = 10;
-  baisseNeoBacheliers: number = 8;
+candidatsBarChartOptions: ChartOptions<'bar'> = {
+  responsive: true,
+  plugins: {
+    legend: { display: false },
+    title: {
+      display: true,
+      text: 'Répartition des admis'
+    }
+  },
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  }
+};
+
 
   barChartData: ChartData<'bar'> = {
     labels: ['MySpace', 'Hi5'],
@@ -217,6 +240,7 @@ export class FormationDetailComponent implements OnInit {
   }
 
   academies: string[] = [];
+  
   getAcademies(): void {
     this.http.get<any[]>(`${this.apiUrl}/academies`).subscribe({
       next: (data) => {
@@ -244,20 +268,35 @@ export class FormationDetailComponent implements OnInit {
   }
 
   panelColor = new FormControl('red');
-
+  
   getEtablissementData(anneeactuelle: string): void {
     const url = `${this.apiUrl}/Etablissement/Candidat/Bachelier/${this.etablissementID}?anneeactuelle=${anneeactuelle}`;
     console.log("📡 Appel API :", url);
-
+  
     this.http.get(url, { observe: 'response' }).subscribe({
       next: (response) => {
         if (response.headers.get('Content-Type')?.includes('application/json')) {
           try {
             this.etablissementData = response.body;
             console.log("✅ Données établissement :", this.etablissementData);
-
+  
             if (Array.isArray(this.etablissementData) && this.etablissementData.length > 0) {
-              this.etablissementData[0].coordonnees_gps = this.etablissementData[0].localisation;
+              const data = this.etablissementData[0];
+              data.coordonnees_gps = data.localisation;
+  
+              // 🔽 Mise à jour du barChart
+              const total = data["toInteger(a.effectif_total_candidats_admis)"];
+              const neos = data["toInteger(a.effectif_neo_bacheliers_admis)"];
+              console.log("📊 Données bar chart :", { total, neos });
+  
+              // S'assurer que les valeurs sont bien numériques
+              if (!isNaN(total) && !isNaN(neos)) {
+                this.candidatsBarChartData.datasets[0].data = [total, neos];
+                this.candidatsBarChartData = { ...this.candidatsBarChartData }; // Angular refresh
+              } else {
+                console.warn("⚠️ Valeurs non numériques pour le graphique !");
+              }
+  
               setTimeout(() => this.createPieChart(), 0);
               setTimeout(() => this.initMap(), 0);
             } else {
@@ -273,6 +312,7 @@ export class FormationDetailComponent implements OnInit {
       }
     });
   }
+  
 
   initMap(): void {
     if (this.map) this.map.remove();
@@ -294,4 +334,7 @@ export class FormationDetailComponent implements OnInit {
         .openPopup();
     }
   }
+
+  
+  
 }

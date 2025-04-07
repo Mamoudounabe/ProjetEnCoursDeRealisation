@@ -48,23 +48,25 @@
   
     <!-- Bloc 3 : Statistiques et Graphique -->
     <div class="chart-box">
-      <h3><strong>{{ totalCandidats }} candidats en 2024</strong></h3>
-      <p><span class="highlight">{{ neoBacheliers }} néo-bacheliers</span></p>
-    
-      <!-- Graphique -->
-      <div class="chart-container">
+      <p> En {{ selectedYear.value }}, cette formation accueillait 
+        <strong> {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_admis)"] }} </strong> 
+        <strong>
+          ({{ ((etablissementData[0]["toInteger(a.effectif_neo_bacheliers_admis)"] 
+          / etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"]) * 100) | number:'1.0-2' }} %)
+        </strong> 
+        de néo-bacheliers, pour 
+        <strong> {{ etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] }} </strong> 
+        candidats admis.    
+      </p>
+      <div class="chart-container" style="max-width: 500px;">
         <canvas baseChart
-                [data]="barChartData"
-                [options]="barChartOptionss"
-                [type]="barChartTypee">
+                [data]="candidatsBarChartData"
+                [options]="candidatsBarChartOptions"
+                [type]="barChartType">
         </canvas>
       </div>
-    
-      <!-- Variation en pourcentage -->
-      <div class="variation">
-        <span class="down">↓ {{ baisseTotale }} % par rapport à 2023</span>
-        <span class="down secondary">(↓ {{ baisseNeoBacheliers }} %)</span>
-      </div>
+      
+
     </div>
        
   
@@ -200,7 +202,9 @@
         </ng-container>
       </ng-container>
   
-      <canvas id="mentionChart" class="canvas-mini"></canvas>
+      <canvas id="mentionChart" class="canvas-mini"></canvas> 
+      <button id="downloadChartBtn">⬇️</button>
+
     </div>
   </div>
   
@@ -275,35 +279,42 @@
     && etablissementData[0]['toInteger(a.effectif_candidates_admises)'] != null 
     && etablissementData[0]['toInteger(a.effectif_generaux_admis)'] > 0; else noDataSexe">
 
-    <p>Femmes :
-      <strong>{{ etablissementData[0]['toInteger(a.effectif_candidates_admises)'] }}</strong>
-      (
-        {{
-          (etablissementData[0]['toInteger(a.effectif_candidates_admises)'] / etablissementData[0]['toInteger(a.effectif_generaux_admis)']) * 100
-          | number:'1.0-2'
-        }}%
-      )
-    </p>
+    <ng-container *ngIf="etablissementData[0]['toInteger(a.effectif_candidates_admises)'] <= etablissementData[0]['toInteger(a.effectif_generaux_admis)']; else incoherentSexe">
 
-    <p>Hommes :
-      <strong>{{ etablissementData[0]['toInteger(a.effectif_generaux_admis)'] - etablissementData[0]['toInteger(a.effectif_candidates_admises)'] }}</strong>
-      (
-        {{
-          ((etablissementData[0]['toInteger(a.effectif_generaux_admis)'] - etablissementData[0]['toInteger(a.effectif_candidates_admises)']) /
-            etablissementData[0]['toInteger(a.effectif_generaux_admis)']) * 100
-          | number:'1.0-2'
-        }}%
-      )
-    </p>
+      <p>Femmes :
+        <strong>{{ etablissementData[0]['toInteger(a.effectif_candidates_admises)'] }}</strong>
+        (
+          {{
+            (etablissementData[0]['toInteger(a.effectif_candidates_admises)'] / etablissementData[0]['toInteger(a.effectif_generaux_admis)']) * 100
+            | number:'1.0-2'
+          }}%
+        )
+      </p>
 
-    <canvas id="sexeChart" class="canvas-mini"></canvas>
+      <p>Hommes :
+        <strong>{{ etablissementData[0]['toInteger(a.effectif_generaux_admis)'] - etablissementData[0]['toInteger(a.effectif_candidates_admises)'] }}</strong>
+        (
+          {{
+            ((etablissementData[0]['toInteger(a.effectif_generaux_admis)'] - etablissementData[0]['toInteger(a.effectif_candidates_admises)']) /
+              etablissementData[0]['toInteger(a.effectif_generaux_admis)']) * 100
+            | number:'1.0-2'
+          }}%
+        )
+      </p>
 
+      <canvas id="sexeChart" class="canvas-mini"></canvas>
+    </ng-container>
+
+    <ng-template #incoherentSexe>
+      <p class="text-danger">⚠️ Données incohérentes : plus de femmes admises que le total d’admis.</p>
+    </ng-template>
   </ng-container>
 
   <ng-template #noDataSexe>
     <p class="text-danger">⚠️ Données insuffisantes pour générer le graphique des sexes.</p>
   </ng-template>
 </div>
+
 
 
 

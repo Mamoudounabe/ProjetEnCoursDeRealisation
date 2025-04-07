@@ -1,116 +1,62 @@
-import { Component, OnInit, ElementRef, ViewChild, Input,ChangeDetectionStrategy, signal  } from '@angular/core';
-import { Formation } from '../../core/models/formation.model';
-import { ApiService} from '../../core/services/api.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { NgIf } from '@angular/common';
-import { Chart, registerables, ChartOptions,ChartType } from 'chart.js';
-import { NgModule } from '@angular/core';
-
-import { HttpClient } from '@angular/common/http';
-import { config } from '../../../environments/config';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgChartsModule, NgChartsConfiguration } from 'ng2-charts';
+import { ChartData, ChartOptions, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatInputModule } from '@angular/material/input';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatOptionModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
-import * as L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import { NgChartsModule } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js'; 
-import { ChartDataset,ChartData } from 'chart.js';
-import{ CommonModule } from '@angular/common';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ApiService } from '../../core/services/api.service';
+import { RouterModule } from '@angular/router';
+import { Chart } from 'chart.js';
 
 Chart.register(...registerables, ChartDataLabels);
 
 @Component({
-    selector: 'app-filieres-details',
-    imports: [
-        RouterLink,
-        NgIf,
-        MatInputModule,
-        MatFormFieldModule,
-        MatOptionModule,
-        MatSelectModule,
-        MatAutocompleteModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgChartsModule,
-        MatTabsModule,
-        MatButtonToggleModule,
-        MatCheckboxModule,
-        CommonModule,
-        MatSidenavModule
-    ],
-    templateUrl: './filieres-details.component.html',
-    styleUrl: './filieres-details.component.css'
+  selector: 'app-filieres-details',
+  standalone: true,
+  templateUrl: './filieres-details.component.html',
+  styleUrls: ['./filieres-details.component.css'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgChartsModule,
+    MatButtonToggleModule,
+    RouterModule
+  ]
 })
-export class FilieresDetailsComponent {
+export class FilieresDetailsComponent implements OnInit {
+  filiereID!: number;
+  anneeactuelle!: string;
+  filieres: any[] = [];
+  selectedOption: string = 'mention_bien';
+  selectedFiliere: any = null;
 
-    filiereID!: number;
-    anneeactuelle!: string;
-    filieres: any[] = [];
-    selectedOption: string = 'mention_bien';
-  
-    constructor(private apiService: ApiService, private route: ActivatedRoute) {}
-  
-    ngOnInit() {
-      // Récupération des paramètres de l'URL
-      const filiereIdParam = this.route.snapshot.paramMap.get("id");
-      const anneeParam = this.route.snapshot.queryParamMap.get("annee"); // Récupération en tant que query param
-  
-      // Vérification et conversion sécurisée
-      this.filiereID = filiereIdParam && !isNaN(Number(filiereIdParam)) ? Number(filiereIdParam) : 0;
-      this.anneeactuelle = anneeParam ? anneeParam : "2021";
-  
-      console.log("Valeurs après récupération :", this.filiereID, this.anneeactuelle);
-  
-      if (!this.filiereID) {
-        console.error("Erreur : filiereID invalide !");
-        return;
-      }
-  
-      if (!this.anneeactuelle) {
-        console.error("Erreur : anneeactuelle est manquante !");
-        return;
-      }
-  
-      // Chargement des données depuis l'API
-      this.chargementdata();
-    }
-  
- 
+  nombreCandidats: number | null = null;
+  nombreAdmis: number | null = null;
+  tauxAdmission: number | null = null;
+  nombreBoursiers: number | null = null;
+  sexeFemmes: number | null = null;
+  sexeHommes: number | null = null;
 
+  effectifBacGeneral: number | null = null;
+  effectifBacTechno: number | null = null;
+  effectifBacPro: number | null = null;
 
+  totalCandidats: number = 10000;
+  neoBacheliers: number = 5000;
+  baisseTotale: number = 10;
+  baisseNeoBacheliers: number = 8;
 
-      totalCandidats: number = 10000; // Exemple de valeur, vous pouvez ajuster en fonction de vos données
-      neoBacheliers: number = 5000;   // Exemple de valeur
-      baisseTotale: number = 10;      // Exemple de pourcentage de baisse
-      baisseNeoBacheliers: number = 8; // Exemple de pourcentage de baisse
-    
-      year = 2006; // Année affichée sur le graphique
+  public barChartData: ChartData<'bar'> = {
+    labels: [],
+    datasets: [{
+      data: [],
+      label: 'Répartition des spécialités',
+      backgroundColor: ['#17A2B8', '#FF5252', '#40C4FF', '#00E676', '#29B6F6', '#FF5722'],
+    }]
+  };
 
-      public barChartData: ChartData<'bar'> = {
-        labels: [],
-        datasets: [
-          { 
-            data: [], 
-            label: 'Utilisateurs (M)',
-            backgroundColor: ['#17A2B8', '#FF5252', '#40C4FF', '#00E676', '#29B6F6', '#FF5722'],
-          }
-        ]
-      };
-
-
-
-     // Options du graphique à barres
   public barChartOptionss: ChartOptions<'bar'> = {
     indexAxis: 'y',
     responsive: true,
@@ -123,73 +69,77 @@ export class FilieresDetailsComponent {
     }
   };
 
+  public barChartTypee: 'bar' = 'bar';
 
+  constructor(private apiService: ApiService, private route: ActivatedRoute) {}
 
-   // Type du graphique
-   public barChartTypee: 'bar' = 'bar'; // Indiquer explicitement 'bar' comme type
+  ngOnInit() {
+    const filiereIdParam = this.route.snapshot.paramMap.get("id");
+    const anneeParam = this.route.snapshot.queryParamMap.get("annee");
 
-   startChartRace() {
-     setInterval(() => {
-       this.year++; // Incrémente l'année
- 
-       // Simule des données évolutives
-       this.barChartData.datasets[0].data = this.barChartData.datasets[0].data.map((value) => 
-         Math.max(0, value + (Math.random() * 5 - 2)) // Variation aléatoire
-       );
- 
-       this.barChartData = { ...this.barChartData }; // Mise à jour du graphique
-     }, 2000);
-   }
-  
+    this.filiereID = filiereIdParam && !isNaN(Number(filiereIdParam)) ? Number(filiereIdParam) : 0;
+    this.anneeactuelle = anneeParam ? anneeParam : "2021";
 
-   
-
-
-   
-   chargementdata() {
-    if (!this.filiereID || isNaN(this.filiereID) || !this.anneeactuelle) {
-      console.error("Données invalides ! filiereID:", this.filiereID, "anneeactuelle:", this.anneeactuelle);
+    if (!this.filiereID || !this.anneeactuelle) {
+      console.error("Paramètres manquants !");
       return;
     }
 
-      this.apiService.getFilieresByDetails(this.filiereID, this.anneeactuelle).subscribe({
-        next: (response) => {
-          console.log("Données reçues :", response);
-          this.filieres = response;
-
-       // Vérification et mise à jour des données du graphique
-        this.barChartData.labels = this.filieres.map(filiere => filiere?.filiere_formation || "Inconnu");
-        this.barChartData.datasets[0].data = this.filieres.map(filiere => 
-         filiere?.effectif_total_candidats_formation ? Number(filiere.effectif_total_candidats_formation) : 0)
-
-        },
-        error: (error) => {
-          if (error.status === 404) {
-            console.warn("Aucune donnée trouvée pour cet ID et cette année.");
-          } else if (error.status === 500) {
-            console.error("Erreur interne du serveur !");
-          } else {
-            console.error("Erreur inconnue :", error);
-          }
-        }
-      });
-    }
-
-
-
-
-
+    this.chargementdata();
   }
-  
 
+  chargementdata() {
+    this.apiService.getFilieresByDetails(this.filiereID, this.anneeactuelle).subscribe({
+      next: (response) => {
+        this.filieres = response;
+      },
+      error: (error) => {
+        console.error("Erreur lors du chargement :", error);
+      }
+    });
+  }
 
+  onSelectFiliere(filiere: any): void {
+    this.selectedFiliere = filiere;
 
+    // Admissions
+    this.nombreCandidats = Number(filiere["toInteger(a.effectif_total_candidats_admis)"]) || null;
+    this.nombreAdmis = Number(filiere["toInteger(a.nombre_admis)"]) || null;
+    this.tauxAdmission = (this.nombreAdmis && this.nombreCandidats)
+      ? (this.nombreAdmis / this.nombreCandidats) * 100
+      : null;
 
+    // Bourse
+    this.nombreBoursiers = Number(filiere["toInteger(a.effectif_boursiers_admis)"]) || null;
 
+    // Sexe
+    const total = Number(filiere["toInteger(a.effectif_generaux_admis)"]) || null;
+    this.sexeFemmes = Number(filiere["toInteger(a.effectif_candidates_admises)"]) || null;
+    this.sexeHommes = (total && this.sexeFemmes !== null) ? total - this.sexeFemmes : null;
 
+    // Type de bac
+    this.effectifBacGeneral = Number(filiere["toInteger(a.effectif_generaux_admis)"]) || null;
+    this.effectifBacTechno = Number(filiere["toInteger(a.effectif_technologiques_admis)"]) || null;
+    this.effectifBacPro = Number(filiere["toInteger(a.effectif_professionnels_admis)"]) || null;
 
+    // Graph spécialités
+    this.barChartData.labels = ['Art', 'Bio', 'EPPCS', 'HGGSP', 'HLP', 'LLCER', 'LLCA', 'Maths', 'NSI', 'PC', 'SI', 'SVT', 'SES'];
+    this.barChartData.datasets[0].data = [
+      filiere.art || 0,
+      filiere.bio || 0,
+      filiere.eppcs || 0,
+      filiere.hggsp || 0,
+      filiere.hlp || 0,
+      filiere.llcer || 0,
+      filiere.llca || 0,
+      filiere.maths || 0,
+      filiere.nsi || 0,
+      filiere.pc || 0,
+      filiere.si || 0,
+      filiere.svt || 0,
+      filiere.ses || 0,
+    ];
 
-
-
-
-
+    this.barChartData = { ...this.barChartData }; // force update
+  }
+}
