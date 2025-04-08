@@ -1,0 +1,284 @@
+/* ----------------------------- */
+/* Styles généraux */
+/* ----------------------------- */
+
+body {
+    margin: 0;
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif; /* Police par défaut */
+  }
+  
+  /* ----------------------------- */
+  /* Section header */
+  /* ----------------------------- */
+  
+  .header-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, var(--blue), var(--red));
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  /* Breadcrumbs */
+  .breadcrumbs {
+    font-size: 14px;
+    color: #f1f1f1;
+    margin-bottom: 15px;
+  }
+  
+  .breadcrumb-link {
+    text-decoration: none;
+    color:black;/* var(--red) */;
+  }
+  
+  .breadcrumb-link:hover {
+    text-decoration: underline;
+  }
+  
+  .breadcrumb-active {
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  /* ----------------------------- */
+  /* Titres */
+  /* ----------------------------- */
+  
+  .dernier{
+   padding-bottom: 1000px;
+  }
+  
+  .titre {
+    text-align: center;
+    color: #333333;
+    font-size: 2em;
+    margin-top: 20px;
+  }
+  
+  /* ----------------------------- */
+  /* Conteneur principal */
+  /* ----------------------------- */
+  
+  .block {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 20px;
+    margin-bottom: 30px;
+    margin-left: 60px;
+    margin-right: 60px;
+    font-size: 12px;
+  }
+  
+  /* ----------------------------- */
+  /* Menu et sous-sections */
+  /* ----------------------------- */
+  
+  .menu {
+    position: relative;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* ----------------------------- */
+  /* Boutons */
+  /* ----------------------------- */
+  
+  .bouton {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px; /* Espacement entre les boutons */
+    font-size: 8px;
+  
+  }
+  
+  
+  
+  
+  
+  
+  /* Partie inférieure rectangulaire */
+  .mat-button-toggle {
+     border-radius: 10px 10px 10px 10px;  /* Arrondi uniquement en bas */
+  
+    /* border-radius: 10px 10px 0 0;  *//* Arrondi en haut, coins inférieurs droits */
+   
+    height: 3rem; /* Hauteur relative */
+  
+   
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  .sous-boutons {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px; /* Espacement entre les sous-boutons */
+  }
+  
+  /* Styles pour les boutons Angular Material */
+  mat-button-toggle-group {
+    border: none !important; /* Supprime les lignes de séparation */
+    display: flex;
+    gap: 15px;
+  }
+  
+  mat-button-toggle {
+    padding: 2px 2px;
+    color: black; /* Couleur du texte lorsqu'il n'est pas sélectionné */
+    background-color: #f1f1f1;/* Couleur de fond par défaut */
+    transition: background-color 0.3s ease; /* Transition fluide */
+    border: 1px solid #ddd; /* Bordure gris clair */
+  }
+  
+  mat-button-toggle:hover {
+    background-color: #e0e0e0; /* Couleur de fond au survol */
+  }
+  
+  /* Styles pour les boutons sélectionnés */
+  .bold-toggle.mat-button-toggle-checked {
+    background-color:  #007BFF;  /* Couleur de fond pour le bouton "Mention au bac" */
+    color: white;
+  }
+  
+  .italic-toggle.mat-button-toggle-checked {
+    background-color: #28A745; /* Couleur de fond pour le bouton "Nombre d'admis" */
+    color: white;
+  }
+  
+  .underline-toggle.mat-button-toggle-checked {
+    background-color: #FFC107; /* Couleur de fond pour le bouton "Quotas applicables" */
+    color: white;
+  }
+  
+  .academie-toggle.mat-button-toggle-checked {
+    background-color: #DC3545; /* Couleur de fond pour le bouton "Académie" */
+    color: white;
+  }
+  
+  .bac-type-toggle.mat-button-toggle-checked {
+    background-color: #17A2B8; /* Couleur de fond pour le bouton "Type de bac" */
+    color: white;
+  }
+  
+  /* ----------------------------- */
+  /* Graphiques */
+  /* ----------------------------- */
+  
+  .graphe canvas {
+    width: 100% !important;
+    height: 600px !important; /* Taille fixe pour éviter les vibrations */
+    max-height: 300px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    box-sizing: border-box; /* Inclut le padding dans la taille totale */
+  }
+  
+  /* ----------------------------- */
+  /* Responsive Design */
+  /* ----------------------------- */
+  
+  /* @media (max-width: 768px) {
+    .block {
+      grid-template-columns: 1fr;
+      margin-left: 20px;
+      margin-right: 20px;
+    }  */
+  
+    .graphe canvas { 
+      height: 500px !important;  
+    } 
+  
+  
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+      max-height: 500px;
+  }
+  
+  
+    .bouton,
+    .sous-boutons {
+      flex-direction: column; /* Empiler les boutons verticalement sur les petits écrans */
+      gap: 10px;
+    }
+  
+  
+  
+  
+  
+  
+  @media (max-width: 768px) {
+    mat-button-toggle-group {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .graphe {
+      height: 300px;
+    }
+  }
+  
+  .fd1{
+  
+  
+    margin-top: 20px;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* Conteneur principal */
+.chart-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Canvas du graphique */
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+  

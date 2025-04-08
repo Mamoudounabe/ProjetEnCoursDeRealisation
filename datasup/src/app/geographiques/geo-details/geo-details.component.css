@@ -1,0 +1,75 @@
+/* Conteneur principal du graphique */
+.chart-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto; /* Centre le graphique */
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajustement du canvas pour éviter les problèmes de taille */
+canvas {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 400px;
+}
+
+/* Animation d'affichage */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chart-container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+
+
+
+
+
+
+
+/* Section header */
+.header-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, var(--blue), var(--red));
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    font-size: 14px;
+    color: #f1f1f1;
+    margin-bottom: 15px;
+}
+
+.breadcrumb-link {
+    text-decoration: none;
+    color: var(--red);
+}
+
+.breadcrumb-link:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-active {
+    font-weight: bold;
+    color: #fff;
+}

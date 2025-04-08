@@ -44,3 +44,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border: #000 1px solid;
 }
   
+
+
+@media (-ms-high-contrast: black-on-white) {}
+  

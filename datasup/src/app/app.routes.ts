@@ -14,6 +14,8 @@ import { GeoPageComponent } from './geographiques/geo-page/geo-page.component';
 import { GeoDetailsComponent } from './geographiques/geo-details/geo-details.component';
 import { ComparatifEtablissementDetailsComponent } from './etablissements/comparatif-etablissement-details/comparatif-etablissement-details.component';
 import { ComparatifEtablissementPageComponent } from './etablissements/comparatif-etablissement-page/comparatif-etablissement-page.component';
+import { ComparatifUniversitesPageComponent } from './universites/comparatif-universites-page/comparatif-universites-page.component';
+import { ComparatifUniversitesDetailsComponent } from './universites/comparatif-universites-details/comparatif-universites-details.component';
 
 export const routes: Routes = [
     { path: '', component: AccueilPageComponent },   
@@ -28,8 +30,11 @@ export const routes: Routes = [
     {path:'analyse',component:AnalyseComponent},
     {path:'geo-page',component:GeoPageComponent},
     {path:'geo-details/:region',component:GeoDetailsComponent},
-   /*  {path:'etablissements/comparaison/:id1/:id2',component:ComparatifEtablissementDetailsComponent} */
-   { path: 'etablissements/comparaison/:ids', component: ComparatifEtablissementDetailsComponent }
+   { path: 'etablissements/comparaison/:ids', component: ComparatifEtablissementDetailsComponent },
+   {path: 'universites', component: ComparatifUniversitesPageComponent },
+   {path: 'universites/comparaison/:nom', component: ComparatifUniversitesDetailsComponent }
+   
+
 
 
 ]

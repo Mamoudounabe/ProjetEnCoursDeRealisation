@@ -48,15 +48,25 @@ export class ApiService {
 
 
   // Méthode pour obtenir les établissements par région
-  getEtablissementsByRegion(region: string): Observable<any[]> {
+ /*  getEtablissementsByRegion(region: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/etablissements/region`,
       {
       params: { region_name: region }
     });
-  }
+  } */
+
+
+    getEtablissementsByRegion(region: string, annee: string): Observable<any[]> {
+      const params = new HttpParams()
+        .set('region', region)
+        .set('annee', annee);
+  
+      return this.http.get<any[]>(`${this.apiUrl}/etablissements/infos`, { params });
+    }
 
 
 
+  
 
   // statistique par filiere
 
@@ -99,6 +109,34 @@ getEtablissementsByComp(etablissementIDs: number[], anneeactuelle: string): Obse
   return this.http.get<any[]>(`${this.apiUrl}/etablissements/comparaison`, { params });
 }
 
+
+
+
+
+getUniversitesByComp(nomUniversites: string[], anneesActuelles: string[]): Observable<any[]> {
+  if (!nomUniversites || nomUniversites.length < 2) {
+    throw new Error('Vous devez sélectionner au moins deux universités pour la comparaison.');
+  }
+  if (!anneesActuelles || anneesActuelles.length === 0) {
+    throw new Error("Vous devez sélectionner au moins une année.");
+  }
+
+  // Construire les paramètres de requête
+  let params = new HttpParams();
+
+  nomUniversites.forEach(nom => {
+    params = params.append('nomuniversites', nom);
+  });
+
+  anneesActuelles.forEach(annee => {
+    params = params.append('anneeactuelle', annee);
+  });
+
+  console.log('Requête envoyée avec les paramètres:', params.toString());
+
+  // Exécuter la requête HTTP GET
+  return this.http.get<any[]>(`${this.apiUrl}/universite/comparaison`, { params });
+}
 
 
 

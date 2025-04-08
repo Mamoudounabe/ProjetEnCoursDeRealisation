@@ -1,30 +1,191 @@
-<div class="container">
-    <!-- Colonne gauche : Sommaire -->
-    <aside class="sidebar">
-      <h2>Sommaire</h2>
-      <ul>
-        <li><a href="#angular">Qu'est-ce qu'Angular ?</a></li>
-        <li><a href="#angular-material">Qu'est-ce qu'Angular Material ?</a></li>
-        <li><a href="#caracteristiques">Caractéristiques d'Angular Material</a></li>
-        <li><a href="#utilisation-angular-material">Quand utiliser Angular Material ?</a></li>
-        <li><a href="#bootstrap">Qu'est-ce que Bootstrap ?</a></li>
-        <li><a href="#caracteristiques-bootstrap">Caractéristiques de Bootstrap</a></li>
-        <li><a href="#utilisation-bootstrap">Quand utiliser Bootstrap ?</a></li>
-        <li><a href="#comparaison">Angular Material ou Bootstrap ?</a></li>
-      </ul>
-    </aside>
-  
-    <!-- Colonne droite : Contenu principal -->
-    <main class="content">
-      <section id="angular">
-        <h1>Qu'est-ce qu'Angular ?</h1>
-        <p><a href="https://angular.io/">Angular</a> est un framework open-source permettant de développer des applications web...</p>
-      </section>
-  
-      <section id="angular-material">
-        <h1>Qu'est-ce qu'Angular Material ?</h1>
-        <p>L'utilisation intensive de frameworks basés sur des composants tels que React, Angular et Vue.js...</p>
-      </section>
-    </main>
-  </div>
-  
+ 
+
+  <body>
+    <div align="center"></div>
+    <div align="center">
+      <table style="width: 95%;" width="100%" bgcolor="#f7eeff"
+        align="center" border="1">
+        <tbody>
+          <tr bgcolor="#660066">
+            <td colspan="3">
+              <div class="Style20" align="center">Ouédraogo Constant, Aydin Kieran, Diallo Aissatou, Maouassi Nouhad, Mandione Dia Seydina, Loum Talla, Nabé Mamoudou </div>
+            </td>
+          </tr>
+         
+          <tr valign="middle" bgcolor="#660066">
+            <td colspan="3" width="60%" valign="middle"> 
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 25%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+              <br>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img
+                src="." alt="logo" width="293" height="121"><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp; &nbsp;&nbsp;&nbsp;<a href="http://www.utc.fr"> <u>Université
+                 de Bourgogne Europe</u></a><br>
+                 <p class="center">Algorithme d’Appariement de Parcoursup</p>
+            </td>
+          
+          </tr>
+          <tr>
+           
+          </tr>
+
+          <tr>
+            <td colspan="3" style="width: 25%;">
+             <h1>Introduction</h1>
+              <p style="text-align: justify;">L’algorithme d’appariement de Parcoursup est basé sur un modèle d’appariement stable, 
+                inspiré de l’algorithme de Gale-Shapley ou algorithme des mariages stables. Objectif : attribuer les places
+                 disponibles dans les formations en respectant les vœux des candidats et les critères des établissements  
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" style="width: 25%;">
+                <h1>Contexte et Objectifs de l’Algorithme</h1>
+
+              <p style="text-align: justify;"> L’algorithme de Parcoursup, basé sur le principe des mariages stables de Gale et Shapley, classe les candidats pour chaque 
+                formation en respectant à la fois les critères pédagogiques </p>
+            
+                <ul>
+                    <li> Classement pédagogique initial : les établissements produisent un classement initial basé sur des
+                        critères tels que les notes et les dossiers des candidats.</li>
+                    <li> Ajustement pour les quotas légaux : cet ordre est modifié pour respecter les quotas légaux avant
+                        d’être utilisé pour calculer les propositions d’admission.</li>
+                    <li>     Envoi des propositions : Une proposition correspond à une offre d’admission dans une formation.</li>
+                </ul>
+              <p style="text-align: justify;"> Keywords: Inventory,
+                updating the Inventory, Continuous Improvement
+                Monitoring, Quality, Security, Self-Assessment Tracking.<br>
+                <br>
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="3" style="width: 25%;">
+                <h1>Ordonnancement des Propositions d’Admission
+                </h1>
+
+              <p style="text-align: justify;">L’un des rôles principaux de l’algorithme est de calculer un ordre d’appel, qui détermine dans quel ordre les propositions d’admission seront faites au </p>
+            
+                <ul>
+                    <li> Taux minimum de boursiers</li>
+                    <li> Taux minimum de résidents.</li>
+                   
+                </ul>
+              <p style="text-align: justify;"> Exemple <br>
+
+Considérons une formation avec un taux minimum de boursiers de 25 %. L’algorithme remonte ces candidats pour respecter le quota à chaque étape.
+              </p>
+            </td>
+          </tr>
+
+
+          <tr>
+            <td colspan="3" style="width: 25%;">
+                <h1>Calcul Quotidien des Propositions d’Admission
+                </h1>
+
+              <p style="text-align: justify;">Chaque jour, l’algorithme détermine combien de propositions 
+                d’admission envoyer pour chaque formation.</p>
+            
+                <ul>
+                    <li> La capacité de la formation</li>
+                    <li> Le nombre de candidats ayant déjà reçu une proposition</li>
+                    <li>Un taux d’appel supplémentaire</li>
+                   
+                </ul>
+              
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" style="width: 25%;">
+                <h1>Gestion des Internats
+                </h1>
+
+              <p style="text-align: justify;">Pour les formations avec hébergement en internat,
+                 l’algorithme doit gérer simultanément deux classements :.</p>
+            
+                <ul>
+                    <li> Ordre d’appel pour l’accès à la formation</li>
+                    <li>Classement spécifique pour l’attribution des places d’hébergement en internat</li>
+                    <li>Un taux d’appel supplémentaire</li>
+                   
+                </ul>
+                <p style="text-align: justify;"> Exemple <br>
+
+                    Si une formation a une capacité de 10 places et un internat associé avec 5 places, la barre d’admission pour l’internat peut être fixée au 5e rang.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="3" style="width: 25%;">
+                <h1>Phase Complémentaire
+                </h1>
+
+              <p style="text-align: justify;">La phase complémentaire est activée pour redistribuer les places vacantes. Les candidats non 
+                satisfaits peuvent formuler de nouveaux vœux.</p>
+            
+                
+            </td>
+          </tr>
+
+
+
+
+
+
+
+
+          
+
+        </tbody>
+      </table>
+    </div>
+    <table width="1261" height="171" cellspacing="2" cellpadding="2"
+      align="center" border="1">
+      <tbody>
+        <tr>
+          <td valign="top" align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+            <br>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img
+              src="image/PDF.jpg" alt="pdf" width="78" height="92"><br>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="image/rapport%20de%20stage.pdf">RAPPORT</a><br>
+          </td>
+          <td valign="top">&nbsp;&nbsp;&nbsp;&nbsp; <br>
+            <div align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <img src="image/procedure.jpg" alt="logo" width="162"
+                height="90"><br>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp; <br>
+            <div align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;&nbsp; <a
+                href="image/Procedure%20de%20formation%20des%20techniciens%20V0.1.pdf">PROCEDURE
+                DE FORMATION DES TECHNICIENS</a><br>
+            </div>
+          </td>
+          <td valign="top" align="center"><br>
+            <img src="image/correction%20poster.jpg" alt="image"
+              width="101" height="89"><br>
+            &nbsp;<br>
+            &nbsp;<a href="image/poster%20jpk.pdf">POSTER</a><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="Style15" align="center"><u>Remerciements</u><br>
+      <br>
+    </p>
+</body>

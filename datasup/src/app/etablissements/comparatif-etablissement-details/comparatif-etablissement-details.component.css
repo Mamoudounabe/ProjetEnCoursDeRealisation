@@ -207,9 +207,17 @@ mat-button-toggle:hover {
     margin-right: 20px;
   }  */
 
-  .graphe canvas {
-    height: 300px !important; /* Ajustez la hauteur pour les petits écrans */
-  }
+  .graphe canvas { 
+    height: 1000px !important;  
+  } 
+
+
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 8000px;
+}
+
 
   .bouton,
   .sous-boutons {

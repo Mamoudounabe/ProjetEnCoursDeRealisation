@@ -30,16 +30,16 @@
       <!-- En-tête du menu -->
       <div class="menu-header">
         <span class="menu-title">Fermer</span>
-        <button class="menu-close" (click)="toggleMenu()">✖</button>
+        <button class="menu-close" (click)="toggleMenu()" style="color: aliceblue;" >✖</button>
       </div>
   
       <ul>
-        <li>
+       <!--  <li>
           <a href="" class="menu-link">
             <mat-icon class="menu-icon">insert_chart</mat-icon>
             Statistiques
           </a>
-        </li>
+        </li> -->
         <li>
           <a href="geo-page" class="menu-item">
             <mat-icon class="menu-icon">location_on</mat-icon>
@@ -59,24 +59,52 @@
           </a>
         </li>
         <li>
-          <a href="etablissements" class="menu-link">
+          <a href="etablissements" >
             <mat-icon class="menu-icon">compare</mat-icon>
             <span>Comparatif des établissements</span>
           </a>
         </li>
+
+
+
         <li>
-          <a href="" class="menu-link">
-            <mat-icon class="menu-icon">assignment</mat-icon>
-            Rapports & Analyses
+          <a href="universites" >
+            <mat-icon class="menu-icon">compare</mat-icon>
+            <span>Comparatif des universités</span>
           </a>
-          <ul class="">
-            <li><a href="" style="color: white;">Rapports</a></li>
-            <li><a routerLink="analyse" style="color: white;">Analyses</a></li>
-          </ul>
         </li>
+
+
         <li>
-          <a href="apropos" class="menu-link">À propos</a>
+          <a routerLink="analyse" >
+           <mat-icon class="menu-icon">assignment</mat-icon>
+            <span>Analyses</span>
+          </a>
         </li>
+
+
+
+        <li>
+          <a routerLink="" >
+           <mat-icon class="menu-icon">assignment</mat-icon>
+            <span>Rapports</span>
+          </a>
+        </li>
+
+        
+
+        
+        <li>
+          <a routerLink="apropos" >
+           <mat-icon class="menu-icon">assignment</mat-icon>
+            <span>À propos</span>
+          </a>
+        </li>
+         
+
+        
+        
+
       </ul>
       <img src="/M1ProjetTutore_Parcoursup/datasup/src/app/assets/image/sup.png" alt="">
   

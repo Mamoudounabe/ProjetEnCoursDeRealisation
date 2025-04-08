@@ -16,6 +16,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 @Component({
@@ -31,7 +32,8 @@ import { finalize } from 'rxjs';
         MatFormFieldModule,
         MatInputModule,
         MatSortModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatButtonToggleModule 
     ],
     templateUrl: './comparatif-etablissement-page.component.html',
     styleUrl: './comparatif-etablissement-page.component.css'
@@ -80,38 +82,8 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
    formatLabel(value: number): string {
       return value.toString();
     }
-    
 
 
-  /*   fetchFormations(query: string = '') {
-      this.isLoading = true; 
-      if (typeof query !== 'string') {
-        query = '';
-      }
-      this.apiService.getFiliereEtablissements(query, this.page, this.pageSize).subscribe({
-        next: (response) => {
-          console.log("Données reçues :", response);
-          this.formations = response.items || [];
-          this.filteredFormations = [...this.formations]; 
-          this.totalItems = response.total_items; 
-          this.totalPages = Math.ceil(this.totalItems / this.pageSize); 
-          console.log("Formations :", this.formations);
-          this.isLoading = false;  
-        },
-        error: (error) => {
-          console.error("Erreur API :", error);
-          if (error.status === 200 && error.error instanceof SyntaxError) {
-            console.error("La réponse de l'API n'est pas au format JSON attendu.");
-          } else {
-            console.error("Erreur lors de la récupération des données :", error.message);
-          }
-          this.isLoading = false; 
-        }
-      });
-    }
-    
-      */
-  
 
 
 
@@ -236,7 +208,7 @@ export class ComparatifEtablissementPageComponent implements OnInit  {
 
       this.filterFormations2();
 
-     /*  this.fetchFormations(); */
+      this.fetchFormations(); 
 
 
     } 

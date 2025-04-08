@@ -317,4 +317,25 @@ tbody tr:hover {
         transition: background-color 0.3s ease; /* Transition fluide */
         border: 1px solid #ddd; /* Bordure gris clair */
       }
-      
+
+/* Style pour décentrer les textes dans le tableau */
+.universite-table table th,
+.universite-table table td {
+  text-align: left; /* Aligne le texte à gauche */
+  padding: 10px; /* Ajoute de l'espace autour du texte */
+  vertical-align: top; /* Aligne le texte en haut de la cellule */
+}
+
+.universite-table table {
+  border-collapse: collapse; /* Supprime les espaces entre les bordures */
+  width: 100%; /* Prend toute la largeur disponible */
+}
+
+.universite-table table th {
+  background-color: #f5f5f5; /* Couleur de fond pour les en-têtes */
+  font-weight: bold; /* Met le texte en gras */
+}
+
+.universite-table table td {
+  border-bottom: 1px solid #ddd; /* Ajoute une bordure en bas des cellules */
+}
