@@ -56,6 +56,9 @@ export class FormationDetailComponent implements OnInit {
   etablissementID!: number;
   etablissementData: any;
   chart: Chart<'pie', number[], string> | undefined;
+  admisInternat!: number;
+  capaciteFormation!: number;
+
 
   private map: L.Map | undefined;
   selectedYear = new FormControl('2021');
@@ -86,34 +89,33 @@ export class FormationDetailComponent implements OnInit {
       default: return '';
     }
   }
-// graphe partie1
-candidatsBarChartData: ChartData<'bar'> = {
-  labels: ['Candidats admis', 'Néo-bacheliers admis'],
-  datasets: [
-    {
-      data: [0, 0],
-      label: 'Répartition',
-      backgroundColor: ['#42A5F5', '#66BB6A']
-    }
-  ]
-};
 
-candidatsBarChartOptions: ChartOptions<'bar'> = {
-  responsive: true,
-  plugins: {
-    legend: { display: false },
-    title: {
-      display: true,
-      text: 'Répartition des admis'
-    }
-  },
-  scales: {
-    y: {
-      beginAtZero: true
-    }
-  }
-};
+  candidatsBarChartData: ChartData<'bar'> = {
+    labels: ['Candidats admis', 'Néo-bacheliers admis'],
+    datasets: [
+      {
+        data: [0, 0],
+        label: 'Répartition',
+        backgroundColor: ['#42A5F5', '#66BB6A']
+      }
+    ]
+  };
 
+  candidatsBarChartOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Répartition des admis'
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
 
   barChartData: ChartData<'bar'> = {
     labels: ['MySpace', 'Hi5'],
@@ -153,6 +155,82 @@ candidatsBarChartOptions: ChartOptions<'bar'> = {
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
+  ngOnInit(): void {
+    this.etablissementID = Number(this.route.snapshot.paramMap.get('id'));
+    this.getAcademies();
+
+    if (!this.etablissementID) {
+      console.error("Aucun ID d'établissement trouvé dans l'URL !");
+      return;
+    }
+
+    this.selectedYear.valueChanges.subscribe((anneeactuelle) => {
+      this.getEtablissementData(anneeactuelle || '2021');
+    });
+
+    this.getEtablissementData(this.selectedYear.value || '2021');
+  }
+
+  panelColor = new FormControl('red');
+
+  academies: string[] = [];
+
+  getAcademies(): void {
+    this.http.get<any[]>(`${this.apiUrl}/academies`).subscribe({
+      next: (data) => {
+        this.academies = data.map(item => item.academie);
+        console.log('📚 Académies récupérées :', this.academies);
+      },
+      error: (err) => console.warn('⚠️ Academies non récupérées :', err)
+    });
+  }
+
+  getEtablissementData(anneeactuelle: string): void {
+    const url = `${this.apiUrl}/Etablissement/Candidat/Bachelier/${this.etablissementID}?anneeactuelle=${anneeactuelle}`;
+    console.log("📡 Appel API :", url);
+
+    this.http.get(url, { observe: 'response' }).subscribe({
+      next: (response) => {
+        if (response.headers.get('Content-Type')?.includes('application/json')) {
+          try {
+            this.etablissementData = response.body;
+            console.log("✅ Données établissement :", this.etablissementData);
+
+            if (Array.isArray(this.etablissementData) && this.etablissementData.length > 0) {
+              const data = this.etablissementData[0];
+              console.log("🧾 Donnée brute établissement :", data);
+
+              data.coordonnees_gps = data.localisation;
+
+
+              const total = +data["toInteger(a.effectif_total_candidats_admis)"] || 0;
+              const neos = +data["toInteger(a.effectif_neo_bacheliers_admis)"] || 0;
+              
+              console.log("📊 Données bar chart :", { total, neos });
+
+              if (!isNaN(total) && !isNaN(neos)) {
+                this.candidatsBarChartData.datasets[0].data = [total, neos];
+                this.candidatsBarChartData = { ...this.candidatsBarChartData };
+              } else {
+                console.warn("⚠️ Valeurs non numériques pour le graphique !");
+              }
+
+              setTimeout(() => this.createPieChart(), 0);
+              setTimeout(() => this.initMap(), 0);
+            } else {
+              console.error("❌ Données vides ou invalides :", this.etablissementData);
+            }
+          } catch (e) {
+            console.error("❌ Erreur parsing JSON :", e);
+          }
+        }
+      },
+      error: (error) => {
+        console.error("❌ Erreur API :", error);
+      }
+    });
+  }
+
   createPieChart(): void {
     if (!this.etablissementData || !this.etablissementData[0]) return;
 
@@ -163,13 +241,20 @@ candidatsBarChartOptions: ChartOptions<'bar'> = {
 
     switch (this.selectedOption) {
       case 'mention_bien':
+        
         ctx = document.getElementById('mentionChart') as HTMLCanvasElement;
         labels = ['Très bien', 'Bien', 'Assez bien', 'Passable'];
         dataset = [
           data["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"],
           data["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"],
+         
+          
+
+          
           data["toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis)"],
-          data["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"]
+          data["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"],
+
+          
         ];
         break;
 
@@ -186,6 +271,7 @@ candidatsBarChartOptions: ChartOptions<'bar'> = {
         labels = ['Général', 'Technologique', 'Professionnel'];
         dataset = [
           data['toInteger(a.effectif_generaux_admis)'],
+        
           data['toInteger(a.effectif_technologiques_admis)'],
           data['toInteger(a.effectif_professionnels_admis)']
         ];
@@ -239,81 +325,6 @@ candidatsBarChartOptions: ChartOptions<'bar'> = {
     });
   }
 
-  academies: string[] = [];
-  
-  getAcademies(): void {
-    this.http.get<any[]>(`${this.apiUrl}/academies`).subscribe({
-      next: (data) => {
-        this.academies = data.map(item => item.academie);
-        console.log('📚 Académies récupérées :', this.academies);
-      },
-      error: (err) => console.warn('⚠️ Academies non récupérées :', err)
-    });
-  }
-
-  ngOnInit(): void {
-    this.etablissementID = Number(this.route.snapshot.paramMap.get('id'));
-    this.getAcademies();
-
-    if (!this.etablissementID) {
-      console.error("Aucun ID d'établissement trouvé dans l'URL !");
-      return;
-    }
-
-    this.selectedYear.valueChanges.subscribe((anneeactuelle) => {
-      this.getEtablissementData(anneeactuelle || '2021');
-    });
-
-    this.getEtablissementData(this.selectedYear.value || '2021');
-  }
-
-  panelColor = new FormControl('red');
-  
-  getEtablissementData(anneeactuelle: string): void {
-    const url = `${this.apiUrl}/Etablissement/Candidat/Bachelier/${this.etablissementID}?anneeactuelle=${anneeactuelle}`;
-    console.log("📡 Appel API :", url);
-  
-    this.http.get(url, { observe: 'response' }).subscribe({
-      next: (response) => {
-        if (response.headers.get('Content-Type')?.includes('application/json')) {
-          try {
-            this.etablissementData = response.body;
-            console.log("✅ Données établissement :", this.etablissementData);
-  
-            if (Array.isArray(this.etablissementData) && this.etablissementData.length > 0) {
-              const data = this.etablissementData[0];
-              data.coordonnees_gps = data.localisation;
-  
-              // 🔽 Mise à jour du barChart
-              const total = data["toInteger(a.effectif_total_candidats_admis)"];
-              const neos = data["toInteger(a.effectif_neo_bacheliers_admis)"];
-              console.log("📊 Données bar chart :", { total, neos });
-  
-              // S'assurer que les valeurs sont bien numériques
-              if (!isNaN(total) && !isNaN(neos)) {
-                this.candidatsBarChartData.datasets[0].data = [total, neos];
-                this.candidatsBarChartData = { ...this.candidatsBarChartData }; // Angular refresh
-              } else {
-                console.warn("⚠️ Valeurs non numériques pour le graphique !");
-              }
-  
-              setTimeout(() => this.createPieChart(), 0);
-              setTimeout(() => this.initMap(), 0);
-            } else {
-              console.error("❌ Données vides ou invalides :", this.etablissementData);
-            }
-          } catch (e) {
-            console.error("Erreur parsing JSON :", e);
-          }
-        }
-      },
-      error: (error) => {
-        console.error("Erreur API :", error);
-      }
-    });
-  }
-  
-
   initMap(): void {
     if (this.map) this.map.remove();
 
@@ -334,7 +345,20 @@ candidatsBarChartOptions: ChartOptions<'bar'> = {
         .openPopup();
     }
   }
-
   
+  ngAfterViewInit() {
+    const downloadBtn = document.getElementById('downloadChartBtn');
+    const canvas = document.getElementById('mentionChart') as HTMLCanvasElement;
+  
+    if (downloadBtn && canvas) {
+      downloadBtn.addEventListener('click', () => {
+        const image = canvas.toDataURL('image/png'); // tu peux aussi mettre 'image/jpeg'
+        const link = document.createElement('a');
+        link.href = image;
+        link.download = 'graphique-mentions.png';
+        link.click();
+      });
+    }
+  }
   
 }

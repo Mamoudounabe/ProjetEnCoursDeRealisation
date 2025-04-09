@@ -49,7 +49,7 @@
     <!-- Bloc 3 : Statistiques et Graphique -->
     <div class="chart-box">
       <p> En {{ selectedYear.value }}, cette formation accueillait 
-        <strong> {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_admis)"] }} </strong> 
+        
         <strong>
           ({{ ((etablissementData[0]["toInteger(a.effectif_neo_bacheliers_admis)"] 
           / etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"]) * 100) | number:'1.0-2' }} %)
@@ -65,24 +65,28 @@
                 [type]="barChartType">
         </canvas>
       </div>
-      
 
     </div>
        
   
-    
-  <!-- Bloc 4 : Nouveau Bloc -->
-  <div class="chart-box">
-    <h3>📊 Analyse des tendances</h3>
-    <div class="chart-box">
-      <canvas baseChart 
-        [data]="barChartData2" 
-        [options]="barChartOptions" 
-        [type]="barChartType">
-      </canvas>
+    <div class="chart-box marquee" id="pagecouleur">
+      <p>
+        Dans {{ etablissementData[0].NomEtablissement }} nous avons 
+        <strong>{{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"] }}</strong>
+        Etudiants ayant une mention très bien et 
+        <strong>{{ etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] }}</strong>
+        boursiers
+      </p>
     </div>
-    <p><strong>Évolution par rapport aux années précédentes.</strong></p>
-  </div>
+    
+  
+  
+  
+  
+  
+
+  
+  
   
   
   
@@ -112,7 +116,7 @@
       </strong> 
       de néo-bacheliers ayant obtenu la mention bien au bac, pour 
       <strong> {{ etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] }} </strong> 
-      néo-bacheliers admis.    
+      candidat admis.    
     </p>
    </div>
   </div>
@@ -203,7 +207,7 @@
       </ng-container>
   
       <canvas id="mentionChart" class="canvas-mini"></canvas> 
-      <button id="downloadChartBtn">⬇️</button>
+      <button id="downloadMentionChartBtn">⬇️ Télécharger graphique</button>
 
     </div>
   </div>
@@ -220,6 +224,8 @@
     ({{ (100 - ((etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100)) | number:'1.0-2' }}%)
   </p>
   <canvas id="bourseChart" class="canvas-mini"></canvas>
+  <button id="downloadBourseChartBtn">⬇️ Télécharger graphique</button>
+  
 </div>
 
 <!-- TYPE DE BAC -->
@@ -239,6 +245,7 @@
   </p>
  
 <canvas id="bacChart" class="canvas-mini"></canvas>
+<button id="downloadBacChartBtn">⬇️ Télécharger graphique</button>
 </div>
 
 <!-- ORIGINE (ACADÉMIE) -->
@@ -268,6 +275,7 @@
     ) | number:'1.0-2' }}%)
   </p>
   <canvas id="academieChart" class="canvas-mini"></canvas>
+  <button id="downloadAcademieChartBtn">⬇️ Télécharger graphique</button>
 </div>
 
 <!-- SEXE -->
@@ -303,6 +311,7 @@
       </p>
 
       <canvas id="sexeChart" class="canvas-mini"></canvas>
+      <button id="downloadSexeChartBtn">⬇️ Télécharger graphique</button>
     </ng-container>
 
     <ng-template #incoherentSexe>
