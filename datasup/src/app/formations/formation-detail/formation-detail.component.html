@@ -106,18 +106,31 @@
       </svg>
       <strong>Profil des candidats admis</strong>
     </h2 >
-  
+   
+
    <div>
-    <p> En {{ selectedYear.value }}, cette formation accueillait 
-      <strong> {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }} </strong> 
-      <strong>
-        ({{ ((etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] 
-        / etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"]) * 100) | number:'1.0-2' }} %)
-      </strong> 
-      de néo-bacheliers ayant obtenu la mention bien au bac, pour 
-      <strong> {{ etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] }} </strong> 
-      candidat admis.    
-    </p>
+   <h1>
+    En {{ selectedYear.value }},  {{ etablissementData[0].NomEtablissement }} accueillait 
+    <strong> {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }} </strong> 
+    <strong>
+      ({{ ((etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] 
+      / etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"]) * 100) | number:'1.0-2' }} %)
+    </strong> 
+    de néo-bacheliers ayant obtenu la mention bien au bac.
+
+   </h1> 
+      
+       <ul>
+          <li><strong>{{ etablissementData[0]['toInteger(a.effectif_technologiques_admis)'] }}</strong> étudiant venant d'une formation technologique</li>
+          <li><strong>{{ etablissementData[0]['toInteger(a.effectif_generaux_admis)'] }}</strong> étudiant venant d'une formation générale </li>
+          <li><strong>{{ etablissementData[0]['toInteger(a.effectif_professionnels_admis)'] }}</strong> étudiant venant d'une formation professionnel</li>
+        </ul> 
+
+
+       <p>Pour  un effectif total de 
+        <strong> {{ etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] }} </strong> 
+        candidat admis. </p>    
+    
    </div>
   </div>
   
@@ -312,6 +325,7 @@
 
       <canvas id="sexeChart" class="canvas-mini"></canvas>
       <button id="downloadSexeChartBtn">⬇️ Télécharger graphique</button>
+      
     </ng-container>
 
     <ng-template #incoherentSexe>

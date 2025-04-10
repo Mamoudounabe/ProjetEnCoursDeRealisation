@@ -345,20 +345,4 @@ export class FormationDetailComponent implements OnInit {
         .openPopup();
     }
   }
-  
-  ngAfterViewInit() {
-    const downloadBtn = document.getElementById('downloadChartBtn');
-    const canvas = document.getElementById('mentionChart') as HTMLCanvasElement;
-  
-    if (downloadBtn && canvas) {
-      downloadBtn.addEventListener('click', () => {
-        const image = canvas.toDataURL('image/png'); // tu peux aussi mettre 'image/jpeg'
-        const link = document.createElement('a');
-        link.href = image;
-        link.download = 'graphique-mentions.png';
-        link.click();
-      });
-    }
-  }
-  
 }
