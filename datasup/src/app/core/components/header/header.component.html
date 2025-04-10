@@ -1,107 +1,73 @@
 <div class="main-container" [ngClass]="{'split-view': isMenuOpen}">
-  
- 
-  <section class="decalerdroite">
-    <div class="header">
-      <header>
-        <mat-toolbar class="header">
-          <!-- Bouton pour ouvrir/fermer le menu -->
-          <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleMenu()">
-            <mat-icon class="m">menu</mat-icon>
-          </button>
-  
-          <!-- Logo -->
-          <div class="logo">
-            <p><a routerLink="" class="supm">DataSup</a></p>
-            <span class="slogan">BDIA Dijon</span>
-          </div>
-  
-          <!-- Espaceur -->
-          <span class="example-spacer"></span>
-        </mat-toolbar>
-      </header>
+
+  <!-- Barre du haut -->
+  <mat-toolbar class="header">
+    <button mat-icon-button (click)="toggleMenu()">
+      <mat-icon class="m">menu</mat-icon>
+    </button>
+
+    <div class="logo">
+      <p><a routerLink="" class="supm">DataSup</a></p>
+      <span class="slogan">BDIA Dijon</span>
     </div>
-  </section>
+    <span class="example-spacer"></span>
+  </mat-toolbar>
 
-  <!-- Menu déroulant -->
-  <section>
+  <!-- Wrapper horizontal -->
+  <div class="content-wrapper">
 
+    <!-- Menu latéral -->
     <div class="menu-container" *ngIf="isMenuOpen">
-      <!-- En-tête du menu -->
       <div class="menu-header">
         <span class="menu-title">Fermer</span>
         <button class="menu-close" (click)="toggleMenu()">✖</button>
       </div>
-  
+
       <ul>
-       <!--  <li>
-          <a href="" class="menu-link">
-            <mat-icon class="menu-icon">insert_chart</mat-icon>
-            Statistiques
-          </a>
-        </li> -->
         <li>
-          <a href="geo-page" class="menu-item">
+          <a routerLink="geo-page" class="menu-item">
             <mat-icon class="menu-icon">location_on</mat-icon>
             <span>Géographiques</span>
           </a>
         </li>
         <li>
-          <a href="formations">
+          <a routerLink="formations" class="menu-item">
             <mat-icon class="menu-icon">school</mat-icon>
             <span>Formations</span>
           </a>
         </li>
         <li>
-          <a href="filieres">
+          <a routerLink="filieres" class="menu-item">
             <mat-icon class="menu-icon">class</mat-icon>
             <span>Filières</span>
           </a>
         </li>
         <li>
-          <a href="etablissements" >
+          <a routerLink="etablissements" class="menu-item">
             <mat-icon class="menu-icon">compare</mat-icon>
-            <span>Comparatif des établissements</span>
+            <span>Établissements</span>
           </a>
         </li>
-
-
         <li>
-          <a routerLink="analyse" >
-           <mat-icon class="menu-icon">assignment</mat-icon>
+          <a routerLink="analyse" class="menu-item">
+            <mat-icon class="menu-icon">assignment</mat-icon>
             <span>Analyses</span>
           </a>
         </li>
-
-
-
         <li>
-          <a routerLink="" >
-           <mat-icon class="menu-icon">assignment</mat-icon>
-            <span>Rapports</span>
-          </a>
-        </li>
-
-        
-
-        
-        <li>
-          <a routerLink="apropos" >
-           <mat-icon class="menu-icon">assignment</mat-icon>
+          <a routerLink="apropos" class="menu-item">
+            <mat-icon class="menu-icon">info</mat-icon>
             <span>À propos</span>
           </a>
         </li>
-         
-
-        
-        
-
       </ul>
-      <img src="/M1ProjetTutore_Parcoursup/datasup/src/app/assets/image/sup.png" alt="">
-  
-    </div>
-  
-    
-  </section>
-</div>
 
+      <img src="assets/image/data.jpeg" alt="Logo" class="menu-logo">
+    </div>
+
+    <!-- Contenu principal -->
+    <section class="decalerdroite">
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+</div>
