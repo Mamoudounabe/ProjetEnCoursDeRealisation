@@ -36,6 +36,9 @@ import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-geo-details',
+
+    standalone:true,
+
     imports: [ MatInputModule,
         MatFormFieldModule,
         MatOptionModule,
