@@ -1011,7 +1011,7 @@ class EtablissementManager:
             return []     
         
 
-
+#  nbr filliere public / privé (et region annee)
 #MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
 #MATCH (e)-[:OFFERS]->(f:Filiere)
 #WHERE s.annee = "2021" 
@@ -1019,3 +1019,11 @@ class EtablissementManager:
 #RETURN 
 #  sum(CASE WHEN e.statut_etablissement_filiere CONTAINS "Privé" THEN 1 ELSE 0 END) AS TotalPrive,
 #  sum(CASE WHEN NOT e.statut_etablissement_filiere CONTAINS "Prive" THEN 1 ELSE 0 END) AS TotalPublic
+
+#  nbr filliere / type (et region annee)
+#MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
+#MATCH (e)-[:OFFERS]->(f:Filiere)
+#WHERE s.annee = "2021" 
+#  AND e.region_etablissement = "Bourgogne-Franche-Comté"
+#  AND f.filiere_formation CONTAINS "Licence"
+#RETURN COUNT(f) AS TotalLicence
