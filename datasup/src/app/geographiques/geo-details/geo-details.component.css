@@ -73,3 +73,37 @@ canvas {
     font-weight: bold;
     color: #fff;
 }
+
+/* Style pour le conteneur du pie chart */
+.pie-chart-container {
+    max-width: 400px;  /* Limite la largeur */
+    margin: 20px auto; /* Centrage horizontal et marge verticale */
+  }
+  
+  /* Style pour le canvas du pie chart */
+  #pieChart {
+    width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Style pour le groupe de boutons d'année */
+  .year-button-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .year-button-group button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+  }
+  
+  .year-button-group button.active {
+    background-color: #007BFF;
+    color: #fff;
+    border-color: #007BFF;
+  }
+  

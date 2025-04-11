@@ -32,7 +32,7 @@ import { faChartBar } from '@fortawesome/free-solid-svg-icons';
 import { toInteger } from 'lodash';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
-
+import { forkJoin } from 'rxjs'
 
 @Component({
     selector: 'app-geo-details',
@@ -182,14 +182,17 @@ chart: any;
 */
 
 
+// Graphique pour filières Public/Privé (barres empilées)
+publicPrivateChart: any;
+// Graphique pour la répartition par type (camembert)
+pieChart: any;
 
+// Années à considérer
+years: string[] = ['2020', '2021', '2022', '2023'];
+// Région récupérée depuis l'URL
+region: string = '';
 
-// Graphique pour les filières Public/Privé
-chart: any;
-// Graphique pour les types de filières selon la formation sélectionnée
-typeChart: any;
-
-// Liste des formations disponibles pour le second graphique
+// Liste complète des types de formation pour le camembert
 formationTypes: string[] = [
   'Année de Réussite', 
   'Année Préparatoire', 
@@ -222,12 +225,8 @@ formationTypes: string[] = [
   'Mention complémentaire', 
   'Sciences Po / Instituts d\'études politiques'
 ];
-selectedFormation: string = this.formationTypes[0];
-
-// La région récupérée depuis les paramètres de la route
-region: string = '';
-// Les années utilisées pour les graphiques
-years: string[] = ['2020', '2021', '2022', '2023'];
+// Année actuellement sélectionnée pour le camembert
+selectedPieYear: string = '2020';
 
 constructor(
   private route: ActivatedRoute,
@@ -239,13 +238,12 @@ ngOnInit(): void {
   if (regionName) { 
     this.region = regionName;
     this.getNbFilieresParRegion(this.region);
-    this.getNbFilieresParTypeChart(this.region, this.selectedFormation);
+    this.loadPieChartData(this.selectedPieYear);
   }
 }
 
 /**
- * Récupère pour chaque année le nombre de filières de type Public/Privé et affiche le graphique correspondant.
- * Utilise l'endpoint getNbFilieresParRegion.
+ * Récupère pour chaque année le nombre de filières Public et Privé via l'endpoint getNbFilieresParRegion.
  */
 getNbFilieresParRegion(region: string): void {
   const publicCounts: number[] = [];
@@ -282,7 +280,7 @@ getNbFilieresParRegion(region: string): void {
 }
 
 /**
- * Affiche le graphique empilé pour les filières Public et Privé.
+ * Affiche le graphique en barres empilées pour les filières Public (bleu) et Privé (orange).
  */
 renderPublicPrivateChart(years: string[], publicCounts: number[], privateCounts: number[]): void {
   const canvas = document.getElementById('formationChart') as HTMLCanvasElement;
@@ -293,15 +291,15 @@ renderPublicPrivateChart(years: string[], publicCounts: number[], privateCounts:
 
   const ctx = canvas.getContext('2d');
   if (!ctx) {
-    console.error("Impossible d'obtenir le contexte 2D !");
+    console.error("Impossible d'obtenir le contexte 2D pour 'formationChart'!");
     return;
   }
 
-  if (this.chart) {
-    this.chart.destroy();
+  if (this.publicPrivateChart) {
+    this.publicPrivateChart.destroy();
   }
 
-  this.chart = new Chart(ctx, {
+  this.publicPrivateChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: years,
@@ -309,13 +307,13 @@ renderPublicPrivateChart(years: string[], publicCounts: number[], privateCounts:
         {
           label: 'Public',
           data: publicCounts,
-          backgroundColor: 'rgba(54, 162, 235, 0.7)', // Bleu
+          backgroundColor: 'rgba(54, 162, 235, 0.7)', // bleu
           stack: 'stack1'
         },
         {
           label: 'Privé',
           data: privateCounts,
-          backgroundColor: 'rgba(255, 159, 64, 0.7)', // Orange
+          backgroundColor: 'rgba(255, 159, 64, 0.7)', // orange
           stack: 'stack1'
         }
       ]
@@ -334,99 +332,91 @@ renderPublicPrivateChart(years: string[], publicCounts: number[], privateCounts:
 }
 
 /**
- * Récupère pour chaque année le nombre de filières correspondant au type de formation sélectionné.
- * Utilise l'endpoint getNbFilieresParType.
+ * Charge les données du camembert pour l'année passée en paramètre.
+ * Pour chaque type de formation, on appelle l'endpoint getNbFilieresParType pour obtenir le nombre.
  */
-getNbFilieresParTypeChart(region: string, formationType: string): void {
-  const typeCounts: number[] = [];
-  let completedRequests = 0;
-
-  this.years.forEach(year => {
-    this.apiService.getNbFilieresParType(region, year, formationType).subscribe({
-      next: (response: any[]) => {
-        if (response && response.length > 0) {
-          // L'endpoint retourne { TotalType: number }
-          const result = response[0];
-          typeCounts.push(result.TotalType);
-        } else {
-          typeCounts.push(0);
-        }
-        completedRequests++;
-        if (completedRequests === this.years.length) {
-          this.renderTypeChart(this.years, typeCounts, formationType);
-        }
-      },
-      error: (err) => {
-        console.error(`Erreur pour l'année ${year} avec formation "${formationType}":`, err);
-        typeCounts.push(0);
-        completedRequests++;
-        if (completedRequests === this.years.length) {
-          this.renderTypeChart(this.years, typeCounts, formationType);
-        }
-      }
-    });
+loadPieChartData(year: string): void {
+  const observables = this.formationTypes.map(type => 
+    this.apiService.getNbFilieresParType(this.region, year, type)
+  );
+  
+  forkJoin(observables).subscribe({
+    next: (results) => {
+      // results est un tableau dont chaque élément est un tableau contenant { TotalType }
+      const data: number[] = results.map(res => res && res.length > 0 ? res[0].TotalType : 0);
+      this.renderPieChart(year, this.formationTypes, data);
+    },
+    error: (err) => {
+      console.error(`Erreur lors du chargement des données pour l'année ${year}:`, err);
+      // En cas d'erreur, construire un tableau de zéros
+      const data = this.formationTypes.map(() => 0);
+      this.renderPieChart(year, this.formationTypes, data);
+    }
   });
 }
 
 /**
- * Affiche le deuxième graphique qui présente, pour chaque année, le nombre total 
- * de filières correspondant à la formation sélectionnée.
- *
- * @param years Tableau des années.
- * @param typeCounts Tableau des effectifs pour le type sélectionné.
- * @param formationType Le type de formation sélectionné.
+ * Affiche le camembert pour l'année donnée à partir des données et labels fournis.
+ * @param year Année sélectionnée.
+ * @param labels Liste des types de formation.
+ * @param data Nombre d'occurrences pour chaque type.
  */
-renderTypeChart(years: string[], typeCounts: number[], formationType: string): void {
-  const canvas = document.getElementById('typeChart') as HTMLCanvasElement;
+renderPieChart(year: string, labels: string[], data: number[]): void {
+  const canvas = document.getElementById('pieChart') as HTMLCanvasElement;
   if (!canvas) {
-    console.error("Canvas 'typeChart' non trouvé !");
+    console.error("Canvas 'pieChart' non trouvé !");
     return;
   }
-
   const ctx = canvas.getContext('2d');
   if (!ctx) {
-    console.error("Impossible d'obtenir le contexte 2D du canvas 'typeChart'!");
+    console.error("Impossible d'obtenir le contexte 2D pour 'pieChart'!");
     return;
   }
-
-  if (this.typeChart) {
-    this.typeChart.destroy();
+  if (this.pieChart) {
+    this.pieChart.destroy();
   }
-
-  this.typeChart = new Chart(ctx, {
-    type: 'bar',
+  this.pieChart = new Chart(ctx, {
+    type: 'pie',
     data: {
-      labels: years,
+      labels: labels,
       datasets: [{
-        label: formationType,
-        data: typeCounts,
-        backgroundColor: 'rgba(75, 192, 192, 0.7)', // Couleur personnalisée (ex: vert-bleu)
-        borderColor: 'rgba(75, 192, 192, 1)',
+        data: data,
+        // Génère une couleur aléatoire pour chaque slice ou utilisez un ensemble de couleurs prédéfini
+        backgroundColor: labels.map(() => this.randomColor()),
         borderWidth: 1
       }]
     },
     options: {
       responsive: true,
       plugins: {
-        legend: { position: 'top' }
-      },
-      scales: {
-        y: { beginAtZero: true }
+        legend: { position: 'top' },
+        title: {
+          display: true,
+          text: `Répartition des filières pour ${year}`
+        }
       }
     }
   });
 }
 
 /**
- * Méthode appelée lors du changement de la formation sélectionnée.
- * Relance la récupération des données pour mettre à jour le deuxième graphique.
+ * Fonction pour retourner une couleur aléatoire au format RGBA.
  */
-onSelectedFormationChange(): void {
-  if (this.region && this.selectedFormation) {
-    this.getNbFilieresParTypeChart(this.region, this.selectedFormation);
-  }
+randomColor(): string {
+  const r = Math.floor(Math.random() * 156) + 100; // Pour avoir des couleurs plutôt claires
+  const g = Math.floor(Math.random() * 156) + 100;
+  const b = Math.floor(Math.random() * 156) + 100;
+  return `rgba(${r}, ${g}, ${b}, 0.7)`;
 }
 
+/**
+ * Appelée lors du clic sur un bouton de sélection d'année pour le pie chart.
+ * Met à jour l'année sélectionnée et recharge le camembert.
+ */
+onSelectPieYear(selectedYear: string): void {
+  this.selectedPieYear = selectedYear;
+  this.loadPieChartData(selectedYear);
+}
 
 
 }

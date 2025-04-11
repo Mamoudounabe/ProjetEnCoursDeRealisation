@@ -12,9 +12,9 @@
 
     <canvas id="formationChart"></canvas>
 </div>
+
+
 -->
-
-
 
 <!-- <canvas >  #formationChart </canvas> -->
 
@@ -31,20 +31,15 @@
   <canvas id="formationChart"></canvas>
 </div>
 
-<!-- Sélecteur pour le type de formation -->
-<div style="margin-top:20px;">
-  <h2>Filières par Type</h2>
-  <mat-form-field appearance="fill">
-    <mat-label>Choisissez la formation</mat-label>
-    <mat-select [(value)]="selectedFormation" (selectionChange)="onSelectedFormationChange()">
-      <mat-option *ngFor="let formation of formationTypes" [value]="formation">
-        {{ formation }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
-
-<!-- Deuxième graphique : Par type de formation -->
-<div>
-  <canvas id="typeChart"></canvas>
+<!-- Section pour le camembert par année -->
+<div class="pie-chart-container">
+  <h2>Répartition des filières par type (camembert)</h2>
+  <!-- Boutons de sélection pour l'année -->
+  <div class="year-button-group">
+    <button *ngFor="let year of years" (click)="onSelectPieYear(year)"
+            [class.active]="year === selectedPieYear">
+      {{ year }}
+    </button>
+  </div>
+  <canvas id="pieChart"></canvas>
 </div>
