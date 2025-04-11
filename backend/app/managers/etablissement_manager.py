@@ -1012,7 +1012,10 @@ class EtablissementManager:
         
 
 
-#        MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
-#        MATCH (e)-[:OFFERS]->(f:Filiere)
-#        WHERE s.annee = "2021" AND e.region_etablissement = "Bourgogne-Franche-Comté"
-#        RETURN COUNT(f) AS TotalFiliere
+#MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
+#MATCH (e)-[:OFFERS]->(f:Filiere)
+#WHERE s.annee = "2021" 
+#  AND e.region_etablissement = "Bourgogne-Franche-Comté"
+#RETURN 
+#  sum(CASE WHEN e.statut_etablissement_filiere CONTAINS "Privé" THEN 1 ELSE 0 END) AS TotalPrive,
+#  sum(CASE WHEN NOT e.statut_etablissement_filiere CONTAINS "Prive" THEN 1 ELSE 0 END) AS TotalPublic
