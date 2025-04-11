@@ -16,7 +16,6 @@
 
 -->
 
-<!-- <canvas >  #formationChart </canvas> -->
 <div class="header-section">
   <p class="breadcrumbs">
     <a class="breadcrumb-link" routerLink="/">DataSup</a> /
@@ -30,10 +29,10 @@
   <canvas id="formationChart"></canvas>
 </div>
 
-<!-- Section pour le graphique grand (polar area) -->
+<!-- Section pour le graphique rectangulaire (horizontal) -->
 <div class="full-screen-chart-container">
   <h2>Répartition des filières par type</h2>
-  <!-- Boutons de sélection d'année pour le graphique grand -->
+  <!-- Boutons de sélection d'année pour le graphique rectangulaire -->
   <div class="year-button-group">
     <button *ngFor="let year of years" (click)="onSelectLargeYear(year)"
             [class.active]="year === selectedLargeYear">

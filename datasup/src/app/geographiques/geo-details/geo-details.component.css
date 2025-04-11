@@ -64,10 +64,10 @@ canvas {
     color: #fff;
 }
 
-/* Style pour le conteneur du graphique grand */
+/* Style pour le conteneur du graphique rectangulaire grand */
 .full-screen-chart-container {
     width: 90%;
-    height: 80vh; /* Prend 80% de la hauteur de la fenêtre */
+    height: 80vh; /* 80% de la hauteur de la fenêtre */
     margin: 20px auto;
     padding: 20px;
     background: #f9f9f9;
@@ -76,7 +76,7 @@ canvas {
     animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Ajustement du canvas pour le graphique grand */
+/* Ajustement du canvas pour le graphique rectangulaire */
 #largeChart {
     width: 100% !important;
     height: 100% !important;
