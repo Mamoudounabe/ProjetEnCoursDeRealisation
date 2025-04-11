@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-analyse',
-    standalone:true,
     templateUrl: './analyse.component.html',
     styleUrls: ['./analyse.component.css'],
-    
+    standalone: false
 })
 export class AnalyseComponent {
   scrollToSection(sectionId: string) {

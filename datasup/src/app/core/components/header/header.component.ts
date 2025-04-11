@@ -6,8 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
-    selector: 'app-header', 
-    standalone:true,
+    selector: 'app-header', // Assure-toi d'utiliser Angular 15+
     imports: [
         RouterLink,
         CommonModule,

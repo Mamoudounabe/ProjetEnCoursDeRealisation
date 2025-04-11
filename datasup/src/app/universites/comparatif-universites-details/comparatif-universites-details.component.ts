@@ -62,7 +62,7 @@ export class ComparatifUniversitesDetailsComponent implements OnInit {
   universitesIDs: number[] = []; // Liste des IDs des universités sélectionnées
   universitesNames: string[] = []; // Liste des noms des universités sélectionnées
   /* anneesActuelles: string[] = ['2020', '2021', '2022', '2023']; */ // À modifier selon besoin
-  anneesActuelles: string[] = ['2020', '2021', '2022', '2023'];
+  anneesActuelles: string[] = ['2020','2021', '2022', '2023']; // À modifier selon besoin
 /*   universitesData: any[] = []; */
   faSignal = faSignal;
 
@@ -106,11 +106,11 @@ selectedSousOption3 : string = '';
 selectedOption4 : string = 'resultats_academiques';
 
 
-/* --------------------------------------------bloc 6------------------------------------------------------------------- */
+/* --------------------------------------------bloc Quotas------------------------------------------------------------------- */
 
+selectedOptionQ : string = 'boursiersSecondaire';
 
-
-
+selectedSousOptionQ : string = 'boursiersSecondaire';
 
 
 
@@ -138,154 +138,6 @@ selectedOption4 : string = 'resultats_academiques';
     this.getUniversitesData();  // Appelle la méthode pour récupérer les données des universités
   }
 
-
-  
- /*  getUniversitesData(): void {
-    if (!this.universitesNames || this.universitesNames.length < 2) {
-      console.error(' Vous devez sélectionner au moins deux universités pour la comparaison.');
-      return;
-    }
-  
-    if (!this.anneesActuelles || this.anneesActuelles.length === 0) {
-      console.error(' Vous devez sélectionner au moins une année.');
-      return;
-    }
-  
-    this.apiService.getUniversitesByComp(this.universitesNames, this.anneesActuelles)
-      .subscribe(
-        (data) => {
-          this.universitesData = data;
-          console.log(' Données des universités récupérées :', this.universitesData);
-        },
-        (error) => {
-          console.error(' Erreur lors de la récupération des universités :', error);
-        }
-      );
-
-      this.createChart(); 
-  
-    }
- */
-
-
-  /*   getUniversitesData(): void {
-      if (!this.universitesNames || this.universitesNames.length < 2) {
-        console.error('Vous devez sélectionner au moins deux universités pour la comparaison.');
-        return;
-      }
-    
-      if (!this.anneesActuelles || this.anneesActuelles.length === 0) {
-        console.error('Vous devez sélectionner au moins une année.');
-        return;
-      }
-    
-      this.apiService.getUniversitesByComp(this.universitesNames, this.anneesActuelles)
-        .subscribe(
-          (data: any[]) => {
-            console.log("Données brutes reçues :", data);
-            this.universitesData = data.reduce((acc, universite) => {
-              acc[universite.etablissement] = [{ TotalCandidat: universite.TotalCandidat }];
-              return acc;
-            }, {} as any);
-    
-            console.log("Données transformées :", this.universitesData);
-            this.createChart(); 
-          },
-          (error) => {
-            console.error('Erreur lors de la récupération des universités :', error);
-          }
-        );
-    } */
-    
-/* 
-  createChart(): void {
-
-    console.log("Universités Data pour le graphique :", this.universitesData);
-
-    const labels = this.anneesActuelles;
-    const datasets = this.universitesNames.map((name, index) => {
-      const dataValues = (this.universitesData as any)[name]?.map((entry: any) => entry.TotalCandidat || 0) || [];
-  
-      return {
-        label: name,
-        data: dataValues,
-        backgroundColor: `hsl(${index * 60}, 70%, 50%)`,
-      };
-    });
-  
-    this.chart = new Chart('universitesChart', {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: datasets
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  } */
-   
-
-
-
-
-/* 
- 
-  getUniversitesData(): void {
-    if (!this.universitesNames || this.universitesNames.length < 2) {
-      console.error('Vous devez sélectionner au moins deux universités pour la comparaison.');
-      return;
-    }
-  
-    if (!this.anneesActuelles || this.anneesActuelles.length === 0) {
-      console.error('Vous devez sélectionner au moins une année.');
-      return;
-    }
-  
-    this.apiService.getUniversitesByComp(this.universitesNames, this.anneesActuelles)
-      .subscribe(
-        (data: any[]) => {
-          console.log("Données brutes reçues :", data);
-  
-          
-          this.universitesData = data.reduce((acc, universite) => {
-            if (!acc[universite.etablissement]) {
-              acc[universite.etablissement] = [];
-            }
-            acc[universite.etablissement].push({ 
-              annee: universite.annee, 
-              effectif_total_candidats_formation: universite.effectif_total_candidats_formation, 
-              taux_acces: universite.taux_acces,
-              effectif_candidates_formation: universite.effectif_candidates_formation
-            });
-            return acc;
-          }, {} as any);
-  
-          console.log("Données transformées :", this.universitesData);
-          console.log("Années disponibles dans les données :", Object.values(this.universitesData).flat().map(d => d.annee));
-
-           this.createChart(); 
-
-
-
-       
-        this.createChart('effectif_total_candidats_formation', 'chartCandidats', 'Total Candidats', ['#FF5733', '#33FF57']);
-        this.createChart('taux_acces', 'chartPhasePrincipale', 'Candidats Phase Principale', ['#009FE3', '#A3D39C']);
-        this.createChart('effectif_candidates_formation', 'chartCandidates', 'Candidates Formation', ['#FFC300', '#581845']);
-
-        },
-        (error) => {
-          console.error('Erreur lors de la récupération des universités :', error);
-        }
-      );
-  }
-  
- */
 
 
 
@@ -316,7 +168,11 @@ selectedOption4 : string = 'resultats_academiques';
               annee: universite.annee,
               effectif_total_candidats_formation: universite.effectif_total_candidats_formation || 0,
               taux_acces: universite.taux_acces || 0,
-              effectif_candidates_formation: universite.effectif_candidates_formation || 0
+              effectif_candidates_formation: universite.effectif_candidates_formation || 0 ,
+              /* quotas applicable */
+              effectif_boursiers_generaux_phase_principale: universite.effectif_boursiers_generaux_phase_principale || 0,
+              effectif_admis_meme_academie: universite.effectif_admis_meme_academie || 0,
+              moyenne_effectif_admis_meme_academie: universite.moyenne_effectif_admis_meme_academie || 0
             });
             return acc;
           }, {} as Record<string, any[]>);
@@ -329,8 +185,12 @@ selectedOption4 : string = 'resultats_academiques';
 
           // Créer les graphiques après récupération des données
           this.createChart('effectif_total_candidats_formation', 'chartCandidats', 'Total Candidats', ['#009FE3', '#A3D39C']);
-          this.createChart('taux_acces', 'chartPhasePrincipale', 'Candidats Phase Principale', ['#009FE3', '#A3D39C']);
-          this.createChart('effectif_candidates_formation', 'chartCandidates', 'Candidates Formation', ['#87A2C2', '#D77683']);
+          this.createChart('taux_acces', 'chartPhasePrincipale', 'Candidats Phase Principale', ['#87A2C2', '#D77683']);
+          this.createChart('effectif_candidates_formation', 'chartCandidates', 'Candidates Formation', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_boursiers_generaux_phase_principale', 'chartBoursiers', 'Boursiers Phase Principale', ['#87A2C2', '#D77683']);
+          this.createChart('effectif_admis_meme_academie', 'chartAdmisAcademie', 'Admis Même Académie', ['#009FE3', '#A3D39C']);
+         /*  this.createChart('moyenne_effectif_admis_meme_academie', 'chartMoyenneAdmisAcademie', 'Moyenne Admis Même Académie', ['#009FE3', '#A3D39C']); */
+          
         },
         (error) => {
           console.error('Erreur lors de la récupération des universités :', error);
@@ -376,79 +236,9 @@ selectedOption4 : string = 'resultats_academiques';
   }
 
 
-
-/*   createChart(variable: string, chartId: string, label: string, colors: string[]): void {
-    const labels = this.anneesActuelles;
-    const datasets = this.universitesNames.map((name, index) => {
-      const dataValues = this.anneesActuelles.map(annee => {
-        const found = (this.universitesData as any)[name]?.find((entry: any) => entry.annee === annee);
-        return found ? found[variable] : 0;
-      });
-  
-      return {
-        label: name,
-        data: dataValues,
-        backgroundColor: colors[index % colors.length],
-      };
-    });
-  
-    new Chart(chartId, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: datasets
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: { beginAtZero: true }
-        }
-      }
-    });
-  }
- */
  
   chartInstances: Record<string, Chart> = {}; // Stockage des graphiques
 
-
-
-/* 
-  
-  createChart(): void {
-    console.log("Universités Data pour le graphique :", this.universitesData);
-  
-   const colors = ['#009FE3', '#A3D39C'];
-    const labels = this.anneesActuelles;
-    const datasets = this.universitesNames.map((name, index) => {
-      const dataValues = this.anneesActuelles.map(annee => {
-        const found = (this.universitesData as any)[name]?.find((entry: any) => entry.annee === annee);
-        return found ? found.effectif_total_candidats_formation : 0;
-      });
-  
-      return {
-        label: name,
-        data: dataValues,
-        backgroundColor: colors[index % colors.length],
-      };
-    });
-  
-    this.chart = new Chart('universitesChart', {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: datasets
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  }
-    */
 
 
 

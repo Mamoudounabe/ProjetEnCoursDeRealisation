@@ -18,7 +18,6 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
 @Component({
   selector: 'app-comparatif-universites-page',
-  standalone:true,
   imports: [CommonModule,
     FormsModule,
     MatProgressSpinnerModule,

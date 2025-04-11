@@ -32,7 +32,6 @@ Chart.register(...registerables, ChartDataLabels);
 
 @Component({
     selector: 'app-filieres-details',
-    standalone:true,
     imports: [
         RouterLink,
         NgIf,

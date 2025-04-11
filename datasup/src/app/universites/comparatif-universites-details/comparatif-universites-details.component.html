@@ -81,6 +81,12 @@
         </div>
 
 
+        <!-- Quota Applicable -->
+       <!--  <div *ngIf="selectedSousOption1 === 'boursiersSecondaire'" class="graphe">
+          <p>Nombre de candidats néo-bacheliers Boursiers</p>
+          <canvas id="chartBoursiers"></canvas> -->
+
+
 
      <!--  <div *ngIf="selectedSousOption1 === 'pcneo'" class="graphe">
         <p>Nombre de candidats néo-bacheliers en phase complémentaire</p>
@@ -237,20 +243,32 @@
     
     
     <!-- -----------------------------------    options Quotas         ------------------------------------------------------------------- -->
-    
+    <!-- 
     <div *ngSwitchCase="'quotas_applicables'" >
       <div class="sous-boutons"   > 
       <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
-      <mat-button-toggle value="neo_admis"  class="underline-toggle">Boursiers du secondaire</mat-button-toggle>
-      <mat-button-toggle value="neoBachierliers" class="underline-toggle">candidats hors secteur</mat-button-toggle> 
-      <mat-button-toggle value="neoBachierliers" class="underline-toggle">Lycéens technologiques</mat-button-toggle> 
-      <mat-button-toggle value="neoBachierliers" class="underline-toggle">Lycéens professionnels</mat-button-toggle> 
-    </mat-button-toggle-group>
+      <mat-button-toggle value="boursiersSecondaire"  class="underline-toggle">Boursiers du secondaire</mat-button-toggle>
+      <mat-button-toggle value="candidatsHorsSecteur" class="underline-toggle">candidats hors secteur</mat-button-toggle> 
+      <mat-button-toggle value="lyceenTechnologie" class="underline-toggle">Lycéens technologiques</mat-button-toggle> 
+      <mat-button-toggle value="LyceensProf" class="underline-toggle">Lycéens professionnels</mat-button-toggle> 
+    </mat-button-toggle-group> -->
           <!-- debut bloc  nombre_de_candidats-->
-       
+
+         
+
+
+
+        <!-- Quota Applicable -->
+       <!--  <div [ngSwitch]="selectedSousOption1">
+        <div *ngIf="selectedSousOption1 === 'boursiersSecondaire'" class="graphe">
+          <div class="chart-container">
+          <h2>Nombre de candidats néo-bacheliers Boursiers</h2>
+          <canvas id="chartBoursiers"></canvas>
+        </div> -->
         <!-- fin nombre_de_candidats-->
-    </div>
-    </div>
+    <!--   </div>
+    </div> -->
+  <!--   </div> -->
     
     
     <!-- ----------------------------------- Fin   options Quotas         ------------------------------------------------------------------- -->
@@ -275,6 +293,47 @@
 
 
 
+
+
+<!-- ici -->
+
+<div class="block">
+  <div class="menu">
+    <h1 class="titre">
+      <fa-icon [icon]="faSignal"></fa-icon> 
+     <!--  Profil des candidats admis -->
+      Profils – Quotas applicables
+    </h1>
+  </div>
+
+
+    <!-- -----------------------------------    options Quotas         ------------------------------------------------------------------- -->
+    
+  <!--   <div *ngSwitchCase="'quotas_applicables'" > -->
+      <div class="sous-boutons"   > 
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOptionQ "> 
+      <mat-button-toggle value="boursiersSecondaire"  class="bold-toggle">Boursiers du secondaire</mat-button-toggle>
+      <mat-button-toggle value="candidatsHorsSecteur" class="bold-toggle">candidats hors secteur</mat-button-toggle> 
+      <mat-button-toggle value="lyceenTechnologie" class="bold-toggle">Lycéens technologiques</mat-button-toggle> 
+      <mat-button-toggle value="LyceensProf" class="bold-toggle">Lycéens professionnels</mat-button-toggle> 
+    </mat-button-toggle-group>
+      
+        <div *ngIf="selectedOptionQ === 'boursiersSecondaire'" class="graphe">
+          <div class="chart-container">
+          <h2>Nombre de candidats néo-bacheliers Boursiers</h2>
+          <canvas id="chartBoursiers"></canvas>
+        <!-- fin nombre_de_candidats-->
+      </div>
+      </div>
+   <!--  </div> -->
+    </div>
+    
+
+  
+
+ <!--  </div> -->
+</div>
+    <!-- ----------------------------------- Fin   options Quotas         ------------------------------------------------------------------- -->
 
 
 
@@ -413,60 +472,10 @@
 
 
 
+
+
+
 <!-- ------------------------------------------------------- block 4 -------------------------------------------------------------------- -->
-
-
-
-
-<div  class="block">
-
-  <div class="menu">
-  <div class="fd1">
-  <h1 class="titre">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-     <i class="fas fa-check-double"></i> <b style="color:#d63384;">Nouveauté</b> : Moyennes de terminale
-  </h1>
-  </div>
-</div>
-
-
-<div class="bouton">  
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption3"> 
-    <mat-button-toggle value="frequence" class="bold-toggle">Fréquence d'envoi des propositions</mat-button-toggle>
-    <mat-button-toggle value="moyenne" class="bold-toggle">Moyennes de terminale des admis </mat-button-toggle>
-  </mat-button-toggle-group>
-</div>
-
-
-
- <!-- debut sous bouton  -->
- <div class="sous-boutons"   > 
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption3"> 
-  <mat-button-toggle value="technologique"  class="bold-toggle"> technologique</mat-button-toggle>
-  <mat-button-toggle value="generales" class="bold-toggle">Générales </mat-button-toggle> 
-</mat-button-toggle-group>
- </div>
-
-
-
- <div *ngIf="selectedOption3 === 'moyenne'" class="graphe">
-  <p>Courbe de distribution des moyennes des effectifs</p>
-  <canvas #distributionChart> </canvas>
-</div>
-
-
-
-
-
-<!-- fin du bloc -->
-</div>
-
-
-
-
-
-
-<!-- ------------------------------------------------------- block 5 -------------------------------------------------------------------- -->
 
 
 
@@ -504,9 +513,67 @@
 
 
 
-<div *ngIf="selectedOption4 === 'resultats_academiques'" class="graphe">
-  <p>Résultats academique</p>
-  <canvas #chartResultatAcademiqueRef > </canvas>
+
+ <div *ngIf="selectedOption4 === 'resultats_academiques'" class="graphe">
+  <div class="chart-container">
+      <h2>Résultats academique</h2>
+      <canvas id="chartAdmisAcademie"></canvas>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+<!-- fin du bloc -->
+</div>
+
+
+
+
+<!-- ------------------------------------------------------- block 5 -------------------------------------------------------------------- -->
+
+
+
+
+<div  class="block">
+
+  <div class="menu">
+  <div class="fd1">
+  <h1 class="titre">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+     <i class="fas fa-check-double"></i> <b style="color:#d63384;">Nouveauté</b> : Moyennes de terminale
+  </h1>
+  </div>
+</div>
+
+
+<div class="bouton">  
+  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption3"> 
+    <mat-button-toggle value="frequence" class="bold-toggle">Fréquence d'envoi des propositions</mat-button-toggle>
+    <mat-button-toggle value="moyenne" class="bold-toggle">Moyennes de terminale des admis </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+
+
+ <!-- debut sous bouton  -->
+ <div class="sous-boutons"   > 
+  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption3"> 
+  <mat-button-toggle value="technologique"  class="bold-toggle"> technologique</mat-button-toggle>
+  <mat-button-toggle value="generales" class="bold-toggle">Générales </mat-button-toggle> 
+</mat-button-toggle-group>
+ </div>
+
+
+
+ <div *ngIf="selectedOption3 === 'moyenne'" class="graphe">
+  <p>Courbe de distribution des moyennes des effectifs</p>
+  <canvas #chartAdmisAcademie> </canvas>
 </div>
 
 
@@ -518,6 +585,12 @@
 
 <!-- fin du bloc -->
 </div>
+
+
+
+
+
+
 
 <div>
   <h1>Comparatif Établissements</h1>
@@ -533,7 +606,7 @@
 
 
 
-
+<!-- ajour ajour -->
 
 
 
