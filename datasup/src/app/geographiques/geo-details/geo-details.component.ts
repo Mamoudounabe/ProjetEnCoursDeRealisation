@@ -282,8 +282,6 @@ export class GeoDetailsComponent implements OnInit {
    this.loadLargeChartData(selectedYear);
  }
 */
-
-
 // Graphique pour filières Public/Privé (barres empilées)
 publicPrivateChart: any;
 // Graphique pour la répartition par type (barres horizontal)
@@ -503,7 +501,7 @@ renderLargeRectangularChart(year: string, labels: string[], data: number[]): voi
   if (this.largeChart) {
     this.largeChart.destroy();
   }
-  // On s'assure que le nombre de couleurs est égal au nombre de labels.
+  // Utilisation des couleurs fixes pour le graphique horizontal
   const colors = this.fixedTypeColors.slice(0, labels.length);
   this.largeChart = new Chart(ctx, {
     type: 'bar',
@@ -518,7 +516,7 @@ renderLargeRectangularChart(year: string, labels: string[], data: number[]): voi
     },
     options: {
       responsive: true,
-      indexAxis: 'y', // Pour un affichage horizontal
+      indexAxis: 'y', // Affichage horizontal
       plugins: {
         legend: { display: false },
         title: {
@@ -539,77 +537,73 @@ renderLargeRectangularChart(year: string, labels: string[], data: number[]): voi
  * Les résultats sont triés par ordre croissant avant affichage.
  */
 loadMatterChartData(year: string): void {
-    const observables = this.matterTypes.map(matter =>
-      this.apiService.getNbFilieresParMatiere(this.region, year, matter)
-    );
-    
-    forkJoin(observables).subscribe({
-      next: (results) => {
-        // Récupération des valeurs dans l'ordre de matterTypes
-        const data: number[] = results.map(res => res && res.length > 0 ? res[0].TotalInformatique : 0);
-        
-        // Création d'un tableau de paires { label, value } pour trier
-        const pairs = this.matterTypes.map((label, idx) => ({ label: label, value: data[idx] }));
-        
-        // Tri par ordre croissant sur la valeur
-        pairs.sort((a, b) => a.value - b.value);
-        
-        // Extraction des labels et des valeurs triées
-        const sortedLabels = pairs.map(p => p.label);
-        const sortedData = pairs.map(p => p.value);
-        
-        this.renderMatterPieChart(year, sortedLabels, sortedData);
-      },
-      error: (err) => {
-        console.error(`Erreur lors du chargement des données matière pour l'année ${year}:`, err);
-        const data = this.matterTypes.map(() => 0);
-        this.renderMatterPieChart(year, this.matterTypes, data);
-      }
-    });
-  }
+  const observables = this.matterTypes.map(matter =>
+    this.apiService.getNbFilieresParMatiere(this.region, year, matter)
+  );
+  
+  forkJoin(observables).subscribe({
+    next: (results) => {
+      // Ici, on récupère la valeur sous l'alias "TotalInformatique"
+      const data: number[] = results.map(res => res && res.length > 0 ? res[0].TotalInformatique : 0);
+      
+      // Création d'un tableau de paires { label, value } pour trier les résultats par ordre croissant
+      const pairs = this.matterTypes.map((label, idx) => ({ label: label, value: data[idx] }));
+      pairs.sort((a, b) => a.value - b.value);
+      const sortedLabels = pairs.map(p => p.label);
+      const sortedData = pairs.map(p => p.value);
+      
+      this.renderMatterPieChart(year, sortedLabels, sortedData);
+    },
+    error: (err) => {
+      console.error(`Erreur lors du chargement des données matière pour l'année ${year}:`, err);
+      const data = this.matterTypes.map(() => 0);
+      this.renderMatterPieChart(year, this.matterTypes, data);
+    }
+  });
+}
 
 /**
  * Affiche un graphique en camembert pour la répartition des filières par matière pour l'année donnée.
  * Utilise des couleurs fixes définies dans fixedMatterColors.
  */
 renderMatterPieChart(year: string, labels: string[], data: number[]): void {
-    const canvas = document.getElementById('matterChart') as HTMLCanvasElement;
-    if (!canvas) {
-      console.error("Canvas 'matterChart' non trouvé !");
-      return;
-    }
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      console.error("Impossible d'obtenir le contexte 2D pour 'matterChart'!");
-      return;
-    }
-    if (this.matterChart) {
-      this.matterChart.destroy();
-    }
-    // Utilise des couleurs fixes pour le camembert matière (nombre de couleurs correspondant au nombre de labels)
-    const colors = this.fixedMatterColors.slice(0, labels.length);
-    this.matterChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: labels,
-        datasets: [{
-          data: data,
-          backgroundColor: colors,
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: 'right' },
-          title: {
-            display: true,
-            text: `Répartition des filières par matière pour ${year}`
-          }
+  const canvas = document.getElementById('matterChart') as HTMLCanvasElement;
+  if (!canvas) {
+    console.error("Canvas 'matterChart' non trouvé !");
+    return;
+  }
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error("Impossible d'obtenir le contexte 2D pour 'matterChart'!");
+    return;
+  }
+  if (this.matterChart) {
+    this.matterChart.destroy();
+  }
+  // Utilisation des couleurs fixes pour le graphique camembert matière
+  const colors = this.fixedMatterColors.slice(0, labels.length);
+  this.matterChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: data,
+        backgroundColor: colors,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'right' },
+        title: {
+          display: true,
+          text: `Répartition des filières par matière pour ${year}`
         }
       }
-    });
-  }
+    }
+  });
+}
 
 /**
  * Méthode appelée lorsqu'un bouton d'année est cliqué pour le graphique horizontal.
@@ -626,6 +620,5 @@ onSelectMatterYear(selectedYear: string): void {
   this.selectedMatterYear = selectedYear;
   this.loadMatterChartData(selectedYear);
 }
-
 }
 
