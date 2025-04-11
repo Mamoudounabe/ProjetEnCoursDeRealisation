@@ -59,127 +59,6 @@ import { forkJoin } from 'rxjs'
 export class GeoDetailsComponent implements OnInit {
 
 /*
-
-chart: any;
-
-  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
-
-  ngOnInit(): void {
-    const regionName = this.route.snapshot.paramMap.get('region');
-    if (regionName) { 
-      this.getNbFilieresParRegion(regionName);
-    }
-  }
-
-  /**
-   * Pour chaque année définie, appel l'endpoint getNbFilieresParRegion afin d'obtenir
-   * le nombre de filières "Public" et "Privé" et ensuite affiche ces données dans un graphique.
-   * @param region Nom de la région à rechercher.
-   *//*
-  getNbFilieresParRegion(region: string): void {
-    const years = ['2020', '2021', '2022', '2023'];
-    const publicCounts: number[] = [];
-    const privateCounts: number[] = [];
-    let completedRequests = 0;
-
-    years.forEach(year => {
-      this.apiService.getNbFilieresParRegion(region, year).subscribe({
-        next: (response: any[]) => {
-          // On s'attend à recevoir un tableau avec un objet contenant { TotalPrive, TotalPublic }
-          if (response && response.length > 0) {
-            const result = response[0];
-            publicCounts.push(result.TotalPublic);
-            privateCounts.push(result.TotalPrive);
-          } else {
-            publicCounts.push(0);
-            privateCounts.push(0);
-          }
-          completedRequests++;
-          if (completedRequests === years.length) {
-            this.renderChart(years, publicCounts, privateCounts);
-          }
-        },
-        error: (err) => {
-          console.error(`Erreur pour l'année ${year}:`, err);
-          // En cas d'erreur, on pousse des zéros dans les tableaux de données.
-          publicCounts.push(0);
-          privateCounts.push(0);
-          completedRequests++;
-          if (completedRequests === years.length) {
-            this.renderChart(years, publicCounts, privateCounts);
-          }
-        }
-      });
-    });
-  }
-
-  /**
-   * Affiche le graphique en mode stacked (empilé) en utilisant Chart.js.
-   * Chaque barre correspond à une année et est décomposée en deux segments :
-   * Public (en bleu) et Privé (en orange).
-   * @param years Tableau des années (ex: ['2020', '2021', '2022', '2023']).
-   * @param publicCounts Tableau des effectifs pour la partie "Public".
-   * @param privateCounts Tableau des effectifs pour la partie "Privé".
-   *//*
-  renderChart(years: string[], publicCounts: number[], privateCounts: number[]): void {
-    const canvas = document.getElementById('formationChart') as HTMLCanvasElement;
-    
-    if (!canvas) {
-      console.error("Canvas non trouvé !");
-      return;
-    }
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      console.error("Impossible d'obtenir le contexte 2D !");
-      return;
-    }
-
-    // Détruire l'ancien graphique s'il existe
-    if (this.chart) {
-      this.chart.destroy();
-    }
-
-    // Création d'un graphique en barres empilées
-    this.chart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: years,
-        datasets: [
-          {
-            label: 'Public',
-            data: publicCounts,
-            backgroundColor: 'rgba(54, 162, 235, 0.7)', // Bleu
-            stack: 'stack1'
-          },
-          {
-            label: 'Privé',
-            data: privateCounts,
-            backgroundColor: 'rgba(255, 159, 64, 0.7)', // Orange
-            stack: 'stack1'
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top'
-          }
-        },
-        scales: {
-          x: {
-            stacked: true
-          },
-          y: {
-            stacked: true,
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  }
-*/
  // Graphique pour filières Public/Privé (barres empilées)
  publicPrivateChart: any;
  // Graphique pour la répartition par type (affiché sous forme de graphique à barres horizontal)
@@ -232,7 +111,7 @@ chart: any;
 
  /**
   * Récupère pour chaque année le nombre de filières Public et Privé via l'endpoint getNbFilieresParRegion.
-  */
+  *//*
  getNbFilieresParRegion(region: string): void {
    const publicCounts: number[] = [];
    const privateCounts: number[] = [];
@@ -269,7 +148,7 @@ chart: any;
 
  /**
   * Affiche le graphique en barres empilées pour les filières Public (bleu) et Privé (orange).
-  */
+  *//*
  renderPublicPrivateChart(years: string[], publicCounts: number[], privateCounts: number[]): void {
    const canvas = document.getElementById('formationChart') as HTMLCanvasElement;
    if (!canvas) {
@@ -317,7 +196,7 @@ chart: any;
  /**
   * Charge les données pour le graphique rectangulaire pour l'année passée en paramètre.
   * Pour chaque type de formation, on appelle l'endpoint getNbFilieresParType pour obtenir le nombre.
-  */
+  *//*
  loadLargeChartData(year: string): void {
    const observables = this.formationTypes.map(type => 
      this.apiService.getNbFilieresParType(this.region, year, type)
@@ -342,7 +221,7 @@ chart: any;
   * @param year Année sélectionnée.
   * @param labels Liste des types de formation.
   * @param data Nombre d'occurrences pour chaque type.
-  */
+  *//*
  renderLargeRectangularChart(year: string, labels: string[], data: number[]): void {
    const canvas = document.getElementById('largeChart') as HTMLCanvasElement;
    if (!canvas) {
@@ -387,7 +266,7 @@ chart: any;
 
  /**
   * Renvoie une couleur aléatoire en format RGBA.
-  */
+  *//*
  randomColor(): string {
    const r = Math.floor(Math.random() * 156) + 100;
    const g = Math.floor(Math.random() * 156) + 100;
@@ -397,11 +276,343 @@ chart: any;
 
  /**
   * Méthode appelée lorsqu'un bouton d'année est cliqué pour le graphique rectangulaire.
-  */
+  *//*
  onSelectLargeYear(selectedYear: string): void {
    this.selectedLargeYear = selectedYear;
    this.loadLargeChartData(selectedYear);
  }
+*/
+
+
+// Graphique pour filières Public/Privé (barres empilées)
+publicPrivateChart: any;
+// Graphique pour la répartition par type (barres horizontal)
+largeChart: any;
+// Graphique pour la répartition par matière (camembert)
+matterChart: any;
+
+// Années à considérer
+years: string[] = ['2020', '2021', '2022', '2023'];
+// Région récupérée depuis l'URL
+region: string = '';
+
+// Nouveau tableau de types de formation (2ème graphique)
+formationTypes: string[] = [ 
+  'BPJEPS', 
+  'BTS', 
+  'BUT', 
+  'C.M.I', 
+  'CPGE', 
+  'CUPGE', 
+  'Classe préparatoire',  
+  'D.E', 
+  'DEUST', 
+  'DN MADE',  
+  'DUT', 
+  'Diplôme National d\'Art', 
+  'Diplôme d\'Université', 
+  'Double licence', 
+  'FCIL', 
+  'Formation des écoles de commerce et de management', 
+  'Licence', 
+  'Mention complémentaire', 
+  'Sciences Po / Instituts d\'études politiques'
+];
+
+// Tableau fixe de couleurs pour le 2ème graphique (affecté par index)
+fixedTypeColors: string[] = [
+  '#3366CC', '#DC3912', '#FF9900', '#109618', '#990099',
+  '#0099C6', '#DD4477', '#66AA00', '#B82E2E', '#316395',
+  '#994499', '#22AA99', '#AAAA11', '#6633CC', '#E67300',
+  '#8B0707', '#329262', '#5574A6', '#3B3EAC'
+];
+
+// Tableau de types pour le 3ème graphique (matière)
+matterTypes: string[] = [
+  'informatique', 
+  'Electronique', 
+  'Mathématiques', 
+  'Mécanique', 
+  'Chimie', 
+  'Droit', 
+  'Philosophie', 
+  'Sciences de la vie', 
+  'Lettres', 
+  'Langue', 
+  'Histoire', 
+  'Geographie', 
+  'Sport', 
+  'journalisme', 
+  'Economie et gestion', 
+  'Santé', 
+  'Architecture', 
+  'Sciences politiques', 
+  'Art'
+];
+
+// Tableau fixe de couleurs pour le 3ème graphique (associées par index)
+fixedMatterColors: string[] = [
+  '#8E44AD', '#3498DB', '#27AE60', '#F1C40F', '#E67E22',
+  '#E74C3C', '#2ECC71', '#1ABC9C', '#34495E', '#16A085',
+  '#F39C12', '#D35400', '#C0392B', '#7F8C8D', '#2980B9',
+  '#8E44AD', '#27AE60', '#E74C3C', '#3498DB'
+];
+
+// Année actuellement sélectionnée pour le graphique 2 (type)
+selectedLargeYear: string = '2020';
+// Année actuellement sélectionnée pour le graphique 3 (matière)
+selectedMatterYear: string = '2020';
+
+constructor(
+  private route: ActivatedRoute,
+  private apiService: ApiService
+) { }
+
+ngOnInit(): void {
+  const regionName = this.route.snapshot.paramMap.get('region');
+  if (regionName) { 
+    this.region = regionName;
+    this.getNbFilieresParRegion(this.region);
+    this.loadLargeChartData(this.selectedLargeYear);
+    this.loadMatterChartData(this.selectedMatterYear);
+  }
+}
+
+/**
+ * Récupère pour chaque année le nombre de filières Public et Privé via l'endpoint getNbFilieresParRegion.
+ */
+getNbFilieresParRegion(region: string): void {
+  const publicCounts: number[] = [];
+  const privateCounts: number[] = [];
+  let completedRequests = 0;
+
+  this.years.forEach(year => {
+    this.apiService.getNbFilieresParRegion(region, year).subscribe({
+      next: (response: any[]) => {
+        if (response && response.length > 0) {
+          const result = response[0];
+          publicCounts.push(result.TotalPublic);
+          privateCounts.push(result.TotalPrive);
+        } else {
+          publicCounts.push(0);
+          privateCounts.push(0);
+        }
+        completedRequests++;
+        if (completedRequests === this.years.length) {
+          this.renderPublicPrivateChart(this.years, publicCounts, privateCounts);
+        }
+      },
+      error: (err) => {
+        console.error(`Erreur pour l'année ${year}:`, err);
+        publicCounts.push(0);
+        privateCounts.push(0);
+        completedRequests++;
+        if (completedRequests === this.years.length) {
+          this.renderPublicPrivateChart(this.years, publicCounts, privateCounts);
+        }
+      }
+    });
+  });
+}
+
+/**
+ * Affiche le graphique en barres empilées pour les filières Public et Privé.
+ */
+renderPublicPrivateChart(years: string[], publicCounts: number[], privateCounts: number[]): void {
+  const canvas = document.getElementById('formationChart') as HTMLCanvasElement;
+  if (!canvas) {
+    console.error("Canvas 'formationChart' non trouvé !");
+    return;
+  }
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error("Impossible d'obtenir le contexte 2D pour 'formationChart'!");
+    return;
+  }
+  if (this.publicPrivateChart) {
+    this.publicPrivateChart.destroy();
+  }
+  this.publicPrivateChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: years,
+      datasets: [
+        {
+          label: 'Public',
+          data: publicCounts,
+          backgroundColor: 'rgba(54, 162, 235, 0.7)', // bleu
+          stack: 'stack1'
+        },
+        {
+          label: 'Privé',
+          data: privateCounts,
+          backgroundColor: 'rgba(255, 159, 64, 0.7)', // orange
+          stack: 'stack1'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'top' } },
+      scales: { 
+        x: { stacked: true },
+        y: { stacked: true, beginAtZero: true }
+      }
+    }
+  });
+}
+
+/**
+ * Charge les données pour le graphique horizontal (2ème graphique) pour l'année passée en paramètre.
+ * Pour chaque type de formation, on appelle l'endpoint getNbFilieresParType pour obtenir le nombre.
+ */
+loadLargeChartData(year: string): void {
+  const observables = this.formationTypes.map(type => 
+    this.apiService.getNbFilieresParType(this.region, year, type)
+  );
+  
+  forkJoin(observables).subscribe({
+    next: (results) => {
+      const data: number[] = results.map(res => res && res.length > 0 ? res[0].TotalType : 0);
+      this.renderLargeRectangularChart(year, this.formationTypes, data);
+    },
+    error: (err) => {
+      console.error(`Erreur lors du chargement des données pour l'année ${year}:`, err);
+      const data = this.formationTypes.map(() => 0);
+      this.renderLargeRectangularChart(year, this.formationTypes, data);
+    }
+  });
+}
+
+/**
+ * Affiche un graphique à barres horizontal qui occupe une grande partie de l'écran,
+ * affichant la répartition des filières par type pour l'année donnée.
+ * Utilise des couleurs fixes définies dans fixedTypeColors.
+ */
+renderLargeRectangularChart(year: string, labels: string[], data: number[]): void {
+  const canvas = document.getElementById('largeChart') as HTMLCanvasElement;
+  if (!canvas) {
+    console.error("Canvas 'largeChart' non trouvé !");
+    return;
+  }
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error("Impossible d'obtenir le contexte 2D pour 'largeChart'!");
+    return;
+  }
+  if (this.largeChart) {
+    this.largeChart.destroy();
+  }
+  // On s'assure que le nombre de couleurs est égal au nombre de labels.
+  const colors = this.fixedTypeColors.slice(0, labels.length);
+  this.largeChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: `Répartition des filières pour ${year}`,
+        data: data,
+        backgroundColor: colors,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y', // Pour un affichage horizontal
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: `Répartition des filières par type pour ${year}`
+        }
+      },
+      scales: {
+        x: { beginAtZero: true }
+      }
+    }
+  });
+}
+
+/**
+ * Charge les données pour le graphique en camembert (3ème graphique) pour l'année passée en paramètre.
+ * Pour chaque type de matière, on appelle l'endpoint getNbFilieresParMatiere pour obtenir le nombre.
+ */
+loadMatterChartData(year: string): void {
+  const observables = this.matterTypes.map(matter =>
+    this.apiService.getNbFilieresParMatiere(this.region, year, matter)
+  );
+  
+  forkJoin(observables).subscribe({
+    next: (results) => {
+      const data: number[] = results.map(res => res && res.length > 0 ? res[0].TotalInformatique : 0);
+      this.renderMatterPieChart(year, this.matterTypes, data);
+    },
+    error: (err) => {
+      console.error(`Erreur lors du chargement des données matière pour l'année ${year}:`, err);
+      const data = this.matterTypes.map(() => 0);
+      this.renderMatterPieChart(year, this.matterTypes, data);
+    }
+  });
+}
+
+/**
+ * Affiche un graphique en camembert pour la répartition des filières par matière pour l'année donnée.
+ * Utilise des couleurs fixes définies dans fixedMatterColors.
+ */
+renderMatterPieChart(year: string, labels: string[], data: number[]): void {
+  const canvas = document.getElementById('matterChart') as HTMLCanvasElement;
+  if (!canvas) {
+    console.error("Canvas 'matterChart' non trouvé !");
+    return;
+  }
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error("Impossible d'obtenir le contexte 2D pour 'matterChart'!");
+    return;
+  }
+  if (this.matterChart) {
+    this.matterChart.destroy();
+  }
+  // Utilise des couleurs fixes pour le camembert matière (nombre de couleurs correspondant au nombre de labels)
+  const colors = this.fixedMatterColors.slice(0, labels.length);
+  this.matterChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: data,
+        backgroundColor: colors,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'right' },
+        title: {
+          display: true,
+          text: `Répartition des filières par matière pour ${year}`
+        }
+      }
+    }
+  });
+}
+
+/**
+ * Méthode appelée lorsqu'un bouton d'année est cliqué pour le graphique horizontal.
+ */
+onSelectLargeYear(selectedYear: string): void {
+  this.selectedLargeYear = selectedYear;
+  this.loadLargeChartData(selectedYear);
+}
+
+/**
+ * Méthode appelée lorsqu'un bouton d'année est cliqué pour le graphique en camembert matière.
+ */
+onSelectMatterYear(selectedYear: string): void {
+  this.selectedMatterYear = selectedYear;
+  this.loadMatterChartData(selectedYear);
+}
 
 }
 

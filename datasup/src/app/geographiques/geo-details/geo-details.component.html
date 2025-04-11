@@ -1,21 +1,29 @@
 <!--
 <div class="header-section">
-    <p class="breadcrumbs">
-      <a class="breadcrumb-link" routerLink="/">DataSup</a> /
-    
-      <a class="breadcrumb-link" routerLink="/geo-page">Geographiques</a> 
-    </p>
+  <p class="breadcrumbs">
+    <a class="breadcrumb-link" routerLink="/">DataSup</a> /
+    <a class="breadcrumb-link" routerLink="/geo-page">Geographiques</a>
+  </p>
+</div>
+
+<div class="chart-container">
+  <h2>Filières Public / Privé</h2>
+  <canvas id="formationChart"></canvas>
+</div>
+
+<div class="full-screen-chart-container">
+  <h2>Répartition des filières par type</h2>
+  <div class="year-button-group">
+    <button *ngFor="let year of years" (click)="onSelectLargeYear(year)"
+            [class.active]="year === selectedLargeYear">
+      {{ year }}
+    </button>
   </div>
-<div>
-
-
-
-    <canvas id="formationChart"></canvas>
+  <canvas id="largeChart"></canvas>
 </div>
 
 
 -->
-
 <div class="header-section">
   <p class="breadcrumbs">
     <a class="breadcrumb-link" routerLink="/">DataSup</a> /
@@ -29,10 +37,9 @@
   <canvas id="formationChart"></canvas>
 </div>
 
-<!-- Section pour le graphique rectangulaire (horizontal) -->
+<!-- Second graphique : Répartition par type (barres horizontal) -->
 <div class="full-screen-chart-container">
   <h2>Répartition des filières par type</h2>
-  <!-- Boutons de sélection d'année pour le graphique rectangulaire -->
   <div class="year-button-group">
     <button *ngFor="let year of years" (click)="onSelectLargeYear(year)"
             [class.active]="year === selectedLargeYear">
@@ -40,4 +47,16 @@
     </button>
   </div>
   <canvas id="largeChart"></canvas>
+</div>
+
+<!-- Troisième graphique : Répartition par matière (camembert) -->
+<div class="chart-container">
+  <h2>Répartition des filières par matière</h2>
+  <div class="year-button-group">
+    <button *ngFor="let year of years" (click)="onSelectMatterYear(year)"
+            [class.active]="year === selectedMatterYear">
+      {{ year }}
+    </button>
+  </div>
+  <canvas id="matterChart"></canvas>
 </div>
