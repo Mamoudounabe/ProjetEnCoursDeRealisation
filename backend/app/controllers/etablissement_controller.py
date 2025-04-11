@@ -271,7 +271,6 @@ def get_comp_universite(
 
 
 
-router = APIRouter()
 
 @router.get("/universite/get_nbFilieresParRegion", response_model=List[Dict[str, Any]], tags=["Filiere"])
 def get_nbFilieresParRegion(
