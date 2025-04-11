@@ -1009,3 +1009,10 @@ class EtablissementManager:
             print(f"Erreur dans get_comp_universite: {str(e)}")
             traceback.print_exc()
             return []     
+        
+
+
+#        MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
+#        MATCH (e)-[:OFFERS]->(f:Filiere)
+#        WHERE s.annee = "2021" AND e.region_etablissement = "Bourgogne-Franche-Comté"
+#        RETURN COUNT(f) AS TotalFiliere
