@@ -1019,7 +1019,7 @@ class EtablissementManager:
 
 
     @staticmethod
-    def get_comp_universitetrois(nomuniversites: List[str], anneeactuelle: List[str]) -> List[Dict[str, Any]]:
+    def get_comp_universite(nomuniversites: List[str], anneeactuelle: List[str]) -> List[Dict[str, Any]]:
         query = """
             MATCH (e:Etablissement)
             WHERE ANY(nom IN $nomuniversites WHERE e.etablissement CONTAINS nom)
@@ -1209,7 +1209,7 @@ class EtablissementManager:
 
 
     @staticmethod
-    def get_comp_universite(nomuniversites: List[str], anneesActuelles: List[str] = ["2020", "2021", "2022", "2023"]) -> List[Dict[str, Any]]:
+    def get_comp_universiteidentique(nomuniversites: List[str], anneesActuelles: List[str] = ["2020", "2021", "2022", "2023"]) -> List[Dict[str, Any]]:
         query = """
         // Vérification des années disponibles
         MATCH (s:Session)

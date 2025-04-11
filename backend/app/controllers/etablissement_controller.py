@@ -267,7 +267,6 @@ def get_comp_universite(
         # Log plus détaillé de l'erreur
         print(f"Erreur dans get_comp_universite: {e}")
         raise HTTPException(status_code=500, detail="Erreur interne du serveur. Veuillez réessayer plus tard.")
-<<<<<<< HEAD
 
 
 
@@ -330,5 +329,3 @@ def get_nbFilieresParMatiere(
     except Exception as e:
         print(f"Erreur dans get_nbFilieresParMatiere: {e}")
         raise HTTPException(status_code=500, detail="Erreur interne du serveur")
-=======
->>>>>>> 40c831c929147ef1d185f46b0fc5393fad50503c
