@@ -1,61 +1,102 @@
-<h2>Indicateurs de sélectivité</h2>
+<h2>📊 Indicateurs de sélectivité</h2>
+
+<h3 *ngIf="etablissementData">
+  🏫 {{ etablissementData.NomEtablissement || 'Établissement inconnu' }}
+</h3>
 
 <div class="tabs">
-  <button [class.active]="activeTab === 'tauxAcces'" (click)="showTauxAcces()">
-    Taux d’accès
-  </button>
-  <button
-    [class.active]="activeTab === 'dureeSelection'"
-    (click)="showDureeSelection()"
-  >
-    Durée du processus de sélection
-  </button>
+  <button [class.active]="activeTab === 'tauxAcces'" (click)="showTauxAcces()">Taux d’accès</button>
+  <button [class.active]="activeTab === 'dureeSelection'" (click)="showDureeSelection()">Durée du processus de sélection</button>
 </div>
 
+<!-- Onglet : Taux d'accès -->
 <div *ngIf="activeTab === 'tauxAcces'" class="two-columns">
   <div class="chart-wrapper">
     <canvas
+      *ngIf="!afficherEvolution"
       baseChart
       [data]="tauxChartData"
       [options]="tauxChartOptions"
       [type]="'bar'"
-    >
-    </canvas>
+    ></canvas>
+
+    <canvas
+      *ngIf="afficherEvolution"
+      baseChart
+      [data]="tauxMultiChartData"
+      [options]="tauxMultiChartOptions"
+      [type]="'bar'"
+    ></canvas>
   </div>
 
   <div class="info-text">
     <p>
-      En 2024, le <strong>taux d’accès</strong> de la formation était de
+      En {{ sessionAnnee }}, le <strong>taux d’accès</strong> de la formation était de
       <strong class="highlight">{{ tauxAcces }} %</strong> : cela veut dire que
       <strong>{{ tauxAcces }} % des {{ totalCandidats }} candidats</strong>
-      avaient un rang qui leur permettait de recevoir une proposition de la part
-      de cette formation.
+      avaient un rang leur permettant de recevoir une proposition.
     </p>
 
-    <p><strong>Session :</strong> 2024</p>
-    <p><strong>Champ :</strong> {{ totalCandidats }} candidats</p>
-    <p><strong>Source :</strong> Données open data Parcoursup</p>
-    <p><strong>Dernière mise à jour :</strong> 16/01/2025</p>
+    <p><strong>📅 Session :</strong> {{ sessionAnnee }}</p>
+    <p><strong>👥 Champ :</strong> {{ totalCandidats }} candidats</p>
+    <p><strong>📂 Source :</strong> Données open data Parcoursup</p>
+    <p><strong>📌 Dernière mise à jour :</strong> 16/01/2025</p>
 
-    <p><strong>Quelques références sur le sujet :</strong></p>
+    <p><strong>🔗 Quelques références sur le sujet :</strong></p>
     <ul>
-      <li>
-        <a href="#"
-          >Un premier bilan de l’accès à l’enseignement supérieur (2020)</a
-        >
-      </li>
+      <li><a href="#">Un premier bilan de l’accès à l’enseignement supérieur (2020)</a></li>
       <li><a href="#">Parcoursup - Sénat (2023)</a></li>
       <li><a href="#">Rapport annuel : Comité Parcoursup (2023)</a></li>
     </ul>
   </div>
 </div>
 
-<div *ngIf="activeTab === 'dureeSelection'" class="chart-wrapper">
-  <canvas
-    baseChart
-    [data]="dureeChartData"
-    [options]="dureeChartOptions"
-    [type]="'bar'"
-  >
-  </canvas>
+<!-- Onglet : Durée du processus -->
+<div *ngIf="activeTab === 'dureeSelection'" class="two-columns">
+  <div class="chart-wrapper">
+    <canvas
+      *ngIf="!afficherEvolution"
+      baseChart
+      [data]="dureeChartData"
+      [options]="dureeChartOptions"
+      [type]="'bar'"
+    ></canvas>
+
+    <canvas
+      *ngIf="afficherEvolution"
+      baseChart
+      [data]="dureeMultiChartData"
+      [options]="dureeMultiChartOptions"
+      [type]="'bar'"
+    ></canvas>
+  </div>
+
+  <div class="info-text">
+    <p>Cette visualisation montre à quel moment les candidats ont été admis à la formation.</p>
+
+    <p><strong>🔓 À l’ouverture :</strong> dès le début de la phase principale</p>
+    <p><strong>🎓 Avant bac :</strong> avant l’obtention du baccalauréat</p>
+    <p><strong>⏳ Fin de phase principale :</strong> juste avant la fin</p>
+    <p><strong>📮 Phase complémentaire :</strong> après la phase principale</p>
+
+    <p><strong>📅 Session :</strong> {{ sessionAnnee }}</p>
+    <p><strong>👥 Champ :</strong> {{ totalCandidats }} candidats</p>
+    <p><strong>📂 Source :</strong> Données open data Parcoursup</p>
+    <p><strong>📌 Dernière mise à jour :</strong> 16/01/2025</p>
+
+    <p><strong>🔗 Pour aller plus loin :</strong></p>
+    <ul>
+      <li><a href="#">Comprendre le calendrier Parcoursup (2024)</a></li>
+      <li><a href="#">Analyse des admissions en phase complémentaire</a></li>
+      <li><a href="#">Rapport annuel : Comité Parcoursup (2023)</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Checkbox visible et encadré -->
+<div class="evolution-checkbox">
+  <label>
+    <input type="checkbox" [(ngModel)]="afficherEvolution" />
+    🔁 Afficher l’évolution sur plusieurs années
+  </label>
 </div>
