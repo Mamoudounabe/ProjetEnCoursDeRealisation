@@ -1035,3 +1035,74 @@ class EtablissementManager:
 #  AND e.region_etablissement = "Bourgogne-Franche-Comté"
 #  AND f.filiere_formation_detaillee CONTAINS "Informatique"
 #RETURN COUNT(f) AS TotalInformatique
+
+    @staticmethod
+    def get_nbFilieresParRegion(annee: str, region: str) -> List[Dict[str, Any]]:
+        """
+        Retourne le nombre de filières publics et privés pour une année et une région données.
+        """
+        query = """
+        MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
+        MATCH (e)-[:OFFERS]->(f:Filiere)
+        WHERE s.annee = $annee AND e.region_etablissement = $region
+        RETURN 
+          sum(CASE WHEN e.statut_etablissement_filiere CONTAINS "Privé" THEN 1 ELSE 0 END) AS TotalPrive,
+          sum(CASE WHEN NOT e.statut_etablissement_filiere CONTAINS "Privé" THEN 1 ELSE 0 END) AS TotalPublic
+        """
+        try:
+            driver = Neo4JDriver.get_driver()
+            with driver.session() as session:
+                result = session.run(query, annee=annee, region=region)
+                record = result.single()
+                return [{"TotalPrive": record["TotalPrive"], "TotalPublic": record["TotalPublic"]}]
+        except Exception as e:
+            print(f"Erreur dans get_nbFilieresParRegion: {e}")
+            return []
+
+    @staticmethod
+    def get_nbFilieresParType(annee: str, region: str, filiere_formation: str) -> List[Dict[str, Any]]:
+        """
+        Retourne le nombre de filières dont le champ f.filiere_formation contient la valeur passée.
+        Par exemple, pour récupérer le nombre de filières de type 'Licence'.
+        """
+        query = """
+        MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
+        MATCH (e)-[:OFFERS]->(f:Filiere)
+        WHERE s.annee = $annee 
+          AND e.region_etablissement = $region 
+          AND f.filiere_formation CONTAINS $filiere_formation
+        RETURN COUNT(f) AS TotalType
+        """
+        try:
+            driver = Neo4JDriver.get_driver()
+            with driver.session() as session:
+                result = session.run(query, annee=annee, region=region, filiere_formation=filiere_formation)
+                record = result.single()
+                return [{"TotalType": record["TotalType"]}]
+        except Exception as e:
+            print(f"Erreur dans get_nbFilieresParType: {e}")
+            return []
+
+    @staticmethod
+    def get_nbFilieresParMatiere(annee: str, region: str, filiere_formation_detaillee: str) -> List[Dict[str, Any]]:
+        """
+        Retourne le nombre de filières dont le champ f.filiere_formation_detaillee contient la valeur passée.
+        Par exemple, pour récupérer le nombre de filières dans la matière 'Informatique'.
+        """
+        query = """
+        MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
+        MATCH (e)-[:OFFERS]->(f:Filiere)
+        WHERE s.annee = $annee 
+          AND e.region_etablissement = $region 
+          AND f.filiere_formation_detaillee CONTAINS $filiere_formation_detaillee
+        RETURN COUNT(f) AS TotalInformatique
+        """
+        try:
+            driver = Neo4JDriver.get_driver()
+            with driver.session() as session:
+                result = session.run(query, annee=annee, region=region, filiere_formation_detaillee=filiere_formation_detaillee)
+                record = result.single()
+                return [{"TotalInformatique": record["TotalInformatique"]}]
+        except Exception as e:
+            print(f"Erreur dans get_nbFilieresParMatiere: {e}")
+            return []
