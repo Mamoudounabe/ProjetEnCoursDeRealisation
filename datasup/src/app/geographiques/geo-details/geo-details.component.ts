@@ -58,106 +58,7 @@ import { RouterModule } from '@angular/router';
 })
 export class GeoDetailsComponent implements OnInit {
 
-    /*
-
-    constructor(private route: ActivatedRoute,private apiService: ApiService) {}
-
-
-    chart: any;
-
-
-
-ngOnInit() {
-    const regionName = this.route.snapshot.paramMap.get('region');  
-    if (regionName) { 
-        this.getRegion(regionName);
-    }
-}
-
-
-getRegion(region: string) { 
-    const annees = ['2020', '2021', '2022', '2023'];
-    const dataSeries: { annee: string, nombre_formations: number }[] = [];
-
-    let completedRequests = 0;
-
-    annees.forEach(annee => {
-        this.apiService.getEtablissementsByRegion(region, annee).subscribe({
-            next: (response: any[]) => {  // Déclare que response est un tableau
-                console.log(`Données pour ${annee}:`, response);
-
-                // Vérifie si response est un tableau et additionne les formations
-                const nombreFormations = response?.reduce((sum, etablissement) => sum + (etablissement.nombre_formations || 0), 0) || 0;
-
-                dataSeries.push({ annee, nombre_formations: nombreFormations });
-
-                completedRequests++;
-
-                // Quand toutes les requêtes sont terminées, on affiche le graphique
-                if (completedRequests === annees.length) {
-                    this.renderChart(dataSeries);
-                }
-            },
-            error: (err) => console.error(`Erreur pour ${annee}:`, err)
-        });
-    });
-}
-
-
-
-
-
-
-
-renderChart(dataSeries: { annee: string, nombre_formations: number }[]) {
-    const canvas = document.getElementById('formationChart') as HTMLCanvasElement;
-    
-    if (!canvas) {
-        console.error("Canvas non trouvé !");
-        return;
-    }
-
-    const ctx = canvas.getContext('2d');
-    
-    if (!ctx) {
-        console.error("Impossible d'obtenir le contexte 2D !");
-        return;
-    }
-
-    // Vérifier s'il y a un ancien graphique et le détruire
-    if (this.chart) {
-        this.chart.destroy();
-    }
-
-    const labels = dataSeries.map(d => d.annee);
-    const values = dataSeries.map(d => d.nombre_formations);
-
-    this.chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Nombre de formations',
-                data: values,
-                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-}
-*/
-
-
-
+/*
 
 chart: any;
 
@@ -174,7 +75,7 @@ chart: any;
    * Pour chaque année définie, appel l'endpoint getNbFilieresParRegion afin d'obtenir
    * le nombre de filières "Public" et "Privé" et ensuite affiche ces données dans un graphique.
    * @param region Nom de la région à rechercher.
-   */
+   *//*
   getNbFilieresParRegion(region: string): void {
     const years = ['2020', '2021', '2022', '2023'];
     const publicCounts: number[] = [];
@@ -219,7 +120,7 @@ chart: any;
    * @param years Tableau des années (ex: ['2020', '2021', '2022', '2023']).
    * @param publicCounts Tableau des effectifs pour la partie "Public".
    * @param privateCounts Tableau des effectifs pour la partie "Privé".
-   */
+   *//*
   renderChart(years: string[], publicCounts: number[], privateCounts: number[]): void {
     const canvas = document.getElementById('formationChart') as HTMLCanvasElement;
     
@@ -278,6 +179,253 @@ chart: any;
       }
     });
   }
+*/
+
+
+
+
+// Graphique pour les filières Public/Privé
+chart: any;
+// Graphique pour les types de filières selon la formation sélectionnée
+typeChart: any;
+
+// Liste des formations disponibles pour le second graphique
+formationTypes: string[] = [
+  'Année de Réussite', 
+  'Année Préparatoire', 
+  'BPJEPS', 
+  'BTS', 
+  'BUT', 
+  'C.M.I', 
+  'CPGE', 
+  'CUPGE', 
+  'Classe préparatoire', 
+  'Conservation-restauration des biens culturels', 
+  'Cycle pluridisciplinaire d\'Etudes Supérieures', 
+  'D.E', 
+  'DEJEPS', 
+  'DEUST', 
+  'DN MADE', 
+  'DTS', 
+  'DUT', 
+  'Diplome National d\'art', 
+  'Diplome d\'Etablissement', 
+  'Diplome d\'Université', 
+  'Diplome de spécialisation professionnelle', 
+  'Double licence', 
+  'FCIL', 
+  'Formation Supérieures de Spécialisation', 
+  'Formation d\'ingenieur', 
+  'Formation des écoles de commerce et de management', 
+  'Formation des écoles supérieurs d\'art', 
+  'licence', 
+  'Mention complémentaire', 
+  'Sciences Po / Instituts d\'études politiques'
+];
+selectedFormation: string = this.formationTypes[0];
+
+// La région récupérée depuis les paramètres de la route
+region: string = '';
+// Les années utilisées pour les graphiques
+years: string[] = ['2020', '2021', '2022', '2023'];
+
+constructor(
+  private route: ActivatedRoute,
+  private apiService: ApiService
+) { }
+
+ngOnInit(): void {
+  const regionName = this.route.snapshot.paramMap.get('region');
+  if (regionName) { 
+    this.region = regionName;
+    this.getNbFilieresParRegion(this.region);
+    this.getNbFilieresParTypeChart(this.region, this.selectedFormation);
+  }
+}
+
+/**
+ * Récupère pour chaque année le nombre de filières de type Public/Privé et affiche le graphique correspondant.
+ * Utilise l'endpoint getNbFilieresParRegion.
+ */
+getNbFilieresParRegion(region: string): void {
+  const publicCounts: number[] = [];
+  const privateCounts: number[] = [];
+  let completedRequests = 0;
+
+  this.years.forEach(year => {
+    this.apiService.getNbFilieresParRegion(region, year).subscribe({
+      next: (response: any[]) => {
+        if (response && response.length > 0) {
+          const result = response[0];
+          publicCounts.push(result.TotalPublic);
+          privateCounts.push(result.TotalPrive);
+        } else {
+          publicCounts.push(0);
+          privateCounts.push(0);
+        }
+        completedRequests++;
+        if (completedRequests === this.years.length) {
+          this.renderPublicPrivateChart(this.years, publicCounts, privateCounts);
+        }
+      },
+      error: (err) => {
+        console.error(`Erreur pour l'année ${year}:`, err);
+        publicCounts.push(0);
+        privateCounts.push(0);
+        completedRequests++;
+        if (completedRequests === this.years.length) {
+          this.renderPublicPrivateChart(this.years, publicCounts, privateCounts);
+        }
+      }
+    });
+  });
+}
+
+/**
+ * Affiche le graphique empilé pour les filières Public et Privé.
+ */
+renderPublicPrivateChart(years: string[], publicCounts: number[], privateCounts: number[]): void {
+  const canvas = document.getElementById('formationChart') as HTMLCanvasElement;
+  if (!canvas) {
+    console.error("Canvas 'formationChart' non trouvé !");
+    return;
+  }
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error("Impossible d'obtenir le contexte 2D !");
+    return;
+  }
+
+  if (this.chart) {
+    this.chart.destroy();
+  }
+
+  this.chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: years,
+      datasets: [
+        {
+          label: 'Public',
+          data: publicCounts,
+          backgroundColor: 'rgba(54, 162, 235, 0.7)', // Bleu
+          stack: 'stack1'
+        },
+        {
+          label: 'Privé',
+          data: privateCounts,
+          backgroundColor: 'rgba(255, 159, 64, 0.7)', // Orange
+          stack: 'stack1'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top' }
+      },
+      scales: {
+        x: { stacked: true },
+        y: { stacked: true, beginAtZero: true }
+      }
+    }
+  });
+}
+
+/**
+ * Récupère pour chaque année le nombre de filières correspondant au type de formation sélectionné.
+ * Utilise l'endpoint getNbFilieresParType.
+ */
+getNbFilieresParTypeChart(region: string, formationType: string): void {
+  const typeCounts: number[] = [];
+  let completedRequests = 0;
+
+  this.years.forEach(year => {
+    this.apiService.getNbFilieresParType(region, year, formationType).subscribe({
+      next: (response: any[]) => {
+        if (response && response.length > 0) {
+          // L'endpoint retourne { TotalType: number }
+          const result = response[0];
+          typeCounts.push(result.TotalType);
+        } else {
+          typeCounts.push(0);
+        }
+        completedRequests++;
+        if (completedRequests === this.years.length) {
+          this.renderTypeChart(this.years, typeCounts, formationType);
+        }
+      },
+      error: (err) => {
+        console.error(`Erreur pour l'année ${year} avec formation "${formationType}":`, err);
+        typeCounts.push(0);
+        completedRequests++;
+        if (completedRequests === this.years.length) {
+          this.renderTypeChart(this.years, typeCounts, formationType);
+        }
+      }
+    });
+  });
+}
+
+/**
+ * Affiche le deuxième graphique qui présente, pour chaque année, le nombre total 
+ * de filières correspondant à la formation sélectionnée.
+ *
+ * @param years Tableau des années.
+ * @param typeCounts Tableau des effectifs pour le type sélectionné.
+ * @param formationType Le type de formation sélectionné.
+ */
+renderTypeChart(years: string[], typeCounts: number[], formationType: string): void {
+  const canvas = document.getElementById('typeChart') as HTMLCanvasElement;
+  if (!canvas) {
+    console.error("Canvas 'typeChart' non trouvé !");
+    return;
+  }
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error("Impossible d'obtenir le contexte 2D du canvas 'typeChart'!");
+    return;
+  }
+
+  if (this.typeChart) {
+    this.typeChart.destroy();
+  }
+
+  this.typeChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: years,
+      datasets: [{
+        label: formationType,
+        data: typeCounts,
+        backgroundColor: 'rgba(75, 192, 192, 0.7)', // Couleur personnalisée (ex: vert-bleu)
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top' }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+}
+
+/**
+ * Méthode appelée lors du changement de la formation sélectionnée.
+ * Relance la récupération des données pour mettre à jour le deuxième graphique.
+ */
+onSelectedFormationChange(): void {
+  if (this.region && this.selectedFormation) {
+    this.getNbFilieresParTypeChart(this.region, this.selectedFormation);
+  }
+}
 
 
 

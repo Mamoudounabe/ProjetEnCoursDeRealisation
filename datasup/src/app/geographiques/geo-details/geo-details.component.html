@@ -1,3 +1,4 @@
+<!--
 <div class="header-section">
     <p class="breadcrumbs">
       <a class="breadcrumb-link" routerLink="/">DataSup</a> /
@@ -11,8 +12,39 @@
 
     <canvas id="formationChart"></canvas>
 </div>
-
+-->
 
 
 
 <!-- <canvas >  #formationChart </canvas> -->
+
+<div class="header-section">
+  <p class="breadcrumbs">
+    <a class="breadcrumb-link" routerLink="/">DataSup</a> /
+    <a class="breadcrumb-link" routerLink="/geo-page">Geographiques</a>
+  </p>
+</div>
+
+<!-- Premier graphique : Public / Privé -->
+<div>
+  <h2>Filières Public / Privé</h2>
+  <canvas id="formationChart"></canvas>
+</div>
+
+<!-- Sélecteur pour le type de formation -->
+<div style="margin-top:20px;">
+  <h2>Filières par Type</h2>
+  <mat-form-field appearance="fill">
+    <mat-label>Choisissez la formation</mat-label>
+    <mat-select [(value)]="selectedFormation" (selectionChange)="onSelectedFormationChange()">
+      <mat-option *ngFor="let formation of formationTypes" [value]="formation">
+        {{ formation }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<!-- Deuxième graphique : Par type de formation -->
+<div>
+  <canvas id="typeChart"></canvas>
+</div>
