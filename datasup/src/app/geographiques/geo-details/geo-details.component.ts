@@ -292,7 +292,7 @@ export class GeoDetailsComponent implements OnInit {
   publicPrivateChart: any;
   // Graphique pour la répartition par type (barres horizontales)
   largeChart: any;
-  // Graphique pour la répartition par matière (Polar Area)
+  // Graphique pour la répartition par matière (camembert)
   matterChart: any;
 
   // Années à considérer
@@ -300,7 +300,7 @@ export class GeoDetailsComponent implements OnInit {
   // Région récupérée depuis l'URL
   region: string = '';
 
-  // Tableau de types de formation (pour le graphique horizontal)
+  // Tableau de types de formation pour le graphique horizontal
   formationTypes: string[] = [ 
     'BPJEPS', 
     'BTS', 
@@ -323,7 +323,7 @@ export class GeoDetailsComponent implements OnInit {
     'Sciences Po / Instituts d\'études politiques'
   ];
 
-  // Tableau fixe de couleurs pour le graphique horizontal (2ème graphique)
+  // Tableau fixe de couleurs pour le graphique horizontal (type)
   fixedTypeColors: string[] = [
     '#3366CC', '#DC3912', '#FF9900', '#109618', '#990099',
     '#0099C6', '#DD4477', '#66AA00', '#B82E2E', '#316395',
@@ -331,7 +331,7 @@ export class GeoDetailsComponent implements OnInit {
     '#8B0707', '#329262', '#5574A6', '#3B3EAC'
   ];
 
-  // Tableau de types pour le graphique matière (3ème graphique)
+  // Tableau de types pour le graphique matière (camembert)
   matterTypes: string[] = [
     'informatique', 
     'Electronique', 
@@ -354,7 +354,7 @@ export class GeoDetailsComponent implements OnInit {
     'Art'
   ];
 
-  // Tableau fixe de couleurs pour le graphique matière (3ème graphique)
+  // Tableau fixe de couleurs pour le graphique matière (camembert)
   fixedMatterColors: string[] = [
     '#8E44AD', '#3498DB', '#27AE60', '#F1C40F', '#E67E22',
     '#E74C3C', '#2ECC71', '#1ABC9C', '#34495E', '#16A085',
@@ -364,7 +364,7 @@ export class GeoDetailsComponent implements OnInit {
 
   // Année actuellement sélectionnée pour le graphique horizontal (type)
   selectedLargeYear: string = '2020';
-  // Année actuellement sélectionnée pour le graphique matière (Polar Area)
+  // Année actuellement sélectionnée pour le graphique matière (camembert)
   selectedMatterYear: string = '2020';
 
   constructor(
@@ -374,7 +374,7 @@ export class GeoDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const regionName = this.route.snapshot.paramMap.get('region');
-    if (regionName) {
+    if (regionName) { 
       this.region = regionName;
       this.getNbFilieresParRegion(this.region);
       this.loadLargeChartData(this.selectedLargeYear);
@@ -471,10 +471,10 @@ export class GeoDetailsComponent implements OnInit {
    * Pour chaque type de formation, on appelle l'endpoint getNbFilieresParType pour obtenir le nombre.
    */
   loadLargeChartData(year: string): void {
-    const observables = this.formationTypes.map(type =>
+    const observables = this.formationTypes.map(type => 
       this.apiService.getNbFilieresParType(this.region, year, type)
     );
-
+    
     forkJoin(observables).subscribe({
       next: (results) => {
         const data: number[] = results.map(res => res && res.length > 0 ? res[0].TotalType : 0);
@@ -489,7 +489,7 @@ export class GeoDetailsComponent implements OnInit {
   }
 
   /**
-   * Affiche un graphique à barres horizontal (non circulaire) qui occupe une grande partie de l'écran,
+   * Affiche un graphique à barres horizontal qui occupe une grande partie de l'écran,
    * affichant la répartition des filières par type pour l'année donnée.
    * Utilise des couleurs fixes définies dans fixedTypeColors.
    */
@@ -537,19 +537,19 @@ export class GeoDetailsComponent implements OnInit {
   }
 
   /**
-   * Charge les données pour le graphique en Polar Area (3ème graphique) pour l'année donnée.
+   * Charge les données pour le graphique en camembert (3ème graphique) pour l'année donnée.
    * Pour chaque type de matière, on appelle l'endpoint getNbFilieresParMatiere pour obtenir le nombre.
    * Les résultats sont triés par ordre croissant avant affichage.
    */
   loadMatterChartData(year: string): void {
     const observables = this.matterTypes.map(matter =>
-      // Forcer le paramètre à minuscule pour correspondre à la requête
+      // On passe le paramètre en minuscule pour garantir la correspondance
       this.apiService.getNbFilieresParMatiere(this.region, year, matter.toLowerCase())
     );
     
     forkJoin(observables).subscribe({
       next: (results) => {
-        // Mapping des résultats en utilisant l'alias "TotalInformatique"
+        // Récupération des valeurs dans l'ordre de matterTypes en utilisant l'alias "TotalInformatique"
         const data: number[] = results.map(res => res && res.length > 0 ? res[0].TotalInformatique : 0);
         
         // Création d'un tableau de paires { label, value } pour trier par ordre croissant
@@ -558,21 +558,21 @@ export class GeoDetailsComponent implements OnInit {
         const sortedLabels = pairs.map(p => p.label);
         const sortedData = pairs.map(p => p.value);
         
-        this.renderMatterPolarChart(year, sortedLabels, sortedData);
+        this.renderMatterPieChart(year, sortedLabels, sortedData);
       },
       error: (err) => {
         console.error(`Erreur lors du chargement des données matière pour l'année ${year}:`, err);
         const data = this.matterTypes.map(() => 0);
-        this.renderMatterPolarChart(year, this.matterTypes, data);
+        this.renderMatterPieChart(year, this.matterTypes, data);
       }
     });
   }
 
   /**
-   * Affiche un graphique de type Polar Area pour la répartition des filières par matière pour l'année donnée.
+   * Affiche un graphique en camembert pour la répartition des filières par matière pour l'année donnée.
    * Utilise des couleurs fixes définies dans fixedMatterColors.
    */
-  renderMatterPolarChart(year: string, labels: string[], data: number[]): void {
+  renderMatterPieChart(year: string, labels: string[], data: number[]): void {
     const canvas = document.getElementById('matterChart') as HTMLCanvasElement;
     if (!canvas) {
       console.error("Canvas 'matterChart' non trouvé !");
@@ -588,7 +588,7 @@ export class GeoDetailsComponent implements OnInit {
     }
     const colors = this.fixedMatterColors.slice(0, labels.length);
     this.matterChart = new Chart(ctx, {
-      type: 'polarArea',
+      type: 'pie',
       data: {
         labels: labels,
         datasets: [{
@@ -619,7 +619,7 @@ export class GeoDetailsComponent implements OnInit {
   }
 
   /**
-   * Méthode appelée lorsqu'un bouton d'année est cliqué pour le graphique de matière (Polar Area).
+   * Méthode appelée lorsqu'un bouton d'année est cliqué pour le graphique en camembert matière.
    */
   onSelectMatterYear(selectedYear: string): void {
     this.selectedMatterYear = selectedYear;
