@@ -40,7 +40,7 @@
     <div class="col-right">
       <!-- FAQ -->
       <div class="section">
-        <button class="toggle" (click)="showFAQ = !showFAQ">❓ Foire aux Questions</button>
+        <button class="toggle" (click)="showFAQ = !showFAQ"> Foire aux Questions</button>
         <div *ngIf="showFAQ" class="toggle-content">
           <div *ngFor="let faq of faqList">
             <h3>{{ faq.question }}</h3>
@@ -49,21 +49,21 @@
 
           <h3>Fonctionnalités principales du projet</h3>
           <ul>
-            <li>🔍 Recherche par région, académie, bac</li>
-            <li>📊 Graphiques interactifs avec Chart.js / D3.js</li>
-            <li>🗺️ Cartes Leaflet.js</li>
-            <li>📥 Téléchargement CSV / PDF / Excel</li>
-            <li>📈 Rapports générés automatiquement (Python)</li>
-            <li>🧠 Analyse de données et indicateurs clés (KPI)</li>
-            <li>⚙️ FastAPI + Neo4j pour l'API</li>
-            <li>🚀 CI/CD GitLab + Docker</li>
+            <li>Recherche par région, académie, bac</li>
+            <li>Graphiques interactifs avec Chart.js / D3.js</li>
+            <li>Cartes Leaflet.js</li>
+            <li>Téléchargement CSV / PDF / Excel</li>
+            <li>Rapports générés automatiquement (Python)</li>
+            <li>Analyse de données et indicateurs clés (KPI)</li>
+            <li>FastAPI + Neo4j pour l'API</li>
+            <li>CI/CD GitLab + Docker</li>
           </ul>
         </div>
       </div>
 
       <!-- Politique -->
       <div class="section">
-        <button class="toggle" (click)="showPrivacy = !showPrivacy">🔒 Politique de confidentialité</button>
+        <button class="toggle" (click)="showPrivacy = !showPrivacy"> Politique de confidentialité</button>
         <div *ngIf="showPrivacy" class="toggle-content">
           <p>Nous accordons une grande importance à la protection de vos informations personnelles.</p>
           <!-- Google Analytics & RGPD : Nous utilisons GA4 sans identifiants personnels, conformément au RGPD. -->
