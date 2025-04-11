@@ -1423,4 +1423,4 @@ class EtablissementManager:
         except Exception as e:
             print(f"Erreur dans get_comp_universite: {str(e)}")
             traceback.print_exc()
-            return []     
+            return []

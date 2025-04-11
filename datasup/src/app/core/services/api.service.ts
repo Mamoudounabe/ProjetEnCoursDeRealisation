@@ -139,34 +139,6 @@ getUniversitesByComp(nomUniversites: string[], anneesActuelles: string[]): Obser
 }
 
 
-getNbFilieresParRegion(region: string, annee: string): Observable<any[]> {
-  let params = new HttpParams()
-    .set('region', region)
-    .set('annee', annee);
-
-  console.log(`Request URL: ${this.apiUrl}/universite/get_nbFilieresParRegion?region=${region}&annee=${annee}`);
-  return this.http.get<any[]>(`${this.apiUrl}/universite/get_nbFilieresParRegion`, { params });
-}
-
-getNbFilieresParType(region: string, annee: string, filiereFormation: string): Observable<any[]> {
-  let params = new HttpParams()
-    .set('region', region)
-    .set('annee', annee)
-    .set('filiere_formation', filiereFormation);
-
-  console.log(`Request URL: ${this.apiUrl}/universite/get_nbFilieresParType?region=${region}&annee=${annee}&filiere_formation=${filiereFormation}`);
-  return this.http.get<any[]>(`${this.apiUrl}/universite/get_nbFilieresParType`, { params });
-}
-
-getNbFilieresParMatiere(region: string, annee: string, filiereFormationDetaillee: string): Observable<any[]> {
-  let params = new HttpParams()
-    .set('region', region)
-    .set('annee', annee)
-    .set('filiere_formation_detaillee', filiereFormationDetaillee);
-
-  console.log(`Request URL: ${this.apiUrl}/universite/get_nbFilieresParMatiere?region=${region}&annee=${annee}&filiere_formation_detaillee=${filiereFormationDetaillee}`);
-  return this.http.get<any[]>(`${this.apiUrl}/universite/get_nbFilieresParMatiere`, { params });
-}
 
 
 

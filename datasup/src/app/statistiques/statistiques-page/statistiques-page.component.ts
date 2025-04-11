@@ -3,7 +3,6 @@ import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-statistiques-page',
-    standalone:true,
     imports: [
         RouterLink
     ],
