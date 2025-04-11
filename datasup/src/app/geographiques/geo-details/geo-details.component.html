@@ -17,7 +17,6 @@
 -->
 
 <!-- <canvas >  #formationChart </canvas> -->
-
 <div class="header-section">
   <p class="breadcrumbs">
     <a class="breadcrumb-link" routerLink="/">DataSup</a> /
@@ -34,7 +33,7 @@
 <!-- Section pour le camembert par année -->
 <div class="pie-chart-container">
   <h2>Répartition des filières par type (camembert)</h2>
-  <!-- Boutons de sélection pour l'année -->
+  <!-- Boutons de sélection d'année pour le camembert -->
   <div class="year-button-group">
     <button *ngFor="let year of years" (click)="onSelectPieYear(year)"
             [class.active]="year === selectedPieYear">
