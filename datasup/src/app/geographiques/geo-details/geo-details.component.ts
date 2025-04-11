@@ -36,10 +36,9 @@ import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-geo-details',
-<<<<<<< HEAD
+
     standalone:true,
-    imports: [],
-=======
+
     imports: [ MatInputModule,
         MatFormFieldModule,
         MatOptionModule,
@@ -57,7 +56,6 @@ import { RouterModule } from '@angular/router';
         MatToolbarModule,
         MatIconModule,
         RouterModule],
->>>>>>> 35466408cef557115c3f453a9302ba94fba3b5d4
     templateUrl: './geo-details.component.html',
     styleUrl: './geo-details.component.css'
 })
