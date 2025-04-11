@@ -64,16 +64,22 @@ canvas {
     color: #fff;
 }
 
-/* Style pour le conteneur du pie chart */
-.pie-chart-container {
-    max-width: 400px;  /* Limite la largeur */
-    margin: 20px auto; /* Centrage horizontal et marge verticale */
+/* Style pour le conteneur du graphique grand */
+.full-screen-chart-container {
+    width: 90%;
+    height: 80vh; /* Prend 80% de la hauteur de la fenêtre */
+    margin: 20px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Style pour le canvas du pie chart */
-#pieChart {
+/* Ajustement du canvas pour le graphique grand */
+#largeChart {
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
 }
 
 /* Style pour le groupe de boutons d'année */

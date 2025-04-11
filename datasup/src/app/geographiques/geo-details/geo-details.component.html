@@ -25,20 +25,20 @@
 </div>
 
 <!-- Premier graphique : Public / Privé -->
-<div>
+<div class="chart-container">
   <h2>Filières Public / Privé</h2>
   <canvas id="formationChart"></canvas>
 </div>
 
-<!-- Section pour le camembert par année -->
-<div class="pie-chart-container">
-  <h2>Répartition des filières par type (camembert)</h2>
-  <!-- Boutons de sélection d'année pour le camembert -->
+<!-- Section pour le graphique grand (polar area) -->
+<div class="full-screen-chart-container">
+  <h2>Répartition des filières par type</h2>
+  <!-- Boutons de sélection d'année pour le graphique grand -->
   <div class="year-button-group">
-    <button *ngFor="let year of years" (click)="onSelectPieYear(year)"
-            [class.active]="year === selectedPieYear">
+    <button *ngFor="let year of years" (click)="onSelectLargeYear(year)"
+            [class.active]="year === selectedLargeYear">
       {{ year }}
     </button>
   </div>
-  <canvas id="pieChart"></canvas>
+  <canvas id="largeChart"></canvas>
 </div>
