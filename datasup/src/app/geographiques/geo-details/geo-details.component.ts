@@ -34,6 +34,8 @@ import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { forkJoin } from 'rxjs'
 
+Chart.register(...registerables);
+
 @Component({
     selector: 'app-geo-details',
     imports: [ MatInputModule,
@@ -56,6 +58,9 @@ import { forkJoin } from 'rxjs'
     templateUrl: './geo-details.component.html',
     styleUrl: './geo-details.component.css'
 })
+
+
+
 export class GeoDetailsComponent implements OnInit {
 
 /*
