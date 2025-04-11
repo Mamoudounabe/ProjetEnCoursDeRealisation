@@ -1027,3 +1027,11 @@ class EtablissementManager:
 #  AND e.region_etablissement = "Bourgogne-Franche-Comté"
 #  AND f.filiere_formation CONTAINS "Licence"
 #RETURN COUNT(f) AS TotalLicence
+
+# nbr filliere / matiere
+#MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
+#MATCH (e)-[:OFFERS]->(f:Filiere)
+#WHERE s.annee = "2021" 
+#  AND e.region_etablissement = "Bourgogne-Franche-Comté"
+#  AND f.filiere_formation_detaillee CONTAINS "Informatique"
+#RETURN COUNT(f) AS TotalInformatique
