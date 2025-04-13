@@ -1,28 +1,143 @@
-:root {
-  --blue: rgb(33, 33, 81);
-  --white: #ffffff;
-  --dark-gray: #444;
-  --red: #9d2222;
-  --light-red: #ef0909;
-}
-
-.main-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
 .header {
-  background: var(--blue);
-  color: white;
+  background: var(--blue); /* Utilisation de la variable --blue */
+  
   height: 55px;
+}
+
+header ul {
+  display: flex;
+  flex-direction: column; /* Afficher les éléments en colonne */
+  align-items: flex-start; /* Aligner les éléments à gauche */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+}
+
+header ul li {
+  margin: 10px 0; /* Espacement vertical entre les éléments */
+  position: relative; /* Assure que le sous-menu est positionné par rapport à l'élément parent */
+}
+
+header ul li .submenu {
+  display: none; /* Masquer le sous-menu par défaut */
+  position: absolute; /* Positionner de manière absolue */
+  top: 100%;
+  left: 0;
+  background: var(--white);
+  padding: 10px 0;
+  list-style: none;
+  min-width: 200px;
+  box-shadow: 0px 4px 6px rgba(200, 171, 171, 0.1);
+  border-radius: 4px;
+  z-index: 1000;
+  width: 200px;
+
+}
+
+header ul li:hover .submenu {
+  display: block; /* Afficher le sous-menu lorsque l'élément parent est survolé */
+}
+
+header ul li .submenu li {
+  margin: 5px 0; /* Espacement vertical entre les éléments */
+}
+
+header ul li .submenu li a {
+  color: var(--dark-gray);
+  padding: 10px 20px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+header ul li .submenu li a:hover {
+  background: var(--blue);
+  color: var(--white);
+}
+
+
+
+.logo:hover {
+  color: var(--white);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center; /* Aligne verticalement */
+  gap: 5px; /* Espace entre l’icône et le texte */
+}
+
+.menu-link {
+  color: red; /* Applique la couleur rouge au texte */
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem; /* Ajuste la taille du texte */
+}
+
+.menu-icon {
+  color: red; /* Applique la couleur rouge à l'icône */
+  font-size: 1.2rem; /* Assure que l'icône a la même taille que le texte */
+  margin-right: 3px; /* Ajoute un petit espace entre l'icône et le texte */
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.menu-container {
+  position: absolute;
+  top: 5px; /* Ajustez en fonction de la hauteur de votre toolbar */
+  left: 0;
+  background-color: rgb(33, 33, 81);
+  border: 2px solid #d2d1d7;
+  z-index: 2000;
+  width: 300px; /* Largeur du menu */
+  height: 100%;
+  overflow-y: auto;
+}
+
+.menu-container ul {
+  list-style-type: none;
+  padding: 10px;
+  margin: 0;
+}
+
+.menu-container ul li {
+  padding: 10px 20px;
+}
+
+.menu-container ul li a {
+  text-decoration: none;
+  color: rgb(224, 215, 215);
+  display: flex;
+  align-items: center;
+}
+
+.menu-container ul li a mat-icon {
+  margin-right: 8px;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--blue);
+  color: rgb(220, 220, 227);
+}
+
+.menu-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
 .logo p {
   font-size: 24px;
   font-weight: bold;
-  color: var(--red);
-  margin-bottom: -15px;
+  color: #9d2222;
+  margin-bottom: -15px; /* Réduit l’espace sous "Parcoursup" */
 }
 
 .slogan {
@@ -34,94 +149,11 @@
   text-align: center;
 }
 
-.supm {
+.m{
+  color: rgb(230, 205, 213);
+  
+}
+.supm{
   color: #ece4e4;
   text-decoration: none;
-}
-
-.example-spacer {
-  flex: 1 1 auto;
-}
-
-.m {
-  color: rgb(230, 205, 213);
-}
-
-.content-wrapper {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-.menu-container {
-  width: 300px;
-  min-width: 300px;
-  height: 100%;
-  background-color: var(--blue);
-  color: rgb(224, 215, 215);
-  padding: 10px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  transition: all 0.3s ease;
-  border-right: 2px solid #d2d1d7;
-}
-
-.menu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #d2d1d7;
-  color: rgb(220, 220, 227);
-}
-
-.menu-close {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.menu-container ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.menu-container li {
-  margin: 20px 0; /* ✅ Plus d’espace entre les onglets */
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  color: rgb(224, 215, 215);
-  text-decoration: none;
-  font-size: 1.1rem;
-  padding: 10px 15px; /* ✅ Meilleur padding interne */
-  border-radius: 6px;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.menu-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateX(5px); /* ✅ Petit slide au survol */
-}
-
-.menu-icon {
-  color: red;
-  font-size: 1.2rem;
-  margin-right: 12px; /* ✅ Meilleur espacement entre icône et texte */
-}
-
-.menu-logo {
-  margin-top: 30px;
-  width: 100%;
-}
-
-.decalerdroite {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
 }
