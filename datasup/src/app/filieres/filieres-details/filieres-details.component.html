@@ -1,128 +1,91 @@
 <section class="decalerdroite">
 
-
-<div class="header-section">
-  <p class="breadcrumbs">
-    <a class="breadcrumb-link" routerLink="/">DataSup</a> /
-    <!-- <a class="breadcrumb-link" routerLink="/statistiques">Statistiques</a> / -->
-    <a class="breadcrumb-link" routerLink="/filieres">Filieres</a>  
-  </p>
-</div>
-
-<!--   <div  *ngIf="filieres.length >0">
-
-  <h2> {{ filieres[0].filiere_formation}}  </h2>
-  <p> {{filieres[0].filiere_formation_detaillee}}</p>
-  <p>{{ filieres[0]?.taux_acces | number: '1.0-0' }}</p>
-
-</div> -->
-
-
-
-
-<!--  deuxieme partie
--->
-<div class="partie2">
-
-  <div class="gauche2">
-   <h2 >
-     <svg class="fontawesomesvg rotate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="20" height="20">
-       <path fill="red" d="M384 160c-17.7 0-32-14.3-32-32s14.3-32 32-32H544c17.7 0 32 14.3 32 32V288c0 17.7-14.3 32-32 32s-32-14.3-32-32V205.3L342.6 374.6c-12.5 12.5-32.8 12.5-45.3 0L192 269.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160c12.5-12.5 32.8-12.5 45.3 0L320 306.7 466.7 160H384z"/>
-     </svg>
-     <strong>Profil des candidats admis</strong>
-   </h2 >
- 
-  <div>
-   <p> <!-- En {{ selectedYear.value }}, cette formation accueillait  -->
-     <strong> {{filieres[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }} </strong> 
-     <strong>
-       ({{ ((filieres[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] 
-       /filieres[0]["toInteger(a.effectif_total_candidats_admis)"]) * 100) | number:'1.0-2' }} %)
-     </strong> 
-     de néo-bacheliers ayant obtenu la mention bien au bac, pour 
-     <strong> {{filieres[0]["toInteger(a.effectif_total_candidats_admis)"] }} </strong> 
-     néo-bacheliers admis.    
-   </p>
+  <div class="header-section">
+    <p class="breadcrumbs">
+      <a class="breadcrumb-link" routerLink="/">DataSup</a> /
+      <a class="breadcrumb-link" routerLink="/filieres">Filières</a>
+    </p>
   </div>
- </div>
 
+  <div class="partie2">
 
-<div  class="droite2">
+    <!-- Colonne gauche -->
+    <div class="gauche2">
+      <h2>
+        <svg class="fontawesomesvg rotate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="20" height="20">
+          <path fill="red" d="M384 160c-17.7 0-32-14.3-32-32s14.3-32 32-32H544c17.7 0 32 14.3 32 32V288c0 17.7-14.3 32-32 32s-32-14.3-32-32V205.3L342.6 374.6c-12.5 12.5-32.8 12.5-45.3 0L192 269.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160c12.5-12.5 32.8-12.5 45.3 0L320 306.7 466.7 160H384z"/>
+        </svg>
+        <strong>Profil des candidats admis</strong>
+      </h2>
 
-  <div class="bouton2">  
-     <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption">
-       <mat-button-toggle value="mention_bien" class="bold-toggle">Candidatures</mat-button-toggle>
-       <mat-button-toggle value="sexe" class="italic-toggle">Proposition d'admission</mat-button-toggle>
-       <mat-button-toggle value="Admission" class="underline-toggle">Admission</mat-button-toggle>
-       <mat-button-toggle value="academie" class="academie-toggle">Académie</mat-button-toggle>
-       <mat-button-toggle value="type_bac" class="bac-type-toggle">Type de bac</mat-button-toggle>
-     </mat-button-toggle-group>
-   </div>
- 
- 
-   
-   <h2 >{{ filieres[0].filiere_formation }} - {{ filieres[0].filiere_formation  }}</h2>
-   <div *ngIf="selectedOption === 'mention_bien'">
-     <div>
-       <p> <strong> Mention au bac des candidats admis</strong></p>
-       <p> Tres bien avec Felicitation du jury: <strong> {{ filieres[0]["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"] }} </strong> %</p>
-       <p> Bien: <strong> {{ filieres[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }} </strong> %</p>
-       <p>  Assez bien: <strong> {{ filieres[0]["toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis)"] }} </strong> %</p>
-       <p> Mension passable: <strong> {{ filieres[0]["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"] }} </strong> %</p>
-       <p> Sans mention: <strong> {{ filieres[0]["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"] }} </strong>%</p>
-    </div>  
+      <p>
+        <strong>{{ filieres[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }}</strong>
+        <strong>
+          ({{ ((filieres[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] /
+                filieres[0]["toInteger(a.effectif_total_candidats_admis)"]) * 100) | number:'1.0-2' }} %)
+        </strong>
+        de néo-bacheliers ayant obtenu la mention bien au bac, pour
+        <strong>{{ filieres[0]["toInteger(a.effectif_total_candidats_admis)"] }}</strong>
+        néo-bacheliers admis.
+      </p>
     </div>
-     
- 
-     <div *ngIf="selectedOption === 'bourse'"> 
-      <!-- Affichez des informations sur les bourses ici -->
-     <p>Nombre de boursiers: <strong></strong></p>
-    </div> 
- 
- 
 
- 
+    <!-- Colonne droite -->
+    <div class="droite2">
 
-  
+      <!-- Toggle de vues -->
+      <div class="bouton2">
+        <mat-button-toggle-group name="fontStyle" aria-label="Vue de graphique" [(ngModel)]="selectedOption">
+          <mat-button-toggle value="mention_bien" class="bold-toggle">Mentions au bac</mat-button-toggle>
+          <mat-button-toggle value="type_bac" class="bac-type-toggle">Répartition des types de bac</mat-button-toggle>
+          <mat-button-toggle value="Admission" class="underline-toggle">Taux d'admission</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
 
-   <!-- Bloc 3 : Statistiques et Graphique -->
-<div class="chart-box" *ngIf="selectedOption === 'Admission'">
-  <h3><strong>{{ totalCandidats }} candidats en 2024</strong></h3>
-  <p><span class="highlight">{{ neoBacheliers }} néo-bacheliers</span></p>
+      <h2>{{ filieres[0]?.filiere_formation }} - {{ filieres[0]?.filiere_formation }}</h2>
 
-  <!-- Graphique -->
-  <div class="chart-container">
-    <canvas baseChart
-            [data]="barChartData"
-            [options]="barChartOptionss"
-            [type]="barChartTypee">
-    </canvas>
+      <!-- Graphe Mentions -->
+      <div *ngIf="selectedOption === 'mention_bien'">
+        <div style="display: block; width: 100%;">
+          <canvas baseChart
+            [data]="barChartMentionsData"
+            [options]="barChartMentionsOptions"
+            chartType="bar">
+          </canvas>
+        </div>
+      </div>
+
+
+
+      <div *ngIf="selectedOption === 'type_bac'">
+        <canvas baseChart
+          [data]="barChartTypeBacData"
+          [options]="barChartTypeBacOptions"
+          [plugins]="[ChartDataLabels]"
+          chartType="pie">  <!-- ← celui-ci doit bien être "pie" -->
+        </canvas>
+      </div>
+      
+      <!-- Graphe Types de Bac -->
+      
+      <!-- Section Admission -->
+      
+
+        <!-- Si tu veux ajouter un graphe ici, insère-le ici -->
+        <div *ngIf="selectedOption === 'Admission'"> 
+        <div style="display: block; width: 100%;">
+          <canvas baseChart
+            [data]="barChartAdmissionData"
+            [options]="barChartAdmissionOptions"
+            [plugins]="[ChartDataLabels]"
+            chartType="bar">
+          </canvas>
+        </div>
+        
+
+       
+      </div>
+
+    </div>
   </div>
-
-  <!-- Variation en pourcentage -->
-   <!-- Variation en pourcentage -->
-  <div class="variation">
-    <span class="down">↓ {{ baisseTotale }} % par rapport à 2023</span>
-    <span class="down secondary">(↓ {{ baisseNeoBacheliers }} %)</span>
-  </div>
-
-   </div>
-  
-
-
-</div>
- 
- 
-
-
-
-</div>
-
-
-<!-- 
-<mat-drawer-container class="example-containers">
-  <mat-drawer mode="side" opened>Drawer content</mat-drawer>
-  <mat-drawer-content>Main content</mat-drawer-content>
-</mat-drawer-container> -->
- 
 </section>

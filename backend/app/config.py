@@ -9,8 +9,7 @@ class Config:
         NEO4J_PASSWORD (str) : Le mot de passe pour s'authentifier avec la base de données Neo4j.
         NEO4J_DATABASE (str) : Le nom de la base de données Neo4J.
     """
-
-    NEO4J_URI = "bolt://host.docker.internal:7687"
+    NEO4J_URI = "bolt://localhost:7687"
     NEO4J_USERNAME = "neo4j"
     NEO4J_PASSWORD = "password"
     NEO4J_DATABASE = "neo4j"
