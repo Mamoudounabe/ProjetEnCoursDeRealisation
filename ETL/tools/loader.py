@@ -1,3 +1,5 @@
+
+from neo4j import GraphDatabase
 class Neo4jLoader:
     """
     Classe pour charger les données dans Neo4j.
