@@ -30,6 +30,9 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"],
 )
+@app.get("/")
+def read_root():
+    return {"message": "Hello Parcoursup"}
 
 
 register_routes(app)
