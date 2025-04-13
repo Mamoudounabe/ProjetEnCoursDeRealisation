@@ -37,7 +37,7 @@ export class ComparatifUniversitesPageComponent  implements OnInit{
 
  // Liste des universités
  universites: any[] = [
-  { id: 1, nom: 'Aix Marseille Université', region: 'Provence-Alpes-Côte d\'Azur' },
+  
   { id: 2, nom: 'Université Angers', region: 'Pays de la Loire' },
   { id: 3, nom: 'Université de Bourgogne', region: 'Bourgogne-Franche-Comté' },
   { id: 4, nom: 'Université de Bretagne Occidentale', region: 'Bretagne' },
@@ -48,7 +48,7 @@ export class ComparatifUniversitesPageComponent  implements OnInit{
   { id: 8, nom: 'Université de Corte', region: 'Corse' },
   { id: 9, nom: 'Université de Franche-Comté', region: 'Bourgogne-Franche-Comté' },
   { id: 10, nom: 'Université Grenoble Alpes', region: 'Auvergne-Rhône-Alpes' },
- 
+  { id: 1, nom: 'Aix Marseille Université', region: 'Provence-Alpes-Côte d\'Azur' },
 
   { id: 12, nom: 'Université de Limoges', region: 'Nouvelle-Aquitaine' },
   { id: 13, nom: 'Université de Lorraine', region: 'Grand Est' },
@@ -133,10 +133,20 @@ pagesContainingResults: number[] = []; // Ajout de la propriété pagesContainin
 
 constructor(private apiService: ApiService, private cdr: ChangeDetectorRef, private router: Router, private route: ActivatedRoute) {}
 
-ngOnInit() {
-  this.filteredUniversites = [...this.universites];  // Initialisation avec toutes les universités
-  this.updatePagination(); // Mettre à jour la pagination
-}
+/* ngOnInit() {
+  this.filteredUniversites = [...this.universites];  
+  this.updatePagination(); 
+} */
+
+
+  ngOnInit() {
+    this.filteredUniversites = [...this.universites];  // On copie la liste
+    this.totalItems = this.filteredUniversites.length;
+    this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+    this.updatePagination();
+  }
+  
+
 
 // Fonction de filtrage des universités
 filterUniversites() {
@@ -170,22 +180,58 @@ onPageChange(event: PageEvent) {
 }
 
 // Fonction pour sélectionner toutes les universités visibles
-selectAllUniversites() {
+/*  selectAllUniversites() {
   this.filteredUniversites.forEach(universite => {
     this.isAllSelected = !this.isAllSelected;
     this.selectUniversite(universite);
   });
-}
+}  */
+
+
+  selectAllUniversites() {
+    this.selectedUniversites = []; // reset
+  
+    for (let universite of this.filteredUniversites) {
+      if (this.selectedUniversites.length < 2) {
+        this.selectedUniversites.push(universite);
+      } else {
+        break;
+      }
+    }
+  }
+  
+
+
+
+
+
+
+  selectUniversite(universite: any) {
+    const index = this.selectedUniversites.findIndex(u => u.id === universite.id);
+  
+    if (index === -1) {
+      if (this.selectedUniversites.length >= 2) {
+        alert('Vous ne pouvez sélectionner que deux universités maximum.');
+        return;
+      }
+      this.selectedUniversites.push(universite);
+    } else {
+      this.selectedUniversites.splice(index, 1);
+    }
+  }
+  
+
+
 
 // Fonction pour sélectionner/désélectionner une université
-selectUniversite(universite: any) {
+/* selectUniversite(universite: any) {
   const index = this.selectedUniversites.findIndex(u => u.id === universite.id);
   if (index === -1) {
     this.selectedUniversites.push(universite);
   } else {
     this.selectedUniversites.splice(index, 1);
   }
-}
+} */
 
 // Fonction pour vérifier si une université est sélectionnée
 isUniversiteSelected(universite: any): boolean {
@@ -221,13 +267,13 @@ goToUniversiteComp(): void {
     const noms = this.selectedUniversites.map(u => u.nom).join(','); 
 
     // Vérifie si les noms sont corrects avant de naviguer
-    console.log('✅ Noms sélectionnés :', noms);
+    console.log(' Noms sélectionnés :', noms);
 
     // Navigation vers la page avec les noms dans l'URL
     this.router.navigate(['/universites/comparaison', noms]);
 
     // Affiche également les noms dans la console
-    console.log('✅ Navigation vers la page de comparaison avec les noms :', noms);
+    console.log(' Navigation vers la page de comparaison avec les noms :', noms);
   } else {
     alert('Veuillez sélectionner au moins 2 universités à comparer.');
   }
