@@ -4,7 +4,8 @@ services:
   - name: neo4j:5
     alias: neo4j
     entrypoint: ["/bin/bash", "-c"]
-    command: ["neo4j-admin dbms set-initial-password test && neo4j"]
+    command: ["neo4j-admin dbms set-initial-password test && neo4j console"]
+
 
 variables:
   NEO4J_URI: "bolt://neo4j:7687"
