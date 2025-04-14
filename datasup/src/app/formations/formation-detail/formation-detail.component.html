@@ -407,11 +407,15 @@
    -->
   <div class="formation-detail-container">
     <h2>Indicateurs par type de baccalauréat</h2>
+
+    <!-- ✅ Affichage dynamique de l'année récupérée depuis l'URL -->
     <p>
-      En 2024, le taux d’accès de la formation pour l’ensemble des candidats
-      était de <strong>{{ formation?.taux_admission || "N/A" }} %</strong>
+      En {{ anneeActuelle }}, le taux d’accès de la formation pour l’ensemble
+      des candidats était de
+      <strong>{{ formation?.taux_admission || "N/A" }} %</strong>
     </p>
 
+    <!-- ✅ Boutons pour changer la statistique affichée -->
     <div class="stat-buttons">
       <button
         (click)="selectedStat.setValue('tauxAcces')"
@@ -433,19 +437,25 @@
       </button>
     </div>
 
-    <div class="chart-container" *ngIf="hasData">
-      <canvas
-        baseChart
-        [data]="chartData"
-        [options]="chartOptions"
-        chartType="bar"
-      ></canvas>
-      <p>
-        <strong>Session :</strong> {{ session }}<br /><strong>Source :</strong>
-        {{ source }}<br /><strong>Dernière mise à jour :</strong>
-        {{ lastUpdate }}
-      </p>
+    <!-- ✅ Graphique affiché uniquement si données disponibles -->
+    <div class="chart-flex" *ngIf="hasData">
+      <div class="chart-info">
+        <p><strong>Session :</strong> {{ anneeActuelle }}</p>
+        <p><strong>Source :</strong> {{ source }}</p>
+        <p><strong>Dernière mise à jour :</strong> {{ lastUpdate }}</p>
+      </div>
+
+      <div class="chart-box">
+        <canvas
+          baseChart
+          [data]="chartData"
+          [options]="chartOptions"
+          chartType="bar"
+        ></canvas>
+      </div>
     </div>
-    <button (click)="goBack()" class="back-button">Retour</button>
+
+    <!-- ✅ Bouton retour -->
+    <button class="back-button" (click)="goBack()">Retour</button>
   </div>
 </section>
