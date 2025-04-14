@@ -139,14 +139,30 @@ constructor(private apiService: ApiService, private cdr: ChangeDetectorRef, priv
 } */
 
 
-  ngOnInit() {
+/*   ngOnInit() {
     this.filteredUniversites = [...this.universites];  // On copie la liste
     this.totalItems = this.filteredUniversites.length;
     this.totalPages = Math.ceil(this.totalItems / this.pageSize);
     this.updatePagination();
   }
   
+ */
 
+
+  ngOnInit() {
+    this.isLoading = true;
+  
+    setTimeout(() => {
+      // Après 10 secondes, on charge les données
+      this.filteredUniversites = [...this.universites];  
+      this.totalItems = this.filteredUniversites.length;
+      this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+      this.updatePagination();
+  
+      this.isLoading = false; // Fin du chargement
+    }, 3000); // 10 000 ms = 10 secondes
+  }
+  
 
 // Fonction de filtrage des universités
 filterUniversites() {

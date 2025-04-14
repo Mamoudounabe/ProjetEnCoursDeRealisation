@@ -33,7 +33,10 @@ import { toInteger } from 'lodash';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-comparatif-universites-details',
@@ -54,7 +57,13 @@ import { RouterModule } from '@angular/router';
     MatGridListModule,
     MatToolbarModule,
     MatIconModule,
-    RouterModule ], // Ajoutez ici les modules Angular nécessaires
+    RouterModule ,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatPaginatorModule,
+    MatSliderModule,
+  
+  ], // Ajoutez ici les modules Angular nécessaires
   templateUrl: './comparatif-universites-details.component.html',
   styleUrls: ['./comparatif-universites-details.component.css']
 })
@@ -67,7 +76,7 @@ export class ComparatifUniversitesDetailsComponent implements OnInit {
   faSignal = faSignal;
 
   chart: any;
-
+  isLoading = true;
 
   universitesData: Record<string, any[]> = {};
 
@@ -124,21 +133,38 @@ selectedSousOptionQ : string = 'boursiersSecondaire';
  /*  constructor(private route: ActivatedRoute) {} */
  constructor(private apiService: ApiService, private cdr: ChangeDetectorRef, private router: Router,private route: ActivatedRoute) {}
 
-  ngOnInit(): void {
+ /*  ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const nomsString = params.get('nom');  // Récupère la chaîne des noms d'universités depuis l'URL
+      const nomsString = params.get('nom'); 
       if (nomsString) {
-        this.universitesNames = nomsString.split(',');  // Découpe la chaîne en un tableau
-        console.log('✅ Noms récupérés :', this.universitesNames);  // Affiche les noms
+        this.universitesNames = nomsString.split(',');  
+        console.log('✅ Noms récupérés :', this.universitesNames);  
       } else {
         console.error(' Aucun nom d\'université trouvé dans l\'URL.');
       }
     });
 
-    this.getUniversitesData();  // Appelle la méthode pour récupérer les données des universités
+    this.getUniversitesData();  
   }
+ */
 
 
+
+
+
+ngOnInit(): void {
+  this.route.paramMap.subscribe(params => {
+    const nomsString = params.get('nom');
+    if (nomsString) {
+      this.universitesNames = nomsString.split(',');
+      console.log(' Noms récupérés :', this.universitesNames);
+    } else {
+      console.error(' Aucun nom d\'université trouvé dans l\'URL.');
+    }
+
+    this.getUniversitesData();  // On attend d’avoir les noms avant de lancer
+  });
+}
 
 
 
@@ -152,6 +178,8 @@ selectedSousOptionQ : string = 'boursiersSecondaire';
       console.error('Vous devez sélectionner au moins une année.');
       return;
     }
+
+    this.isLoading = true; // Affiche le spinner en début de chargement
 
     this.apiService.getUniversitesByComp(this.universitesNames, this.anneesActuelles)
       .subscribe(
@@ -173,6 +201,13 @@ selectedSousOptionQ : string = 'boursiersSecondaire';
               effectif_boursiers_generaux_phase_principale: universite.effectif_boursiers_generaux_phase_principale || 0,
               effectif_admis_meme_academie: universite.effectif_admis_meme_academie || 0,
               moyenne_effectif_admis_meme_academie: universite.moyenne_effectif_admis_meme_academie || 0
+
+
+
+
+
+
+              
             });
             return acc;
           }, {} as Record<string, any[]>);
@@ -190,10 +225,16 @@ selectedSousOptionQ : string = 'boursiersSecondaire';
           this.createChart('effectif_boursiers_generaux_phase_principale', 'chartBoursiers', 'Boursiers Phase Principale', ['#87A2C2', '#D77683']);
           this.createChart('effectif_admis_meme_academie', 'chartAdmisAcademie', 'Admis Même Académie', ['#009FE3', '#A3D39C']);
          /*  this.createChart('moyenne_effectif_admis_meme_academie', 'chartMoyenneAdmisAcademie', 'Moyenne Admis Même Académie', ['#009FE3', '#A3D39C']); */
+
+
+
+
+         this.isLoading = false; //  Fin du chargement une fois tout prêt
           
         },
         (error) => {
           console.error('Erreur lors de la récupération des universités :', error);
+          this.isLoading = false; //  Fin du chargement même en cas d'erreur
         }
       );
   }
