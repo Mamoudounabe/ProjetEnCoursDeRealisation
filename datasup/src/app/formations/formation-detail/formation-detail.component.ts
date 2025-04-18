@@ -13,6 +13,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { Chart, registerables, ChartOptions, ChartType } from 'chart.js';
 import { NgModule } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { config } from '../../../environments/config';
@@ -73,6 +74,7 @@ export class FormationDetailComponent implements OnInit {
   formation: any = null; // à remplacer par le vrai type si dispo
 
   hasData: boolean = false;
+  anneeActuelle: string = '';
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -84,7 +86,7 @@ export class FormationDetailComponent implements OnInit {
   selectedStat = new FormControl('tauxAcces');
 
   // Session et source des données
-  session: string = '2024';
+  session: string = '2021';
   source: string = 'Données récoltées sur la fiche parcoursup de la formation.';
   lastUpdate: string = '15/01/2025';
 
@@ -102,12 +104,12 @@ export class FormationDetailComponent implements OnInit {
   chartOptions: ChartOptions<'bar'> = {
     responsive: true,
     plugins: {
-      legend: { display: true, position: 'top' },
+      legend: { display: false, position: 'top' },
     },
     scales: {
       x: {
         title: {
-          display: true,
+          display: false,
           text: 'Types de candidats',
           font: { size: 14, weight: 'bold' },
           color: '#333',
@@ -133,7 +135,7 @@ export class FormationDetailComponent implements OnInit {
     },
   };
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   public barChartOptions: ChartOptions<'bar'> = {
     responsive: true,
@@ -233,17 +235,23 @@ export class FormationDetailComponent implements OnInit {
   ngOnInit(): void {
     this.etablissementID = Number(this.route.snapshot.paramMap.get('id'));
 
+    // ✅ Récupération de l’année depuis l’URL (ex : ?anneeactuelle=2021)
+    this.anneeActuelle =
+      this.route.snapshot.queryParamMap.get('anneeactuelle') || '2021';
+
     if (!this.etablissementID) {
       console.error("Aucun ID d'établissement trouvé dans l'URL !");
       return;
     }
 
+    // ✅ Écoute des changements de l’année (si tu fais un select ou autre)
     this.selectedYear.valueChanges.subscribe((anneeactuelle) => {
-      this.getEtablissementData(anneeactuelle || '2021'); // Utilise une valeur par défaut si null
+      this.getEtablissementData(anneeactuelle || this.anneeActuelle);
     });
 
-    this.getEtablissementData(this.selectedYear.value || '2021');
-    console.log(this.selectedYear.value);
+    // ✅ Chargement initial avec l’année de l’URL
+    this.getEtablissementData(this.selectedYear.value || this.anneeActuelle);
+    console.log('Année actuelle (depuis URL ou champ) :', this.anneeActuelle);
 
     const formationId = this.route.snapshot.paramMap.get('id');
     if (formationId) {
@@ -251,6 +259,10 @@ export class FormationDetailComponent implements OnInit {
     } else {
       this.errorMessage = 'Formation introuvable.';
       this.isLoading = false;
+    }
+
+    if (!this.selectedStat.value) {
+      this.selectedStat.setValue('tauxAcces');
     }
 
     this.selectedStat.valueChanges.subscribe(() => this.updateChart());
@@ -314,7 +326,8 @@ export class FormationDetailComponent implements OnInit {
   //LOUM
 
   getFormationDetails(id: string) {
-    const url = `${this.apiUrl}/Etablissement/Candidat/Bachelier/${id}?anneeactuelle=2021`;
+    // ✅ Utilise l'année dynamique récupérée dans ngOnInit()
+    const url = `${this.apiUrl}/Etablissement/Candidat/Bachelier/${id}?anneeactuelle=${this.anneeActuelle}`;
 
     console.log(`📡 Requête envoyée à : ${url}`);
 
@@ -330,6 +343,9 @@ export class FormationDetailComponent implements OnInit {
         const formationData = data[0];
 
         this.formation = {
+          // ✅ Tu peux encore afficher l’année dynamique dans le HTML
+          annee: this.anneeActuelle,
+
           nom: formationData.NomEtablissement,
           taux_admission: formationData['toInteger(cl.taux_acces)'] || 0,
           taux_bac_general:
@@ -345,7 +361,7 @@ export class FormationDetailComponent implements OnInit {
               'toInteger(cl.part_terminales_professionnelles_position_recevoir_proposition_phase_principale)'
             ] || 0,
 
-          // Ajout des taux de passage et de réussite
+          // ✅ taux de passage et réussite
           taux_passage_tous:
             formationData['toInteger(a.effectif_admis_phase_principale)'] || 0,
           taux_passage_general:
@@ -372,6 +388,9 @@ export class FormationDetailComponent implements OnInit {
 
         console.log('📊 Données extraites :', this.formation);
         this.isLoading = false;
+
+        // ✅ Affiche directement le graphique pour le taux d'accès
+        this.selectedStat.setValue('tauxAcces', { emitEvent: false });
         this.updateChart();
       },
       error: (error) => {
@@ -429,12 +448,12 @@ export class FormationDetailComponent implements OnInit {
       ],
       datasets: [
         {
-          label: 'Pourcentage (%)',
           data: dataValues,
           backgroundColor: ['#4CAF50', '#2196F3', '#FFC107', '#F44336'],
         },
       ],
     };
+    this.cdr.detectChanges();
   }
 
   goBack() {
