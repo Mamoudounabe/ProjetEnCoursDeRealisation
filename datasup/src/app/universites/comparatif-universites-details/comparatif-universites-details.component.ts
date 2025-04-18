@@ -71,7 +71,7 @@ export class ComparatifUniversitesDetailsComponent implements OnInit {
   universitesIDs: number[] = []; // Liste des IDs des universités sélectionnées
   universitesNames: string[] = []; // Liste des noms des universités sélectionnées
   /* anneesActuelles: string[] = ['2020', '2021', '2022', '2023']; */ // À modifier selon besoin
-  anneesActuelles: string[] = ['2020','2021', '2022', '2023']; // À modifier selon besoin
+  anneesActuelles: string[] = ['2021', '2022', '2023']; // À modifier selon besoin
 /*   universitesData: any[] = []; */
   faSignal = faSignal;
 
