@@ -7,6 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
     selector: 'app-header', // Assure-toi d'utiliser Angular 15+
+    standalone: true,
     imports: [
         RouterLink,
         CommonModule,
