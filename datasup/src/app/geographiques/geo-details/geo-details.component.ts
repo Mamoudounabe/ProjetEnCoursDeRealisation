@@ -38,6 +38,7 @@ Chart.register(...registerables);
 
 @Component({
     selector: 'app-geo-details',
+    standalone: true,
     imports: [ MatInputModule,
         MatFormFieldModule,
         MatOptionModule,
