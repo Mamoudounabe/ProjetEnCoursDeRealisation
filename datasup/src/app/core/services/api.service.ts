@@ -55,6 +55,10 @@ export class ApiService {
     });
   } */
 
+    getAcademies(): Observable<any[]> {
+      return this.http.get<any[]>(`${this.apiUrl}/academies`);
+    }
+    
 
     getEtablissementsByRegion(region: string, annee: string): Observable<any[]> {
       const params = new HttpParams()

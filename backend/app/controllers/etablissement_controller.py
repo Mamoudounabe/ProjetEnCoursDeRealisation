@@ -226,3 +226,37 @@ def get_comp_plus_etablissements(
     except Exception as e:
         print(f"Erreur dans comparer_etablissements: {e}")
         raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+
+
+
+
+
+@router.get("/etablissements/infos", response_model=List[Dict[str, Any]], tags=["Etablissement"])
+def get_infos_par_region(
+    region: str = Query(..., description="Nom de la région"),
+    annee: str = Query(..., description="Année concernée")
+):
+    """
+    Endpoint pour récupérer les informations sur les formations par région et année.
+    Retourne le nombre de formations distinctes par région.
+    """
+    try:
+        # Appel du service pour récupérer les données
+        result = EtablissementManager.get_infos_par_region(annee, region)
+
+        # Si aucun résultat, lève une exception 404
+        if not result:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Aucune donnée trouvée pour la région '{region}' en {annee}."
+            )
+
+        # Retourne les résultats sous forme de JSON
+        return JSONResponse(content=result, headers={"Content-Type": "application/json; charset=utf-8"})
+
+    except HTTPException as http_err:
+        raise http_err  # Relève l'erreur HTTP directement
+
+    except Exception as e:
+        print(f"Erreur dans get_infos_par_region: {e}")
+        raise HTTPException(status_code=500, detail="Erreur interne du serveur")

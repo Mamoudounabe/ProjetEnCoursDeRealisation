@@ -650,7 +650,8 @@ class EtablissementManager:
 
         WHERE ID(e) IN $etablissementIDs AND s.annee = $anneeactuelle
 
-        RETURN e.etablissement AS NomEtablissement,
+        RETURN ID(e) AS id_etablissement,
+            e.etablissement AS NomEtablissement,
             e.academie_etablissement AS academie, 
             e.region_etablissement AS region, 
             e.etablissement AS etablissement, 
@@ -774,6 +775,26 @@ class EtablissementManager:
             print(traceback.format_exc())
             return []
 
-
-
         
+
+
+
+
+    @staticmethod
+    def get_infos_par_region(annee: str, region: str) -> List[dict]:
+        """
+        Retourne le nombre de formations distinctes offertes par les établissements
+        d'une région donnée pour une année spécifique.
+        """
+        query = """
+        MATCH (e:Etablissement)-[:OFFERS]->(f:Filiere),
+              (s:Session)-[:HAS_ETABLISSEMENT]->(e)
+        WHERE s.annee = $annee AND e.region_etablissement = $region
+        RETURN e.region_etablissement AS region, 
+               COUNT(DISTINCT f) AS nombre_formations
+        ORDER BY nombre_formations DESC
+        """
+        db = Neo4JDriver.get_driver()
+        with db.session() as session:
+            results = session.run(query, {"annee": annee, "region": region})
+            return [record.data() for record in results] 

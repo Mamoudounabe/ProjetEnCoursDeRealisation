@@ -30,5 +30,4 @@ export const routes: Routes = [
     {path:'geo-details/:region',component:GeoDetailsComponent},
    { path: 'etablissements/comparaison/:ids', component: ComparatifEtablissementDetailsComponent }
 
-
 ]
