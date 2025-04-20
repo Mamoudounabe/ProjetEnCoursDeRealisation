@@ -16,6 +16,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @Component({
     selector: 'app-filieres-page',
+    standalone: true,
     imports: [FormsModule,
         FormsModule,
         MatPaginatorModule,

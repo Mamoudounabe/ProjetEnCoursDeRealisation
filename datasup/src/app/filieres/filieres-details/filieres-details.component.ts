@@ -9,21 +9,53 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ApiService } from '../../core/services/api.service';
 import { RouterModule } from '@angular/router';
 import { Chart } from 'chart.js';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { RouterLink } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table'; 
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
+
 
 Chart.register(...registerables, ChartDataLabels);
 
 @Component({
-  selector: 'app-filieres-details',
-  standalone: true,
-  templateUrl: './filieres-details.component.html',
-  styleUrls: ['./filieres-details.component.css'],
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgChartsModule,
-    MatButtonToggleModule,
-    RouterModule
-  ]
+    selector: 'app-filieres-details',
+    standalone: true,
+    imports: [
+        RouterModule,
+        MatButtonModule,
+        NgIf,
+        MatInputModule,
+        MatFormFieldModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgChartsModule,
+        MatTabsModule,
+        MatButtonToggleModule,
+        MatCheckboxModule,
+        CommonModule,
+        MatSidenavModule
+    ],
+    templateUrl: './filieres-details.component.html',
+    styleUrl: './filieres-details.component.css'
 })
 export class FilieresDetailsComponent implements OnInit {
   filiereID!: number;

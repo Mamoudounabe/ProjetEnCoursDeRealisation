@@ -1,39 +1,49 @@
-import { Component, OnInit, ElementRef, ViewChild, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Formation } from '../../core/models/formation.model';
-import { FormationService } from '../../core/services/formations.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { NgIf } from '@angular/common';
-import { Chart, registerables, ChartOptions } from 'chart.js';
-import { NgModule } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { config } from '../../../environments/config';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatInputModule } from '@angular/material/input';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatOptionModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
-import * as L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import { NgChartsModule } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js'; 
 import { ChartDataset, ChartData } from 'chart.js';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatOption } from '@angular/material/autocomplete';
+const defaultCoordinates = [45.0672, 4.8345];
+import { ChartConfiguration, ChartOptions } from 'chart.js';
+import { FormsModule } from '@angular/forms';
+
+import { RouterLink } from '@angular/router';
+/* Chart.register(...registerables, ChartDataLabels); */
+import { MatOptionModule } from '@angular/material/core'; 
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Chart, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import {FormControl } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
+
+import * as L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+import { ChangeDetectionStrategy } from '@angular/core';
+
+
+
 
 Chart.register(...registerables, ChartDataLabels);
 
-const defaultCoordinates = [45.0672, 4.8345];
+
 
 @Component({
   selector: 'app-formation-detail',
   standalone: true,
   imports: [
     RouterLink,
-    NgIf,
     MatInputModule,
     MatFormFieldModule,
     MatOptionModule,
@@ -45,6 +55,11 @@ const defaultCoordinates = [45.0672, 4.8345];
     MatTabsModule,
     MatButtonToggleModule,
     MatCheckboxModule,
+    CommonModule, 
+    NgChartsModule, 
+    FormsModule, 
+    ReactiveFormsModule,
+    ReactiveFormsModule,
     CommonModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,6 +73,24 @@ export class FormationDetailComponent implements OnInit {
   chart: Chart<'pie', number[], string> | undefined;
   admisInternat!: number;
   capaciteFormation!: number;
+  capaciteInternat!: number;
+  sessionAnnee: string = '2021'; 
+  activeTab: string = 'tauxAcces';
+  afficherEvolution = false;
+  afficherDuree = false;
+  tauxAcces: number = 0;
+  totalCandidats: number = 0;
+  rangDernierAppelee: number = 0;
+  panelColor = new FormControl('red');
+  academies: string[] = [];
+
+
+
+ constructor(private http: HttpClient, private route: ActivatedRoute ,private cdr: ChangeDetectorRef) {}
+
+
+
+ 
 
 
   private map: L.Map | undefined;
@@ -128,16 +161,143 @@ export class FormationDetailComponent implements OnInit {
     ]
   };
 
-  barChartOptionss: ChartOptions<'bar'> = {
-    indexAxis: 'y',
+
+
+barChartOptionss: ChartOptions<'bar'> = {
+  indexAxis: 'y',
+  responsive: true,
+  animation: {
+    duration: 2000,
+    easing: 'linear'
+  }
+};
+
+
+
+  tauxChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: ['Rang permettant une proposition', 'Rang ne permettant pas'],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: ['#00a6b6', '#e57373'],
+        label: 'Répartition des candidats (%)',
+      },
+    ],
+  };
+
+  tauxChartOptions: ChartOptions<'bar'> = {
     responsive: true,
-    animation: {
-      duration: 2000,
-      easing: 'linear'
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.parsed.y}%`,
+        },
+      },
     },
     scales: {
-      x: { min: 0, max: 50 }
-    }
+      y: { min: 0, max: 100 },
+    },
+  };
+
+  tauxMultiChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: ['2020', '2021', '2022', '2023'],
+    datasets: [
+      {
+        label: 'Taux d’accès (%)',
+        data: [],
+        backgroundColor: ['#66bb6a', '#81c784', '#a5d6a7', '#c8e6c9'],
+      },
+    ],
+  };
+
+  tauxMultiChartOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    scales: {
+      y: { min: 0, max: 100 },
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.parsed.y}%`,
+        },
+      },
+    },
+  };
+
+  dureeChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: ['À l’ouverture', 'Avant bac', 'Fin principale', 'Terme'],
+    datasets: [
+      {
+        label: 'Répartition (%)',
+        data: [],
+        backgroundColor: '#007bff',
+      },
+    ],
+  };
+
+  dureeChartOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    indexAxis: 'y',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.parsed.x}%`,
+        },
+      },
+    },
+    scales: {
+      x: { min: 0, max: 100 },
+    },
+  };
+
+  dureeMultiChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: ['2020', '2021', '2022', '2023'],
+    datasets: [
+      {
+        label: 'À l’ouverture',
+        data: [],
+        backgroundColor: '#1a237e',
+        stack: 'a',
+      },
+      {
+        label: 'Avant bac',
+        data: [],
+        backgroundColor: '#303f9f',
+        stack: 'a',
+      },
+      {
+        label: 'Avant fin principale',
+        data: [],
+        backgroundColor: '#1976d2',
+        stack: 'a',
+      },
+      {
+        label: 'Terme procédure',
+        data: [],
+        backgroundColor: '#4fc3f7',
+        stack: 'a',
+      },
+    ],
+  };
+
+  dureeMultiChartOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    indexAxis: 'x',
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.dataset.label}: ${context.parsed.y}%`,
+        },
+      },
+    },
+    scales: {
+      y: { stacked: true, min: 0, max: 100 },
+      x: { stacked: true },
+    },
   };
 
   barChartTypee: 'bar' = 'bar';
@@ -153,27 +313,32 @@ export class FormationDetailComponent implements OnInit {
     datasets: [{ data: [15, 25, 35], label: 'Dataset 2', backgroundColor: ['purple', 'orange', 'cyan'] }]
   };
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+
 
   ngOnInit(): void {
+    // Récupération de l'ID depuis l'URL
     this.etablissementID = Number(this.route.snapshot.paramMap.get('id'));
-    this.getAcademies();
 
     if (!this.etablissementID) {
       console.error("Aucun ID d'établissement trouvé dans l'URL !");
       return;
     }
 
+    // Initialisation des données
+    this.getAcademies();
+    this.loadMultiYearData();
+    
+    // Chargement initial des données
+    const initialYear = this.selectedYear.value || '2021';
+    this.getEtablissementData(initialYear);
+
+    // Abonnement aux changements d'année
     this.selectedYear.valueChanges.subscribe((anneeactuelle) => {
       this.getEtablissementData(anneeactuelle || '2021');
     });
-
-    this.getEtablissementData(this.selectedYear.value || '2021');
   }
 
-  panelColor = new FormControl('red');
 
-  academies: string[] = [];
 
   getAcademies(): void {
     this.http.get<any[]>(`${this.apiUrl}/academies`).subscribe({
@@ -185,51 +350,86 @@ export class FormationDetailComponent implements OnInit {
     });
   }
 
+  /* --------------------------------------------getEtablissementData--------------------------------------------------------- */
+
+
   getEtablissementData(anneeactuelle: string): void {
-    const url = `${this.apiUrl}/Etablissement/Candidat/Bachelier/${this.etablissementID}?anneeactuelle=${anneeactuelle}`;
+    if (!this.etablissementID) {
+      console.error(" ID établissement non défini");
+      return;
+    }
+  
+    const url = `${this.apiUrl || config.apiUrl}/Etablissement/Candidat/Bachelier/${this.etablissementID}?anneeactuelle=${anneeactuelle}`;
     console.log("📡 Appel API :", url);
-
-    this.http.get(url, { observe: 'response' }).subscribe({
+  
+    this.http.get<any[]>(url, { observe: 'response' }).subscribe({
       next: (response) => {
-        if (response.headers.get('Content-Type')?.includes('application/json')) {
-          try {
-            this.etablissementData = response.body;
-            console.log("✅ Données établissement :", this.etablissementData);
-
-            if (Array.isArray(this.etablissementData) && this.etablissementData.length > 0) {
-              const data = this.etablissementData[0];
-              console.log("🧾 Donnée brute établissement :", data);
-
-              data.coordonnees_gps = data.localisation;
-
-
-              const total = +data["toInteger(a.effectif_total_candidats_admis)"] || 0;
-              const neos = +data["toInteger(a.effectif_neo_bacheliers_admis)"] || 0;
-              
-              console.log("📊 Données bar chart :", { total, neos });
-
-              if (!isNaN(total) && !isNaN(neos)) {
-                this.candidatsBarChartData.datasets[0].data = [total, neos];
-                this.candidatsBarChartData = { ...this.candidatsBarChartData };
-              } else {
-                console.warn("⚠️ Valeurs non numériques pour le graphique !");
-              }
-
-              setTimeout(() => this.createPieChart(), 0);
-              setTimeout(() => this.initMap(), 0);
-            } else {
-              console.error("❌ Données vides ou invalides :", this.etablissementData);
+        // Vérification du content-type et du corps de réponse
+        if (!response.headers.get('Content-Type')?.includes('application/json') || !response.body) {
+          console.error(" Réponse non-JSON ou vide");
+          return;
+        }
+  
+        try {
+          this.etablissementData = response.body;
+          console.log(" Données établissement :", this.etablissementData);
+  
+          if (Array.isArray(this.etablissementData) && this.etablissementData.length > 0) {
+            const etab = this.etablissementData[0];
+            console.log(" Donnée brute établissement :", etab);
+  
+            // Gestion des coordonnées GPS
+            etab.coordonnees_gps = etab.localisation || etab.coordonnees_gps;
+  
+            // Données principales
+            this.sessionAnnee = anneeactuelle;
+            this.tauxAcces = this.safeParseNumber(etab['toInteger(cl.taux_acces)']);
+            this.totalCandidats = this.safeParseNumber(etab.TotalCandidat);
+            this.rangDernierAppelee = this.safeParseNumber(etab['toInteger(cl.rang_dernier_appele_groupe_3)']);
+  
+            // Nouvelles données pour le bar chart
+            const totalAdmis = this.safeParseNumber(etab["toInteger(a.effectif_total_candidats_admis)"]);
+            const neoAdmis = this.safeParseNumber(etab["toInteger(a.effectif_neo_bacheliers_admis)"]);
+            console.log(" Données graphiques :", { totalAdmis, neoAdmis });
+  
+            // Mise à jour des graphiques
+            this.updateTauxChart();
+            this.updateDureeChart(etab);
+            
+            // Mise à jour du bar chart si données valides
+            if (!isNaN(totalAdmis) && !isNaN(neoAdmis)) {
+              this.candidatsBarChartData.datasets[0].data = [totalAdmis, neoAdmis];
+              this.candidatsBarChartData = { ...this.candidatsBarChartData };
             }
-          } catch (e) {
-            console.error("❌ Erreur parsing JSON :", e);
+  
+            // Mise à jour asynchrone de l'UI
+            requestAnimationFrame(() => {
+              this.createPieChart();
+              if (etab.coordonnees_gps) this.initMap();
+            });
+          } else {
+            console.error(" Tableau de données vide");
           }
+        } catch (e) {
+          console.error(" Erreur traitement données :", e);
         }
       },
       error: (error) => {
-        console.error("❌ Erreur API :", error);
+        console.error(" Erreur API :", error);
+        if (error.status) console.error("Code statut :", error.status);
       }
     });
   }
+  
+  // Méthode utilitaire pour conversion numérique sécurisée
+  private safeParseNumber(value: any): number {
+    const num = +value;
+    return isNaN(num) ? 0 : num;
+  }
+
+
+
+
 
   createPieChart(): void {
     if (!this.etablissementData || !this.etablissementData[0]) return;
@@ -344,5 +544,179 @@ export class FormationDetailComponent implements OnInit {
         .bindPopup(`<b>${this.etablissementData[0].etablissement}</b><br>${this.etablissementData[0].region}`)
         .openPopup();
     }
+  }
+
+
+  /* constructor(private route: ActivatedRoute, private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.etablissementID = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.etablissementID) {
+      this.getEtablissementData('2021');
+      this.loadMultiYearData();
+    }
+  }
+
+   */
+/* 
+  getEtablissementData(anneeactuelle: string): void {
+    const url = `${config.apiUrl}/Etablissement/Candidat/Bachelier/${this.etablissementID}?anneeactuelle=${anneeactuelle}`;
+
+    this.http.get<any[]>(url).subscribe({
+      next: (data) => {
+        if (data && data.length > 0) {
+          const etab = data[0];
+          this.etablissementData = etab;
+
+          this.sessionAnnee = anneeactuelle;
+
+          this.tauxAcces = parseFloat(etab['toInteger(cl.taux_acces)']) || 0;
+          this.totalCandidats = parseInt(etab.TotalCandidat) || 0;
+          this.rangDernierAppelee =
+            parseInt(etab['toInteger(cl.rang_dernier_appele_groupe_3)']) || 0;
+
+          this.updateTauxChart();
+          this.updateDureeChart(etab);
+        }
+      },
+      error: (err) => console.error('Erreur API :', err),
+    });
+  }*/
+
+  updateTauxChart(): void {
+    const refus = 100 - this.tauxAcces;
+    this.tauxChartData.datasets[0].data = [this.tauxAcces, refus];
+    this.tauxChartData = { ...this.tauxChartData };
+  }
+
+  updateDureeChart(etab: any): void {
+    const total =
+      parseInt(etab['toInteger(a.effectif_total_candidats_admis)']) || 1;
+
+    const ouverture =
+      parseInt(
+        etab[
+          'toInteger(a.effectif_admis_proposition_ouverture_phase_principale)'
+        ]
+      ) || 0;
+    const avantBac =
+      parseInt(
+        etab['toInteger(a.effectif_admis_proposition_avant_baccalaureat)']
+      ) || 0;
+    const finPrincipale =
+      parseInt(etab['toInteger(a.effectif_admis_phase_principale)']) || 0;
+    const terme =
+      parseInt(etab['toInteger(a.effectif_admis_phase_complementaire)']) || 0;
+
+    const ouverturePct = Math.round((ouverture / total) * 100);
+    const avantBacPct = Math.round((avantBac / total) * 100);
+    const finPrincipalePct = Math.round((finPrincipale / total) * 100);
+    const termePct = Math.round((terme / total) * 100);
+
+    this.dureeChartData.datasets[0].data = [
+      ouverturePct,
+      avantBacPct,
+      finPrincipalePct,
+      termePct,
+    ];
+    this.dureeChartData = { ...this.dureeChartData };
+  } 
+
+  loadMultiYearData(): void {
+    const annees = ['2020', '2021', '2022', '2023'];
+    const tauxAccesParAnnee: number[] = [];
+
+    const dureeParAnnee: {
+      ouverture: number[];
+      avantBac: number[];
+      finPrincipale: number[];
+      terme: number[];
+    } = {
+      ouverture: [],
+      avantBac: [],
+      finPrincipale: [],
+      terme: [],
+    };
+
+    let loaded = 0;
+
+    annees.forEach((annee) => {
+      const url = `${config.apiUrl}/Etablissement/Candidat/Bachelier/${this.etablissementID}?anneeactuelle=${annee}`;
+
+      this.http.get<any[]>(url).subscribe({
+        next: (data) => {
+          if (data && data.length > 0) {
+            const etab = data[0];
+            const taux = parseFloat(etab['toInteger(cl.taux_acces)']) || 0;
+            tauxAccesParAnnee.push(Math.round(taux));
+
+            const total =
+              parseInt(etab['toInteger(a.effectif_total_candidats_admis)']) || 1;
+            const ouverture =
+              parseInt(
+                etab[
+                  'toInteger(a.effectif_admis_proposition_ouverture_phase_principale)'
+                ]
+              ) || 0;
+            const avantBac =
+              parseInt(
+                etab[
+                  'toInteger(a.effectif_admis_proposition_avant_baccalaureat)'
+                ]
+              ) || 0;
+            const finPrincipale =
+              parseInt(
+                etab['toInteger(a.effectif_admis_phase_principale)']
+              ) || 0;
+            const terme =
+              parseInt(etab['toInteger(a.effectif_admis_phase_complementaire)']) ||
+              0;
+
+            dureeParAnnee.ouverture.push(Math.round((ouverture / total) * 100));
+            dureeParAnnee.avantBac.push(Math.round((avantBac / total) * 100));
+            dureeParAnnee.finPrincipale.push(
+              Math.round((finPrincipale / total) * 100)
+            );
+            dureeParAnnee.terme.push(Math.round((terme / total) * 100));
+          } else {
+            tauxAccesParAnnee.push(0);
+            dureeParAnnee.ouverture.push(0);
+            dureeParAnnee.avantBac.push(0);
+            dureeParAnnee.finPrincipale.push(0);
+            dureeParAnnee.terme.push(0);
+          }
+
+          loaded++;
+
+          if (loaded === annees.length) {
+            this.tauxMultiChartData.datasets[0].data = tauxAccesParAnnee;
+            this.dureeMultiChartData.datasets[0].data = dureeParAnnee.ouverture;
+            this.dureeMultiChartData.datasets[1].data = dureeParAnnee.avantBac;
+            this.dureeMultiChartData.datasets[2].data = dureeParAnnee.finPrincipale;
+            this.dureeMultiChartData.datasets[3].data = dureeParAnnee.terme;
+
+            this.tauxMultiChartData = { ...this.tauxMultiChartData };
+            this.dureeMultiChartData = { ...this.dureeMultiChartData };
+          }
+        },
+        error: (err) => {
+          console.error('Erreur chargement année', annee, err);
+          tauxAccesParAnnee.push(0);
+          dureeParAnnee.ouverture.push(0);
+          dureeParAnnee.avantBac.push(0);
+          dureeParAnnee.finPrincipale.push(0);
+          dureeParAnnee.terme.push(0);
+          loaded++;
+        },
+      });
+    });
+  }
+
+  showTauxAcces() {
+    this.activeTab = 'tauxAcces';
+  }
+
+  showDureeSelection() {
+    this.activeTab = 'dureeSelection';
   }
 }
