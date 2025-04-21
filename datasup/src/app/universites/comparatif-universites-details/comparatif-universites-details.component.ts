@@ -83,10 +83,10 @@ export class ComparatifUniversitesDetailsComponent implements OnInit {
 
 /* ---------------- Informations  Générales------- bloc 1--------------------------------------------------------------- */
 
-selectedOption: string = 'nombre_de_candidats'; // Assurez-vous que cette valeur correspond à l'un des cas dans le template
+ selectedOption: string = 'nombre_de_candidats'; // Assurez-vous que cette valeur correspond à l'un des cas dans le template
 selectedSousOption: string = 'neobachelier'; // Valeur par défaut pour le sous-menu
-selectedSousOption1: string = 'ppneo';/* 'ppneo'; */
-
+selectedSousOption1: string = 'ppneo';/* 'ppneo'; 
+ 
 /* -------------------------------------------------------------------------------------------------------------- */
 
 /* ---------------- Profil des candidats admis-----bloc 2--------------------------------------------------------------- */
@@ -130,26 +130,8 @@ selectedSousOptionQ : string = 'boursiersSecondaire';
 
 
 
- /*  constructor(private route: ActivatedRoute) {} */
+
  constructor(private apiService: ApiService, private cdr: ChangeDetectorRef, private router: Router,private route: ActivatedRoute) {}
-
- /*  ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const nomsString = params.get('nom'); 
-      if (nomsString) {
-        this.universitesNames = nomsString.split(',');  
-        console.log('✅ Noms récupérés :', this.universitesNames);  
-      } else {
-        console.error(' Aucun nom d\'université trouvé dans l\'URL.');
-      }
-    });
-
-    this.getUniversitesData();  
-  }
- */
-
-
-
 
 
 ngOnInit(): void {
@@ -289,5 +271,124 @@ ngOnInit(): void {
     this.router.navigate(['/etablissements']);
   }
 
+  
+
+
+/* Reglage bouton */
+
+/* set selectedSousOption1(value: string) {
+  this._selectedSousOption1 = value;
+  this.chartRendered = false;
+}
+
+
+chartColors: string[] = ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850'];
+
+private _selectedOption: string = 'nombre_de_candidats';
+private _selectedSousOption: string = 'neobachelier';
+private _selectedSousOption1: string = 'ppneo';
+
+get selectedOption(): string {
+  return this._selectedOption;
+}
+set selectedOption(value: string) {
+  this._selectedOption = value;
+  this._selectedSousOption = this.getDefaultSousOption(value);
+  this._selectedSousOption1 = 'ppneo';
+  this.scheduleChartUpdate();
+}
+
+get selectedSousOption(): string {
+  return this._selectedSousOption;
+}
+set selectedSousOption(value: string) {
+  this._selectedSousOption = value;
+  this._selectedSousOption1 = 'ppneo';
+  this.scheduleChartUpdate();
+} */
+
+/* get selectedSousOption1(): string {
+  return this._selectedSousOption1;
+} */
+/* set selectedSousOption1(value: string) {
+  this._selectedSousOption1 = value;
+  this.scheduleChartUpdate();
+} */
+/* 
+getDefaultSousOption(option: string): string {
+  switch (option) {
+    case 'nombre_de_candidats': return 'neobachelier';
+    case 'nombre_dadmis': return 'neo_admis';
+    case 'quotas_applicables': return 'quotas';
+    default: return '';
+  }
+}
+
+getChartId(): string {
+  return `${this.selectedOption}_${this.selectedSousOption}_${this.selectedSousOption1}_Chart`;
+}
+
+getDataVariable(): string {
+  // Associe chaque sélection à une variable dans tes données
+  if (this.selectedOption === 'nombre_de_candidats') {
+    if (this.selectedSousOption === 'neobachelier') {
+      return this.selectedSousOption1 === 'ppneo' ? 'nbCandidatsPPNeo' : 'nbCandidatsPCNeo';
+    } else if (this.selectedSousOption === 'touslescandidats') {
+      return this.selectedSousOption1 === 'ppneo' ? 'nbCandidatsPP' : 'nbCandidatsPC';
+    } else if (this.selectedSousOption === 'neoBachierlierstechnologique') {
+      return this.selectedSousOption1 === 'ppneo' ? 'nbCandidatsTechnoPP' : 'nbCandidatsTechnoPC';
+    }
+  }
+
+  if (this.selectedOption === 'nombre_dadmis') {
+    if (this.selectedSousOption === 'neo_admis') {
+      return this.selectedSousOption1 === 'ppneo' ? 'nbAdmisPPNeo' : 'nbAdmisPCNeo';
+    } else if (this.selectedSousOption === 'touslescandidatsadmis') {
+      return this.selectedSousOption1 === 'ppneo' ? 'nbAdmisPP' : 'nbAdmisPC';
+    } else if (this.selectedSousOption === 'neoBachierlierstechnoadmis') {
+      return this.selectedSousOption1 === 'ppneo' ? 'nbAdmisTechnoPP' : 'nbAdmisTechnoPC';
+    }
+  }
+
+  return '';
+}
+
+scheduleChartUpdate(): void {
+  const chartId = this.getChartId();
+  const variable = this.getDataVariable();
+  const label = `Graphique - ${this.selectedOption}, ${this.selectedSousOption}, ${this.selectedSousOption1}`;
+  const colors = this.chartColors;
+
+  if (variable) {
+    this.createChart(variable, chartId, label, colors);
+  } else {
+    console.warn('Aucune variable de données définie pour cette sélection.');
+  }
+}
+
+
+
+
+
+
+colors: string[] = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'];
+
+chartRendered = false; // un flag pour éviter de dessiner plusieurs fois
+
+
+ngAfterViewChecked() {
+  if (
+    this.selectedOption === 'nombre_de_candidats' &&
+    this.selectedSousOption === 'neobachelier' &&
+    this.selectedSousOption1 === 'ppneo' &&
+    !this.chartRendered
+  ) {
+    this.createChart('ppneo', 'chartCandidats', 'Nombre de Candidats Néo-bachelier', this.colors);
+    this.chartRendered = true;
+  }
+}
+
+
+ */
 
 }
