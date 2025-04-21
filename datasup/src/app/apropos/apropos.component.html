@@ -1,37 +1,95 @@
 <section class="decalerdroite">
+  <div class="layout">
+    <!-- Colonne gauche : Responsables + Chronologie -->
+    <div class="col-left">
+      <div class="section">
+        <h2 class="title">Responsables du projet</h2>
 
+        <!-- Paragraphe d'introduction -->
+        <p class="intro">
+          Ce projet a été réalisé par une équipe de 10 étudiants en Master Informatique passionnés par l’analyse, la data visualisation et les technologies innovantes. Notre objectif : rendre les données de Parcoursup plus accessibles et compréhensibles pour tous.
+        </p>
 
-<div class="timeline">
-  <h2 class="title">Chronologie du projet</h2>
-  
-  <div *ngFor="let event of events; let i = index" class="timeline-item">
-    <!-- Icône check -->
-    <div class="icon" [ngClass]="{'completed': event.completed}">✓</div>
+        <p class="intro">
+          Nous sommes une équipe dynamique de 10 étudiants passionnés par l'analyse et l'innovation. Au cours du premier semestre, nous étions 10 étudiants, dont 4 en alternance, à nous lancer dans un projet ambitieux : réaliser une analyse complète de Parcoursup. Cette expérience nous a permis d'explorer en profondeur les mécanismes de cette plateforme et de proposer des perspectives intéressantes pour son amélioration.
+        </p>
+        <p class="intro">
+          Au deuxième semestre, nous sommes 7 à poursuivre cette aventure, déterminés à approfondir nos recherches et à concrétiser nos idées. Notre équipe, bien que réduite, reste motivée et soudée pour relever de nouveaux défis et apporter des solutions innovantes.
+        </p>
+        <p class="intro">
+          Ensemble, nous combinons nos compétences, notre créativité et notre engagement pour faire avancer des projets qui ont du sens. Rejoignez-nous dans notre démarche et découvrez nos réalisations !
+        </p>
+      </div>
 
-    <!-- Ligne verticale -->
-    <div *ngIf="i < events.length - 1" class="timeline-line"></div>
+      <!-- Chronologie -->
+      <div class="timeline section">
+        <h2 class="title">Chronologie du projet</h2>
+        <div class="timeline-item" *ngFor="let event of events; let i = index">
+          <div class="icon" [ngClass]="{ 'completed': event.completed }">✓</div>
+          <div *ngIf="i < events.length - 1" class="timeline-line"></div>
+          <div class="content">
+            <h3>{{ event.title }}</h3>
+            <p class="date">{{ event.date }}</p>
+            <p>{{ event.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <!-- Contenu -->
-    <div class="content">
-      <h3>{{ event.title }}</h3>
-      <p class="date">{{ event.date }}</p>
-      <p>{{ event.description }}</p>
+    <!-- Colonne droite -->
+    <div class="col-right">
+      <!-- FAQ -->
+      <div class="section">
+        <button class="toggle" (click)="showFAQ = !showFAQ"> Foire aux Questions</button>
+        <div *ngIf="showFAQ" class="toggle-content">
+          <div *ngFor="let faq of faqList">
+            <h3>{{ faq.question }}</h3>
+            <p>{{ faq.answer }}</p>
+          </div>
+
+          <h3>Fonctionnalités principales du projet</h3>
+          <ul>
+            <li>Recherche par région, académie, bac</li>
+            <li>Graphiques interactifs avec Chart.js / D3.js</li>
+            <li>Cartes Leaflet.js</li>
+            <li>Téléchargement CSV / PDF / Excel</li>
+            <li>Rapports générés automatiquement (Python)</li>
+            <li>Analyse de données et indicateurs clés (KPI)</li>
+            <li>FastAPI + Neo4j pour l'API</li>
+            <li>CI/CD GitLab + Docker</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Politique -->
+      <div class="section">
+        <button class="toggle" (click)="showPrivacy = !showPrivacy"> Politique de confidentialité</button>
+        <div *ngIf="showPrivacy" class="toggle-content">
+          <p>Nous accordons une grande importance à la protection de vos informations personnelles.</p>
+          <!-- Google Analytics & RGPD : Nous utilisons GA4 sans identifiants personnels, conformément au RGPD. -->
+        </div>
+      </div>
+
+      <!-- Données -->
+      <div class="section">
+        <h2 class="title">Données exploitées</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Contenu</th>
+              <th>Source</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of dataset">
+              <td>{{ data.type }}</td>
+              <td><a [href]="data.url" target="_blank">{{ data.year }}</a></td>
+              <td>{{ data.date }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
-
-
-<p>
-  Nous sommes une équipe dynamique de 10 étudiants passionnés par l'analyse et l'innovation. Au cours du premier semestre, nous étions 10 étudiants, dont 4 en alternance, à nous lancer dans un projet ambitieux : réaliser une analyse complète de Parcoursup. Cette expérience nous a permis d'explorer en profondeur les mécanismes de cette plateforme et de proposer des perspectives intéressantes pour son amélioration.
-</p>
-<p>
-  Au deuxième semestre, nous sommes 6 à poursuivre cette aventure, déterminés à approfondir nos recherches et à concrétiser nos idées. Notre équipe, bien que réduite, reste motivée et soudée pour relever de nouveaux défis et apporter des solutions innovantes.
-</p>
-<p>
-  Ensemble, nous combinons nos compétences, notre créativité et notre engagement pour faire avancer des projets qui ont du sens. Rejoignez-nous dans notre démarche et découvrez nos réalisations !
-</p>
-<p>
-  <strong>L'équipe DataSup</strong>
-</p>
-
 </section>
