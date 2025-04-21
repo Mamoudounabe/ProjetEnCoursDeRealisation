@@ -439,3 +439,183 @@ h3 {
   padding-bottom: 100px;
  }
  
+/* ici */
+
+ .chart-box {
+  width: 50%;
+}
+
+chart-box {
+  margin-top: 50px;
+  margin-bottom: 50px;
+
+  flex: 1 1 18%; /* Chaque bloc occupe 22% de la largeur de l'écran (avec flex-grow: 1) */
+  min-width: 250px; /* Largeur minimale du bloc */
+  height: 300px; /* Hauteur des blocs */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box; /* Pour que les padding n'ajoutent pas à la largeur totale */
+  border: 1px solid #ddd; /* Bordure pour séparer visuellement les blocs */
+  border-radius: 8px; /* Coins arrondis */
+  background-color: #fff; /* Fond blanc pour les blocs */
+}
+
+/* Assurez-vous que les graphiques remplissent correctement leur container */
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Variations supplémentaires */
+.chart-info {
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.chart-info p {
+  margin: 5px 0;
+}
+
+.red-text {
+  color: red !important; /* Utiliser !important pour forcer l'application */
+}
+
+.fontawesomesvg {
+  margin-right: 5px;
+}
+
+.fontawesomeicon::before {
+  display: inline-block;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Changer la couleur de fond et du texte des boutons */
+.bold-toggle.mat-button-toggle-checked {
+  background-color: #007bff; /* Couleur de fond pour le bouton "Mention au bac" */
+  color: white;
+}
+
+.italic-toggle.mat-button-toggle-checked {
+  background-color: #28a745;
+  color: white;
+}
+
+.underline-toggle.mat-button-toggle-checked {
+  background-color: #ffc107; /* Couleur de fond pour le bouton "Bourse" */
+  color: white;
+}
+
+.academie-toggle.mat-button-toggle-checked {
+  background-color: #dc3545; /* Couleur de fond pour le bouton "Académie" */
+  color: white;
+}
+
+.bac-type-toggle.mat-button-toggle-checked {
+  background-color: #17a2b8; /* Couleur de fond pour le bouton "Type de bac" */
+  color: white;
+}
+
+/* Vous pouvez aussi personnaliser l'apparence lorsqu'un bouton n'est pas sélectionné */
+.mat-button-toggle {
+  color: #495057; /* Couleur du texte lorsqu'il n'est pas sélectionné */
+}
+
+.mat-button-toggle:hover {
+  background-color: #f1f1f1; /* Couleur de fond sur survol */
+}
+
+.formation-detail-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.formation-detail-container h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.formation-detail-container p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stat-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.stat-buttons button {
+  background-color: #e0e0e0;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.stat-buttons button:hover {
+  background-color: #ccc;
+}
+
+.stat-buttons button.active {
+  background-color: #3498db;
+  color: white;
+}
+
+/* .chart-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+} 
+  */
+/* .chart-info {
+  flex: 1;
+  font-size: 0.95rem;
+  color: #555;
+  min-width: 220px;
+} */
+
+/* .chart-box {
+  flex: 2;
+  min-width: 300px;
+} */
+
+/* .chart-box canvas {
+  width: 100% !important;
+  height: 500px !important;
+}
+ */
+.back-button {
+  display: block;
+  margin: 2rem auto 0;
+  background-color: #34495e;
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+

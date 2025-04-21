@@ -1408,4 +1408,5 @@ barChartOptionss: ChartOptions<'bar'> = {
 
 
 
+  }
 }
