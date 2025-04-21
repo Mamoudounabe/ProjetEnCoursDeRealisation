@@ -253,5 +253,114 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  quatrieme partie
+ -->
+<div class="formation-detail-container">
+  <h2>Indicateurs par type de baccalauréat</h2>
+
+  <!-- ✅ Affichage dynamique de l'année récupérée depuis l'URL -->
+  <p>
+    En {{ anneeActuelle }}, le taux d’accès de la formation pour l’ensemble
+    des candidats était de
+    <strong>{{ formation?.taux_admission || "N/A" }} %</strong>
+  </p>
+
+  <!-- ✅ Boutons pour changer la statistique affichée -->
+  <div class="stat-buttons">
+    <button
+      (click)="selectedStat.setValue('tauxAcces')"
+      [class.active]="selectedStat.value === 'tauxAcces'"
+    >
+      Taux d'accès
+    </button>
+    <button
+      (click)="selectedStat.setValue('tauxPassage')"
+      [class.active]="selectedStat.value === 'tauxPassage'"
+    >
+      Taux de passage
+    </button>
+    <button
+      (click)="selectedStat.setValue('tauxReussite')"
+      [class.active]="selectedStat.value === 'tauxReussite'"
+    >
+      Taux de réussite
+    </button>
+  </div>
+
+  <!-- ✅ Graphique affiché uniquement si données disponibles -->
+  <div class="chart-flex" *ngIf="hasData">
+    <div class="chart-info">
+      <p><strong>Session :</strong> {{ anneeActuelle }}</p>
+      <p><strong>Source :</strong> {{ source }}</p>
+      <p><strong>Dernière mise à jour :</strong> {{ lastUpdate }}</p>
+    </div>
+
+    <div class="chart-box">
+      <canvas
+        baseChart
+        [data]="chartData"
+        [options]="chartOptions"
+        chartType="bar"
+      ></canvas>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="dernier">
  
