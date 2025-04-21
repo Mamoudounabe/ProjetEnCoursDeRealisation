@@ -1,19 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { NgChartsModule, NgChartsConfiguration } from 'ng2-charts';
-import { ChartData, ChartOptions, registerables } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { ApiService } from '../../core/services/api.service';
-import { RouterModule } from '@angular/router';
-import { Chart } from 'chart.js';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { NgChartsModule } from 'ng2-charts';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -24,12 +15,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table'; 
-
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-
+import { Chart, registerables, ChartOptions, ChartData } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';  
+import { ApiService } from '../../core/services/api.service';
+import { ActivatedRoute } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 Chart.register(...registerables, ChartDataLabels);
 
@@ -88,6 +85,48 @@ export class FilieresDetailsComponent implements OnInit {
       backgroundColor: ['#17A2B8', '#FF5252', '#40C4FF', '#00E676', '#29B6F6', '#FF5722'],
     }]
   };
+  public ChartDataLabels = ChartDataLabels;
+  constructor(private apiService: ApiService, private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    const filiereIdParam = this.route.snapshot.paramMap.get("id");
+    const anneeParam = this.route.snapshot.queryParamMap.get("annee");
+
+    this.filiereID = filiereIdParam && !isNaN(Number(filiereIdParam)) ? Number(filiereIdParam) : 0;
+    this.anneeactuelle = anneeParam ? anneeParam : "2021";
+
+    if (!this.filiereID || !this.anneeactuelle) return;
+
+    this.chargementdata();
+  }
+
+  chargementdata() {
+    if (!this.filiereID || isNaN(this.filiereID) || !this.anneeactuelle) return;
+
+    this.apiService.getFilieresByDetails(this.filiereID, this.anneeactuelle).subscribe({
+      next: (response) => {
+        this.filieres = response;
+
+        // Mettre à jour ici si tu veux calculer le % admis plus tard
+      },
+      error: (err) => console.error("Erreur API :", err)
+    });
+  }
+
+  // === GRAPHE - Mentions au bac ===
+  public barChartMentionsData: ChartData<'bar'> = {
+    labels: ['Sans mention', 'Passable', 'Assez bien', 'Bien', 'Très bien', 'Félicitations'],
+    datasets: [
+      {
+        data: [10, 15, 25, 30, 15, 5],
+        label: 'Répartition des mentions',
+        backgroundColor: '#64b5f6',
+        hoverBackgroundColor: '#1976d2'
+      }
+    ]
+  };
+
+
 
   public barChartOptionss: ChartOptions<'bar'> = {
     indexAxis: 'y',
@@ -95,15 +134,34 @@ export class FilieresDetailsComponent implements OnInit {
     animation: {
       duration: 2000,
       easing: 'linear'
+    }
+  };
+
+  public barChartMentionsOptions: ChartOptions<'bar'> = {
+
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Mentions au bac',
+        font: { size: 18 }
+      }
     },
     scales: {
-      x: { min: 0, max: 50 }
+      y: {
+        beginAtZero: true,
+        max: 100,
+        ticks: {
+          callback: (value) => `${value} %`
+        }
+      }
     }
   };
 
   public barChartTypee: 'bar' = 'bar';
 
-  constructor(private apiService: ApiService, private route: ActivatedRoute) {}
+/*   constructor(private apiService: ApiService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     const filiereIdParam = this.route.snapshot.paramMap.get("id");
@@ -119,8 +177,8 @@ export class FilieresDetailsComponent implements OnInit {
 
     this.chargementdata();
   }
-
-  chargementdata() {
+ */
+/*   chargementdata() {
     this.apiService.getFilieresByDetails(this.filiereID, this.anneeactuelle).subscribe({
       next: (response) => {
         this.filieres = response;
@@ -129,7 +187,7 @@ export class FilieresDetailsComponent implements OnInit {
         console.error("Erreur lors du chargement :", error);
       }
     });
-  }
+  } */
 
   onSelectFiliere(filiere: any): void {
     this.selectedFiliere = filiere;
@@ -174,4 +232,90 @@ export class FilieresDetailsComponent implements OnInit {
 
     this.barChartData = { ...this.barChartData }; // force update
   }
+  // === GRAPHE - Répartition des types de bac (camembert) ===
+  public barChartTypeBacData: ChartData<'pie'> = {
+    labels: ['Général', 'Technologique', 'Professionnel'],
+    datasets: [
+      {
+        label: 'Répartition des types de bac',
+        data: [15.6, 43.5, 40.8],
+        backgroundColor: ['#FFCA28', '#FB8C00', '#EC407A'],
+        datalabels: {
+          color: '#fff',
+          font: {
+            weight: 'bold',
+            size: 14
+          },
+          formatter: (value: number) => `${value}%`
+        }
+      }
+    ]
+  };
+
+  public barChartTypeBacOptions: ChartOptions<'pie'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'right'
+      },
+      title: {
+        display: true,
+        text: 'Répartition des types de bac',
+        font: { size: 18 }
+      },
+      datalabels: {}
+    }
+  };
+
+  // === ✅ NOUVEAU : GRAPHE CAMEMBERT - Taux d’admission ===
+  public barChartAdmissionData: ChartData<'bar'> = {
+    labels: ['Admis', 'Non admis'],
+    datasets: [
+      {
+        label: 'Taux d\'admission',
+        data: [38.4, 61.6], // données simulées locales
+        backgroundColor: ['#4CAF50', '#FF7043'],
+        datalabels: {
+          anchor: 'end',
+          align: 'end',
+          color: '#fff',
+          font: {
+            weight: 'bold',
+            size: 14
+          },
+          formatter: (value: number) => `${value}%`
+        }
+      }
+    ]
+  };
+  
+  public barChartAdmissionOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 100,
+        ticks: {
+          callback: (value) => `${value}%`
+        },
+        title: {
+          display: true,
+          text: 'Pourcentage'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: 'Taux d\'admission',
+        font: { size: 18 }
+      },
+      datalabels: {}
+    }
+  };
+  
+ 
 }

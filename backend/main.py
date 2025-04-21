@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from app.routes import register_routes
+from app.routes_register import register_routes
+
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -29,6 +30,9 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"],
 )
+@app.get("/")
+def read_root():
+    return {"message": "Hello Parcoursup"}
 
 
 register_routes(app)

@@ -1,3 +1,6 @@
+
+![CI Pipeline](https://gitlabvigan.iem/groupe4/M1ProjetTutore_Parcoursup/badges/fonctionnalites/analyse-data-7/pipeline.svg)
+
 # rapport
 
 ## ETL
@@ -12,7 +15,7 @@ cd .\backend\
 ```
 Lancer le premier script avec la commande suivante.
 ```bash	
-docker build -t api .
+*docker build -t api .
 ```
 Et enfin lancer le deuxième script avec la commande suivante.
 ```bash

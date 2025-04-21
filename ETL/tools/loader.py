@@ -1,42 +1,17 @@
-from neo4j import GraphDatabase
 
+from neo4j import GraphDatabase
 class Neo4jLoader:
     """
     Classe pour charger les données dans Neo4j.
     """
 
     def __init__(self, uri, user, password, database):
-        """
-        Initialisation de la connexion à la base de données Neo4j.
-        
-        Args:
-            uri (str): URI de la base de données Neo4j.
-            user (str): Nom d'utilisateur de la base de données Neo4j.
-            password (str): Mot de passe de la base de données Neo4j.
-            database (str): Nom de la base de données Neo4j.
-        
-        Returns:
-            None
-        """
         self.driver = GraphDatabase.driver(uri, auth=(user, password), database=database)
 
     def close(self):
-        """
-        Fermeture de la connexion à la base de données Neo4j.
-        """
         self.driver.close()
 
     def create_node(self, node_label, node_properties):
-        """
-        Création d'un noeud dans Neo4j.
-        
-        Args:
-            node_label (str): Label du noeud.
-            node_properties (dict): Propriétés du noeud.
-            
-        Returns:
-            None
-        """
         query = f"""
         CREATE (n:{node_label} $properties)
         """
@@ -45,34 +20,29 @@ class Neo4jLoader:
             print(f"Noeud {node_label} avec les propriétés {node_properties} créé avec succès.")
 
     def load_csv(self, file_path, year):
-        """
-        Chargement d'un fichier CSV dans Neo4j.
-        
-        Args:
-            file_path (str): Chemin d'accès au fichier CSV.
-            year (str): Année des données.
-        
-        Returns:
-            None
-        """
         query = """
         LOAD CSV WITH HEADERS FROM $file AS r FIELDTERMINATOR ';'
-        CALL (r) {
-            MATCH (s:Session {annee: $year})
-            CREATE 
-            (e:Etablissement {
-                statut_etablissement_filiere: r.statut_etablissement_filiere,
-                code_uai_etablissement: r.code_uai_etablissement, 
-                etablissement: r.etablissement, 
-                code_departement_etablissement: r.code_departement_etablissement, 
-                departement_etablissement: r.departement_etablissement, 
-                region_etablissement: r.region_etablissement, 
-                academie_etablissement: r.academie_etablissement, 
-                commune_etablissement: r.commune_etablissement,
-                coordonnees_gps_formation: r.coordonnees_gps_de_la_formation,
-                etablissement_id_paysage: r.etablissement_id_paysage,
-                composante_id_paysage: r.composante_id_paysage
-            }),
+CALL {
+  WITH r
+  WITH r, 
+       CASE WHEN toLower(r.etablissement) STARTS WITH 'université' THEN 'université' ELSE 'autre' END AS type
+  MATCH (s:Session {annee: $year})
+  CREATE (e:Etablissement {
+    statut_etablissement_filiere: r.statut_etablissement_filiere,
+    code_uai_etablissement: r.code_uai_etablissement,
+    etablissement: r.etablissement,
+    type: type,
+    code_departement_etablissement: r.code_departement_etablissement,
+    departement_etablissement: r.departement_etablissement,
+    region_etablissement: r.region_etablissement,
+    academie_etablissement: r.academie_etablissement,
+    commune_etablissement: r.commune_etablissement,
+    coordonnees_gps_formation: r.coordonnees_gps_de_la_formation,
+    etablissement_id_paysage: r.etablissement_id_paysage,
+    composante_id_paysage: r.composante_id_paysage
+  })
+  
+
             (f:Filiere {
                 filiere_formation: r.filiere_formation,
                 selectivite: r.selectivite,
