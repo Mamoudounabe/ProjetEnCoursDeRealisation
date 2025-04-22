@@ -1,4 +1,4 @@
- <section class="decalerdroite">
+<section class="decalerdroite">
   <div *ngIf="isLoading" class="loading-container">
     <mat-spinner></mat-spinner>
     <p>Chargement des graphiques en cours...</p>
@@ -33,7 +33,7 @@
       <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption"> 
         <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">Nombre de candidats</mat-button-toggle>
         <mat-button-toggle value="nombre_dadmis" class="italic-toggle">Nombre d'admis</mat-button-toggle>
-        <mat-button-toggle value="quotas_applicables" class="underline-toggle">Quotas applicables</mat-button-toggle>
+        <!-- <mat-button-toggle value="quotas_applicables" class="underline-toggle">Quotas applicables</mat-button-toggle> -->
       </mat-button-toggle-group>
     
     
@@ -61,68 +61,151 @@
     <!-- --------------------------------------------------------------------------------------- -->
     
       <div  *ngSwitchCase="'neobachelier'">
-        <div class="sous-boutons"   > 
-          <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"   > 
-          <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
-          <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle> 
-        </mat-button-toggle-group>
-      
+        <div class="sous-boutons"> 
+          <!-- <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1" (change)="updateChart()"> -->
+          <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1" >
+            <mat-button-toggle value="ppneo" class="bold-toggle">Phase Principale</mat-button-toggle>
+            <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle> 
+          </mat-button-toggle-group>
         </div>
-    
- 
 
 
 
-     
-           
+       
+        <div class="graphe" [hidden]="selectedSousOption1 !== 'ppneo'">
+          <div class="chart-container">
+            <h2>Nombre de  Candidats Néo-bachelier</h2>
+            <canvas id="chartNeoBacheliersGeneraux"></canvas>
+  
+              
+            </div>
+          </div>
+  
+  
+         <div class="graphe" [hidden]="selectedSousOption1 !== 'pcneo'">
+          <div class="chart-container">
+            <h2>Nombre de  Candidats  Néo-bachelier</h2>
+            <canvas id="chartAutresCandidats"></canvas>
+  
+            </div>
+          </div>
+
+
+
       </div> 
     
-    
       
-      <div *ngIf="selectedSousOption1 === 'ppneo'" class="graphe">
+
+
+      <div  *ngSwitchCase="'touslescandidats'">
+        <!-- --------------------------------------------------------------------------------------- -->
+        
+            <div class="sous-boutons"   > 
+              <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
+              <mat-button-toggle value="ppneot"  class="bold-toggle">Phase Principale</mat-button-toggle>
+              <mat-button-toggle value="pcneot" class="bold-toggle">Phase Complémentaire</mat-button-toggle> 
+            </mat-button-toggle-group>
+          
+            </div>
+          </div>
+
+
+          <div  *ngSwitchCase="'neoBachierlierstechnologique'">
+            <!-- --------------------------------------------------------------------------------------- -->
+                <div class="sous-boutons"   > 
+                  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
+                  <mat-button-toggle value="ppneotech"  class="bold-toggle">Phase Principale</mat-button-toggle>
+                  <mat-button-toggle value="pcneotech" class="bold-toggle">Phase Complémentaire</mat-button-toggle> 
+                </mat-button-toggle-group>
+              
+                </div>
+
+
+<!-- 
+
+       <div class="graphe" [hidden]="selectedSousOption1 !== 'ppneo'">
         <div class="chart-container">
-            <h2>Nombre de  Candidats Néo-bachelier</h2>
-            <canvas id="chartCandidats"></canvas>
+          <h2>Nombre de  Candidats Néo-bachelier</h2>
+          <canvas id="chartPhasePrincipale"></canvas>
 
             
           </div>
         </div>
 
 
-      
+       <div class="graphe" [hidden]="selectedSousOption1 !== 'pcneo'">
+        <div class="chart-container">
+          <h2>Nombre de  Candidats hh Néo-bachelier</h2>
+          <canvas id="chartCandidats"></canvas>
+
+          </div>
+        </div>
+     
+
+
+
+       -->
     <!-- ------------------------------ ic pour tester les graphiques-------------------------------------------------------------------- -->
       
       
     <!-- -------------------------------------------------------------------------------------------------- -->
       
     <!-- --------------------------------------------------------------------------------------- -->
-      <div  *ngSwitchCase="'touslescandidats'">
+      <!-- <div  *ngSwitchCase="'touslescandidats'"> -->
     <!-- --------------------------------------------------------------------------------------- -->
     
-        <div class="sous-boutons"   > 
+      <!--   <div class="sous-boutons"   > 
           <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
           <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
           <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle> 
         </mat-button-toggle-group>
       
         </div>
-      </div>
+      </div> -->
     
     
     <!-- --------------------------------------------------------------------------------------- -->
-      <div  *ngSwitchCase="'neoBachierlierstechnologique'">
-    <!-- --------------------------------------------------------------------------------------- -->
-        <div class="sous-boutons"   > 
+    <!--   <div  *ngSwitchCase="'neoBachierlierstechnologique'">
+    --------------------------------------------------------------------------------------- -->
+       <!--  <div class="sous-boutons"   > 
           <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
           <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
           <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle> 
         </mat-button-toggle-group>
       
-        </div>
+        </div>  -->
     
         <!-- chartEffectifTotalCandidatsPhasePrincipaleRef 
          chartNeoBacheliersRef
          -->
+
+
+
+         <!-- 
+
+       <div class="graphe" [hidden]="selectedSousOption1 !== 'ppneo'">
+        <div class="chart-container">
+          <h2>Nombre de  Candidats Néo-bachelier</h2>
+          <canvas id="chartPhasePrincipale"></canvas>
+
+            
+          </div>
+        </div>
+
+
+       <div class="graphe" [hidden]="selectedSousOption1 !== 'pcneo'">
+        <div class="chart-container">
+          <h2>Nombre de  Candidats hh Néo-bachelier</h2>
+          <canvas id="chartCandidats"></canvas>
+
+          </div>
+        </div> -->
+     
+
+
+
+
+
       </div>
     
     
@@ -244,17 +327,49 @@
       <mat-button-toggle value="LyceensProf" class="bold-toggle">Lycéens professionnels</mat-button-toggle> 
     </mat-button-toggle-group>
       
-        <div *ngIf="selectedOptionQ === 'boursiersSecondaire'" class="graphe">
+       <!--  <div *ngIf="selectedOptionQ === 'boursiersSecondaire'" class="graphe">
           <div class="chart-container">
           <h2>Nombre de candidats néo-bacheliers Boursiers</h2>
           <canvas id="chartBoursiers"></canvas>
-        <!-- fin nombre_de_candidats-->
       </div>
-      </div>
+      </div> -->
    <!--  </div> -->
+   <div class="graphe" [hidden]="selectedOptionQ  !== 'boursiersSecondaire'">
+    <div class="chart-container">
+      <h2>Nombre de  Candidats Néo-bachelier</h2>
+      <canvas id="chartBoursiers"></canvas>
+      </div>
     </div>
+
+
+    <!-- <div class="graphe" [hidden]="selectedOptionQ  !== 'candidatsHorsSecteur'">
+      <div class="chart-container">
+        <h2>Lyceen technologiques</h2>
+        <canvas id="chartAdmisAvantBac"></canvas>
+        </div>
+      </div>
+    </div>
+
+
+ -->
+</div>
+
+    <div class="graphe" [hidden]="selectedOptionQ  !== 'lyceenTechnologie'">
+      <div class="chart-container">
+        <h2>Lyceen technologiques</h2>
+        <canvas id="chartAdmisAvantBac"></canvas>
+        </div>
+      </div>
+   
     
 
+    <div class="graphe" [hidden]="selectedOptionQ  !== 'LyceensProf'">
+      <div class="chart-container">
+        <h2>Nombre de  Candidats hh Néo-bachelier</h2>
+        <canvas id="chartAdmisAcademieParisCreteilVersailles"></canvas>
+        </div>
+      </div>
+  
   
 
  <!--  </div> -->
@@ -377,7 +492,7 @@
 <div *ngIf="selectedOption2 === 'taux_dacces'" class="graphe">
   <div class="chart-container">
       <h2>Taux d'accès</h2>
-      <canvas id="chartPhasePrincipale"></canvas>
+      <canvas id="chartTauxAcces"></canvas>
     </div>
   </div>
 

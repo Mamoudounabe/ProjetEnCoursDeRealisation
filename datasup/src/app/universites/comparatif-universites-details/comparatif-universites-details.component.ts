@@ -182,8 +182,56 @@ ngOnInit(): void {
               /* quotas applicable */
               effectif_boursiers_generaux_phase_principale: universite.effectif_boursiers_generaux_phase_principale || 0,
               effectif_admis_meme_academie: universite.effectif_admis_meme_academie || 0,
-              moyenne_effectif_admis_meme_academie: universite.moyenne_effectif_admis_meme_academie || 0
+              moyenne_effectif_admis_meme_academie: universite.moyenne_effectif_admis_meme_academie || 0,
+              effectif_terminal_technologique: universite.effectif_terminal_technologique || 0,
+              effectif_terminal_professionnelle: universite.effectif_terminal_professionnelle || 0,
+              effectif_autres_candidats_phase_principale: universite.effectif_autres_candidats_phase_principale || 0,
+        
+              effectif_neo_bacheliers_generaux_phase_principale: universite.effectif_neo_bacheliers_generaux_phase_principale || 0,
+              effectif_neo_bacheliers_technologiques_phase_principale: universite.effectif_neo_bacheliers_technologiques_phase_principale || 0,
+              effectif_neo_bacheliers_professionnels_phase_principale: universite.effectif_neo_bacheliers_professionnels_phase_principale || 0,
+              effectif_neo_bacheliers_mention_assez_bien_bac_admis: universite.effectif_neo_bacheliers_mention_assez_bien_bac_admis || 0,
+              effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis: universite.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis || 0,
+              effectif_neo_bacheliers_sans_mention_bac_admis: universite.effectif_neo_bacheliers_sans_mention_bac_admis || 0,
+              effectif_neo_bacheliers_admis: universite.effectif_neo_bacheliers_admis || 0,
 
+              effectif_neo_bacheliers_mention_tres_bien_bac_admis: universite.effectif_neo_bacheliers_mention_tres_bien_bac_admis || 0,
+              effectif_boursiers_professionnels_phase_principale: universite.effectif_boursiers_professionnels_phase_principale || 0,
+            
+
+
+              effectif_boursiers_technologiques_phase_principale: universite.effectif_boursiers_technologiques_phase_principale || 0,
+              effectif_admis_meme_academie_paris_creteil_versailles: universite.effectif_admis_meme_academie_paris_creteil_versailles || 0,
+              effectif_admis_proposition_avant_baccalaureat: universite.effectif_admis_proposition_avant_baccalaureat || 0,
+              
+              effectif_generaux_mention_bac_admis: universite.effectif_generaux_mention_bac_admis || 0,
+              effectif_technologiques_admis: universite.effectif_technologiques_admis || 0,
+              effectif_professionnels_admis: universite.effectif_professionnels_admis || 0,
+              effectif_admis_proposition_ouverture_phase_principale: universite.effectif_admis_proposition_ouverture_phase_principale || 0,
+
+              effectif_admis_phase_complementaire: universite.effectif_admis_phase_complementaire || 0,
+
+
+
+
+
+
+              effectif_admis_phase_principale: universite.effectif_admis_phase_principale || 0,
+              effectif_total_candidats_proposition: universite.effectif_total_candidats_proposition || 0,
+
+              effectif_generaux_admis: universite.effectif_generaux_admis || 0,
+
+              effectif_technologiques_mention_bac_admis: universite.effectif_technologiques_mention_bac_admis || 0,
+           
+              effectif_admis_proposition_avant_fin_procedure_principale: universite.effectif_admis_proposition_avant_fin_procedure_principale || 0,
+              effectif_candidates_admises: universite.effectif_candidates_admises || 0, 
+
+              effectif_admises_meme_etablissement_bts_cpge: universite.effectif_admises_meme_etablissement_bts_cpge || 0,
+              effectif_total_candidats_admis: universite.effectif_total_candidats_admis || 0,
+
+              effectif_autres_admis: universite.effectif_autres_admis || 0,
+
+              /* effectif_boursiers_generaux_phase_principale: universite.effectif_boursiers_generaux_phase_principale || 0, */         
 
 
 
@@ -196,22 +244,69 @@ ngOnInit(): void {
 
           console.log("Données transformées :", this.universitesData);
           console.log("Années disponibles :", Object.values(this.universitesData).flat().map(d => d.annee));
-
+          console.log("je teste");
 
          /* ['#009FE3', '#A3D39C'] */
 
           // Créer les graphiques après récupération des données
           this.createChart('effectif_total_candidats_formation', 'chartCandidats', 'Total Candidats', ['#009FE3', '#A3D39C']);
-          this.createChart('taux_acces', 'chartPhasePrincipale', 'Candidats Phase Principale', ['#87A2C2', '#D77683']);
+          this.createChart('taux_acces', 'chartTauxAcces', 'Taux  Acees', ['#87A2C2', '#D77683']);
           this.createChart('effectif_candidates_formation', 'chartCandidates', 'Candidates Formation', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_boursiers_generaux_phase_principale', 'chartBoursiers', 'Boursiers Phase Principale', ['#87A2C2', '#D77683']);
           this.createChart('effectif_admis_meme_academie', 'chartAdmisAcademie', 'Admis Même Académie', ['#009FE3', '#A3D39C']);
          /*  this.createChart('moyenne_effectif_admis_meme_academie', 'chartMoyenneAdmisAcademie', 'Moyenne Admis Même Académie', ['#009FE3', '#A3D39C']); */
+         this.createChart('effectif_terminal_technologique', 'chartTerminalTechnologique', 'Terminal Technologique', ['#009FE3', '#A3D39C']);
+         this.createChart('effectif_terminal_professionnelle', 'chartTerminalProfessionnelle', 'Terminal Professionnelle', ['#009FE3', '#A3D39C']);
+         this.createChart('effectif_autres_candidats_phase_principale', 'chartAutresCandidats', 'Autres Candidats Phase Principale', ['#009FE3', '#A3D39C']);
+
+          this.createChart('effectif_neo_bacheliers_generaux_phase_principale', 'chartNeoBacheliersGeneraux', 'Néo-bacheliers Généraux Phase Principale', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_neo_bacheliers_technologiques_phase_principale', 'chartNeoBacheliersTechnologiques', 'Néo-bacheliers Technologiques Phase Principale', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_neo_bacheliers_professionnels_phase_principale', 'chartNeoBacheliersProfessionnels', 'Néo-bacheliers Professionnels Phase Principale', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_neo_bacheliers_mention_assez_bien_bac_admis', 'chartMentionAssezBien', 'Mention Assez Bien Bac Admis', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis', 'chartMentionTresBien', 'Mention Très Bien Bac Admis', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_neo_bacheliers_sans_mention_bac_admis', 'chartSansMention', 'Sans Mention Bac Admis', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_neo_bacheliers_admis', 'chartNeoBacheliersAdmis', 'Néo-bacheliers Admis', ['#009FE3', '#A3D39C']); 
+          this.createChart('effectif_neo_bacheliers_mention_tres_bien_bac_admis', 'chartMentionTresBienAdmis', 'Mention Très Bien Bac Admis', ['#009FE3', '#A3D39C']);
+        
+        
+       this.createChart('effectif_boursiers_professionnels_phase_principale', 'chartMentionBienAdmis', 'Mention Bien Bac Admis', ['#009FE3', '#A3D39C']);
+         
+
+          this.createChart('effectif_boursiers_generaux_phase_principale', 'chartBoursiersGeneraux', 'Boursiers Généraux Phase Principale', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_boursiers_technologiques_phase_principale', 'chartBoursiersTechnologiques', 'Boursiers Technologiques Phase Principale', ['#009FE3', '#A3D39C']);
+         
+          this.createChart('effectif_admis_meme_academie_paris_creteil_versailles', 'chartAdmisAcademieParis', 'Admis Même Académie Paris Créteil Versailles', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_admis_proposition_avant_baccalaureat', 'chartAdmisAvantBac', 'Admis Avant Baccalauréat', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_generaux_mention_bac_admis', 'chartGenerauxMentionBac', 'Généraux Mention Bac Admis', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_technologiques_admis', 'chartTechnologiquesAdmis', 'Technologiques Admis', ['#009FE3', '#A3D39C']);
+        
+          this.createChart('effectif_professionnels_admis', 'chartProfessionnelsAdmis', 'Professionnels Admis', ['#009FE3', '#A3D39C']);
+          this.createChart('', 'chartBoursiersAdmis', 'Boursiers Admis', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_admis_proposition_ouverture_phase_principale', 'chartAdmisPropositionOuverture', 'Admis Proposition Ouverture Phase Principale', ['#009FE3', '#A3D39C']);
+          this.createChart('', 'chartAdmisPhaseComplementaire', 'Admis Phase Complémentaire', ['#009FE3', '#A3D39C']);
+          this.createChart('', 'chartAdmisPhasePrincipale', 'Admis Phase Principale', ['#009FE3', '#A3D39C']);
+          this.createChart('', 'chartTotalCandidatsProposition', 'Total Candidats Proposition Admission', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_generaux_admis', 'chartGenerauxAdmis', 'Généraux Admis', ['#009FE3', '#A3D39C']);  
+          this.createChart('', 'chartTechnologiquesMentionBac', 'Technologiques Mention Bac Admis', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_autres_candidats_phase_principale ', 'chartAutresCandidatsPhasePrincipale', 'Autres Candidats Phase Principale', ['#009FE3', '#A3D39C']);
+
+
+       
+          this.createChart('effectif_admis_proposition_avant_fin_procedure_principale', 'chartAdmisPropositionAvantFin', 'Admis Proposition Avant Fin Procédure Principale', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_candidates_admises', 'chartCandidatesAdmises', 'Candidates Admissibles', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_admises_meme_etablissement_bts_cpge', 'chartAdmisesMemeEtablissement', 'Admises Même Etablissement BTS CPGE', ['#009FE3', '#A3D39C']); 
+          this.createChart('effectif_total_candidats_admis', 'chartTotalCandidatsAdmis', 'Total Candidats Admis', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_autres_admis', 'chartAutresAdmis', 'Autres Admis', ['#009FE3', '#A3D39C']);    
+          this.createChart('effectif_admis_meme_academie', 'chartAdmisMemeAcademie', 'Admis Même Académie', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_admis_meme_academie_paris_creteil_versailles', 'chartAdmisAcademieParisCreteilVersailles', 'Admis Même Académie Paris Créteil Versailles', ['#009FE3', '#A3D39C']);  
 
 
 
+          
+        
+  
 
-         this.isLoading = false; //  Fin du chargement une fois tout prêt
+          this.isLoading = false; //  Fin du chargement une fois tout prêt
           
         },
         (error) => {
@@ -264,8 +359,10 @@ ngOnInit(): void {
 
 
 
-
-
+  // updateChart(): void {
+  //   this.createChart('effectif_total_candidats_formation', 'chartCandidats', 'Total Candidats', ['#009FE3', '#A3D39C']);
+  //   console.log("Mise à jour du graphique pour le nombre de candidats.");
+  // }
 
   retourListe() {
     this.router.navigate(['/etablissements']);
