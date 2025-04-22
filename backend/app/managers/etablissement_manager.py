@@ -821,9 +821,10 @@ class EtablissementManager:
             OPTIONAL MATCH (e)-[:HAS_CANDIDAT]->(c:Candidat)
             OPTIONAL MATCH (c)-[:HAS_BACHELIER]->(b:Bachelier)
             OPTIONAL MATCH (e)-[:HAS_ADMISSION]->(a:Admission)
-            OPTIONAL MATCH (e)-[:HAS_PROPORTION]->(p:Proportion)
-            OPTIONAL MATCH (e)-[:HAS_TERMINAL]->(t:Terminal)
-            OPTIONAL MATCH (e)-[:HAS_COMPLEMENTAIRE]->(cp:Complementaire)
+            OPTIONAL MATCH (a)-[:HAS_PROPORTION]->(p:Proportion)
+            OPTIONAL MATCH (a)-[:HAS_TERMINALE]->(t:Terminal)
+            OPTIONAL MATCH (c)-[:HAS_COMPLEMENT_PHASE]->(cp:ComplementPhase)
+
             
             WITH 
                 split(e.etablissement, " - ")[0] AS universite_principale,
