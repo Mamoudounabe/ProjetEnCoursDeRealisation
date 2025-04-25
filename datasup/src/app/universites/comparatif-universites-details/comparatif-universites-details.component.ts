@@ -310,6 +310,36 @@ ngOnInit(): void {
           this.createQuotasChart();
 
 
+
+
+
+
+
+
+
+
+
+
+
+                                          /*  Moyennes*/
+                                // 1. Calcul des données pour chaque université + moyennes
+             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
           // Créer les graphiques après récupération des données
           this.createChart('effectif_total_candidats_formation', 'chartCandidats', 'Total Candidats', ['#009FE3', '#A3D39C']);
@@ -589,10 +619,6 @@ getPercentage(uniName: string, type: 'boursiers'|'bac_general'): string {
 get universitesCount(): number {
   return this.universitesData ? Object.keys(this.universitesData).length : 0;
 }
-
-
-
-
 
 
 
