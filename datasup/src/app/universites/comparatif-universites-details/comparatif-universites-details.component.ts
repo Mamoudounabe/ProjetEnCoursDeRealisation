@@ -37,6 +37,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSidenavModule } from '@angular/material/sidenav';
+/* import ChartDataLabels from 'chartjs-plugin-datalabels';  */
+Chart.register(ChartDataLabels);
 
 @Component({
   selector: 'app-comparatif-universites-details',
@@ -81,24 +84,32 @@ export class ComparatifUniversitesDetailsComponent implements OnInit {
   universitesData: Record<string, any[]> = {};
 
 
+  quotasData: Array<{
+    etablissement: string;
+    total_admis: number;
+    pct_boursiers: number;
+    pct_bac_general: number;
+  }> = [];
+
+
 /* ---------------- Informations  Générales------- bloc 1--------------------------------------------------------------- */
 
  selectedOption: string = 'nombre_de_candidats'; // Assurez-vous que cette valeur correspond à l'un des cas dans le template
 selectedSousOption: string = 'neobachelier'; // Valeur par défaut pour le sous-menu
-selectedSousOption1: string = 'ppneo';/* 'ppneo'; 
+selectedSousOption1: string = 'ppneo';
+
  
 /* -------------------------------------------------------------------------------------------------------------- */
 
 /* ---------------- Profil des candidats admis-----bloc 2--------------------------------------------------------------- */
-selectedOption1 : string= 'mention_au_bac';
+selectedOption1 : string= 'mention_technologique';
 selectedSousOption11: string= 'mention_technologique';
 
 
 /* ----------------------------------------------bloc 3---------------------------------------------------------------- */
 
-selectedOption2 : string = 'taux_dacces';
-selectedSousOption2 : string = '';
-
+selectedOption2 : string = 'duree_du_processus';
+selectedSousOptionSelect: string = 'Admis_Avant_Bac'; 
 
 /* --------------------------------------------------------------------------------------------------------------------- */
 
@@ -208,15 +219,7 @@ ngOnInit(): void {
               effectif_technologiques_admis: universite.effectif_technologiques_admis || 0,
               effectif_professionnels_admis: universite.effectif_professionnels_admis || 0,
               effectif_admis_proposition_ouverture_phase_principale: universite.effectif_admis_proposition_ouverture_phase_principale || 0,
-
-              effectif_admis_phase_complementaire: universite.effectif_admis_phase_complementaire || 0,
-
-
-
-
-
-
-              effectif_admis_phase_principale: universite.effectif_admis_phase_principale || 0,
+            
               effectif_total_candidats_proposition: universite.effectif_total_candidats_proposition || 0,
 
               effectif_generaux_admis: universite.effectif_generaux_admis || 0,
@@ -230,11 +233,26 @@ ngOnInit(): void {
               effectif_total_candidats_admis: universite.effectif_total_candidats_admis || 0,
 
               effectif_autres_admis: universite.effectif_autres_admis || 0,
+              effectif_neo_bacheliers_generaux_phase_complementaire: universite.effectif_neo_bacheliers_generaux_phase_complementaire || 0,
 
               /* effectif_boursiers_generaux_phase_principale: universite.effectif_boursiers_generaux_phase_principale || 0, */         
+            
+             effectif_admis_phase_complementaire: universite.effectif_admis_phase_complementaire || 0,
+             effectif_admis_phase_principale: universite.effectif_admis_phase_principale || 0,
+        
+             effectif_professionnels_mention_bac_admis: universite.effectif_professionnels_mention_bac_admis || 0,
+             effectif_neo_bacheliers_mention_bien_bac_admis: universite.effectif_neo_bacheliers_mention_bien_bac_admis || 0,
+             
+            
+             effectif_neo_bacheliers_sans_mention: universite.effectif_neo_bacheliers_sans_mention || 0,
+             effectif_neo_bacheliers_sans_info_mention_bac_admis: universite.effectif_neo_bacheliers_sans_info_mention_bac_admis || 0,
+             
+            
 
 
 
+             effectif_boursiers_admis: universite.effectif_boursiers_admis || 0, 
+          
 
 
               
@@ -242,12 +260,57 @@ ngOnInit(): void {
             return acc;
           }, {} as Record<string, any[]>);
 
+
+
           console.log("Données transformées :", this.universitesData);
           console.log("Années disponibles :", Object.values(this.universitesData).flat().map(d => d.annee));
           console.log("je teste");
 
-         /* ['#009FE3', '#A3D39C'] */
 
+
+
+    /*      // 1. Calculer les indicateurs pour le tableau
+         this.quotasData = Object.keys(this.universitesData).map(uni => {
+          const uniData = this.universitesData[uni][0];
+          return {
+            etablissement: uni,
+            total_admis: uniData.effectif_total_candidats_admis,
+            pct_boursiers: uniData.effectif_total_candidats_admis > 0 ? 
+              Math.round(uniData.effectif_boursiers_admis * 1000 / uniData.effectif_total_candidats_admis) / 10 : 0,
+            pct_bac_general: uniData.effectif_total_candidats_admis > 0 ? 
+              Math.round(uniData.effectif_generaux_admis * 1000 / uniData.effectif_total_candidats_admis) / 10 : 0
+          } as { etablissement: string; total_admis: number; pct_boursiers: number; pct_bac_general: number };
+        });
+
+      // 2. Créer le graphique
+      this.createQuotasChart(); */
+
+
+                // 1. Calculer les indicateurs pour le tableau (limitée à 2 universités)
+          this.quotasData = Object.keys(this.universitesData)
+          .slice(0, 2) // Prendre seulement les 2 premières universités
+          .map(uni => {
+            const uniData = this.universitesData[uni][0];
+            return {
+              etablissement: uni,
+              total_admis: uniData.effectif_total_candidats_admis || 0,
+              pct_boursiers: uniData.effectif_total_candidats_admis > 0 ? 
+                Math.round(uniData.effectif_boursiers_admis * 1000 / uniData.effectif_total_candidats_admis) / 10 : 0,
+              pct_bac_general: uniData.effectif_total_candidats_admis > 0 ? 
+                Math.round(uniData.effectif_generaux_admis * 1000 / uniData.effectif_total_candidats_admis) / 10 : 0
+            } as { 
+              etablissement: string; 
+              total_admis: number; 
+              pct_boursiers: number; 
+              pct_bac_general: number 
+            };
+          });
+
+          // 2. Créer le graphique (affichera automatiquement les 2 universités)
+          this.createQuotasChart();
+
+
+        
           // Créer les graphiques après récupération des données
           this.createChart('effectif_total_candidats_formation', 'chartCandidats', 'Total Candidats', ['#009FE3', '#A3D39C']);
           this.createChart('taux_acces', 'chartTauxAcces', 'Taux  Acees', ['#87A2C2', '#D77683']);
@@ -260,13 +323,15 @@ ngOnInit(): void {
          this.createChart('effectif_autres_candidats_phase_principale', 'chartAutresCandidats', 'Autres Candidats Phase Principale', ['#009FE3', '#A3D39C']);
 
           this.createChart('effectif_neo_bacheliers_generaux_phase_principale', 'chartNeoBacheliersGeneraux', 'Néo-bacheliers Généraux Phase Principale', ['#009FE3', '#A3D39C']);
+         this.createChart('effectif_neo_bacheliers_generaux_phase_complementaire', 'chartNeoBacheliersGenerauxPhaseComplementaire', 'Néo-bacheliers Généraux Phase Complémentaire', ['#009FE3', '#A3D39C']);
+
           this.createChart('effectif_neo_bacheliers_technologiques_phase_principale', 'chartNeoBacheliersTechnologiques', 'Néo-bacheliers Technologiques Phase Principale', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_neo_bacheliers_professionnels_phase_principale', 'chartNeoBacheliersProfessionnels', 'Néo-bacheliers Professionnels Phase Principale', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_neo_bacheliers_mention_assez_bien_bac_admis', 'chartMentionAssezBien', 'Mention Assez Bien Bac Admis', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis', 'chartMentionTresBien', 'Mention Très Bien Bac Admis', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_neo_bacheliers_sans_mention_bac_admis', 'chartSansMention', 'Sans Mention Bac Admis', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_neo_bacheliers_admis', 'chartNeoBacheliersAdmis', 'Néo-bacheliers Admis', ['#009FE3', '#A3D39C']); 
-          this.createChart('effectif_neo_bacheliers_mention_tres_bien_bac_admis', 'chartMentionTresBienAdmis', 'Mention Très Bien Bac Admis', ['#009FE3', '#A3D39C']);
+          
         
         
        this.createChart('effectif_boursiers_professionnels_phase_principale', 'chartMentionBienAdmis', 'Mention Bien Bac Admis', ['#009FE3', '#A3D39C']);
@@ -299,12 +364,29 @@ ngOnInit(): void {
           this.createChart('effectif_autres_admis', 'chartAutresAdmis', 'Autres Admis', ['#009FE3', '#A3D39C']);    
           this.createChart('effectif_admis_meme_academie', 'chartAdmisMemeAcademie', 'Admis Même Académie', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_admis_meme_academie_paris_creteil_versailles', 'chartAdmisAcademieParisCreteilVersailles', 'Admis Même Académie Paris Créteil Versailles', ['#009FE3', '#A3D39C']);  
-
-
-
-          
         
-  
+      
+          this.createChart('effectif_total_candidats_proposition', 'chartTotalCandidatsProposition', 'Total Candidats Proposition', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_admis_proposition_avant_baccalaureat', 'charteffectif_admis_proposition_avant_baccalaureat', 'Généraux Admis', ['#009FE3', '#A3D39C']);
+          
+          this.createChart('effectif_admis_phase_complementaire', 'chartAdmisPhaseComplementaire', 'Admis Phase Complémentaire', ['#009FE3', '#A3D39C']);
+
+          this.createChart('effectif_admis_phase_principale', 'chartAdmisPhasePrincipale', 'Admis Phase Principale', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_neo_bacheliers_mention_tres_bien_bac_admis', 'chartNeoBacheliersMentionTresBien', 'Néo-bacheliers Mention Très Bien Bac Admis', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_generaux_mention_bac_admis', 'chartGenerauxMentionBacAdmis', 'Généraux Mention Bac Admis', ['#009FE3', '#A3D39C']);
+         
+          this.createChart('effectif_professionnels_mention_bac_admis', 'chartProfessionnelsMentionBac', 'Professionnels Mention Bac Admis', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_neo_bacheliers_mention_bien_bac_admis', 'chartNeoBacheliersMentionBien', 'Néo-bacheliers Mention Bien Bac Admis', ['#009FE3', '#A3D39C']);
+
+
+
+          this.createChart('effectif_neo_bacheliers_sans_info_mention_bac_admis', 'chartNeoBacheliersSansInfo', 'Néo-bacheliers Sans Info Mention Bac Admis', ['#009FE3', '#A3D39C']);
+         /*  this.createChart('effectif_neo_bacheliers_sans_mention', 'chartNeoBacheliersSansMention', 'Néo-bacheliers Sans Mention', ['#009FE3', '#A3D39C']); */
+          
+
+
+         
+
 
           this.isLoading = false; //  Fin du chargement une fois tout prêt
           
@@ -368,124 +450,154 @@ ngOnInit(): void {
     this.router.navigate(['/etablissements']);
   }
 
-  
 
 
-/* Reglage bouton */
-
-/* set selectedSousOption1(value: string) {
-  this._selectedSousOption1 = value;
-  this.chartRendered = false;
-}
 
 
-chartColors: string[] = ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850'];
 
-private _selectedOption: string = 'nombre_de_candidats';
-private _selectedSousOption: string = 'neobachelier';
-private _selectedSousOption1: string = 'ppneo';
 
-get selectedOption(): string {
-  return this._selectedOption;
-}
-set selectedOption(value: string) {
-  this._selectedOption = value;
-  this._selectedSousOption = this.getDefaultSousOption(value);
-  this._selectedSousOption1 = 'ppneo';
-  this.scheduleChartUpdate();
-}
 
-get selectedSousOption(): string {
-  return this._selectedSousOption;
-}
-set selectedSousOption(value: string) {
-  this._selectedSousOption = value;
-  this._selectedSousOption1 = 'ppneo';
-  this.scheduleChartUpdate();
-} */
 
-/* get selectedSousOption1(): string {
-  return this._selectedSousOption1;
-} */
-/* set selectedSousOption1(value: string) {
-  this._selectedSousOption1 = value;
-  this.scheduleChartUpdate();
-} */
+
+
+
+
+
+
+
+
+
 /* 
-getDefaultSousOption(option: string): string {
-  switch (option) {
-    case 'nombre_de_candidats': return 'neobachelier';
-    case 'nombre_dadmis': return 'neo_admis';
-    case 'quotas_applicables': return 'quotas';
-    default: return '';
-  }
-}
 
-getChartId(): string {
-  return `${this.selectedOption}_${this.selectedSousOption}_${this.selectedSousOption1}_Chart`;
-}
 
-getDataVariable(): string {
-  // Associe chaque sélection à une variable dans tes données
-  if (this.selectedOption === 'nombre_de_candidats') {
-    if (this.selectedSousOption === 'neobachelier') {
-      return this.selectedSousOption1 === 'ppneo' ? 'nbCandidatsPPNeo' : 'nbCandidatsPCNeo';
-    } else if (this.selectedSousOption === 'touslescandidats') {
-      return this.selectedSousOption1 === 'ppneo' ? 'nbCandidatsPP' : 'nbCandidatsPC';
-    } else if (this.selectedSousOption === 'neoBachierlierstechnologique') {
-      return this.selectedSousOption1 === 'ppneo' ? 'nbCandidatsTechnoPP' : 'nbCandidatsTechnoPC';
+
+
+
+
+  createQuotasChart() {
+    const ctx = document.getElementById('quotasChart') as HTMLCanvasElement;
+    
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: this.quotasData.map(d => d.etablissement),
+        datasets: [
+          {
+            label: '% Boursiers',
+            data: this.quotasData.map(d => d.pct_boursiers),
+            backgroundColor: '#4e79a7'
+          },
+          {
+            label: '% Bac général',
+            data: this.quotasData.map(d => d.pct_bac_general),
+            backgroundColor: '#f28e2b'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            ticks: {
+              callback: function(value) {
+                return value + '%';
+              }
+            }
+          }
+        }
+      }
+    });
+  } */
+
+
+
+
+    
+    createQuotasChart() {
+      const ctx = document.getElementById('quotasChart') as HTMLCanvasElement;
+      const existingChart = Chart.getChart(ctx);
+      if (existingChart) existingChart.destroy();
+    
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: this.quotasData.map(d => d.etablissement),
+          datasets: [
+            {
+              label: '% Boursiers',
+              data: this.quotasData.map(d => d.pct_boursiers),
+              backgroundColor: '#4e79a7'
+            },
+            {
+              label: '% Bac général',
+              data: this.quotasData.map(d => d.pct_bac_general),
+              backgroundColor: '#f28e2b'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: 'Comparaison entre 2 universités'
+            }
+          }
+        }
+      });
     }
+
+
+
+
+
+  // Méthode helper pour le template HTML
+/*   getPercentage(uniName: string, type: 'boursiers'|'bac_general'): string {
+    const data = this.quotasData.find(d => d.etablissement === uniName);
+    if (!data) return '0.0';
+    return (type === 'boursiers' ? data.pct_boursiers : data.pct_bac_general).toFixed(1);
   }
-
-  if (this.selectedOption === 'nombre_dadmis') {
-    if (this.selectedSousOption === 'neo_admis') {
-      return this.selectedSousOption1 === 'ppneo' ? 'nbAdmisPPNeo' : 'nbAdmisPCNeo';
-    } else if (this.selectedSousOption === 'touslescandidatsadmis') {
-      return this.selectedSousOption1 === 'ppneo' ? 'nbAdmisPP' : 'nbAdmisPC';
-    } else if (this.selectedSousOption === 'neoBachierlierstechnoadmis') {
-      return this.selectedSousOption1 === 'ppneo' ? 'nbAdmisTechnoPP' : 'nbAdmisTechnoPC';
-    }
-  }
-
-  return '';
-}
-
-scheduleChartUpdate(): void {
-  const chartId = this.getChartId();
-  const variable = this.getDataVariable();
-  const label = `Graphique - ${this.selectedOption}, ${this.selectedSousOption}, ${this.selectedSousOption1}`;
-  const colors = this.chartColors;
-
-  if (variable) {
-    this.createChart(variable, chartId, label, colors);
-  } else {
-    console.warn('Aucune variable de données définie pour cette sélection.');
-  }
-}
-
-
-
-
-
-
-colors: string[] = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'];
-
-chartRendered = false; // un flag pour éviter de dessiner plusieurs fois
-
-
-ngAfterViewChecked() {
-  if (
-    this.selectedOption === 'nombre_de_candidats' &&
-    this.selectedSousOption === 'neobachelier' &&
-    this.selectedSousOption1 === 'ppneo' &&
-    !this.chartRendered
-  ) {
-    this.createChart('ppneo', 'chartCandidats', 'Nombre de Candidats Néo-bachelier', this.colors);
-    this.chartRendered = true;
-  }
-}
-
-
  */
+
+// Méthode helper pour le template HTML
+getPercentage(uniName: string, type: 'boursiers'|'bac_general'): string {
+  const data = this.quotasData.find(d => d.etablissement === uniName);
+  if (!data) return '0.0%'; // Retourne avec '%' par défaut
+  
+  // Récupère la valeur numérique (que vous avez déjà calculée)
+  const numericValue = type === 'boursiers' ? data.pct_boursiers : data.pct_bac_general;
+  
+  // Formate avec 1 décimale + ajoute le symbole %
+  return numericValue.toFixed(1) + '%';
+}
+
+
+// Ajoutez cette propriété
+get universitesCount(): number {
+  return this.universitesData ? Object.keys(this.universitesData).length : 0;
+}
+
+
+
+
+
+
+
+
+
+
 
 }

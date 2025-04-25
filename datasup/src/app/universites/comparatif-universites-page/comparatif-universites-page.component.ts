@@ -39,8 +39,9 @@ export class ComparatifUniversitesPageComponent  implements OnInit{
  // Liste des universités
  universites: any[] = [
   
-  { id: 2, nom: 'Université Angers', region: 'Pays de la Loire' },
+ 
   { id: 3, nom: 'Université de Bourgogne', region: 'Bourgogne-Franche-Comté' },
+  { id: 2, nom: 'Université Angers', region: 'Pays de la Loire' },
   { id: 4, nom: 'Université de Bretagne Occidentale', region: 'Bretagne' },
   { id: 5, nom: 'Université de Caen Normandie', region: 'Normandie' },
   { id: 11, nom: 'Université de Lille', region: 'Hauts-de-France' },
