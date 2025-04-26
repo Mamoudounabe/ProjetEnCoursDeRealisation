@@ -286,7 +286,7 @@ ngOnInit(): void {
       this.createQuotasChart(); */
 
 
-                // 1. Calculer les indicateurs pour le tableau (limitée à 2 universités)
+             /*    // 1. Calculer les indicateurs pour le tableau (limitée à 2 universités)
           this.quotasData = Object.keys(this.universitesData)
           .slice(0, 2) // Prendre seulement les 2 premières universités
           .map(uni => {
@@ -307,13 +307,77 @@ ngOnInit(): void {
           });
 
           // 2. Créer le graphique (affichera automatiquement les 2 universités)
-          this.createQuotasChart();
+          this.createQuotasChart(); */
 
 
 
+/* 
+          this.quotasData = Object.keys(this.universitesData)
+  .slice(0, 2)
+  .flatMap(uni => {
+    return this.universitesData[uni]
+      .filter(data => this.anneesActuelles.includes(String(data.annee))) // 👈 ici
+      .map(uniData => ({
+        etablissement: `${uni} (${uniData.annee})`,
+        annee: uniData.annee,
+        total_admis: uniData.effectif_total_candidats_admis || 0,
+        pct_boursiers: uniData.effectif_total_candidats_admis > 0
+          ? Math.round(uniData.effectif_boursiers_admis * 1000 / uniData.effectif_total_candidats_admis) / 10
+          : 0,
+        pct_bac_general: uniData.effectif_total_candidats_admis > 0
+          ? Math.round(uniData.effectif_generaux_admis * 1000 / uniData.effectif_total_candidats_admis) / 10
+          : 0
+      }));
+  });
 
 
+  this.createQuotasChart(); 
+ *//* 
 
+          this.quotasData = Object.keys(this.universitesData)
+          .slice(0, 2)
+          .flatMap(uni => {
+            return this.universitesData[uni]
+              .filter(data =>
+                this.anneesActuelles.includes(String(data.annee)) &&
+                data.effectif_total_candidats_admis > 0
+              )
+              .map(uniData => ({
+                etablissement: `${uni} (${uniData.annee})`,
+                annee: uniData.annee,
+                total_admis: uniData.effectif_total_candidats_admis || 0,
+                pct_boursiers: Math.min(
+                  Math.round(uniData.effectif_boursiers_admis * 1000 / uniData.effectif_total_candidats_admis) / 10,
+                  100
+                ),
+                pct_bac_general: Math.min(
+                  Math.round(uniData.effectif_generaux_admis * 1000 / uniData.effectif_total_candidats_admis) / 10,
+                  100
+                )
+              }));
+          }); */
+          /* this.quotasData = Object.keys(this.universitesData)
+          .slice(0, 2) // seulement 2 universités
+          .flatMap(uni => {
+            return this.universitesData[uni]
+              .filter(data => this.anneesActuelles.includes(String(data.annee)))
+              .map(uniData => {
+                const total = Number(uniData.effectif_total_candidats_admis) || 0;
+                const pct_boursiers = parseFloat(uniData.pct_boursiers.replace('%', '')) || 0;
+                const pct_bac_general = parseFloat(uniData.pct_bac_general.replace('%', '')) || 0;
+
+                return {
+                  etablissement: `${uni} (${uniData.annee})`,
+                  annee: uniData.annee,
+                  total_admis: total,
+                  pct_boursiers: pct_boursiers,
+                  pct_bac_general: pct_bac_general
+                };
+              });
+          });
+
+
+        this.createQuotasChart(); */
 
 
 
@@ -544,7 +608,7 @@ ngOnInit(): void {
 
 
 
-    
+    /* 
     createQuotasChart() {
       const ctx = document.getElementById('quotasChart') as HTMLCanvasElement;
       const existingChart = Chart.getChart(ctx);
@@ -590,7 +654,56 @@ ngOnInit(): void {
       });
     }
 
+ */
 
+    
+    createQuotasChart() {
+      console.log('Données pour le graphique:', this.quotasData);  // Vérifie les données
+      
+      const ctx = document.getElementById('quotasChart') as HTMLCanvasElement;
+      const existingChart = Chart.getChart(ctx);
+      if (existingChart) existingChart.destroy();
+      
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: this.quotasData.map(d => d.etablissement),
+          datasets: [
+            {
+              label: '% Boursiers',
+              data: this.quotasData.map(d => d.pct_boursiers),
+              backgroundColor: '#4e79a7'
+            },
+            {
+              label: '% Bac général',
+              data: this.quotasData.map(d => d.pct_bac_general),
+              backgroundColor: '#f28e2b'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: 'Comparaison entre 2 universités'
+            }
+          }
+        }
+      });
+    }
+    
 
 
 

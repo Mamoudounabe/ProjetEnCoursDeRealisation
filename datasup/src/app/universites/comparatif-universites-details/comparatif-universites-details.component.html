@@ -41,13 +41,13 @@
     
     
     <!-- --------------------------------------------------------------------------------------- -->
-    <div [ngSwitch]="selectedOption">
+    <!-- <div [ngSwitch]="selectedOption"> -->
     
     <!-- --------------------------------------------------------------------------------------- -->
      
     
     <!-- debut sous bouton 1 -->
-    <div *ngSwitchCase="'nombre_de_candidats'" >
+    <div [hidden]="selectedOption!=='nombre_de_candidats'" >
        <div class="sous-boutons"   > 
         <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption"> 
         <mat-button-toggle value="neobachelier"  class="bold-toggle">Néo-bacheliers</mat-button-toggle>
@@ -56,11 +56,11 @@
       </mat-button-toggle-group>
       </div>
     <!-- --------------------------------------------------------------------------------------- -->
-      <div [ngSwitch]="selectedSousOption">
+      <!-- <div [ngSwitch]="selectedSousOption"> -->
     
     <!-- --------------------------------------------------------------------------------------- -->
     
-      <div  *ngSwitchCase="'neobachelier'">
+      <div [hidden]="selectedSousOption!=='neobachelier'">
         <div class="sous-boutons"> 
           <!-- <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1" (change)="updateChart()"> -->
           <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1" >
@@ -97,7 +97,7 @@
       
 
 
-      <div  *ngSwitchCase="'touslescandidats'">
+      <div [hidden]="selectedSousOption!=='touslescandidats'">
         <!-- --------------------------------------------------------------------------------------- -->
         
             <div class="sous-boutons"   > 
@@ -110,7 +110,8 @@
           </div>
 
 
-          <div  *ngSwitchCase="'neoBachierlierstechnologique'">
+          <div  [hidden]="selectedSousOption!=='neoBachierlierstechnologique'">
+        
             <!-- --------------------------------------------------------------------------------------- -->
                 <div class="sous-boutons"   > 
                   <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
@@ -148,22 +149,22 @@
     
     
     
-    <div *ngSwitchCase="'nombre_dadmis'" >
+    <div [hidden]="selectedOption!=='nombre_dadmis'">
+
     
       <div class="sous-boutons"   > 
-      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption"> 
       <mat-button-toggle value="neo_admis"  class="bold-toggle">Néo-bacheliers</mat-button-toggle>
       <mat-button-toggle value="touslescandidatsadmis" class="bold-toggle">Tous les candidats</mat-button-toggle> 
       <mat-button-toggle value="neoBachierlierstechnoadmis" class="bold-toggle">Néo_bacheliers_technologiques</mat-button-toggle> 
-    </mat-button-toggle-group>
-    </div>
+      </mat-button-toggle-group>
+      </div>
     
     
-       
-        <div [ngSwitch]="selectedSousOption1">
+  
     
-    
-        <div  *ngSwitchCase="'neo_admis'">
+          <div [hidden]="selectedSousOption1!=='nombre_dadmis'">
+        
           <div class="sous-boutons"   > 
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"  > 
             <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
@@ -174,8 +175,8 @@
         </div>
       
     
-        <div *ngSwitchCase="'touslescandidatsadmis'">
-    
+      
+          <div [hidden]="selectedSousOption1!=='touslescandidatsadmis'">
           <div class="sous-boutons"   > 
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
             <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
@@ -187,7 +188,9 @@
       
     
     
-        <div  *ngSwitchCase="'neoBachierlierstechnoadmis'">
+       
+          
+          <div [hidden]="selectedSousOption1!=='neoBachierlierstechnoadmis'"></div>
           <div class="sous-boutons"   > 
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1"> 
             <mat-button-toggle value="ppneo"  class="bold-toggle">Phase Principale</mat-button-toggle>
@@ -203,7 +206,7 @@
     
     
        </div>
-    </div>
+
     
     
     
@@ -211,10 +214,10 @@
   
   
     <!-- fin du bloc -->
+   
+  <!--   </div>
     </div>
-    </div>
-    </div>
-
+ -->
 
 
 
@@ -237,7 +240,7 @@
 
     <!-- -----------------------------------    options Quotas         ------------------------------------------------------------------- -->
     
-  <!--   <div *ngSwitchCase="'quotas_applicables'" > -->
+  <!--   <div [hidden]="'quotas_applicables'" > -->
       <div class="sous-boutons"   > 
       <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOptionQ "> 
       <mat-button-toggle value="boursiersSecondaire"  class="bold-toggle">Boursiers du secondaire</mat-button-toggle>
@@ -444,13 +447,13 @@
     </div>
 
     <!-- sans mention -->
-  <div class="graphe" [hidden]="selectedOption1 !== 'sans_mention'">
+ <!--  <div class="graphe" [hidden]="selectedOption1 !== 'sans_mention'">
     <div class="chart-container">
       <h2>Sans mention</h2>
       <canvas id="chartSansMention"></canvas>
   
       </div>
-    </div>
+    </div> -->
 
 
 
