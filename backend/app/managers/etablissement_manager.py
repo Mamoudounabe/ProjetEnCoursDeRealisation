@@ -825,7 +825,7 @@ class EtablissementManager:
             OPTIONAL MATCH (a)-[:HAS_TERMINALE]->(t:Terminal)
             OPTIONAL MATCH (c)-[:HAS_COMPLEMENT_PHASE]->(cp:ComplementPhase)
 
-            
+        
             WITH 
                 split(e.etablissement, " - ")[0] AS universite_principale,
                 
@@ -897,8 +897,10 @@ class EtablissementManager:
                 SUM(toInteger(a.effectif_admis_proposition_avant_baccalaureat)) AS effectif_admis_proposition_avant_baccalaureat,
                 SUM(toInteger(a.effectif_generaux_mention_bac_admis)) AS effectif_generaux_mention_bac_admis,
                 SUM(toInteger(a.effectif_technologiques_admis)) AS effectif_technologiques_admis,
+                SUM(toInteger(a.effectif_neo_bacheliers_sans_info_mention_bac_admis)) AS effectif_neo_bacheliers_sans_info_mention_bac_admis,
                 
-                // Compter le nombre de filières distinctes
+                
+                
                 COUNT(DISTINCT f) AS nombre_filieres,
                 s.annee AS annee
                 
@@ -911,6 +913,23 @@ class EtablissementManager:
                     ELSE 
                         0
                 END AS moyenne_effectif_admis_meme_academie,
+                  
+
+                                CASE 
+                    WHEN effectif_total_candidats_admis > 0 THEN 
+                        ROUND((effectif_boursiers_admis * 100.0 / effectif_total_candidats_admis), 1) + "%"
+                    ELSE 
+                        "0%"
+                END AS pct_boursiers,
+                CASE 
+                    WHEN effectif_total_candidats_admis > 0 THEN 
+                        ROUND((effectif_generaux_admis * 100.0 / effectif_total_candidats_admis), 1) + "%"
+                    ELSE 
+                        "0%"
+                END AS pct_bac_general,
+
+                
+
                 annee,
                 capacite_etablissement_formation,
                 taux_acces,
@@ -970,7 +989,8 @@ class EtablissementManager:
                 effectif_admis_meme_academie_paris_creteil_versailles,
                 effectif_admis_proposition_avant_baccalaureat,
                 effectif_generaux_mention_bac_admis,
-                effectif_technologiques_admis
+                effectif_technologiques_admis,
+                effectif_neo_bacheliers_sans_info_mention_bac_admis
         """
 
         try:
@@ -998,225 +1018,6 @@ class EtablissementManager:
         
 
 
-
-
-    @staticmethod
-    def get_comp_universiteunique(nomuniversites: List[str], anneesActuelles: List[str] = ["2020", "2021", "2022", "2023"]) -> List[Dict[str, Any]]:
-        query = """
-        // Vérification des années disponibles
-        MATCH (s:Session)
-        WHERE s.annee IN $anneesActuelles
-        WITH COLLECT(DISTINCT s.annee) AS annees_disponibles
-        
-        // Filtrage des années demandées qui existent réellement dans la base
-        WITH [annee IN $anneesActuelles WHERE annee IN annees_disponibles] AS annees_filtrees
-        
-        UNWIND annees_filtrees AS annee_cible
-        MATCH (e:Etablissement)
-        WHERE ANY(nom IN $nomuniversites WHERE e.etablissement CONTAINS nom)
-        OPTIONAL MATCH (s:Session {annee : annee_cible})-[:HAS_ETABLISSEMENT]->(e)
-        
-        // Relations avec filtrage par année
-        OPTIONAL MATCH (e)-[r_offers:OFFERS]->(f:Filiere)
-        WHERE r_offers.annee = annee_cible OR r_offers.annee IS NULL
-        
-        OPTIONAL MATCH (e)-[r_taux:HAS_TAUX_ACCES]->(cl:ClassementRang)
-        WHERE r_taux.annee = annee_cible OR r_taux.annee IS NULL
-        
-        OPTIONAL MATCH (e)-[r_cand:HAS_CANDIDAT]->(c:Candidat)
-        WHERE r_cand.annee = annee_cible OR r_cand.annee IS NULL
-        
-        OPTIONAL MATCH (c)-[r_bach:HAS_BACHELIER]->(b:Bachelier)
-        WHERE r_bach.annee = annee_cible OR r_bach.annee IS NULL
-        
-        OPTIONAL MATCH (e)-[r_adm:HAS_ADMISSION]->(a:Admission)
-        WHERE r_adm.annee = annee_cible OR r_adm.annee IS NULL
-        
-        OPTIONAL MATCH (e)-[r_prop:HAS_PROPORTION]->(p:Proportion)
-        WHERE r_prop.annee = annee_cible OR r_prop.annee IS NULL
-        
-        OPTIONAL MATCH (e)-[r_term:HAS_TERMINAL]->(t:Terminal)
-        WHERE r_term.annee = annee_cible OR r_term.annee IS NULL
-        
-        OPTIONAL MATCH (e)-[r_comp:HAS_COMPLEMENTAIRE]->(cp:Complementaire)
-        WHERE r_comp.annee = annee_cible OR r_comp.annee IS NULL
-        
-        WITH 
-            split(e.etablissement, " - ")[0] AS universite_principale,
-            annee_cible AS annee,
-            COUNT(DISTINCT f) AS nombre_filieres,
-            COALESCE(SUM(toInteger(f.capacite_etablissement_formation)), 0) AS capacite_etablissement_formation,
-            COALESCE(ROUND(AVG(toInteger(cl.taux_acces)), 2), 0) AS taux_acces,
-            COALESCE(MAX(toInteger(cl.rang_dernier_appele_groupe_3)), 0) AS rang_dernier_appele_groupe_3,
-            COALESCE(MAX(toInteger(cl.rang_dernier_appele_groupe_2)), 0) AS rang_dernier_appele_groupe_2,
-            COALESCE(MAX(toInteger(cl.rang_dernier_appele_groupe_1)), 0) AS rang_dernier_appele_groupe_1,
-            COALESCE(AVG(toInteger(cl.part_terminales_generales_position_recevoir_proposition_phase_principale)), 0) AS part_terminales_generales,
-            COALESCE(AVG(toInteger(cl.part_terminales_technologiques_position_recevoir_proposition_phase_principale)), 0) AS part_terminales_technologiques,
-            COALESCE(AVG(toInteger(cl.part_terminales_professionnelles_position_recevoir_proposition_phase_principale)), 0) AS part_terminales_professionnelles,
-            COALESCE(SUM(toInteger(c.effectif_total_candidats_formation)), 0) AS effectif_total_candidats_formation,
-            COALESCE(SUM(toInteger(c.effectif_total_candidats_phase_principale)), 0) AS effectif_total_candidats_phase_principale,
-            COALESCE(SUM(toInteger(c.effectif_candidates_formation)), 0) AS effectif_candidates_formation,
-            COALESCE(AVG(toInteger(p.proportion_neo_bacheliers_meme_etablissement_bts_cpge)), 0) AS proportion_neo_bacheliers_meme_etablissement,
-            COALESCE(AVG(toInteger(p.proportion_technologiques_admis_mention)), 0) AS proportion_technologiques_admis_mention,
-            COALESCE(AVG(toInteger(p.proportion_neo_bacheliers_meme_academie)), 0) AS proportion_neo_bacheliers_meme_academie,
-            COALESCE(AVG(toInteger(p.proportion_neo_bacheliers_admis)), 0) AS proportion_neo_bacheliers_admis,
-            COALESCE(AVG(toInteger(p.proportion_neo_bacheliers_sans_mention_bac_admis)), 0) AS proportion_neo_bacheliers_sans_mention,
-            COALESCE(AVG(toInteger(p.proportion_professionnels_admis_mention)), 0) AS proportion_professionnels_admis_mention,
-            COALESCE(AVG(toInteger(p.proportion_neo_bacheliers_boursiers)), 0) AS proportion_neo_bacheliers_boursiers,
-            COALESCE(SUM(toInteger(t.effectif_candidats_terminal_technologique_proposition_admission)), 0) AS effectif_terminal_technologique,
-            COALESCE(SUM(toInteger(t.effectif_boursiers_terminal_generale_professionnelle_proposition_admission)), 0) AS effectif_boursiers_terminal_generale_pro,
-            COALESCE(SUM(toInteger(t.effectif_boursiers_terminal_generale_proposition_admission)), 0) AS effectif_boursiers_terminal_generale,
-            COALESCE(SUM(toInteger(t.effectif_candidats_terminal_professionnelle_proposition_admission)), 0) AS effectif_terminal_professionnelle,
-            COALESCE(SUM(toInteger(t.effectif_boursiers_terminal_technologique_proposition_admission)), 0) AS effectif_boursiers_terminal_technologique,
-            COALESCE(SUM(toInteger(b.effectif_neo_bacheliers_generaux_phase_principale)), 0) AS effectif_neo_bacheliers_generaux,
-            COALESCE(SUM(toInteger(b.effectif_neo_bacheliers_technologiques_phase_principale)), 0) AS effectif_neo_bacheliers_technologiques,
-            COALESCE(SUM(toInteger(b.effectif_neo_bacheliers_professionnels_phase_principale)), 0) AS effectif_neo_bacheliers_professionnels,
-            COALESCE(SUM(toInteger(b.effectif_boursiers_professionnels_phase_principale)), 0) AS effectif_boursiers_professionnels,
-            COALESCE(SUM(toInteger(b.effectif_autres_candidats_phase_principale)), 0) AS effectif_autres_candidats,
-            COALESCE(SUM(toInteger(b.effectif_boursiers_generaux_phase_principale)), 0) AS effectif_boursiers_generaux_phase_principale,
-            COALESCE(SUM(toInteger(b.effectif_boursiers_technologiques_phase_principale)), 0) AS effectif_boursiers_technologiques,
-            COALESCE(SUM(toInteger(cp.effectif_neo_bacheliers_technologiques_phase_complementaire)), 0) AS effectif_neo_bacheliers_technologiques_complementaire,
-            COALESCE(SUM(toInteger(cp.effectif_neo_bacheliers_generaux_phase_complementaire)), 0) AS effectif_neo_bacheliers_generaux_complementaire,
-            COALESCE(SUM(toInteger(cp.effectif_total_candidats_phase_complementaire)), 0) AS effectif_total_candidats_complementaire,
-            COALESCE(SUM(toInteger(a.effectif_admis_proposition_avant_fin_procedure_principale)), 0) AS effectif_admis_avant_fin_procedure,
-            COALESCE(SUM(toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)), 0) AS effectif_neo_bacheliers_mention_bien,
-            COALESCE(SUM(toInteger(a.effectif_candidates_admises)), 0) AS effectif_candidates_admises,
-            COALESCE(SUM(toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis)), 0) AS effectif_neo_bacheliers_mention_assez_bien,
-            COALESCE(SUM(toInteger(a.effectif_admis_phase_principale)), 0) AS effectif_admis_phase_principale,
-            COALESCE(SUM(toInteger(a.effectif_total_candidats_proposition_admission)), 0) AS effectif_total_proposition_admission,
-            COALESCE(SUM(toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)), 0) AS effectif_neo_bacheliers_mention_tres_bien,
-            COALESCE(SUM(toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)), 0) AS effectif_neo_bacheliers_sans_mention,
-            COALESCE(SUM(toInteger(a.effectif_generaux_admis)), 0) AS effectif_generaux_admis,
-            COALESCE(SUM(toInteger(a.effectif_admises_meme_etablissement_bts_cpge)), 0) AS effectif_admises_meme_etablissement,
-            COALESCE(SUM(toInteger(a.effectif_total_candidats_admis)), 0) AS effectif_total_admis,
-            COALESCE(SUM(toInteger(a.effectif_technologiques_mention_bac_admis)), 0) AS effectif_technologiques_mention_admis,
-            COALESCE(SUM(toInteger(a.effectif_neo_bacheliers_admis)), 0) AS effectif_neo_bacheliers_admis,
-            COALESCE(SUM(toInteger(a.effectif_professionnels_mention_bac_admis)), 0) AS effectif_professionnels_mention_admis,
-            COALESCE(SUM(toInteger(a.effectif_professionnels_admis)), 0) AS effectif_professionnels_admis,
-            COALESCE(SUM(toInteger(a.effectif_autres_admis)), 0) AS effectif_autres_admis,
-            COALESCE(SUM(toInteger(a.effectif_boursiers_admis)), 0) AS effectif_boursiers_admis,
-            COALESCE(SUM(toInteger(a.effectif_admis_meme_academie)), 0) AS effectif_admis_meme_academie,
-            COALESCE(SUM(toInteger(a.effectif_admis_meme_etablissement_bts_cpge)), 0) AS effectif_admis_meme_etablissement,
-            COALESCE(SUM(toInteger(a.effectif_admis_proposition_ouverture_phase_principale)), 0) AS effectif_admis_ouverture_phase_principale,
-            COALESCE(SUM(toInteger(a.effectif_admis_phase_complementaire)), 0) AS effectif_admis_phase_complementaire,
-            COALESCE(SUM(toInteger(a.effectif_neo_bacheliers_mention_tres_bien_bac_admis)), 0) AS effectif_neo_bacheliers_mention_tres_bien_bac,
-            COALESCE(SUM(toInteger(a.effectif_admis_meme_academie_paris_creteil_versailles)), 0) AS effectif_admis_meme_academie_paris,
-            COALESCE(SUM(toInteger(a.effectif_admis_proposition_avant_baccalaureat)), 0) AS effectif_admis_avant_bac,
-            COALESCE(SUM(toInteger(a.effectif_generaux_mention_bac_admis)), 0) AS effectif_generaux_mention_admis,
-            COALESCE(SUM(toInteger(a.effectif_technologiques_admis)), 0) AS effectif_technologiques_admis
-            
-        RETURN 
-            universite_principale AS etablissement,
-            annee,
-            nombre_filieres,
-            capacite_etablissement_formation,
-            taux_acces,
-            rang_dernier_appele_groupe_3,
-            rang_dernier_appele_groupe_2,
-            rang_dernier_appele_groupe_1,
-            part_terminales_generales,
-            part_terminales_technologiques,
-            part_terminales_professionnelles,
-            effectif_total_candidats_formation,
-            effectif_total_candidats_phase_principale,
-            effectif_candidates_formation,
-            proportion_neo_bacheliers_meme_etablissement,
-            proportion_technologiques_admis_mention,
-            proportion_neo_bacheliers_meme_academie,
-            proportion_neo_bacheliers_admis,
-            proportion_neo_bacheliers_sans_mention,
-            proportion_professionnels_admis_mention,
-            proportion_neo_bacheliers_boursiers,
-            effectif_terminal_technologique,
-            effectif_boursiers_terminal_generale_pro,
-            effectif_boursiers_terminal_generale,
-            effectif_terminal_professionnelle,
-            effectif_boursiers_terminal_technologique,
-            effectif_neo_bacheliers_generaux,
-            effectif_neo_bacheliers_technologiques,
-            effectif_neo_bacheliers_professionnels,
-            effectif_boursiers_professionnels,
-            effectif_autres_candidats,
-            effectif_boursiers_generaux_phase_principale,
-            effectif_boursiers_technologiques,
-            effectif_neo_bacheliers_technologiques_complementaire,
-            effectif_neo_bacheliers_generaux_complementaire,
-            effectif_total_candidats_complementaire,
-            effectif_admis_avant_fin_procedure,
-            effectif_neo_bacheliers_mention_bien,
-            effectif_candidates_admises,
-            effectif_neo_bacheliers_mention_assez_bien,
-            effectif_admis_phase_principale,
-            effectif_total_proposition_admission,
-            effectif_neo_bacheliers_mention_tres_bien,
-            effectif_neo_bacheliers_sans_mention,
-            effectif_generaux_admis,
-            effectif_admises_meme_etablissement,
-            effectif_total_admis,
-            effectif_technologiques_mention_admis,
-            effectif_neo_bacheliers_admis,
-            effectif_professionnels_mention_admis,
-            effectif_professionnels_admis,
-            effectif_autres_admis,
-            effectif_boursiers_admis,
-            effectif_admis_meme_academie,
-            effectif_admis_meme_etablissement,
-            effectif_admis_ouverture_phase_principale,
-            effectif_admis_phase_complementaire,
-            effectif_neo_bacheliers_mention_tres_bien_bac,
-            effectif_admis_meme_academie_paris,
-            effectif_admis_avant_bac,
-            effectif_generaux_mention_admis,
-            effectif_technologiques_admis
-        ORDER BY etablissement, annee
-        """
-        
-        try:
-            db = Neo4JDriver.get_driver()
-            with db.session() as session:
-                # Test debug optimisé
-                test_query = """
-                WITH ["2020", "2021", "2022", "2023"] AS annees_test
-                MATCH (e:Etablissement)
-                WHERE ANY(nom IN $nomuniversites WHERE e.etablissement CONTAINS nom)
-                MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e)
-                WHERE s.annee IN annees_test
-                RETURN 
-                    e.etablissement AS nom, 
-                    s.annee AS annee,
-                    COUNT(DISTINCT [(e)-[:OFFERS]->(f) | f]) AS nb_filieres,
-                    SUM(toInteger([(e)-[:OFFERS]->(f) | f.capacite_etablissement_formation][0])) AS capacite_totale
-                ORDER BY annee, nb_filieres DESC
-                LIMIT 10
-                """
-                
-                test_results = session.run(test_query, {"nomuniversites": nomuniversites})
-                print("=== DEBUG MULTI-ANNEES ===")
-                for record in test_results:
-                    print(f"{record['annee']} - {record['nom']} - {record['nb_filieres']} filières - Capacité: {record['capacite_totale']}")
-                
-                # Exécution principale
-                results = session.run(query, {
-                    "nomuniversites": nomuniversites,
-                    "anneesActuelles": anneesActuelles
-                })
-                
-                records = []
-                for record in results:
-                    data = record.data()
-                    # Conversion des None en 0 pour tous les champs numériques
-                    for key in data:
-                        if isinstance(data[key], (int, float)) or any(k in key for k in ['effectif', 'proportion', 'taux', 'capacite', 'rang']):
-                            data[key] = data[key] if data[key] is not None else 0
-                    records.append(data)
-                
-                return records
-
-        except Exception as e:
-            print(f"Erreur dans get_comp_universite: {str(e)}")
-            traceback.print_exc()
-            return []
-        
 
     @staticmethod
     def get_nbFilieresParRegion(annee: str, region: str) -> List[Dict[str, Any]]:
