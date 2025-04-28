@@ -81,7 +81,12 @@ export class ComparatifUniversitesDetailsComponent implements OnInit {
   chart: any;
   isLoading = true;
 
-  universitesData: Record<string, any[]> = {};
+ /*  universitesData: Record<string, any[]> = {}; */
+  moyenneEffectifsAdmis!: number; 
+
+// Déclaration correcte du tableau d'objets
+public universitesData: any[] = [];  // Tableau contenant les données des universités
+
 
 
   quotasData: Array<{
@@ -111,16 +116,16 @@ selectedSousOption11: string= 'mention_technologique';
 
 /* ----------------------------------------------bloc 3---------------------------------------------------------------- */
 
-selectedOption2 : string = 'duree_du_processus';
-selectedSousOptionSelect: string = 'Admis_Avant_Bac'; 
+selectedOption2 : string = 'taux_dacces';
+selectedSousOptionSelect: string = 'taux_acces'; 
 
 /* --------------------------------------------------------------------------------------------------------------------- */
 
 /* --------------------------------------------bloc 4------------------------------------------------------------------- */
 
-selectedOption3 : string = 'moyenne';
+selectedOption3 : string = 'frequence';
 
-selectedSousOption3 : string = '';
+selectedSousOption3 : string = 'generales';
 
 /* ---------------------------------------------------------------------------------------------------------------------- */
 
@@ -166,6 +171,69 @@ ngOnInit(): void {
       this.selectedSousOption1 = 'ppneo';
     } */
 
+}
+
+
+
+
+// Méthode pour calculer les moyennes des effectifs admis
+calculerMoyenneEffectifsAdmis(): void {
+  // Utilisation de "forEach" pour itérer sur chaque université
+  this.universitesData.forEach((universite: any) => {
+    const effectifAdmis = {
+      neo_bacheliers: universite.effectif_neo_bacheliers_admis,
+      professionnels_admis: universite.effectif_professionnels_admis,
+      technologiques_admis: universite.effectif_technologiques_admis,
+      boursiers_admis: universite.effectif_boursiers_admis,
+      generaux_admis: universite.effectif_generaux_admis
+    };
+
+    // Calcul de la somme des effectifs admis
+    const totalEffectifAdmis = Object.values(effectifAdmis).reduce((total, effectif) => total + effectif, 0);
+    const nombreCategories = Object.keys(effectifAdmis).length;
+    const moyenneEffectifsAdmis = totalEffectifAdmis / nombreCategories;
+
+    // Ajout de la moyenne dans l'université
+    universite.moyenne_effectif_admis = moyenneEffectifsAdmis;
+
+    // Affichage de la moyenne dans la console
+    console.log(`Moyenne des effectifs admis pour ${universite.etablissement} (${universite.annee}): ${moyenneEffectifsAdmis}`);
+  });
+}
+
+// Méthode pour construire le graphique avec la variable `chart` existante
+buildGraph(): void {
+  // Utilisation de "map" pour obtenir les labels et les données pour le graphique
+  const labels = this.universitesData.map((universite: any) => universite.etablissement);
+  const data = this.universitesData.map((universite: any) => universite.moyenne_effectif_admis);
+
+  // Utilisation de la variable 'chart' existante pour créer ou mettre à jour le graphique
+  if (this.chart) {
+    // Si le graphique existe déjà, on le détruit avant de le recréer
+    this.chart.destroy();
+  }
+
+  // Création d'un nouveau graphique
+  this.chart = new Chart('canvas', {
+    type: 'bar',  // Type de graphique : barres
+    data: {
+      labels: labels,  // Labels des universités
+      datasets: [{
+        label: 'Moyenne des effectifs admis',
+        data: data,  // Données des moyennes
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',  // Couleur de fond
+        borderColor: 'rgba(54, 162, 235, 1)',  // Couleur des bordures
+        borderWidth: 1  // Largeur des bordures
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true  // Commencer l'axe Y à 0
+        }
+      }
+    }
+  });
 }
 
 
@@ -291,7 +359,14 @@ ngOnInit(): void {
 /* effectif_admis_proposition_ouverture_phase_principale: universite.effectif_admis_proposition_ouverture_phase_principale || 0,
 effectif_admis_proposition_avant_fin_procedure_principale : universite.effectif_admis_proposition_avant_fin_procedure_principale || 0,
       */
-      
+/* part_terminales_generales_position_recevoir_proposition_phase_principale: universite.part_terminales_generales_position_recevoir_proposition_phase_principale || 0,
+part_terminales_technologiques_position_recevoir_proposition_phase_principale: universite.part_terminales_technologiques_position_recevoir_proposition_phase_principale || 0,
+part_terminales_professionnelles_position_recevoir_proposition_phase_principale: universite.part_terminales_professionnelles_position_recevoir_proposition_phase_principale || 0, */
+
+part_terminales_generales_position_recevoir_proposition_phase_principale: universite.part_terminales_generales_position_recevoir_proposition_phase_principale ? parseFloat(universite.part_terminales_generales_position_recevoir_proposition_phase_principale.toFixed(2)) : 0,
+part_terminales_technologiques_position_recevoir_proposition_phase_principale: universite.part_terminales_technologiques_position_recevoir_proposition_phase_principale ? parseFloat(universite.part_terminales_technologiques_position_recevoir_proposition_phase_principale.toFixed(2)) : 0,
+part_terminales_professionnelles_position_recevoir_proposition_phase_principale: universite.part_terminales_professionnelles_position_recevoir_proposition_phase_principale ? parseFloat(universite.part_terminales_professionnelles_position_recevoir_proposition_phase_principale.toFixed(2)) : 0,
+
 
 
             });
@@ -522,6 +597,17 @@ effectif_admis_proposition_avant_fin_procedure_principale : universite.effectif_
         this.createChart('differenceCandidatesAdmis', 'chartDifferenceCandidatesAdmis', 'Différence Candidates Admis', ['#009FE3', '#A3D39C']);
         this.createChart('effectif_boursiers_admis', 'chartBoursiersAdmis', 'Boursiers Admis', ['#009FE3', '#A3D39C']);
         this.createChart('taux_acces', 'chartTauxAcces', 'Taux d\'Accès', ['#009FE3', '#A3D39C']);
+        this.createChart('part_terminales_generales_position_recevoir_proposition_phase_principale', 'chartPartTerminalesGenerales', 'Part Terminales Générales Position Recevoir Proposition Phase Principale', ['#009FE3', '#A3D39C']);
+        this.createChart('part_terminales_technologiques_position_recevoir_proposition_phase_principale', 'chartPartTerminalesTechnologiques', 'Part Terminales Technologiques Position Recevoir Proposition Phase Principale', ['#009FE3', '#A3D39C']);
+        this.createChart('part_terminales_professionnelles_position_recevoir_proposition_phase_principale', 'chartPartTerminalesProfessionnelles', 'Part Terminales Professionnelles Position Recevoir Proposition Phase Principale', ['#009FE3', '#A3D39C']);
+
+
+
+        
+        this.calculerMoyenneEffectifsAdmis();
+
+          
+          this.buildGraph();
 
 
           this.isLoading = false; //  Fin du chargement une fois tout prêt

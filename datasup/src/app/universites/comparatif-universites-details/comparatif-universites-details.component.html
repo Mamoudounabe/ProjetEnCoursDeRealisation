@@ -358,19 +358,7 @@
 
 
 
- 
 
-    <!-- sexe -->
-<!-- <div>
-  <div class="graphe" [hidden]="selectedOption1!== 'sexe'">
-    <div class="chart-container">
-      <h2>Effectif Candidates admises</h2>
-      <canvas id="chartCandidatesAdmises"></canvas>
-    </div>
-    </div>
-
-  </div>
- -->
 
 
 
@@ -442,10 +430,28 @@
 
 
 
+<!-- <div [hidden]="selectedOption1 !== 'boursiers'">
+  <div class="sous-boutons">
+    <mat-button-toggle-group name="typeBacGroup" aria-label="Type de Bac" [(ngModel)]="selectedSousOption11">
+      <mat-button-toggle value="boursiers_admis" class="bold-toggle">Effectif total Boursiers</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 
 
 
-<div [hidden]="selectedOption1 !== 'boursiers'">
+  <div [hidden]="selectedSousOption11 !== 'boursiers_admis'">
+    <div class="graphe">
+      <div class="chart-container">
+        <h2>Effectif total Boursiers Admis</h2>
+        <canvas id="chartBoursiersAdmis"></canvas>
+      </div>
+    </div>
+
+</div>
+</div>
+ -->
+
+ <div [hidden]="selectedOption1 !== 'boursiers'">
   <div class="graphe">
     <div class="chart-container">
       <h2>Effectif total Boursiers Admis</h2>
@@ -454,7 +460,7 @@
   </div>
 </div>
 
-  
+
 
   <!-- Section pour 'academie' et 'type_de_bac' -->
   <!-- Ajoute des sections similaires selon les besoins -->
@@ -534,7 +540,7 @@
     <div class="graphe" [hidden]="selectedSousOptionSelect !== 'admis_avant_fin'">
       <div class="chart-container">
         <h2>Admis avant fin de la procédure</h2>
-        <canvas id="cchartAdmisPropositionAvantFin"></canvas>
+        <canvas id="chartAdmisPropositionAvantFin"></canvas>
       </div>
     </div>
   </div>
@@ -591,25 +597,25 @@
 <div class="bouton">  
   <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption4"> 
     <mat-button-toggle value="resultats_academiques" class="bold-toggle">Résultats academiques</mat-button-toggle>
-    <mat-button-toggle value="competence_academique" class="bold-toggle"> Competences academiques</mat-button-toggle>
-    <mat-button-toggle value="engagement_et_activite" class="bold-toggle"> Engagements et activités</mat-button-toggle>
+   <!--  <mat-button-toggle value="competence_academique" class="bold-toggle"> Competences academiques</mat-button-toggle>
+    <mat-button-toggle value="engagement_et_activite" class="bold-toggle"> Engagements et activités</mat-button-toggle> -->
   </mat-button-toggle-group>
 </div>
 
 
 
 <!-- debut sous bouton  -->
-<div class="sous-boutons"   > 
+<!-- <div class="sous-boutons"   > 
   <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption4"> 
   <mat-button-toggle value="projet_et_motivation"  class="bold-toggle"> projet et motivation </mat-button-toggle>
   <mat-button-toggle value="savoir_etre" class="bold-toggle"> Savoir-etre </mat-button-toggle> 
 </mat-button-toggle-group>
- </div>
+ </div> -->
+
+ 
 
 
-
-
- <div *ngIf="selectedOption4 === 'resultats_academiques'" class="graphe">
+ <div [hidden]="selectedOption4 !== 'resultats_academiques'" class="graphe">
   <div class="chart-container">
       <h2>Résultats academique</h2>
       <canvas id="chartAdmisAcademie"></canvas>
@@ -632,57 +638,85 @@
 
 <!-- ------------------------------------------------------- block 5 -------------------------------------------------------------------- -->
 
-
-
-
-<div  class="block">
-
+<div class="block">
   <div class="menu">
-  <div class="fd1">
-  <h1 class="titre">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-     <i class="fas fa-check-double"></i> <b style="color:#d63384;">Nouveauté</b> : Moyennes de terminale
-  </h1>
+    <div class="fd1">
+      <h1 class="titre">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <i class="fas fa-check-double"></i> <b style="color:#d63384;">Nouveauté</b> : Moyennes de terminale
+      </h1>
+    </div>
   </div>
+
+  <div class="bouton">
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption3">
+      <mat-button-toggle value="frequence" class="bold-toggle">Fréquence d'envoi des propositions</mat-button-toggle>
+      <mat-button-toggle value="moyenne" class="bold-toggle">Moyennes de terminale des admis</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <!-- Section Fréquence d'envoi des propositions -->
+  <div [hidden]="selectedOption3 !== 'frequence'">
+    <div class="sous-boutons">
+      <mat-button-toggle-group name="sousOptionFrequence" aria-label="Sélection Fréquence" [(ngModel)]="selectedSousOption3">
+        <mat-button-toggle value="generales" class="bold-toggle">Terminales générales</mat-button-toggle>
+        <mat-button-toggle value="technologiques" class="bold-toggle">Terminales technologiques</mat-button-toggle>
+        <mat-button-toggle value="professionnelles" class="bold-toggle">Terminales professionnelles</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <!-- Graphiques Fréquence -->
+    <div class="graphe" [hidden]="selectedSousOption3 !== 'generales'">
+      <div class="chart-container">
+        <h2>Fréquence d'envoi - Terminales générales</h2>
+        <canvas id="chartPartTerminalesGenerales"></canvas>
+      </div>
+    </div>
+
+    <div class="graphe" [hidden]="selectedSousOption3 !== 'technologiques'">
+      <div class="chart-container">
+        <h2>Fréquence d'envoi - Terminales technologiques</h2>
+        <canvas id="chartPartTerminalesTechnologiques"></canvas>
+      </div>
+    </div>
+
+    <div class="graphe" [hidden]="selectedSousOption3 !== 'professionnelles'">
+      <div class="chart-container">
+        <h2>Fréquence d'envoi - Terminales professionnelles</h2>
+        <canvas id="chartPartTerminalesProfessionnelles"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section Moyennes de terminale des admis -->
+  <div [hidden]="selectedOption3 !== 'moyenne'">
+    <div class="sous-boutons">
+      <mat-button-toggle-group name="sousOptionMoyenne" aria-label="Sélection Moyenne" [(ngModel)]="selectedSousOption3">
+        <mat-button-toggle value="generales" class="bold-toggle">Terminales générales</mat-button-toggle>
+        <mat-button-toggle value="technologique" class="bold-toggle">Terminales technologiques</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <!-- Graphique Moyenne -->
+    <div class="graphe">
+      <div class="chart-container">
+        <h2>Distribution des moyennes</h2>
+        <!-- <canvas id="chartAdmisAcademie"></canvas> -->
+
+          <canvas id="chartContainer"></canvas>
+   
+
+
+      </div>
+    </div>
+  </div>
+
 </div>
-
-
-<div class="bouton">  
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption3"> 
-    <mat-button-toggle value="frequence" class="bold-toggle">Fréquence d'envoi des propositions</mat-button-toggle>
-    <mat-button-toggle value="moyenne" class="bold-toggle">Moyennes de terminale des admis </mat-button-toggle>
-  </mat-button-toggle-group>
-</div>
-
-
-
- <!-- debut sous bouton  -->
- <div class="sous-boutons"   > 
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption3"> 
-  <mat-button-toggle value="technologique"  class="bold-toggle"> technologique</mat-button-toggle>
-  <mat-button-toggle value="generales" class="bold-toggle">Générales </mat-button-toggle> 
-</mat-button-toggle-group>
- </div>
-
-
-
- <div *ngIf="selectedOption3 === 'moyenne'" class="graphe">
-  <p>Courbe de distribution des moyennes des effectifs</p>
-  <canvas #chartAdmisAcademie> </canvas>
-</div>
-
 
 
 
 <div class="dernier">
-
 </div>
-
-<!-- fin du bloc -->
-</div>
-
-
-
 
 
 
