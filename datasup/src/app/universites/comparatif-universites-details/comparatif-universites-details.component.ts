@@ -197,7 +197,7 @@ ngOnInit(): void {
             acc[etablissement].push({
               annee: universite.annee,
               effectif_total_candidats_formation: universite.effectif_total_candidats_formation || 0,
-              taux_acces: universite.taux_acces || 0,
+             /*  taux_acces: universite.taux_acces || 0, */
               effectif_candidates_formation: universite.effectif_candidates_formation || 0 ,
               /* quotas applicable */
               effectif_boursiers_generaux_phase_principale: universite.effectif_boursiers_generaux_phase_principale || 0,
@@ -286,7 +286,11 @@ ngOnInit(): void {
 
       effectif_boursiers_admis: universite.effectif_boursiers_admis || 0,
       /* effectif_professionnels_admis: universite.effectif_professionnels_admis || 0, */
-     
+      taux_acces: universite.taux_acces || 0,
+/*       effectif_total_candidats_formation: universite.effectif_total_candidats_formation || 0, */
+/* effectif_admis_proposition_ouverture_phase_principale: universite.effectif_admis_proposition_ouverture_phase_principale || 0,
+effectif_admis_proposition_avant_fin_procedure_principale : universite.effectif_admis_proposition_avant_fin_procedure_principale || 0,
+      */
       
 
 
@@ -441,7 +445,7 @@ ngOnInit(): void {
         
           // Créer les graphiques après récupération des données
           this.createChart('effectif_total_candidats_formation', 'chartCandidats', 'Total Candidats', ['#009FE3', '#A3D39C']);
-          this.createChart('taux_acces', 'chartTauxAcces', 'Taux  Acees', ['#87A2C2', '#D77683']);
+
           this.createChart('effectif_candidates_formation', 'chartCandidates', 'Candidates Formation', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_boursiers_generaux_phase_principale', 'chartBoursiers', 'Boursiers Phase Principale', ['#87A2C2', '#D77683']);
           this.createChart('effectif_admis_meme_academie', 'chartAdmisAcademie', 'Admis Même Académie', ['#009FE3', '#A3D39C']);
@@ -517,7 +521,7 @@ ngOnInit(): void {
         this.createChart('proportion_neo_bacheliers_admis', 'chartProportionNeoBacheliersAdmis', 'Proportion Néo-bacheliers Admis', ['#009FE3', '#A3D39C']);
         this.createChart('differenceCandidatesAdmis', 'chartDifferenceCandidatesAdmis', 'Différence Candidates Admis', ['#009FE3', '#A3D39C']);
         this.createChart('effectif_boursiers_admis', 'chartBoursiersAdmis', 'Boursiers Admis', ['#009FE3', '#A3D39C']);
-
+        this.createChart('taux_acces', 'chartTauxAcces', 'Taux d\'Accès', ['#009FE3', '#A3D39C']);
 
 
           this.isLoading = false; //  Fin du chargement une fois tout prêt

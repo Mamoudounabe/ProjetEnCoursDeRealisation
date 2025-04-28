@@ -445,14 +445,15 @@
 
 
 
-<div >
-    <div class="graphe" [hidden]="selectedOption1  !== 'boursiers'">
-      <div class="chart-container">
-        <h2> Effectif total Boursiers Admis </h2>
-        <canvas id="chartBoursiersAdmis"></canvas>
-      </div>
+<div [hidden]="selectedOption1 !== 'boursiers'">
+  <div class="graphe">
+    <div class="chart-container">
+      <h2>Effectif total Boursiers Admis</h2>
+      <canvas id="chartBoursiersAdmis"></canvas>
     </div>
   </div>
+</div>
+
   
 
   <!-- Section pour 'academie' et 'type_de_bac' -->
@@ -471,89 +472,74 @@
 
 
 
-
-
-<div  class="block">
-
+<div class="block">
   <div class="menu">
-  <div class="fd1">
-  <h1 class="titre">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<i class="fas fa-chart-line"></i> Indicateurs de sélectivité
-  </h1>
+    <div class="fd1">
+      <h1 class="titre">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <i class="fas fa-chart-line"></i> Indicateurs de sélectivité
+      </h1>
+    </div>
   </div>
-</div>
 
+  <div class="bouton">
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption2">
+      <mat-button-toggle value="taux_dacces" class="bold-toggle">Taux d'accès</mat-button-toggle>
+      <mat-button-toggle value="duree_du_processus" class="bold-toggle">Durée du processus de sélection</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 
-<div class="bouton">  
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption2"> 
-    <!-- mat-button-toggle value="taux_dacces" class="bold-toggle">Taux d'acces</mat-button-toggle> -->
-    <mat-button-toggle value="duree_du_processus" class="bold-toggle">Durée du processus de selection</mat-button-toggle>
-  </mat-button-toggle-group>
-</div>
-
-
-
-
-   <div>
- <div [ngSwitch]="selectedOption2">
-
-  <div *ngSwitchCase="'duree_du_processus'"> 
-
-    
-    <div class="sous-boutons"> 
-      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOptionSelect"> 
-        <mat-button-toggle value="Admis_Avant_Bac" class="bold-toggle">Admis avant bac</mat-button-toggle>
-        <mat-button-toggle value="phase_principale" class="bold-toggle">Admis en phase principale </mat-button-toggle> 
-        <mat-button-toggle value="phase_complementaire" class="bold-toggle">Admis en phase complémentaire  </mat-button-toggle> 
+  <!-- Section pour Taux d'accès -->
+  <div [hidden]="selectedOption2 !== 'taux_dacces'">
+    <div class="sous-boutons">
+      <mat-button-toggle-group name="sousOptionSelectTaux" aria-label="Sélection Taux d'accès" [(ngModel)]="selectedSousOptionSelect">
+        <mat-button-toggle value="taux_acces" class="bold-toggle">Taux d'accès</mat-button-toggle>
+        <mat-button-toggle value="effectif_total_candidats_formation" class="bold-toggle">Effectif total des candidats</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
 
-
-
-
-
-
-
-    <div class="graphe" [hidden]="selectedSousOptionSelect !== 'Admis_Avant_Bac'">
+    <!-- Graphiques Taux d'accès -->
+    <div class="graphe" [hidden]="selectedSousOptionSelect !== 'taux_acces'">
       <div class="chart-container">
-        <h2>admis proposition avant baccalaureat</h2>
-        <canvas id="charteffectif_admis_proposition_avant_baccalaureat"></canvas>
-    
-          
-        </div>
-      </div>
-    
-    
-    
-      <div class="graphe" [hidden]="selectedSousOptionSelect!== 'phase_principale'">
-      <div class="chart-container">
-        <h2>charteffectif admis phase principale</h2>
-        <canvas id="chartAdmisPhasePrincipale"></canvas>
-    
-          
-        </div>
-      </div>
-    
-    
-     <div class="graphe" [hidden]="selectedSousOptionSelect!== 'phase_complementaire'">
-      <div class="chart-container">
-        <h2>chart Admis Phase Complementaire</h2>
-        <canvas id="chartAdmisPhaseComplementaire"></canvas>
-    
-        </div>
+        <h2>Taux d'accès</h2>
+        <canvas id="chartTauxAcces"></canvas>
       </div>
     </div>
 
+    <div class="graphe" [hidden]="selectedSousOptionSelect !== 'effectif_total_candidats_formation'">
+      <div class="chart-container">
+        <h2>Effectif total des candidats</h2>
+        <canvas id="chartCandidats"></canvas>
+      </div>
+    </div>
+  </div>
 
+  <!-- Section pour Durée du processus de sélection -->
+  <div [hidden]="selectedOption2 !== 'duree_du_processus'">
+    <div class="sous-boutons">
+      <mat-button-toggle-group name="sousOptionSelectDuree" aria-label="Sélection Durée" [(ngModel)]="selectedSousOptionSelect">
+        <mat-button-toggle value="admis_tres_tot" class="bold-toggle">Admis très tôt</mat-button-toggle>
+        <mat-button-toggle value="admis_avant_fin" class="bold-toggle">Admis avant fin procédure</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
 
+    <!-- Graphiques Durée du processus -->
+    <div class="graphe" [hidden]="selectedSousOptionSelect !== 'admis_tres_tot'">
+      <div class="chart-container">
+        <h2>Admis très tôt</h2>
+        <canvas id="chartAdmisPropositionOuverture"></canvas>
+      </div>
+    </div>
 
-
-
-
-
-  
+    <div class="graphe" [hidden]="selectedSousOptionSelect !== 'admis_avant_fin'">
+      <div class="chart-container">
+        <h2>Admis avant fin de la procédure</h2>
+        <canvas id="cchartAdmisPropositionAvantFin"></canvas>
+      </div>
+    </div>
+  </div>
 </div>
+
 
 
 
