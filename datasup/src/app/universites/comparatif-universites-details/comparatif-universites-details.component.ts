@@ -105,7 +105,7 @@ selectedSousOption1: string = 'ppneo';
 /* -------------------------------------------------------------------------------------------------------------- */
 
 /* ---------------- Profil des candidats admis-----bloc 2--------------------------------------------------------------- */
-selectedOption1 : string= 'mention_technologique';
+selectedOption1 : string= 'mention_au_bac';
 selectedSousOption11: string= 'mention_technologique';
 
 
@@ -260,7 +260,7 @@ ngOnInit(): void {
 
 
 
-             effectif_boursiers_admis: universite.effectif_boursiers_admis || 0, 
+             /* effectif_boursiers_admis: universite.effectif_boursiers_admis || 0,  */
              /* effectif_total_candidats_admis: universite.effectif_total_candidats_admis || 0, */
              /* effectif_admis_phase_principale: universite.effectif_admis_phase_principale || 0, */
              effectif_total_candidats_phase_complementaire: universite.effectif_total_candidats_phase_complementaire || 0,
@@ -268,9 +268,28 @@ ngOnInit(): void {
             /*  effectif_neo_bacheliers_tech nologiques_phase_principale: universite.effectif_neo_bacheliers_technologiques_phase_principale || 0,
  */       /* effectif_neo_bacheliers_technologiques_phase_complementaire: universite.effectif_neo_bacheliers_technologiques_phase_complementaire || 0, */
           effectif_neo_bacheliers_technologiques_phase_complementaire: universite.effectif_neo_bacheliers_technologiques_phase_complementaire || 0,
-            
+          /* effectif_admis_phase_complementaire: universite.effectif_admis_phase_complementaire || 0, */
+         /*  effectif_admis_phase_principale: universite.effectif_admis_phase_principale || 0, */
+         proportion_neo_bacheliers_admis: universite.proportion_neo_bacheliers_admis || 0,
+         /* effectif_technologiques_admis: universite.effectif_technologiques_admis || 0, */
 
-              
+
+        /*  effectif_candidates_admises: universite.effectif_candidates_admises || 0, */
+       /*  effectif_total_candidats_admis: universite.effectif_total_candidats_admis || 0, */
+      /*  differenceCandidatesAdmis: (universite.effectif_total_candidats_admis || 0) - (   universite.effectif_candidates_admises || 0)
+ */
+
+      /* effectif_boursiers_admis: universite.effectif_boursiers_admis || 0,
+ *//* 
+      effectif_technologiques_admis: universite.effectif_technologiques_admis || 0,
+      effectif_generaux_admis: universite.effectif_generaux_admis || 0,  */
+
+      effectif_boursiers_admis: universite.effectif_boursiers_admis || 0,
+      /* effectif_professionnels_admis: universite.effectif_professionnels_admis || 0, */
+     
+      
+
+
             });
             return acc;
           }, {} as Record<string, any[]>);
@@ -432,7 +451,7 @@ ngOnInit(): void {
          this.createChart('effectif_autres_candidats_phase_principale', 'chartAutresCandidats', 'Autres Candidats Phase Principale', ['#009FE3', '#A3D39C']);
 
           this.createChart('effectif_neo_bacheliers_generaux_phase_principale', 'chartNeoBacheliersGeneraux', 'Néo-bacheliers Généraux Phase Principale', ['#009FE3', '#A3D39C']);
-         this.createChart('effectif_neo_bacheliers_generaux_phase_complementaire', 'chartNeoBacheliersGenerauxPhaseComplementaire', 'Néo-bacheliers Généraux Phase Complémentaire', ['#009FE3', '#A3D39C']);
+         this.createChart('effectif_neo_bacheliers_generaux_phase_complementaire', 'chartNeoBacheliersTechAdmis', 'Néo-bacheliers Généraux Phase Complémentaire', ['#009FE3', '#A3D39C']);
 
           this.createChart('effectif_neo_bacheliers_technologiques_phase_principale', 'chartNeoBacheliersTechnologiques', 'Néo-bacheliers Technologiques Phase Principale', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_neo_bacheliers_professionnels_phase_principale', 'chartNeoBacheliersProfessionnels', 'Néo-bacheliers Professionnels Phase Principale', ['#009FE3', '#A3D39C']);
@@ -495,6 +514,10 @@ ngOnInit(): void {
 
           this.createChart('effectif_total_candidats_phase_principale', 'chartTotalCandidatsPhasePrincipale', 'Total Candidats Phase Principale', ['#009FE3', '#A3D39C']);
          this.createChart('effectif_neo_bacheliers_technologiques_phase_complementaire', 'chartNeoBacheliersTechnologiquesPhaseComplementaire', 'Néo-bacheliers Technologiques Phase Complémentaire', ['#009FE3', '#A3D39C']);
+        this.createChart('proportion_neo_bacheliers_admis', 'chartProportionNeoBacheliersAdmis', 'Proportion Néo-bacheliers Admis', ['#009FE3', '#A3D39C']);
+        this.createChart('differenceCandidatesAdmis', 'chartDifferenceCandidatesAdmis', 'Différence Candidates Admis', ['#009FE3', '#A3D39C']);
+        this.createChart('effectif_boursiers_admis', 'chartBoursiersAdmis', 'Boursiers Admis', ['#009FE3', '#A3D39C']);
+
 
 
           this.isLoading = false; //  Fin du chargement une fois tout prêt

@@ -108,7 +108,13 @@ selectedOption4 : string = 'resultats_academiques';
 
 
 /* --------------------------------------------bloc 6------------------------------------------------------------------- */
+/* selectedOption: string = 'nombre_de_candidats'; // ou une valeur par défaut
+selectedOption1: string = 'mention_au_bac'; // ou une valeur par défaut
+selectedOption2: string = 'taux_dacces'; // ou une valeur par défaut
+selectedOption3: string = 'frequence'; // ou une valeur par défaut */
 
+// Déclaration de selectedOptionQuota (qui est manquante dans le code)
+selectedOptionQuota: string = 'boursiers'; // ou une valeur par défaut
 
 
 
