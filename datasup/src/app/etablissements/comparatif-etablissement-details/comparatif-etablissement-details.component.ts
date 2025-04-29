@@ -178,13 +178,17 @@ chartResultatAcademiqueRef
 //effectif_total_candidats_admis
 
 @ViewChild('chartEffectifTotalCandidatsAdmisRef', { static: false }) chartEffectifTotalCandidatsAdmisRef!: ElementRef;
+//effectif_neo_bacheliers_mention_tres_bien_bac_admis"
+
 
 
 //effectif_technologiques_admis canvasEffectifTechnologiquesAdmis1  chartEffectifTotalCandidatsAdmisRef
 
-/* effectif_technologiques_admis
+/* effectif_technologiques_admis chartEffectifNeoBacheliermentionTresBienFelicitationBacAdmisRef
  */
 
+/* chartEffectifNeoBacheliersSansMentionBacAdRef */
+@ViewChild('chartEffectifNeoBacheliersSansMentionBacAdRef', { static: false }) chartEffectifNeoBacheliersSansMentionBacAdRef!: ElementRef;
 
 
 
@@ -515,10 +519,7 @@ updateChart() {
           this.createChart(canvasEffectifNeoBachelierTechnologiquePhasePrincipale, 'effectif_neo_bacheliers_technologiques_phase_principale', 'Effectif Néo-Bacheliers Technologiques Phase Principale', data);
         }
   
-        const canvasEffectifNeoBacheliermentionTresBienFelicitationBacAdmis = this.chartEffectifNeoBacheliermentionTresBienFelicitationBacAdmisRef?.nativeElement;
-        if (canvasEffectifNeoBacheliermentionTresBienFelicitationBacAdmis) {
-          this.createChart(canvasEffectifNeoBacheliermentionTresBienFelicitationBacAdmis, 'effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis', 'effectif néo bacheliers mention tres bien felicitation bac admis', data);
-        }
+       
         // Créer le graphique pour 'effectif_total_candidats_formation'
         const canvasEffectifTotalCandidatsFormation = this.chartCandidatsRef?.nativeElement;
         if (canvasEffectifTotalCandidatsFormation) {
@@ -699,6 +700,30 @@ updateChart() {
                           data
                         );
                       }
+
+
+                      //effectif_neo_bacheliers_mention_tres_bien_bac_admis"
+                      const canvasEffectifNeoBacheliersMentionTresBienBacAdmis = this.chartEffectifNeoBacheliermentionTresBienFelicitationBacAdmisRef?.nativeElement;
+                      if (canvasEffectifNeoBacheliersMentionTresBienBacAdmis) {
+                        this.createChart(
+                          canvasEffectifNeoBacheliersMentionTresBienBacAdmis,
+                          'effectif_neo_bacheliers_mention_tres_bien_bac_admis',
+                          'Effectif Néo-Bacheliers Mention Très Bien Bac Admis',
+                          data
+                        );
+                      }
+
+
+                      /* effectif_neo_bacheliers_sans_mention_bac_admis */
+
+                      const canvasEffectifNeoBacheliersSansMentionBacAdmis = this.chartEffectifNeoBacheliersSansMentionBacAdRef?.nativeElement;
+                      if (canvasEffectifNeoBacheliersSansMentionBacAdmis) {
+                        this.createChart(
+                          canvasEffectifNeoBacheliersSansMentionBacAdmis,
+                          'effectif_neo_bacheliers_sans_mention_bac_admis',
+                          'Effectif Néo-Bacheliers Sans Mention Bac Admis',
+                          data      
+                        );}
 
       },
       (error) => {
