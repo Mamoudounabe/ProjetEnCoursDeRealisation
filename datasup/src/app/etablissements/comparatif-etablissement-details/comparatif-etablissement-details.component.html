@@ -7,7 +7,11 @@
 </div>
 
 
-<!-- Block 1 : Informations Générales -->
+
+
+
+
+
 <div class="block">
   <div class="menu">
     <div class="fd1">
@@ -16,106 +20,177 @@
       </h1>
     </div>
 
+    <!-- Menu principal -->
     <div class="bouton">
       <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption">
         <mat-button-toggle value="nombre_de_candidats" class="bold-toggle">Nombre de candidats</mat-button-toggle>
-        <mat-button-toggle value="nombre_dadmis" class="italic-toggle">Nombre d'admis</mat-button-toggle>
-        <mat-button-toggle value="quotas_applicables" class="underline-toggle">Quotas applicables</mat-button-toggle>
+        <mat-button-toggle value="nombre_dadmis" class="bold-toggle">Nombre d'admis</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
 
-    <!-- Nombre de candidats -->
+    <!-- Options pour Nombre de Candidats -->
     <div [hidden]="selectedOption !== 'nombre_de_candidats'">
       <div class="sous-boutons">
         <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption">
           <mat-button-toggle value="neobachelier" class="bold-toggle">Néo-bacheliers</mat-button-toggle>
           <mat-button-toggle value="touslescandidats" class="bold-toggle">Tous les candidats</mat-button-toggle>
-          <mat-button-toggle value="neoBachierlierstechnologique" class="bold-toggle">Néo-bacheliers technologiques</mat-button-toggle>
+          <mat-button-toggle value="neobachelierstechnologique" class="bold-toggle">Néo-bacheliers technologiques</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
 
-      <div>
-        <!-- Néo-bacheliers -->
-        <div [hidden]="selectedSousOption !== 'neobachelier'">
-          <div class="sous-boutons">
-            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1" (change)="onSousOptionChange($event)">
-              <mat-button-toggle value="ppneo" class="bold-toggle">Phase Principale</mat-button-toggle>
-              <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle>
-            </mat-button-toggle-group>
-          </div>
+      <!-- Sous-options pour Nombre de Candidats -->
+      <div *ngIf="selectedSousOption === 'neobachelier' || selectedSousOption === 'touslescandidats' || selectedSousOption === 'neobachelierstechnologique'">
+        <div class="sous-boutons">
+          <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1">
+            <!-- Néo-bacheliers -->
+            <mat-button-toggle *ngIf="selectedSousOption === 'neobachelier'" value="ppneo" class="bold-toggle">Phase Principale</mat-button-toggle>
+            <mat-button-toggle *ngIf="selectedSousOption === 'neobachelier'" value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle>
 
-          <div [hidden]="selectedSousOption1 !== 'ppneo'" class="graphe">
-            <p>Nombre de candidats néo-bacheliers en phase principale</p>
-            <canvas #chartNeoBacheliersPhasePrincipaleRef></canvas>
-          </div>
+            <!-- Tous les candidats -->
+            <mat-button-toggle *ngIf="selectedSousOption === 'touslescandidats'" value="ppneot" class="bold-toggle">Phase Principale</mat-button-toggle>
+            <mat-button-toggle *ngIf="selectedSousOption === 'touslescandidats'" value="pcneot" class="bold-toggle">Phase Complémentaire</mat-button-toggle>
 
-          <div [hidden]="selectedSousOption1 !== 'pcneo'" class="graphe">
-            <p>Nombre de candidats néo-bacheliers en phase complémentaire</p>
-            <canvas #chartNeoBachelierTechnologiquePhasePrincipaleRef></canvas>
-          </div>
+            <!-- Néo-bacheliers technologiques -->
+            <mat-button-toggle *ngIf="selectedSousOption === 'neobachelierstechnologique'" value="ppneotech" class="bold-toggle">Phase Principale</mat-button-toggle>
+            <mat-button-toggle *ngIf="selectedSousOption === 'neobachelierstechnologique'" value="pcneotech" class="bold-toggle">Phase Complémentaire</mat-button-toggle>
+          </mat-button-toggle-group>
         </div>
+      </div>
 
-        <!-- Tous les candidats -->
-        <div [hidden]="selectedSousOption !== 'touslescandidats'">
-          <div class="sous-boutons">
-            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1">
-              <mat-button-toggle value="ppneo" class="bold-toggle">Phase Principale</mat-button-toggle>
-              <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle>
-            </mat-button-toggle-group>
-          </div>
+      <!-- Graphiques selon sélection -->
+      <!-- Néo-bacheliers -->
+      <div class="graphe" [hidden]="selectedSousOption1 !== 'ppneo'">
+        <div class="chart-container">
+          <h2>Nombre de Candidats Néo-bacheliers - Phase Principale</h2>
+          <canvas #chartNeoBacheliersPhasePrincipaleRef></canvas>
         </div>
+      </div>
 
-        <!-- Néo-bacheliers technologiques -->
-        <div [hidden]="selectedSousOption !== 'neoBachierlierstechnologique'">
-          <div class="sous-boutons">
-            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1">
-              <mat-button-toggle value="ppneo" class="bold-toggle">Phase Principale</mat-button-toggle>
-              <mat-button-toggle value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle>
-            </mat-button-toggle-group>
-          </div>
+      <div class="graphe" [hidden]="selectedSousOption1 !== 'pcneo'">
+        <div class="chart-container">
+          <h2>Nombre de Candidats Néo-bacheliers - Phase Complémentaire</h2>
+          <canvas #chartNeoBacheliersPhaseComplementaireRef></canvas>
+        </div>
+      </div>
+
+      <!-- Tous les candidats -->
+      <div class="graphe" [hidden]="selectedSousOption1 !== 'ppneot'">
+        <div class="chart-container">
+          <h2>Effectif Total Candidats - Phase Principale</h2>
+          <canvas #chartEffectifTotalCandidatsPhasePrincipaleRef></canvas>
+        </div>
+      </div>
+
+      <div class="graphe" [hidden]="selectedSousOption1 !== 'pcneot'">
+        <div class="chart-container">
+          <h2>Effectif Total Candidats - Phase Complémentaire</h2>
+          <canvas #chartEffectifTotalCandidatsPhaseComplementaireRef></canvas>
+        </div>
+      </div>
+
+      <!-- Néo-bacheliers technologiques -->
+      <div class="graphe" [hidden]="selectedSousOption1 !== 'ppneotech'">
+        <div class="chart-container">
+          <h2>Néo-Bacheliers Technologiques - Phase Principale</h2>
+          <canvas #chartNeoBachelierTechnologiquePhasePrincipaleRef></canvas>
+        </div>
+      </div>
+
+      <div class="graphe" [hidden]="selectedSousOption1 !== 'pcneotech'">
+        <div class="chart-container">
+          <h2>Néo-Bacheliers Technologiques - Phase Complémentaire</h2>
+          <canvas #chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef></canvas>
         </div>
       </div>
     </div>
 
-    <!-- Nombre d'admis -->
+    <!-- Options pour Nombre d'Admis -->
     <div [hidden]="selectedOption !== 'nombre_dadmis'">
       <div class="sous-boutons">
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1">
-          <mat-button-toggle value="neo_admis" class="italic-toggle">Néo-bacheliers</mat-button-toggle>
-          <mat-button-toggle value="touslescandidatsadmis" class="italic-toggle">Tous les candidats</mat-button-toggle>
-          <mat-button-toggle value="neoBachierlierstechnoadmis" class="italic-toggle">Néo-bacheliers technologiques</mat-button-toggle>
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption">
+          <mat-button-toggle value="neo_admis" class="bold-toggle">Néo-bacheliers</mat-button-toggle>
+          <mat-button-toggle value="touslescandidatsadmis" class="bold-toggle">Tous les candidats</mat-button-toggle>
+          <mat-button-toggle value="neobachelierstechnoadmis" class="bold-toggle">Néo-bacheliers technologiques</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
 
-      <div>
-        <div [hidden]="selectedSousOption1 !== 'neo_admis'">
-          <!-- contenus spécifiques à neo_admis -->
-        </div>
+      <!-- Sous-options Nombre d'Admis -->
+      <div *ngIf="selectedSousOption === 'neo_admis' || selectedSousOption === 'touslescandidatsadmis' || selectedSousOption === 'neobachelierstechnoadmis'">
+        <div class="sous-boutons">
+          <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1">
+            <mat-button-toggle *ngIf="selectedSousOption === 'neo_admis'" value="ppneoad" class="bold-toggle">Effectif Néo-Bacheliers Admis</mat-button-toggle>
 
-        <div [hidden]="selectedSousOption1 !== 'touslescandidatsadmis'">
-          <!-- contenus spécifiques à touslescandidatsadmis -->
-        </div>
+            <mat-button-toggle *ngIf="selectedSousOption === 'touslescandidatsadmis'" value="ppneotad" class="bold-toggle">Phase Complémentaire</mat-button-toggle>
+            <mat-button-toggle *ngIf="selectedSousOption === 'touslescandidatsadmis'" value="pcneotad" class="bold-toggle">Effectif Total Admis</mat-button-toggle>
 
-        <div [hidden]="selectedSousOption1 !== 'neoBachierlierstechnoadmis'">
-          <!-- contenus spécifiques à neoBachierlierstechnoadmis -->
+            <mat-button-toggle *ngIf="selectedSousOption === 'neobachelierstechnoadmis'" value="ppneotechad" class="bold-toggle">Effectif Néo-bacheliers technologiques Admis</mat-button-toggle>
+          </mat-button-toggle-group>
         </div>
       </div>
-    </div>
 
-    <!-- Quotas applicables -->
-    <div [hidden]="selectedOption !== 'quotas_applicables'">
-      <div class="sous-boutons">
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption">
-          <mat-button-toggle value="boursiers" class="underline-toggle">Boursiers du secondaire</mat-button-toggle>
-          <mat-button-toggle value="hors_secteur" class="underline-toggle">Candidats hors secteur</mat-button-toggle>
-          <mat-button-toggle value="technologiques" class="underline-toggle">Lycéens technologiques</mat-button-toggle>
-          <mat-button-toggle value="professionnels" class="underline-toggle">Lycéens professionnels</mat-button-toggle>
-        </mat-button-toggle-group>
+      <!-- Graphiques Nombre d'Admis -->
+      <div class="graphe" [hidden]="selectedSousOption1 !== 'ppneoad'">
+        <div class="chart-container">
+          <h2>Effectif Néo-bacheliers Admis</h2>
+          <canvas #chartEffectifNeoBacheliersAdmisRef></canvas>
+        </div>
       </div>
-    </div>
 
+      <div class="graphe" [hidden]="selectedSousOption1 !== 'ppneotad'">
+        <div class="chart-container">
+          <h2>Effectif Total Admis - Phase Complémentaire</h2>
+          <canvas #chartEffectifAdmisPhaseComplementaireRef f></canvas>
+        </div>
+      </div>
+
+      <div class="graphe" [hidden]="selectedSousOption1 !== 'pcneotad'">
+        <div class="chart-container">
+          <h2>Effectif Total Admis </h2>
+          <canvas #chartEffectifTotalCandidatsAdmisRef></canvas>
+        </div>
+      </div>
+
+      <div class="graphe" [hidden]="selectedSousOption1 !== 'ppneotechad'">
+        <div class="chart-container">
+          <h2>Effectif Néo-Bacheliers Technologiques Admis</h2>
+          <canvas #chartEffectifTechnologiquesAdmisRef></canvas>
+        </div>
+      </div>
+
+      
+    </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- Block 2 : Profil des candidats admis -->
 <div class="block">

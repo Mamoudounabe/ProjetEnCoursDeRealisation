@@ -165,13 +165,28 @@ chartResultatAcademiqueRef
   @ViewChild('charteffectif_technologiques_mention_bacAdmisRef', { static: false }) charteffectif_technologiques_mention_bacAdmisRef!: ElementRef;
 
   /* --------------------------------------------------------------------------------------------------------------------------------------------------- */
+@ViewChild('chartEffectifNeoBachelierGeneralPhaseComplementaireRef', { static: false }) chartEffectifNeoBachelierGeneralPhaseComplementaireRef!: ElementRef;
+@ViewChild('chartEffectifAdmisPhaseComplementaireRef', { static: false }) chartEffectifAdmisPhaseComplementaireRef!: ElementRef;
+@ViewChild('chartEffectifBoursiersAdmisRef', { static: false }) chartEffectifBoursiersAdmisRef!: ElementRef;
+@ViewChild('chartEffectifGenerauxAdmisRef', { static: false }) chartEffectifGenerauxAdmisRef!: ElementRef;
+@ViewChild('chartEffectifTechnologiquesAdmisRef', { static: false }) chartEffectifTechnologiquesAdmisRef!: ElementRef;
+@ViewChild('chartEffectifProfessionnelsAdmisRef', { static: false }) chartEffectifProfessionnelsAdmisRef!: ElementRef;
+@ViewChild('chartEffectifAutresAdmisRef', { static: false }) chartEffectifAutresAdmisRef!: ElementRef;
+@ViewChild('chartEffectifNeoBacheliersAdmisRef', { static: false }) chartEffectifNeoBacheliersAdmisRef!: ElementRef;
+@ViewChild('chartEffectifAdmisPhasePrincipaleRef', { static: false }) chartEffectifAdmisPhasePrincipaleRef!: ElementRef;
+
+//effectif_total_candidats_admis
+
+@ViewChild('chartEffectifTotalCandidatsAdmisRef', { static: false }) chartEffectifTotalCandidatsAdmisRef!: ElementRef;
+
+
+//effectif_technologiques_admis canvasEffectifTechnologiquesAdmis1  chartEffectifTotalCandidatsAdmisRef
+
+/* effectif_technologiques_admis
+ */
 
 
 
-
-/*   ngAfterViewInit(): void {
-    this.updateCharts();
-  } */
 
 
   
@@ -196,51 +211,17 @@ updateChart() {
 
 
 
-/* 
-
-   ngAfterViewInit(): void {
-
-    this.updateChart();
-
-    console.log('Effectif Néo-Bacheliers Phase Principale:', this.chartNeoBacheliersPhasePrincipaleRef);
-    console.log('Effectif Néo-Bacheliers Phase Complémentaire:', this.chartNeoBacheliersPhaseComplementaireRef);
-
-   
-   
-
-    this.createChart(this.chartResultatAcademiqueRef.nativeElement, 'effectif_admis_meme_academie', 'Résultats académiques');
-
-    this.createChart(this.chartTauxAccesRef.nativeElement, 'taux_acces', 'Taux d\'Accès');
-
-
-    this.createChart(this.chartEffectifTechnologiquesMentionBacAdmisRef.nativeElement, 'effectif_technologiques_mention_bac_admis', 'effectif technologiques mention bac dmis');
-
-
-    this.createChart(this.chartEffectifNeoBacheliermentionTresBienFelicitationBacAdmisRef?.nativeElement, 'effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis', 'effectif néo bacheliers mention tres bien felicitation bac admis');
-
-
-    this.createChart(this.chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef.nativeElement, 'effectif_neo_bacheliers_technologiques_phase_complementaire', 'Effectif Néo-Bacheliers technologique Phase complementaire');
-
-    this.createChart(this.chartNeoBachelierTechnologiquePhasePrincipaleRef.nativeElement, 'effectif_neo_bacheliers_technologiques_phase_principale', 'Effectif Néo-Bacheliers technologique Phase principale');
-    this.createChart(this.chartNeoBacheliersPhaseComplementaireRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_complementaire', 'Effectif Néo-Bacheliers Phase Complémentaire');
-
-    this.createChart(this.chartEffectifTotalCandidatsPhaseComplementaireRef.nativeElement, 'effectif_total_candidats_phase_complementaire', 'Effectif total candidats Phase complémentaire');
-    this.createChart(this.chartEffectifTotalCandidatsPhasePrincipaleRef.nativeElement, 'effectif_total_candidats_phase_principale', 'Effectif total candidats Phase Principale');
-    this.createChart(this.chartNeoBacheliersPhasePrincipaleRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_principale', 'Effectif Néo-Bacheliers Phase Principale');
-
-  }  */
-
-
-
-
     ngAfterViewInit(): void {
       console.log('Effectif Néo-Bacheliers Phase Principale:', this.chartNeoBacheliersPhasePrincipaleRef);
       console.log('Effectif Néo-Bacheliers Phase Complémentaire:', this.chartNeoBacheliersPhaseComplementaireRef);
     
-      const sortedData = this.etablissementsData; // Utilisez les données triées appropriées
+      const sortedData = this.etablissementsData; // Utilisez les données triées appropriéesc  effectif_total_candidats_phase_complementaire'
     
       this.createChart(this.chartResultatAcademiqueRef.nativeElement, 'effectif_admis_meme_academie', 'Résultats académiques', sortedData);
       this.createChart(this.chartTauxAccesRef.nativeElement, 'taux_acces', 'Taux d\'Accès', sortedData);
+
+
+      
       this.createChart(this.chartEffectifTechnologiquesMentionBacAdmisRef.nativeElement, 'effectif_technologiques_mention_bac_admis', 'effectif technologiques mention bac admis', sortedData);
       this.createChart(this.chartEffectifNeoBacheliermentionTresBienFelicitationBacAdmisRef.nativeElement, 'effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis', 'effectif néo bacheliers mention tres bien felicitation bac admis', sortedData);
       this.createChart(this.chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef.nativeElement, 'effectif_neo_bacheliers_technologiques_phase_complementaire', 'Effectif Néo-Bacheliers technologique Phase complémentaire', sortedData);
@@ -249,6 +230,10 @@ updateChart() {
       this.createChart(this.chartEffectifTotalCandidatsPhaseComplementaireRef.nativeElement, 'effectif_total_candidats_phase_complementaire', 'Effectif total candidats Phase complémentaire', sortedData);
       this.createChart(this.chartEffectifTotalCandidatsPhasePrincipaleRef.nativeElement, 'effectif_total_candidats_phase_principale', 'Effectif total candidats Phase Principale', sortedData);
       this.createChart(this.chartNeoBacheliersPhasePrincipaleRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_principale', 'Effectif Néo-Bacheliers Phase Principale', sortedData);
+      
+
+
+
     }
 
 
@@ -296,10 +281,6 @@ updateChart() {
 
     return num;
   }
-
-
-
-
 
 
 
@@ -527,25 +508,7 @@ updateChart() {
         } else {
           console.log("Canvas non disponible");
         }
-  
-        // Créer le graphique pour 'effectif  neo-bacheliers phase complémentaire'
-        /* const canvasEffectifNeoBachelierpc = this.chartNeoBacheliersPhaseComplementaireRef?.nativeElement;
-        if (canvasEffectifNeoBachelierpc) {
-          this.createChart(canvasEffectifNeoBachelierpc, 'effectif_neo_bacheliers_generaux_phase_complementaire', 'Effectif Néo-Bacheliers Phase Complémentaire', data);
-        } */
-  
-        // Créer le graphique pour 'effectif total candidats phase principale'
-        const canvasEffectifTotalCandidatsPhasePrincipale = this.chartEffectifTotalCandidatsPhasePrincipaleRef?.nativeElement;
-        if (canvasEffectifTotalCandidatsPhasePrincipale) {
-          this.createChart(canvasEffectifTotalCandidatsPhasePrincipale, 'effectif_total_candidats_phase_principale', 'Effectif Total Candidats Phase Principale', data);
-        }
-  
-        // Créer le graphique pour 'effectif total candidats phase complémentaire'
-        /* const canvasEffectifTotalCandidatsPhaseComplementaire = this.chartEffectifTotalCandidatsPhaseComplementaireRef?.nativeElement;
-        if (canvasEffectifTotalCandidatsPhaseComplementaire) {
-          this.createChart(canvasEffectifTotalCandidatsPhaseComplementaire, 'effectif_total_candidats_phase_complementaire', 'Effectif Total Candidats Phase Complémentaire', data);
-        } */
-  
+
         // Créer le graphique pour 'effectif neo-bachelier technologique phase principale'
         const canvasEffectifNeoBachelierTechnologiquePhasePrincipale = this.chartNeoBachelierTechnologiquePhasePrincipaleRef?.nativeElement;
         if (canvasEffectifNeoBachelierTechnologiquePhasePrincipale) {
@@ -556,13 +519,6 @@ updateChart() {
         if (canvasEffectifNeoBacheliermentionTresBienFelicitationBacAdmis) {
           this.createChart(canvasEffectifNeoBacheliermentionTresBienFelicitationBacAdmis, 'effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis', 'effectif néo bacheliers mention tres bien felicitation bac admis', data);
         }
-  
-        // Créer le graphique pour 'effectif neo-bachelier technologique phase complémentaire'
-        /* const canvasEffectifNeoBachelierTechnologiquePhaseComplementaire = this.chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef.nativeElement;
-        if (canvasEffectifNeoBachelierTechnologiquePhaseComplementaire) {
-          this.createChart(canvasEffectifNeoBachelierTechnologiquePhaseComplementaire, 'effectif_neo_bacheliers_technologiques_phase_complementaire', 'Effectif Néo-Bacheliers Technologiques Phase Complémentaire', data);
-        } */
-  
         // Créer le graphique pour 'effectif_total_candidats_formation'
         const canvasEffectifTotalCandidatsFormation = this.chartCandidatsRef?.nativeElement;
         if (canvasEffectifTotalCandidatsFormation) {
@@ -584,7 +540,166 @@ updateChart() {
         if (canvasResultatAcademique) {
           this.createChart(canvasResultatAcademique, 'effectif_admis_meme_academie', 'Resultat academique', data);
         }
+
+   
+        const canvasEffectifTotalCandidatsPhasePrincipale = this.chartEffectifTotalCandidatsPhasePrincipaleRef?.nativeElement;
+        if (canvasEffectifTotalCandidatsPhasePrincipale) {  
+          this.createChart(canvasEffectifTotalCandidatsPhasePrincipale, 'effectif_total_candidats_phase_principale', 'Effectif Total Candidats Phase Principale', data);
+        }
+
+
+                    // Pour Effectif Total Candidats Phase Complémentaire
+              const canvasEffectifTotalCandidatsPhaseComplementaire = this.chartEffectifTotalCandidatsPhaseComplementaireRef?.nativeElement;
+              if (canvasEffectifTotalCandidatsPhaseComplementaire) {  
+                this.createChart(
+                  canvasEffectifTotalCandidatsPhaseComplementaire,
+                  'effectif_total_candidats_phase_complementaire',
+                  'Effectif Total Candidats Phase Complémentaire',
+                  data
+                );
+              }
+
+              // Pour Effectif Néo-Bacheliers Technologiques Phase Complémentaire
+              const canvasEffectifNeoBachelierTechnologiquePhaseComplementaire = this.chartEffectifNeoBachelierTechnologiquePhaseComplementaireRef?.nativeElement;    
+              if (canvasEffectifNeoBachelierTechnologiquePhaseComplementaire) {
+                this.createChart(
+                  canvasEffectifNeoBachelierTechnologiquePhaseComplementaire,
+                  'effectif_neo_bacheliers_technologiques_phase_complementaire',
+                  'Effectif Néo-Bacheliers Technologiques Phase Complémentaire',
+                  data
+                );
+              }
+
+
   
+
+
+                      // Pour Effectif Néo-Bacheliers Généraux Phase Complémentaire
+                      const canvasEffectifNeoBachelierGeneralPhaseComplementaire = this.chartEffectifNeoBachelierGeneralPhaseComplementaireRef?.nativeElement;
+                      if (canvasEffectifNeoBachelierGeneralPhaseComplementaire) {
+                        this.createChart(
+                          canvasEffectifNeoBachelierGeneralPhaseComplementaire,
+                          'effectif_neo_bacheliers_generaux_phase_complementaire',
+                          'Effectif Néo-Bacheliers Généraux Phase Complémentaire',
+                          data
+                        );
+                      }
+
+                      // Pour Effectif Admis Phase Complémentaire
+                      const canvasEffectifAdmisPhaseComplementaire = this.chartEffectifAdmisPhaseComplementaireRef?.nativeElement;
+                      if (canvasEffectifAdmisPhaseComplementaire) {
+                        this.createChart(
+                          canvasEffectifAdmisPhaseComplementaire,
+                          'effectif_admis_phase_complementaire',
+                          'Effectif Admis Phase Complémentaire',
+                          data
+                        );
+                      }
+
+                      // Pour Effectif Boursiers Admis
+                      const canvasEffectifBoursiersAdmis = this.chartEffectifBoursiersAdmisRef?.nativeElement;
+                      if (canvasEffectifBoursiersAdmis) {
+                        this.createChart(
+                          canvasEffectifBoursiersAdmis,
+                          'effectif_boursiers_admis',
+                          'Effectif Boursiers Admis',
+                          data
+                        );
+                      }
+
+                      // Pour Effectif Généraux Admis
+                      const canvasEffectifGenerauxAdmis = this.chartEffectifGenerauxAdmisRef?.nativeElement;
+                      if (canvasEffectifGenerauxAdmis) {
+                        this.createChart(
+                          canvasEffectifGenerauxAdmis,
+                          'effectif_generaux_admis',
+                          'Effectif Généraux Admis',
+                          data
+                        );
+                      }
+
+                      // Pour Effectif Technologiques Admis
+                      const canvasEffectifTechnologiquesAdmis = this.chartEffectifTechnologiquesAdmisRef?.nativeElement;
+                      if (canvasEffectifTechnologiquesAdmis) {
+                        this.createChart(
+                          canvasEffectifTechnologiquesAdmis,
+                          'effectif_technologiques_admis',
+                          'Effectif Technologiques Admis',
+                          data
+                        );
+                      }
+
+                      // Pour Effectif Professionnels Admis
+                      const canvasEffectifProfessionnelsAdmis = this.chartEffectifProfessionnelsAdmisRef?.nativeElement;
+                      if (canvasEffectifProfessionnelsAdmis) {
+                        this.createChart(
+                          canvasEffectifProfessionnelsAdmis,
+                          'effectif_professionnels_admis',
+                          'Effectif Professionnels Admis',
+                          data
+                        );
+                      }
+
+                      // Pour Effectif Autres Admis
+                      const canvasEffectifAutresAdmis = this.chartEffectifAutresAdmisRef?.nativeElement;
+                      if (canvasEffectifAutresAdmis) {
+                        this.createChart(
+                          canvasEffectifAutresAdmis,
+                          'effectif_autres_admis',
+                          'Effectif Autres Admis',
+                          data
+                        );
+                      }
+
+
+                      //effectif_neo_bacheliers_admis
+                      const canvasEffectifNeoBacheliersAdmis = this.chartEffectifNeoBacheliersAdmisRef?.nativeElement;
+                      if (canvasEffectifNeoBacheliersAdmis) {
+                        this.createChart(
+                          canvasEffectifNeoBacheliersAdmis,
+                          'effectif_neo_bacheliers_admis',
+                          'Effectif Néo-Bacheliers Admis',
+                          data
+                        );
+                      }
+
+
+                      //effectif_admis_phase_principale
+                      const canvasEffectifAdmisPhasePrincipale = this.chartEffectifAdmisPhaseComplementaireRef?.nativeElement;
+                      if (canvasEffectifAdmisPhasePrincipale) {
+                        this.createChart(
+                          canvasEffectifAdmisPhasePrincipale,
+                          'effectif_admis_phase_principale',
+                          'Effectif Admis Phase Principale',
+                          data
+                        );
+                      }
+
+
+
+                      //effectif_technologiques_admis
+                      const canvasEffectifTechnologiquesAdmis1 = this.chartEffectifTechnologiquesAdmisRef?.nativeElement;
+                      if (canvasEffectifTechnologiquesAdmis1) {
+                        this.createChart(
+                          canvasEffectifTechnologiquesAdmis1,
+                          'effectif_technologiques_admis',
+                          'Effectif Technologiques Admis',
+                          data
+                        );
+                      }
+
+
+                      //effectif_total_candidats_admis
+                      const canvasEffectifTotalCandidatsAdmis = this.chartEffectifTotalCandidatsAdmisRef?.nativeElement;
+                      if (canvasEffectifTotalCandidatsAdmis) {
+                        this.createChart(
+                          canvasEffectifTotalCandidatsAdmis,
+                          'effectif_total_candidats_admis',
+                          'Effectif Total Candidats Admis',
+                          data
+                        );
+                      }
+
       },
       (error) => {
         console.error('Erreur lors de la récupération des données:', error);
