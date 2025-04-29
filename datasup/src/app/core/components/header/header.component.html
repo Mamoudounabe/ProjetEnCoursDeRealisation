@@ -1,116 +1,80 @@
-<div class="main-container" [ngClass]="{'split-view': isMenuOpen}">
-  
- 
-  <section class="decalerdroite">
-    <div class="header">
-      <header>
-        <mat-toolbar class="header">
-          <!-- Bouton pour ouvrir/fermer le menu -->
-          <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleMenu()">
-            <mat-icon class="m">menu</mat-icon>
-          </button>
-  
-          <!-- Logo -->
-          <div class="logo">
-            <p><a routerLink="" class="supm">DataSup</a></p>
-            <span class="slogan">BDIA Dijon</span>
-          </div>
-  
-          <!-- Espaceur -->
-          <span class="example-spacer"></span>
-        </mat-toolbar>
-      </header>
+<div class="main-container">
+  <!-- Barre d'outils principale -->
+  <mat-toolbar class="header">
+    <!-- Bouton menu -->
+    <button mat-icon-button class="example-icon" (click)="toggleMenu()" aria-label="Menu">
+      <mat-icon class="m">menu</mat-icon>
+    </button>
+
+    <!-- Logo -->
+    <div class="logo">
+      <p><a routerLink="/" class="supm">DataSup</a></p>
+      <span class="slogan">BDIA Dijon</span>
     </div>
-  </section>
+
+    <!-- Espaceur -->
+    <span class="example-spacer"></span>
+  </mat-toolbar>
 
   <!-- Menu déroulant -->
-  <section>
-
-    <div class="menu-container" *ngIf="isMenuOpen">
-      <!-- En-tête du menu -->
-      <div class="menu-header">
-        <span class="menu-title">Fermer</span>
-        <button class="menu-close" (click)="toggleMenu()" style="color: aliceblue;" >✖</button>
-      </div>
-  
-      <ul>
-       <!--  <li>
-          <a href="" class="menu-link">
-            <mat-icon class="menu-icon">insert_chart</mat-icon>
-            Statistiques
-          </a>
-        </li> -->
-        <li>
-          <a href="geo-page" class="menu-item">
-            <mat-icon class="menu-icon">location_on</mat-icon>
-            <span>Géographiques</span>
-          </a>
-        </li>
-        <li>
-          <a href="formations">
-            <mat-icon class="menu-icon">school</mat-icon>
-            <span>Formations</span>
-          </a>
-        </li>
-        <li>
-          <a href="filieres">
-            <mat-icon class="menu-icon">class</mat-icon>
-            <span>Filières</span>
-          </a>
-        </li>
-        <li>
-          <a href="etablissements" >
-            <mat-icon class="menu-icon">compare</mat-icon>
-            <span>Comparatif des établissements</span>
-          </a>
-        </li>
-
-
-
-        <li>
-          <a href="universites" >
-            <mat-icon class="menu-icon">compare</mat-icon>
-            <span>Comparatif des universités</span>
-          </a>
-        </li>
-
-
-        <li>
-          <a routerLink="analyse" >
-           <mat-icon class="menu-icon">assignment</mat-icon>
-            <span>Analyses</span>
-          </a>
-        </li>
-
-
-
-        <li>
-          <a routerLink="" >
-           <mat-icon class="menu-icon">assignment</mat-icon>
-            <span>Rapports</span>
-          </a>
-        </li>
-
-        
-
-        
-        <li>
-          <a routerLink="apropos" >
-           <mat-icon class="menu-icon">assignment</mat-icon>
-            <span>À propos</span>
-          </a>
-        </li>
-         
-
-        
-        
-
-      </ul>
-      <img src="/M1ProjetTutore_Parcoursup/datasup/src/app/assets/image/sup.png" alt="">
-  
+  <div class="menu-container" *ngIf="isMenuOpen">
+    <!-- En-tête du menu -->
+    <div class="menu-header">
+      <span class="menu-title">Menu</span>
+      <button class="menu-close" (click)="toggleMenu()">✖</button>
     </div>
-  
-    
-  </section>
-</div>
 
+    <ul>
+      <li>
+        <a [routerLink]="['geo-page']" class="menu-item">
+          <mat-icon class="menu-icon">location_on</mat-icon>
+          <span>Géographiques</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['formations']" class="menu-item">
+          <mat-icon class="menu-icon">school</mat-icon>
+          <span>Formations</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['filieres']" class="menu-item">
+          <mat-icon class="menu-icon">class</mat-icon>
+          <span>Filières</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['etablissements']" class="menu-item">
+          <mat-icon class="menu-icon">compare</mat-icon>
+          <span>Comparatif établissements</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['universites']" class="menu-item">
+          <mat-icon class="menu-icon">compare</mat-icon>
+          <span>Comparatif universités</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['analyse']" class="menu-item">
+          <mat-icon class="menu-icon">insights</mat-icon>
+          <span>Analyses</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['rapports']" class="menu-item">
+          <mat-icon class="menu-icon">description</mat-icon>
+          <span>Rapports</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['apropos']" class="menu-item">
+          <mat-icon class="menu-icon">help_outline</mat-icon>
+          <span>À propos</span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- <img src="assets/image/sup.png" alt="Logo SUP" class="footer-image"> -->
+  </div>
+</div>

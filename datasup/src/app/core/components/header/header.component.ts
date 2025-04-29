@@ -5,6 +5,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
+
+
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+import { ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
+
+
+
 @Component({
     selector: 'app-header', // Assure-toi d'utiliser Angular 15+
     standalone: true,
@@ -13,20 +23,48 @@ import { MatToolbarModule } from '@angular/material/toolbar';
         CommonModule,
         MatToolbarModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        MatSidenavModule,
+        MatListModule,
+        MatDividerModule
+
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  isMenuOpen = false;
+
+
+
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+ 
+
+
+
+
+ /*  isMenuOpen = false; */
 
   constructor(private router: Router) {}
 
-  toggleMenu() {
+/*   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
+ */
+
+
+  isMenuOpen = false;
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+    if (this.isMenuOpen) {
+      this.sidenav.open();
+    } else {
+      this.sidenav.close();
+    }
+  }
+
+
 
   navigateToFormationspage(): void {
     this.router.navigate(['/formations']);
@@ -40,4 +78,7 @@ export class HeaderComponent {
       this.isMenuOpen = false;
     }
   }
+
+
+
 }
