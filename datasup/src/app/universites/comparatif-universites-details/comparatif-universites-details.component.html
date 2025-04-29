@@ -167,12 +167,7 @@
           </div>
         </div>
   
-        <!-- <div class="graphe" [hidden]="selectedSousOption1 !== 'pcneotechad'">
-          <div class="chart-container">
-            <h2>Effectif Néo-bacheliers technologiques admis - Phase Complémentaire</h2>
-            <canvas id="chartAdmisNeoTechPhaseComplementaire"></canvas>
-          </div>
-        </div> -->
+      
       </div>
     </div>
   </div>
@@ -430,26 +425,6 @@
 
 
 
-<!-- <div [hidden]="selectedOption1 !== 'boursiers'">
-  <div class="sous-boutons">
-    <mat-button-toggle-group name="typeBacGroup" aria-label="Type de Bac" [(ngModel)]="selectedSousOption11">
-      <mat-button-toggle value="boursiers_admis" class="bold-toggle">Effectif total Boursiers</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
-
-
-
-  <div [hidden]="selectedSousOption11 !== 'boursiers_admis'">
-    <div class="graphe">
-      <div class="chart-container">
-        <h2>Effectif total Boursiers Admis</h2>
-        <canvas id="chartBoursiersAdmis"></canvas>
-      </div>
-    </div>
-
-</div>
-</div>
- -->
 
  <div [hidden]="selectedOption1 !== 'boursiers'">
   <div class="graphe">
@@ -462,8 +437,6 @@
 
 
 
-  <!-- Section pour 'academie' et 'type_de_bac' -->
-  <!-- Ajoute des sections similaires selon les besoins -->
 
 </div>
 
@@ -547,14 +520,6 @@
 </div>
 
 
-
-
-<!-- <div *ngIf="selectedOption2 === 'taux_dacces'" class="graphe">
-  <div class="chart-container">
-      <h2>Taux d'accès</h2>
-      <canvas id="chartTauxAcces"></canvas>
-    </div>
-  </div> -->
 
 
 <!-- fin du bloc -->
@@ -692,23 +657,27 @@
   <div [hidden]="selectedOption3 !== 'moyenne'">
     <div class="sous-boutons">
       <mat-button-toggle-group name="sousOptionMoyenne" aria-label="Sélection Moyenne" [(ngModel)]="selectedSousOption3">
-        <mat-button-toggle value="generales" class="bold-toggle">Terminales générales</mat-button-toggle>
+        <mat-button-toggle value="generalesM" class="bold-toggle">Terminales générales</mat-button-toggle>
         <mat-button-toggle value="technologique" class="bold-toggle">Terminales technologiques</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
 
-    <!-- Graphique Moyenne -->
-    <div class="graphe">
+        <!-- Graphique Moyenne -->
+      <!--   <div class="graphe">
+          <div class="chart-container" style="position: relative; height:60vh; width:80vw">
+            <h2>Distribution des moyennes</h2>
+            <canvas id="chartContainer"></canvas>
+          </div>
+        </div> -->
+    
+    <div class="graphe" [hidden]="selectedSousOption3 !== 'generalesM'">
       <div class="chart-container">
-        <h2>Distribution des moyennes</h2>
-        <!-- <canvas id="chartAdmisAcademie"></canvas> -->
-
-          <canvas id="chartContainer"></canvas>
-   
-
-
+        <h2> Moyenne </h2>
+        <canvas id="chartContainer"></canvas>
       </div>
     </div>
+
+
   </div>
 
 </div>

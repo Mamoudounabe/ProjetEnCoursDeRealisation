@@ -173,69 +173,7 @@ ngOnInit(): void {
 
 }
 
-
-
-
-// Méthode pour calculer les moyennes des effectifs admis
-calculerMoyenneEffectifsAdmis(): void {
-  // Utilisation de "forEach" pour itérer sur chaque université
-  this.universitesData.forEach((universite: any) => {
-    const effectifAdmis = {
-      neo_bacheliers: universite.effectif_neo_bacheliers_admis,
-      professionnels_admis: universite.effectif_professionnels_admis,
-      technologiques_admis: universite.effectif_technologiques_admis,
-      boursiers_admis: universite.effectif_boursiers_admis,
-      generaux_admis: universite.effectif_generaux_admis
-    };
-
-    // Calcul de la somme des effectifs admis
-    const totalEffectifAdmis = Object.values(effectifAdmis).reduce((total, effectif) => total + effectif, 0);
-    const nombreCategories = Object.keys(effectifAdmis).length;
-    const moyenneEffectifsAdmis = totalEffectifAdmis / nombreCategories;
-
-    // Ajout de la moyenne dans l'université
-    universite.moyenne_effectif_admis = moyenneEffectifsAdmis;
-
-    // Affichage de la moyenne dans la console
-    console.log(`Moyenne des effectifs admis pour ${universite.etablissement} (${universite.annee}): ${moyenneEffectifsAdmis}`);
-  });
-}
-
-// Méthode pour construire le graphique avec la variable `chart` existante
-buildGraph(): void {
-  // Utilisation de "map" pour obtenir les labels et les données pour le graphique
-  const labels = this.universitesData.map((universite: any) => universite.etablissement);
-  const data = this.universitesData.map((universite: any) => universite.moyenne_effectif_admis);
-
-  // Utilisation de la variable 'chart' existante pour créer ou mettre à jour le graphique
-  if (this.chart) {
-    // Si le graphique existe déjà, on le détruit avant de le recréer
-    this.chart.destroy();
-  }
-
-  // Création d'un nouveau graphique
-  this.chart = new Chart('canvas', {
-    type: 'bar',  // Type de graphique : barres
-    data: {
-      labels: labels,  // Labels des universités
-      datasets: [{
-        label: 'Moyenne des effectifs admis',
-        data: data,  // Données des moyennes
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',  // Couleur de fond
-        borderColor: 'rgba(54, 162, 235, 1)',  // Couleur des bordures
-        borderWidth: 1  // Largeur des bordures
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true  // Commencer l'axe Y à 0
-        }
-      }
-    }
-  });
-}
-
+ 
 
 
   getUniversitesData(): void {
@@ -265,9 +203,9 @@ buildGraph(): void {
             acc[etablissement].push({
               annee: universite.annee,
               effectif_total_candidats_formation: universite.effectif_total_candidats_formation || 0,
-             /*  taux_acces: universite.taux_acces || 0, */
+
               effectif_candidates_formation: universite.effectif_candidates_formation || 0 ,
-              /* quotas applicable */
+           
               effectif_boursiers_generaux_phase_principale: universite.effectif_boursiers_generaux_phase_principale || 0,
               effectif_admis_meme_academie: universite.effectif_admis_meme_academie || 0,
               moyenne_effectif_admis_meme_academie: universite.moyenne_effectif_admis_meme_academie || 0,
@@ -286,7 +224,6 @@ buildGraph(): void {
               effectif_neo_bacheliers_mention_tres_bien_bac_admis: universite.effectif_neo_bacheliers_mention_tres_bien_bac_admis || 0,
               effectif_boursiers_professionnels_phase_principale: universite.effectif_boursiers_professionnels_phase_principale || 0,
             
-
 
               effectif_boursiers_technologiques_phase_principale: universite.effectif_boursiers_technologiques_phase_principale || 0,
               effectif_admis_meme_academie_paris_creteil_versailles: universite.effectif_admis_meme_academie_paris_creteil_versailles || 0,
@@ -310,9 +247,7 @@ buildGraph(): void {
               effectif_total_candidats_admis: universite.effectif_total_candidats_admis || 0,
 
               effectif_autres_admis: universite.effectif_autres_admis || 0,
-              effectif_neo_bacheliers_generaux_phase_complementaire: universite.effectif_neo_bacheliers_generaux_phase_complementaire || 0,
-
-              /* effectif_boursiers_generaux_phase_principale: universite.effectif_boursiers_generaux_phase_principale || 0, */         
+              effectif_neo_bacheliers_generaux_phase_complementaire: universite.effectif_neo_bacheliers_generaux_phase_complementaire || 0,     
             
              effectif_admis_phase_complementaire: universite.effectif_admis_phase_complementaire || 0,
              effectif_admis_phase_principale: universite.effectif_admis_phase_principale || 0,
@@ -324,44 +259,17 @@ buildGraph(): void {
              effectif_neo_bacheliers_sans_mention: universite.effectif_neo_bacheliers_sans_mention || 0,
              effectif_neo_bacheliers_sans_info_mention_bac_admis: universite.effectif_neo_bacheliers_sans_info_mention_bac_admis || 0,
              
-            
-
-
-
-             /* effectif_boursiers_admis: universite.effectif_boursiers_admis || 0,  */
-             /* effectif_total_candidats_admis: universite.effectif_total_candidats_admis || 0, */
-             /* effectif_admis_phase_principale: universite.effectif_admis_phase_principale || 0, */
-             effectif_total_candidats_phase_complementaire: universite.effectif_total_candidats_phase_complementaire || 0,
+              effectif_total_candidats_phase_complementaire: universite.effectif_total_candidats_phase_complementaire || 0,
              effectif_total_candidats_phase_principale: universite.effectif_total_candidats_phase_principale || 0,
-            /*  effectif_neo_bacheliers_tech nologiques_phase_principale: universite.effectif_neo_bacheliers_technologiques_phase_principale || 0,
- */       /* effectif_neo_bacheliers_technologiques_phase_complementaire: universite.effectif_neo_bacheliers_technologiques_phase_complementaire || 0, */
+       
           effectif_neo_bacheliers_technologiques_phase_complementaire: universite.effectif_neo_bacheliers_technologiques_phase_complementaire || 0,
-          /* effectif_admis_phase_complementaire: universite.effectif_admis_phase_complementaire || 0, */
-         /*  effectif_admis_phase_principale: universite.effectif_admis_phase_principale || 0, */
+      
          proportion_neo_bacheliers_admis: universite.proportion_neo_bacheliers_admis || 0,
-         /* effectif_technologiques_admis: universite.effectif_technologiques_admis || 0, */
-
-
-        /*  effectif_candidates_admises: universite.effectif_candidates_admises || 0, */
-       /*  effectif_total_candidats_admis: universite.effectif_total_candidats_admis || 0, */
-      /*  differenceCandidatesAdmis: (universite.effectif_total_candidats_admis || 0) - (   universite.effectif_candidates_admises || 0)
- */
-
-      /* effectif_boursiers_admis: universite.effectif_boursiers_admis || 0,
- *//* 
-      effectif_technologiques_admis: universite.effectif_technologiques_admis || 0,
-      effectif_generaux_admis: universite.effectif_generaux_admis || 0,  */
 
       effectif_boursiers_admis: universite.effectif_boursiers_admis || 0,
-      /* effectif_professionnels_admis: universite.effectif_professionnels_admis || 0, */
+     
       taux_acces: universite.taux_acces || 0,
-/*       effectif_total_candidats_formation: universite.effectif_total_candidats_formation || 0, */
-/* effectif_admis_proposition_ouverture_phase_principale: universite.effectif_admis_proposition_ouverture_phase_principale || 0,
-effectif_admis_proposition_avant_fin_procedure_principale : universite.effectif_admis_proposition_avant_fin_procedure_principale || 0,
-      */
-/* part_terminales_generales_position_recevoir_proposition_phase_principale: universite.part_terminales_generales_position_recevoir_proposition_phase_principale || 0,
-part_terminales_technologiques_position_recevoir_proposition_phase_principale: universite.part_terminales_technologiques_position_recevoir_proposition_phase_principale || 0,
-part_terminales_professionnelles_position_recevoir_proposition_phase_principale: universite.part_terminales_professionnelles_position_recevoir_proposition_phase_principale || 0, */
+
 
 part_terminales_generales_position_recevoir_proposition_phase_principale: universite.part_terminales_generales_position_recevoir_proposition_phase_principale ? parseFloat(universite.part_terminales_generales_position_recevoir_proposition_phase_principale.toFixed(2)) : 0,
 part_terminales_technologiques_position_recevoir_proposition_phase_principale: universite.part_terminales_technologiques_position_recevoir_proposition_phase_principale ? parseFloat(universite.part_terminales_technologiques_position_recevoir_proposition_phase_principale.toFixed(2)) : 0,
@@ -378,143 +286,6 @@ part_terminales_professionnelles_position_recevoir_proposition_phase_principale:
           console.log("Données transformées :", this.universitesData);
           console.log("Années disponibles :", Object.values(this.universitesData).flat().map(d => d.annee));
           console.log("je teste");
-
-
-
-
-    /*      // 1. Calculer les indicateurs pour le tableau
-         this.quotasData = Object.keys(this.universitesData).map(uni => {
-          const uniData = this.universitesData[uni][0];
-          return {
-            etablissement: uni,
-            total_admis: uniData.effectif_total_candidats_admis,
-            pct_boursiers: uniData.effectif_total_candidats_admis > 0 ? 
-              Math.round(uniData.effectif_boursiers_admis * 1000 / uniData.effectif_total_candidats_admis) / 10 : 0,
-            pct_bac_general: uniData.effectif_total_candidats_admis > 0 ? 
-              Math.round(uniData.effectif_generaux_admis * 1000 / uniData.effectif_total_candidats_admis) / 10 : 0
-          } as { etablissement: string; total_admis: number; pct_boursiers: number; pct_bac_general: number };
-        });
-
-      // 2. Créer le graphique
-      this.createQuotasChart(); */
-
-
-             /*    // 1. Calculer les indicateurs pour le tableau (limitée à 2 universités)
-          this.quotasData = Object.keys(this.universitesData)
-          .slice(0, 2) // Prendre seulement les 2 premières universités
-          .map(uni => {
-            const uniData = this.universitesData[uni][0];
-            return {
-              etablissement: uni,
-              total_admis: uniData.effectif_total_candidats_admis || 0,
-              pct_boursiers: uniData.effectif_total_candidats_admis > 0 ? 
-                Math.round(uniData.effectif_boursiers_admis * 1000 / uniData.effectif_total_candidats_admis) / 10 : 0,
-              pct_bac_general: uniData.effectif_total_candidats_admis > 0 ? 
-                Math.round(uniData.effectif_generaux_admis * 1000 / uniData.effectif_total_candidats_admis) / 10 : 0
-            } as { 
-              etablissement: string; 
-              total_admis: number; 
-              pct_boursiers: number; 
-              pct_bac_general: number 
-            };
-          });
-
-          // 2. Créer le graphique (affichera automatiquement les 2 universités)
-          this.createQuotasChart(); */
-
-
-
-/* 
-          this.quotasData = Object.keys(this.universitesData)
-  .slice(0, 2)
-  .flatMap(uni => {
-    return this.universitesData[uni]
-      .filter(data => this.anneesActuelles.includes(String(data.annee))) // 👈 ici
-      .map(uniData => ({
-        etablissement: `${uni} (${uniData.annee})`,
-        annee: uniData.annee,
-        total_admis: uniData.effectif_total_candidats_admis || 0,
-        pct_boursiers: uniData.effectif_total_candidats_admis > 0
-          ? Math.round(uniData.effectif_boursiers_admis * 1000 / uniData.effectif_total_candidats_admis) / 10
-          : 0,
-        pct_bac_general: uniData.effectif_total_candidats_admis > 0
-          ? Math.round(uniData.effectif_generaux_admis * 1000 / uniData.effectif_total_candidats_admis) / 10
-          : 0
-      }));
-  });
-
-
-  this.createQuotasChart(); 
- *//* 
-
-          this.quotasData = Object.keys(this.universitesData)
-          .slice(0, 2)
-          .flatMap(uni => {
-            return this.universitesData[uni]
-              .filter(data =>
-                this.anneesActuelles.includes(String(data.annee)) &&
-                data.effectif_total_candidats_admis > 0
-              )
-              .map(uniData => ({
-                etablissement: `${uni} (${uniData.annee})`,
-                annee: uniData.annee,
-                total_admis: uniData.effectif_total_candidats_admis || 0,
-                pct_boursiers: Math.min(
-                  Math.round(uniData.effectif_boursiers_admis * 1000 / uniData.effectif_total_candidats_admis) / 10,
-                  100
-                ),
-                pct_bac_general: Math.min(
-                  Math.round(uniData.effectif_generaux_admis * 1000 / uniData.effectif_total_candidats_admis) / 10,
-                  100
-                )
-              }));
-          }); */
-          /* this.quotasData = Object.keys(this.universitesData)
-          .slice(0, 2) // seulement 2 universités
-          .flatMap(uni => {
-            return this.universitesData[uni]
-              .filter(data => this.anneesActuelles.includes(String(data.annee)))
-              .map(uniData => {
-                const total = Number(uniData.effectif_total_candidats_admis) || 0;
-                const pct_boursiers = parseFloat(uniData.pct_boursiers.replace('%', '')) || 0;
-                const pct_bac_general = parseFloat(uniData.pct_bac_general.replace('%', '')) || 0;
-
-                return {
-                  etablissement: `${uni} (${uniData.annee})`,
-                  annee: uniData.annee,
-                  total_admis: total,
-                  pct_boursiers: pct_boursiers,
-                  pct_bac_general: pct_bac_general
-                };
-              });
-          });
-
-
-        this.createQuotasChart(); */
-
-
-
-
-
-
-
-                                          /*  Moyennes*/
-                                // 1. Calcul des données pour chaque université + moyennes
-             
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         
@@ -604,10 +375,15 @@ part_terminales_professionnelles_position_recevoir_proposition_phase_principale:
 
 
         
-        this.calculerMoyenneEffectifsAdmis();
+   /*     this.calculerMoyenneEffectifsAdmis();
 
           
-          this.buildGraph();
+         // Attendre que le template soit mis à jour avant de créer le graphique
+         setTimeout(() => {
+          if (this.selectedSousOption3 === 'generalesM') {
+            this.buildGraph();
+          }
+        }, 0) */
 
 
           this.isLoading = false; //  Fin du chargement une fois tout prêt
@@ -619,6 +395,116 @@ part_terminales_professionnelles_position_recevoir_proposition_phase_principale:
         }
       );
   }
+
+
+
+
+
+
+
+
+
+
+
+
+ /*  calculerMoyenneEffectifsAdmis(): void {
+    if (!Array.isArray(this.universitesData)) {
+      console.error('universitesData doit être un tableau');
+      return;
+    }
+
+    this.universitesData.forEach((universite: any) => {
+      const categories = [
+        universite.effectif_neo_bacheliers_admis,
+        universite.effectif_professionnels_admis,
+        universite.effectif_technologiques_admis,
+        universite.effectif_boursiers_admis,
+        universite.effectif_generaux_admis
+      ].filter(val => val !== undefined && val !== null);
+
+      const totalEffectifAdmis = categories.reduce((total, effectif) => total + effectif, 0);
+      universite.moyenne_effectif_admis = categories.length > 0 ? totalEffectifAdmis / categories.length : 0;
+
+      console.log(`Moyenne des effectifs admis pour ${universite.etablissement} (${universite.annee}): ${universite.moyenne_effectif_admis}`);
+    });
+  }
+
+  buildGraph(): void {
+    const canvas = document.getElementById('chartContainer') as HTMLCanvasElement;
+    
+    if (!canvas) {
+      console.warn('Canvas element with id "chartContainer" not found');
+      return;
+    }
+
+    // Détruire l'ancien graphique s'il existe
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    const labels = this.universitesData.map((universite: any) => 
+      `${universite.etablissement} (${universite.annee})`);
+    const data = this.universitesData.map((universite: any) => universite.moyenne_effectif_admis);
+
+    this.chart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Moyenne des effectifs admis',
+          data: data,
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Moyenne des Effectifs Admis par Université'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `${context.dataset.label}: ${context.raw.toFixed(2)}`;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Nombre moyen d\'admis'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Universités'
+            }
+          }
+        }
+      }
+    });
+  } */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
