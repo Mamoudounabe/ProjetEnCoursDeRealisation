@@ -274,7 +274,7 @@ ngOnInit(): void {
 part_terminales_generales_position_recevoir_proposition_phase_principale: universite.part_terminales_generales_position_recevoir_proposition_phase_principale ? parseFloat(universite.part_terminales_generales_position_recevoir_proposition_phase_principale.toFixed(2)) : 0,
 part_terminales_technologiques_position_recevoir_proposition_phase_principale: universite.part_terminales_technologiques_position_recevoir_proposition_phase_principale ? parseFloat(universite.part_terminales_technologiques_position_recevoir_proposition_phase_principale.toFixed(2)) : 0,
 part_terminales_professionnelles_position_recevoir_proposition_phase_principale: universite.part_terminales_professionnelles_position_recevoir_proposition_phase_principale ? parseFloat(universite.part_terminales_professionnelles_position_recevoir_proposition_phase_principale.toFixed(2)) : 0,
-
+/* effectif_neo_bacheliers_generaux_phase_complementaire: universite.effectif_neo_bacheliers_generaux_phase_complementaire || 0, */
 
 
             });
@@ -301,7 +301,7 @@ part_terminales_professionnelles_position_recevoir_proposition_phase_principale:
          this.createChart('effectif_autres_candidats_phase_principale', 'chartAutresCandidats', 'Autres Candidats Phase Principale', ['#009FE3', '#A3D39C']);
 
           this.createChart('effectif_neo_bacheliers_generaux_phase_principale', 'chartNeoBacheliersGeneraux', 'Néo-bacheliers Généraux Phase Principale', ['#009FE3', '#A3D39C']);
-         this.createChart('effectif_neo_bacheliers_generaux_phase_complementaire', 'chartNeoBacheliersTechAdmis', 'Néo-bacheliers Généraux Phase Complémentaire', ['#009FE3', '#A3D39C']);
+         this.createChart('effectif_neo_bacheliers_generaux_phase_complementaire', 'chartNeoBacheliersGpc', 'Néo-bacheliers Généraux Phase Complémentaire', ['#009FE3', '#A3D39C']);
 
           this.createChart('effectif_neo_bacheliers_technologiques_phase_principale', 'chartNeoBacheliersTechnologiques', 'Néo-bacheliers Technologiques Phase Principale', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_neo_bacheliers_professionnels_phase_principale', 'chartNeoBacheliersProfessionnels', 'Néo-bacheliers Professionnels Phase Principale', ['#009FE3', '#A3D39C']);
@@ -375,7 +375,7 @@ part_terminales_professionnelles_position_recevoir_proposition_phase_principale:
 
 
         
-   /*     this.calculerMoyenneEffectifsAdmis();
+   /*     this.calculerMoyenneEffectifsAdmis(); chartNeoBacheliersGenerauxPhaseComplementaire
 
           
          // Attendre que le template soit mis à jour avant de créer le graphique

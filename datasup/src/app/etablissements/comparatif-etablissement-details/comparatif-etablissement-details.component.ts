@@ -751,7 +751,7 @@ updateChart() {
         (canvas as any).chartInstance.destroy();
       }
   
-      console.log(`📊 Création du graphique : ${label}`);
+      console.log(` Création du graphique : ${label}`);
   
       // Labels et données
       const labelsFiliere = sortedData.map(etab => etab.NomEtablissement); // Afficher sur le graphique
@@ -778,7 +778,7 @@ updateChart() {
             backgroundColor: labelsFiliere.map((_, index) => colors[index % colors.length]),
             borderColor: labelsFiliere.map((_, index) => colors[index % colors.length]),
             borderWidth: 1,
-            barThickness: 100,
+            barThickness: 40,
             barPercentage: 0.6,
             categoryPercentage: 0.8,
           }]
