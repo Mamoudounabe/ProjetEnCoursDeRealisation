@@ -329,3 +329,40 @@ def get_nbFilieresParMatiere(
     except Exception as e:
         print(f"Erreur dans get_nbFilieresParMatiere: {e}")
         raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+
+
+
+
+
+
+
+
+
+@router.get("/universite/get_total_places_par_filiere", 
+           response_model=List[Dict[str, Any]], 
+           tags=["Filiere"])
+def get_total_places_par_filiere(
+    filieres: List[str] = Query(..., description="Liste des filières à inclure (ex: BTS,BUT,Licence)"),
+    annees: List[str] = Query(..., description="Liste des années à inclure (ex: 2023,2022)")
+):
+    """
+    Endpoint pour récupérer le total des places disponibles par filière très agrégée
+    (BTS, BUT, Licence) pour les années spécifiées, trié par ordre décroissant du nombre total de places.
+    """
+    try:
+        result = EtablissementManager.get_total_places_par_filiere(filieres, annees)
+        if not result:
+            raise HTTPException(
+                status_code=404, 
+                detail="Aucun résultat trouvé pour les paramètres fournis."
+            )
+        return JSONResponse(
+            content=result, 
+            headers={"Content-Type": "application/json; charset=utf-8"}
+        )
+    except Exception as e:
+        print(f"Erreur dans get_total_places_par_filiere: {e}")
+        raise HTTPException(
+            status_code=500, 
+            detail="Erreur interne du serveur"
+        )

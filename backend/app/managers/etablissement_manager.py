@@ -541,7 +541,11 @@ class EtablissementManager:
 
 
 
-               
+                toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis),
+                toInteger(a.effectif_neo_bacheliers_sans_info_mention_bac_admis),
+                toInteger(a.ffectif_neo_bacheliers_mention_assez_bien_bac_admis),
+                toInteger(a.effectif_generaux_mention_bac_admis),
+                toInteger(a.effectif_neo_bacheliers_mention_tres_bien_bac_admis),
                
 
                toInteger(a.effectif_admis_proposition_avant_fin_procedure_principale),
@@ -603,8 +607,6 @@ class EtablissementManager:
             print(traceback.format_exc())
             return []
         
-
-
 
 
 
@@ -1088,4 +1090,47 @@ class EtablissementManager:
                 return [{"TotalInformatique": record["TotalInformatique"]}]
         except Exception as e:
             print(f"Erreur dans get_nbFilieresParMatiere: {e}")
+            return []
+        
+
+
+
+
+
+
+
+    @staticmethod
+    def get_total_places_par_filiere(filieres: List[str], annees: List[str]) -> List[Dict[str, Any]]:
+        """
+        Retourne le total des places disponibles par filière très agrégée pour les années spécifiées
+        trié par ordre décroissant du nombre total de places.
+        
+        Args:
+            filieres: Liste des filières à inclure (ex: ['BTS', 'BUT', 'Licence'])
+            annees: Liste des années à inclure (ex: ['2023', '2022'])
+        
+        Returns:
+            Liste de dictionnaires contenant filière et total des places
+        """
+        query = """
+        MATCH (s:Session)-[:HAS_ETABLISSEMENT]->(e:Etablissement)
+        MATCH (e)-[:OFFERS]->(f:Filiere)
+        WHERE f.filiere_formation_tres_agregee IN $filieres
+        AND s.annee IN $annees
+        AND f.capacite_etablissement_formation IS NOT NULL
+        WITH f.filiere_formation_tres_agregee AS filiere,
+            toInteger(f.capacite_etablissement_formation) AS capacite
+        RETURN filiere,
+            sum(capacite) AS total_places
+        ORDER BY total_places DESC
+        """
+        try:
+            driver = Neo4JDriver.get_driver()
+            with driver.session() as session:
+                result = session.run(query, filieres=filieres, annees=annees)
+                return [{"filiere": record["filiere"], 
+                        "total_places": record["total_places"]} 
+                    for record in result]
+        except Exception as e:
+            print(f"Erreur dans get_total_places_par_filiere: {e}")
             return []
