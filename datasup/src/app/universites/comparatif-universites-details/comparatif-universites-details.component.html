@@ -40,25 +40,37 @@
             <mat-button-toggle value="neobachelier" class="bold-toggle">Néo-bacheliers</mat-button-toggle>
             <mat-button-toggle value="touslescandidats" class="bold-toggle">Tous les candidats</mat-button-toggle>
             <mat-button-toggle value="neoBachierlierstechnologique" class="bold-toggle">Néo-bacheliers technologiques</mat-button-toggle>
+            <mat-button-toggle value="boursiers" class="bold-toggle">Boursiers</mat-button-toggle>
           </mat-button-toggle-group>
         </div>
   
-        <!-- Sous-options pour Nombre de Candidats -->
-        <div *ngIf="selectedSousOption === 'neobachelier' || selectedSousOption === 'touslescandidats' || selectedSousOption === 'neoBachierlierstechnologique'">
+
+                <!-- Sous-options pour Nombre de Candidats -->
+        <div *ngIf="selectedSousOption === 'neobachelier' || selectedSousOption === 'touslescandidats' || selectedSousOption === 'neoBachierlierstechnologique' || selectedSousOption === 'boursiers'">
           <div class="sous-boutons">
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSousOption1">
+              <!-- Pour Néo-bacheliers -->
               <mat-button-toggle *ngIf="selectedSousOption === 'neobachelier'" value="ppneo" class="bold-toggle">Phase Principale</mat-button-toggle>
               <mat-button-toggle *ngIf="selectedSousOption === 'neobachelier'" value="pcneo" class="bold-toggle">Phase Complémentaire</mat-button-toggle>
-  
+
+              <!-- Pour Tous les Candidats -->
               <mat-button-toggle *ngIf="selectedSousOption === 'touslescandidats'" value="ppneot" class="bold-toggle">Phase Principale</mat-button-toggle>
               <mat-button-toggle *ngIf="selectedSousOption === 'touslescandidats'" value="pcneot" class="bold-toggle">Phase Complémentaire</mat-button-toggle>
-  
+
+              <!-- Pour Néo-Bacheliers Technologiques -->
               <mat-button-toggle *ngIf="selectedSousOption === 'neoBachierlierstechnologique'" value="ppneotech" class="bold-toggle">Phase Principale</mat-button-toggle>
               <mat-button-toggle *ngIf="selectedSousOption === 'neoBachierlierstechnologique'" value="pcneotech" class="bold-toggle">Phase Complémentaire</mat-button-toggle>
+
+              <!-- Option pour Boursiers -->
+              <mat-button-toggle *ngIf="selectedSousOption === 'boursiers'" value="boursiers_generaux" class="bold-toggle">Boursiers généraux</mat-button-toggle>
+              <mat-button-toggle *ngIf="selectedSousOption === 'boursiers'" value="boursiers_technologiques" class="bold-toggle">Boursiers technologiques</mat-button-toggle>
+              <mat-button-toggle *ngIf="selectedSousOption === 'boursiers'" value="boursiers_professionnels" class="bold-toggle">Boursiers professionnels</mat-button-toggle>
             </mat-button-toggle-group>
           </div>
         </div>
-  
+
+
+          
         <!-- Graphiques selon sélection -->
         <div class="graphe" [hidden]="selectedSousOption1 !== 'ppneo'">
           <div class="chart-container">
@@ -101,7 +113,34 @@
             <canvas id="chartNeoBacheliersTechnologiquesPhaseComplementaire"></canvas>
           </div>
         </div>
-      </div>
+
+
+
+        <div class="graphe" [hidden]="selectedSousOption1 !== 'boursiers_generaux'">
+          <div class="chart-container">
+            <h2>Boursiers généraux</h2>
+            <canvas id="chartBoursiersGeneraux"></canvas>
+          </div>
+        </div>
+        
+        <div class="graphe" [hidden]="selectedSousOption1 !== 'boursiers_technologiques'">
+          <div class="chart-container">
+            <h2>Boursiers technologiques</h2>
+            <canvas id="chartBoursiersTechnologiques"></canvas>
+          </div>
+        </div>
+        
+        <div class="graphe" [hidden]="selectedSousOption1 !== 'boursiers_professionnels'">
+          <div class="chart-container">
+            <h2>Boursiers professionnels</h2>
+            <canvas id="chartBoursierPro"></canvas>
+          </div>
+        </div>
+        
+
+        </div>
+  
+
   
       <!-- Options pour Nombre d'Admis -->
       <div [hidden]="selectedOption !== 'nombre_dadmis'">
@@ -254,187 +293,206 @@
     <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption1"> 
       <mat-button-toggle value="mention_au_bac" class="bold-toggle">Mention au bac</mat-button-toggle>
       <mat-button-toggle value="sexe" class="bold-toggle">Sexe</mat-button-toggle>
-      <mat-button-toggle value="Boursiers" class="bold-toggle">Boursier</mat-button-toggle>
+      <mat-button-toggle value="bourse" class="bold-toggle">Boursier</mat-button-toggle>
+
      <!--  <mat-button-toggle value="academie" class="bold-toggle">Académie</mat-button-toggle> -->
       <mat-button-toggle value="type_de_bac" class="bold-toggle">Type de bac</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
 
+    
+    <!-- Section pour 'mention_au_bac' -->
+    <div [hidden]="selectedOption1 !== 'mention_au_bac'">
+      <div class="sous-boutons">
+        <mat-button-toggle-group name="mentionGroup1" aria-label="Mentions" [(ngModel)]="selectedSousOption11">
+          <mat-button-toggle value="tres_bien_felicitations" class="bold-toggle">Très bien avec félicitations</mat-button-toggle>
+          <mat-button-toggle value="tres_bien" class="bold-toggle">Très bien</mat-button-toggle>
+          <mat-button-toggle value="bien" class="bold-toggle">Bien</mat-button-toggle>
+          <mat-button-toggle value="assez_bien" class="bold-toggle">Assez bien</mat-button-toggle>
+          <!-- <mat-button-toggle value="passable" class="bold-toggle">Passable</mat-button-toggle> -->
+          <mat-button-toggle value="mention_pro" class="bold-toggle">Mentions professionnels</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div class="sous-boutons">
+        <mat-button-toggle-group name="mentionGroup2" aria-label="Mentions" [(ngModel)]="selectedSousOption11">
+          <mat-button-toggle value="passable" class="bold-toggle">Passable</mat-button-toggle> 
+          <mat-button-toggle value="sans_mention" class="bold-toggle">Sans mention</mat-button-toggle>
+          <mat-button-toggle value="mention_technologique" class="bold-toggle">Mention technologique</mat-button-toggle>
+          <mat-button-toggle value="sans_info_mention" class="bold-toggle">Sans informations Mention</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
   
-  <!-- Section pour 'mention_au_bac' -->
-  <div [hidden]="selectedOption1 !== 'mention_au_bac'">
-    <div class="sous-boutons">
-      <mat-button-toggle-group name="mentionGroup1" aria-label="Mentions" [(ngModel)]="selectedSousOption11">
-        <mat-button-toggle value="tres_bien_felicitations" class="bold-toggle">Très bien avec félicitations</mat-button-toggle>
-        <mat-button-toggle value="tres_bien" class="bold-toggle">Très bien</mat-button-toggle>
-        <mat-button-toggle value="bien" class="bold-toggle">Bien</mat-button-toggle>
-        <mat-button-toggle value="assez_bien" class="bold-toggle">Assez bien</mat-button-toggle>
-        <!-- <mat-button-toggle value="passable" class="bold-toggle">Passable</mat-button-toggle> -->
-        <mat-button-toggle value="mention_pro" class="bold-toggle">Mentions professionnels</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-
-    <div class="sous-boutons">
-      <mat-button-toggle-group name="mentionGroup2" aria-label="Mentions" [(ngModel)]="selectedSousOption11">
-        <mat-button-toggle value="passable" class="bold-toggle">Passable</mat-button-toggle> 
-        <mat-button-toggle value="sans_mention" class="bold-toggle">Sans mention</mat-button-toggle>
-        <mat-button-toggle value="mention_technologique" class="bold-toggle">Mention technologique</mat-button-toggle>
-        <mat-button-toggle value="sans_info_mention" class="bold-toggle">Sans informations Mention</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
- 
 
 
-   <!-- Graphiques -->
-   <div class="graphe" [hidden]="selectedSousOption11 !== 'mention_technologique'">
-    <div class="chart-container">
-      <h2>Mention technologique</h2>
-      <canvas id="chartCandidates"></canvas>
+    <!-- Graphiques -->
+    <div class="graphe" [hidden]="selectedSousOption11 !== 'mention_technologique'">
+      <div class="chart-container">
+        <h2>Mention technologique</h2>
+        <canvas id="chartCandidates"></canvas>
+      </div>
     </div>
+
+    <div class="graphe" [hidden]="selectedSousOption11 !== 'tres_bien_felicitations'">
+      <div class="chart-container">
+        <h2>Très bien avec félicitations</h2>
+        <canvas id="chartNeoBacheliersMentionTresBien"></canvas>
+      </div>
+    </div>
+
+    <div class="graphe" [hidden]="selectedSousOption11 !== 'tres_bien'">
+      <div class="chart-container">
+        <h2>Très bien</h2>
+        <canvas id="chartMentionTresBien"></canvas>
+      </div>
+    </div>
+
+    <div class="graphe" [hidden]="selectedSousOption11 !== 'bien'">
+      <div class="chart-container">
+        <h2>Bien</h2>
+        <canvas id="chartNeoBacheliersMentionBien"></canvas>
+      </div>
+    </div>
+
+    <div class="graphe" [hidden]="selectedSousOption11 !== 'assez_bien'">
+      <div class="chart-container">
+        <h2>Assez bien</h2>
+        <canvas id="chartMentionAssezBien"></canvas>
+      </div>
+    </div>
+
+    <div class="graphe" [hidden]="selectedSousOption11 !== 'passable'">
+      <div class="chart-container">
+        <h2>Passable</h2>
+        <canvas id="chartGenerauxMentionBac"></canvas>
+      </div>
+    </div>
+
+    <div class="graphe" [hidden]="selectedSousOption11 !== 'sans_mention'">
+      <div class="chart-container">
+        <h2>Sans mention</h2>
+        <canvas id="chartSansMention"></canvas>
+      </div>
+    </div>
+  
+    <div class="graphe" [hidden]="selectedSousOption11 !== 'mention_pro'">
+      <div class="chart-container">
+        <h2>Mentions professionnels</h2>
+        <canvas id="chartProfessionnelsMentionBac"></canvas>
+      </div>
+    </div>
+
+    <div class="graphe" [hidden]="selectedSousOption11 !== 'sans_info_mention'">
+      <div class="chart-container">
+        <h2>Sans informations Mention</h2>
+        <canvas id="chartNeoBacheliersSansInfo"></canvas>
+      </div>
+      </div>
+
+
+    </div>
+
+
+
+
+
+
+
+  <!-- Section pour 'sexe' -->
+   <div [hidden]="selectedOption1 !== 'sexe'">
+      <div class="sous-boutons">
+        <mat-button-toggle-group name="sexeGroup" aria-label="Sexe" [(ngModel)]="selectedSousOption11">
+          <mat-button-toggle value="effectif_candidates_admises" class="bold-toggle">Effectif Candidates admises</mat-button-toggle>
+          <mat-button-toggle value="effectif_total_candidats_admis" class="bold-toggle">Effectif Total Candidats admis</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <!-- Graphique Effectif Candidates admises -->
+      <div class="graphe" [hidden]="selectedSousOption11 !== 'effectif_candidates_admises'">
+        <div class="chart-container">
+          <h2>Effectif Candidates admises</h2>
+          <canvas id="chartCandidatesAdmises"></canvas>
+        </div>
+      </div>
+
+      <!-- Graphique Effectif Total Candidats admis -->
+          <div class="graphe" [hidden]="selectedSousOption11 !== 'effectif_total_candidats_admis'">
+            <div class="chart-container">
+              <h2>Effectif Total Candidats admis</h2>
+              <canvas id="chartTotalCandidatsAdmis"></canvas>
+            </div>
+          </div>
    </div>
 
-   <div class="graphe" [hidden]="selectedSousOption11 !== 'tres_bien_felicitations'">
-    <div class="chart-container">
-      <h2>Très bien avec félicitations</h2>
-      <canvas id="chartNeoBacheliersMentionTresBien"></canvas>
-    </div>
-   </div>
-
-   <div class="graphe" [hidden]="selectedSousOption11 !== 'tres_bien'">
-    <div class="chart-container">
-      <h2>Très bien</h2>
-      <canvas id="chartMentionTresBien"></canvas>
-    </div>
-   </div>
-
-   <div class="graphe" [hidden]="selectedSousOption11 !== 'bien'">
-    <div class="chart-container">
-      <h2>Bien</h2>
-      <canvas id="chartNeoBacheliersMentionBien"></canvas>
-    </div>
-   </div>
-
-   <div class="graphe" [hidden]="selectedSousOption11 !== 'assez_bien'">
-    <div class="chart-container">
-      <h2>Assez bien</h2>
-      <canvas id="chartMentionAssezBien"></canvas>
-    </div>
-   </div>
-
-   <div class="graphe" [hidden]="selectedSousOption11 !== 'passable'">
-    <div class="chart-container">
-      <h2>Passable</h2>
-      <canvas id="chartGenerauxMentionBac"></canvas>
-    </div>
-   </div>
-
-   <div class="graphe" [hidden]="selectedSousOption11 !== 'sans_mention'">
-    <div class="chart-container">
-      <h2>Sans mention</h2>
-      <canvas id="chartSansMention"></canvas>
-    </div>
-   </div>
- 
-   <div class="graphe" [hidden]="selectedSousOption11 !== 'mention_pro'">
-    <div class="chart-container">
-      <h2>Mentions professionnels</h2>
-      <canvas id="chartProfessionnelsMentionBac"></canvas>
-    </div>
-   </div>
-
-   <div class="graphe" [hidden]="selectedSousOption11 !== 'sans_info_mention'">
-    <div class="chart-container">
-      <h2>Sans informations Mention</h2>
-      <canvas id="chartNeoBacheliersSansInfo"></canvas>
-    </div>
-    </div>
-
-
-   </div>
 
 
 
 
+      <!-- Section pour 'type_de_bac' -->
+      <div [hidden]="selectedOption1 !== 'type_de_bac'">
+        <div class="sous-boutons">
+          <mat-button-toggle-group name="typeBacGroup" aria-label="Type de Bac" [(ngModel)]="selectedSousOption11">
+            <mat-button-toggle value="bac_generaux" class="bold-toggle">Bac généraux</mat-button-toggle>
+            <mat-button-toggle value="bac_technologiques" class="bold-toggle">Bac technologiques</mat-button-toggle>
+            <mat-button-toggle value="bac_pro" class="bold-toggle">Bac professionnels</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+
+        <!-- Graphique Bac généraux -->
+        <div class="graphe" [hidden]="selectedSousOption11 !== 'bac_generaux'">
+          <div class="chart-container">
+            <h2>Bac généraux</h2>
+            <canvas id="chartGenerauxAdmis"></canvas>
+          </div>
+        </div>
+
+        <!-- Graphique Bac technologiques -->
+        <div class="graphe" [hidden]="selectedSousOption11 !== 'bac_technologiques'">
+          <div class="chart-container">
+            <h2>Bac technologiques</h2>
+            <canvas id="chartNeoBacheliersTechAdmis"></canvas>
+          </div>
+        </div>
+
+        <!-- bac pro -->
+        <div class="graphe" [hidden]="selectedSousOption11 !== 'bac_pro'">
+          <div class="chart-container">
+            <h2>Bac professionnels</h2>
+            <canvas id="chartProfessionnelsAdmis"></canvas>
+          </div>
+
+
+        </div> 
+
+      </div>
 
 
 
- <!-- Section pour 'sexe' -->
-<div [hidden]="selectedOption1 !== 'sexe'">
-  <div class="sous-boutons">
-    <mat-button-toggle-group name="sexeGroup" aria-label="Sexe" [(ngModel)]="selectedSousOption11">
-      <mat-button-toggle value="effectif_candidates_admises" class="bold-toggle">Effectif Candidates admises</mat-button-toggle>
-      <mat-button-toggle value="effectif_total_candidats_admis" class="bold-toggle">Effectif Total Candidats admis</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
+      <div [hidden]="selectedOption1 !== 'bourse'">
+        <div class="sous-boutons">
+  
+          <mat-button-toggle-group name="bourseGroup1" aria-label="Boursiers" [(ngModel)]="selectedSousOption11">
+            <mat-button-toggle value="boursiers_admis" class="bold-toggle">Boursiers admis</mat-button-toggle>
+            <mat-button-toggle value="boursiers_generaux" class="bold-toggle">Boursiers généraux</mat-button-toggle>
+            <mat-button-toggle value="boursiers_technologiques" class="bold-toggle">Boursiers technologiques</mat-button-toggle>
+            <mat-button-toggle value="boursiers_professionnels" class="bold-toggle">Boursiers professionnels</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
 
-  <!-- Graphique Effectif Candidates admises -->
-  <div class="graphe" [hidden]="selectedSousOption11 !== 'effectif_candidates_admises'">
-    <div class="chart-container">
-      <h2>Effectif Candidates admises</h2>
-      <canvas id="chartCandidatesAdmises"></canvas>
-    </div>
-  </div>
-
-  <!-- Graphique Effectif Total Candidats admis -->
-  <div class="graphe" [hidden]="selectedSousOption11 !== 'effectif_total_candidats_admis'">
-    <div class="chart-container">
-      <h2>Effectif Total Candidats admis</h2>
-      <canvas id="chartTotalCandidatsAdmis"></canvas>
-    </div>
-  </div>
-</div>
+        <!-- Exemple de graphique -->
+        <div class="graphe" [hidden]="selectedSousOption11 !== 'boursiers_admis'">
+          <div class="chart-container">
+            <h2>Effectif total Boursiers admis</h2>
+            <canvas id="chartBoursiersEfAdmis"></canvas>
+          </div>
+        </div>
+      </div>
 
 
 
 
 
-<!-- Section pour 'type_de_bac' -->
-<div [hidden]="selectedOption1 !== 'type_de_bac'">
-  <div class="sous-boutons">
-    <mat-button-toggle-group name="typeBacGroup" aria-label="Type de Bac" [(ngModel)]="selectedSousOption11">
-      <mat-button-toggle value="bac_generaux" class="bold-toggle">Bac généraux</mat-button-toggle>
-      <mat-button-toggle value="bac_technologiques" class="bold-toggle">Bac technologiques</mat-button-toggle>
-      <mat-button-toggle value="bac_pro" class="bold-toggle">Bac professionnels</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
 
-  <!-- Graphique Bac généraux -->
-  <div class="graphe" [hidden]="selectedSousOption11 !== 'bac_generaux'">
-    <div class="chart-container">
-      <h2>Bac généraux</h2>
-      <canvas id="chartGenerauxAdmis"></canvas>
-    </div>
-  </div>
-
-  <!-- Graphique Bac technologiques -->
-  <div class="graphe" [hidden]="selectedSousOption11 !== 'bac_technologiques'">
-    <div class="chart-container">
-      <h2>Bac technologiques</h2>
-      <canvas id="chartNeoBacheliersTechAdmis"></canvas>
-    </div>
-  </div>
-
-   <!-- bac pro -->
-  <div class="graphe" [hidden]="selectedSousOption11 !== 'bac_pro'">
-    <div class="chart-container">
-      <h2>Bac professionnels</h2>
-      <canvas id="chartProfessionnelsAdmis"></canvas>
-    </div>
-
-
-</div>
-
-
-
-
- <div [hidden]="selectedOption1 !== 'Boursiers'">
-  <div class="graphe">
-    <div class="chart-container">
-      <h2>Effectif total Boursiers Admis</h2>
-      <canvas id="chartBoursiersAdmis"></canvas>
-    </div>
-  </div>
-</div>
 
 
 
@@ -518,7 +576,8 @@
       </div>
     </div>
   </div>
-</div>
+
+
 
 
 

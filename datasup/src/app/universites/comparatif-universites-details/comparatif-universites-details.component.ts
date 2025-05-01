@@ -269,7 +269,14 @@ ngOnInit(): void {
       effectif_boursiers_admis: universite.effectif_boursiers_admis || 0,
      
       taux_acces: universite.taux_acces || 0,
-     
+
+      boursiers_admis: universite.boursiers_admis || 0,
+      boursiers_generaux: universite.boursiers_generaux || 0,
+      boursiers_technologiques: universite.boursiers_technologiques || 0,
+      boursiers_professionnels: universite.boursiers_professionnels || 0,
+      /* effectif_boursiers_professionnels_phase_principale: universite.effectif_boursiers_professionnels_phase_principale || 0, */
+
+
 
 part_terminales_generales_position_recevoir_proposition_phase_principale: universite.part_terminales_generales_position_recevoir_proposition_phase_principale ? parseFloat(universite.part_terminales_generales_position_recevoir_proposition_phase_principale.toFixed(2)) : 0,
 part_terminales_technologiques_position_recevoir_proposition_phase_principale: universite.part_terminales_technologiques_position_recevoir_proposition_phase_principale ? parseFloat(universite.part_terminales_technologiques_position_recevoir_proposition_phase_principale.toFixed(2)) : 0,
@@ -289,7 +296,7 @@ part_terminales_professionnelles_position_recevoir_proposition_phase_principale:
 
 
         
-          // Créer les graphiques après récupération des données
+          // Créer les graphiques après récupération des données chartBoursiersGeneraux
           this.createChart('effectif_total_candidats_formation', 'chartCandidats', 'Total Candidats', ['#009FE3', '#A3D39C']);
 
           this.createChart('effectif_candidates_formation', 'chartCandidates', 'Candidates Formation', ['#009FE3', '#A3D39C']);
@@ -312,7 +319,7 @@ part_terminales_professionnelles_position_recevoir_proposition_phase_principale:
           
         
         
-       this.createChart('effectif_boursiers_professionnels_phase_principale', 'chartMentionBienAdmis', 'Mention Bien Bac Admis', ['#009FE3', '#A3D39C']);
+       this.createChart('effectif_boursiers_professionnels_phase_principale', 'chartBoursierPro', 'Mention Bien Bac Admis', ['#009FE3', '#A3D39C']);
          
 
           this.createChart('effectif_boursiers_generaux_phase_principale', 'chartBoursiersGeneraux', 'Boursiers Généraux Phase Principale', ['#009FE3', '#A3D39C']);
@@ -366,12 +373,13 @@ part_terminales_professionnelles_position_recevoir_proposition_phase_principale:
          this.createChart('effectif_neo_bacheliers_technologiques_phase_complementaire', 'chartNeoBacheliersTechnologiquesPhaseComplementaire', 'Néo-bacheliers Technologiques Phase Complémentaire', ['#009FE3', '#A3D39C']);
         this.createChart('proportion_neo_bacheliers_admis', 'chartProportionNeoBacheliersAdmis', 'Proportion Néo-bacheliers Admis', ['#009FE3', '#A3D39C']);
         this.createChart('differenceCandidatesAdmis', 'chartDifferenceCandidatesAdmis', 'Différence Candidates Admis', ['#009FE3', '#A3D39C']);
-        this.createChart('effectif_boursiers_admis', 'chartBoursiersAdmis', 'Boursiers Admis', ['#009FE3', '#A3D39C']);
+        this.createChart('effectif_boursiers_admis', 'chartBoursiersEfAdmis', 'Boursiers Admis', ['#009FE3', '#A3D39C']);
         this.createChart('taux_acces', 'chartTauxAcces', 'Taux d\'Accès', ['#009FE3', '#A3D39C']);
         this.createChart('part_terminales_generales_position_recevoir_proposition_phase_principale', 'chartPartTerminalesGenerales', 'Part Terminales Générales Position Recevoir Proposition Phase Principale', ['#009FE3', '#A3D39C']);
         this.createChart('part_terminales_technologiques_position_recevoir_proposition_phase_principale', 'chartPartTerminalesTechnologiques', 'Part Terminales Technologiques Position Recevoir Proposition Phase Principale', ['#009FE3', '#A3D39C']);
         this.createChart('part_terminales_professionnelles_position_recevoir_proposition_phase_principale', 'chartPartTerminalesProfessionnelles', 'Part Terminales Professionnelles Position Recevoir Proposition Phase Principale', ['#009FE3', '#A3D39C']);
-
+       /*/*boursiers_admis*/
+       this.createChart('boursiers_admis', 'chartBoursiersAdmis', 'Boursiers Admis', ['#009FE3', '#A3D39C']);
 
 
         
