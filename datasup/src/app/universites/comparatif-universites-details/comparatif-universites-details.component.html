@@ -473,9 +473,9 @@
   
           <mat-button-toggle-group name="bourseGroup1" aria-label="Boursiers" [(ngModel)]="selectedSousOption11">
             <mat-button-toggle value="boursiers_admis" class="bold-toggle">Boursiers admis</mat-button-toggle>
-            <mat-button-toggle value="boursiers_generaux" class="bold-toggle">Boursiers généraux</mat-button-toggle>
+           <!--  <mat-button-toggle value="boursiers_generaux" class="bold-toggle">Boursiers généraux</mat-button-toggle>
             <mat-button-toggle value="boursiers_technologiques" class="bold-toggle">Boursiers technologiques</mat-button-toggle>
-            <mat-button-toggle value="boursiers_professionnels" class="bold-toggle">Boursiers professionnels</mat-button-toggle>
+            <mat-button-toggle value="boursiers_professionnels" class="bold-toggle">Boursiers professionnels</mat-button-toggle> -->
           </mat-button-toggle-group>
         </div>
 
@@ -717,28 +717,50 @@
   <div [hidden]="selectedOption3 !== 'moyenne'">
     <div class="sous-boutons">
       <mat-button-toggle-group name="sousOptionMoyenne" aria-label="Sélection Moyenne" [(ngModel)]="selectedSousOption3">
-        <mat-button-toggle value="generalesM" class="bold-toggle">Terminales générales</mat-button-toggle>
-        <mat-button-toggle value="technologique" class="bold-toggle">Terminales technologiques</mat-button-toggle>
+        <mat-button-toggle value="generalesM" class="bold-toggle">Moyennes des admis</mat-button-toggle>
+        <!-- <mat-button-toggle value="technologique" class="bold-toggle">Terminales technologiques</mat-button-toggle> -->
       </mat-button-toggle-group>
     </div>
 
-        <!-- Graphique Moyenne -->
-      <!--   <div class="graphe">
-          <div class="chart-container" style="position: relative; height:60vh; width:80vw">
-            <h2>Distribution des moyennes</h2>
-            <canvas id="chartContainer"></canvas>
-          </div>
-        </div> -->
+
+
+
+
     
-    <div class="graphe" [hidden]="selectedSousOption3 !== 'generalesM'">
+     <div class="graphe" [hidden]="selectedSousOption3 !== 'generalesM'">
       <div class="chart-container">
-        <h2> Moyenne </h2>
-        <canvas id="chartContainer"></canvas>
+        <h2>Moyenne</h2>
+    
+        <div class="controls">
+          <label for="anneeSelect">Année :</label>
+          <select id="anneeSelect" [(ngModel)]="anneeSelectionnee" (change)="updateChartDatasetsParAnnee()">
+            <option *ngFor="let annee of anneesDisponibles" [value]="annee">{{ annee }}</option>
+          </select>
+        </div>
+    
+        <div class="graph-container moyenne-graph">
+          <canvas baseChart
+            [data]="{ labels: labels, datasets: chartDatasets }"
+            [options]="chartOptions"
+            chartType="doughnut"
+            class="canvas-moyenne">
+          </canvas>
+        </div>
+      </div>
+    </div> 
+    
+    
+    
+
+
+
+
+
+
+
       </div>
     </div>
-  </div>
 
-</div>
 
 
 

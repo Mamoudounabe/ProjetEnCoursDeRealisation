@@ -394,6 +394,16 @@ part_terminales_professionnelles_position_recevoir_proposition_phase_principale:
         }, 0) */
 
 
+        this.chartData = this.formatMoyennesParAnnee(this.universitesData);
+        this.labels = this.anneesActuelles;
+        // ligne 399
+        this.updateChartDatasetsParAnnee();
+
+        
+
+
+
+
           this.isLoading = false; //  Fin du chargement une fois tout prêt
           
         },
@@ -757,6 +767,130 @@ get universitesCount(): number {
 
 
 
+
+
+
+
+
+
+
+
+public anneeSelectionnee: number = 2020;
+public anneesDisponibles: number[] = [2020, 2021, 2022, 2023];
+
+
+public chartData: any = {}; // contient les moyennes formatées
+public chartDatasets: any[] = [];
+public labels: string[] = [];
+public chartOptions: any = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    title: {
+      display: true,
+      text: 'Répartition des moyennes estimées par université',
+      font: { size: 18 }
+    },
+    legend: {
+      position: 'bottom'
+    },
+    tooltip: {
+      callbacks: {
+        label: function (context: any) {
+          const label = context.label || '';
+          const value = context.raw || 0;
+          return `${label}: ${value}`;
+        }
+      }
+    }
+  }
+};
+formatMoyennesParAnnee(universitesData: any): { generale: any, technologique: any } {
+  const dataGenerale: { [key: string]: number[] } = {};
+  const dataTechnologique: { [key: string]: number[] } = {};
+
+  Object.entries(universitesData).forEach(([nom, stats]) => {
+    (stats as any[]).forEach((stat: any) => {
+      const annee = stat.annee;
+
+      const tresBien = stat.effectif_neo_bacheliers_mention_tres_bien_bac_admis || 0;
+      const bien = stat.effectif_neo_bacheliers_mention_bien_bac_admis || 0;
+      const assezBien = stat.effectif_neo_bacheliers_mention_assez_bien_bac_admis || 0;
+      const sansMention = stat.effectif_neo_bacheliers_sans_mention_bac_admis || 0;
+
+      const totalGen = tresBien + bien + assezBien + sansMention;
+      const moyenneGen = totalGen > 0
+        ? (tresBien * 17 + bien * 15 + assezBien * 13 + sansMention * 10) / totalGen
+        : 0;
+
+      const technoMention = stat.effectif_technologiques_mention_bac_admis || 0;
+      const technoTotal = stat.effectif_technologiques_admis || 0;
+
+      const moyenneTechno = technoTotal > 0
+        ? (technoMention * 13 + (technoTotal - technoMention) * 10) / technoTotal
+        : 0;
+
+      if (!dataGenerale[nom]) dataGenerale[nom] = [];
+      if (!dataTechnologique[nom]) dataTechnologique[nom] = [];
+
+      dataGenerale[nom].push(Number(moyenneGen.toFixed(2)));
+      dataTechnologique[nom].push(Number(moyenneTechno.toFixed(2)));
+    });
+  });
+
+  return {
+    generale: dataGenerale,
+    technologique: dataTechnologique
+  };
+}
+
+
+
+
+updateChartDatasetsParAnnee(): void {
+  const dataValues: number[] = [];
+  const dataLabels: string[] = [];
+  const backgroundColors: string[] = [];
+
+  let index = 0;
+
+  Object.entries(this.chartData.generale).forEach(([universite, valeurs]) => {
+    const moyenne = (valeurs as number[])[this.anneeSelectionnee - 2020];
+    if (moyenne !== undefined) {
+      dataValues.push(moyenne);
+      dataLabels.push(`${universite} - Générale`);
+      backgroundColors.push(this.getColor(index++));
+    }
+  });
+
+  Object.entries(this.chartData.technologique).forEach(([universite, valeurs]) => {
+    const moyenne = (valeurs as number[])[this.anneeSelectionnee - 2020];
+    if (moyenne !== undefined) {
+      dataValues.push(moyenne);
+      dataLabels.push(`${universite} - Technologique`);
+      backgroundColors.push(this.getColor(index++));
+    }
+  });
+
+  this.labels = dataLabels;
+
+  this.chartDatasets = [{
+    data: dataValues,
+    backgroundColor: backgroundColors
+  }];
+}
+
+
+
+
+getColor(index: number): string {
+  const colors = [
+    '#42A5F5', '#66BB6A', '#FFA726', '#AB47BC',
+    '#EC407A', '#26C6DA', '#FF7043', '#8D6E63',
+    '#D4E157', '#5C6BC0', '#29B6F6', '#9CCC65'
+  ];
+  return colors[index % colors.length];
+}
 
 
 

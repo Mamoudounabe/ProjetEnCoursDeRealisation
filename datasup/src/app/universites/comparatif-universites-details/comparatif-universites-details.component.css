@@ -301,3 +301,66 @@ body {
     height: auto;
   }
   
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .chart-container {
+    max-width: 950px;
+    margin: auto;
+  }
+  
+  .moyenne-graph {
+    position: relative;
+    height: 500px;
+    background-color: #fff;
+    padding: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+  
+    .canvas-moyenne {
+      width: 100% !important;
+      height: 100% !important;
+      image-rendering: crisp-edges;
+    }
+  }
+  
+
+
+
+  .controls {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
