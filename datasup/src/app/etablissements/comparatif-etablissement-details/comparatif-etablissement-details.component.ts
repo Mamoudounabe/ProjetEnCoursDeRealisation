@@ -190,8 +190,14 @@ chartResultatAcademiqueRef
 /* chartEffectifNeoBacheliersSansMentionBacAdRef */
 @ViewChild('chartEffectifNeoBacheliersSansMentionBacAdRef', { static: false }) chartEffectifNeoBacheliersSansMentionBacAdRef!: ElementRef;
 
+/* chartEffectifNeoBacheliermentionTresBienBacAdmisRef */
+@ViewChild('chartEffectifNeoBacheliermentionTresBienBacAdmisRef', { static: false }) chartEffectifNeoBacheliermentionTresBienBacAdmisRef!: ElementRef;
 
+//effectif_neo_bacheliers_mention_assez_bien_bac_admis
+@ViewChild('chartEffectifNeoBacheliermentionAssezBienBacAdmisRef', { static: false }) chartEffectifNeoBacheliermentionAssezBienBacAdmisRef!: ElementRef;
 
+// chartEffectifNeoBacheliermentionBienBacAdmisRef
+@ViewChild('chartEffectifNeoBacheliermentionBienBacAdmisRef', { static: false }) chartEffectifNeoBacheliermentionBienBacAdmisRef!: ElementRef;
 
   
 chartInstance: any; // Pour stocker l'instance du graphe
@@ -234,9 +240,18 @@ updateChart() {
       this.createChart(this.chartEffectifTotalCandidatsPhaseComplementaireRef.nativeElement, 'effectif_total_candidats_phase_complementaire', 'Effectif total candidats Phase complémentaire', sortedData);
       this.createChart(this.chartEffectifTotalCandidatsPhasePrincipaleRef.nativeElement, 'effectif_total_candidats_phase_principale', 'Effectif total candidats Phase Principale', sortedData);
       this.createChart(this.chartNeoBacheliersPhasePrincipaleRef.nativeElement, 'effectif_neo_bacheliers_generaux_phase_principale', 'Effectif Néo-Bacheliers Phase Principale', sortedData);
-      
-
-
+    /*   this.createChart(this.chartCandidatsRef.nativeElement, 'effectif_total_candidats_formation', 'Effectif Total Candidats Formation', sortedData);
+ */
+// effectif_neo_bacheliers_mention_tres_bien_bac_admis
+      this.createChart(this.chartEffectifNeoBacheliersSansMentionBacAdRef.nativeElement, 'effectif_neo_bacheliers_sans_mention_bac_admis', 'Effectif Néo-Bacheliers sans mention bac admis', sortedData);
+      this.createChart(this.chartEffectifTotalCandidatsAdmisRef.nativeElement, 'effectif_total_candidats_admis', 'Effectif Total Candidats Admis', sortedData);
+      this.createChart(this.chartEffectifTechnologiquesAdmisRef.nativeElement, 'effectif_technologiques_admis', 'Effectif Technologiques Admis', sortedData);
+      this.createChart(this.chartEffectifProfessionnelsAdmisRef.nativeElement, 'effectif_professionnels_admis', 'Effectif Professionnels Admis', sortedData);
+      this.createChart(this.chartEffectifGenerauxAdmisRef.nativeElement, 'effectif_generaux_admis', 'Effectif Généraux Admis', sortedData);
+      this.createChart(this.chartEffectifBoursiersAdmisRef.nativeElement, 'effectif_boursiers_admis', 'Effectif Boursiers Admis', sortedData);
+      this.createChart(this.chartEffectifAutresAdmisRef.nativeElement, 'effectif_autres_admis', 'Effectif Autres Admis', sortedData);
+      this.createChart(this.chartEffectifNeoBacheliersAdmisRef.nativeElement, 'effectif_neo_bacheliers_admis', 'Effectif Néo-Bacheliers Admis', sortedData);
+      this.createChart(this.chartEffectifAdmisPhasePrincipaleRef.nativeElement, 'effectif_admis_phase_principale', 'Effectif Admis Phase Principale', sortedData);
 
     }
 
@@ -707,8 +722,8 @@ updateChart() {
                       if (canvasEffectifNeoBacheliersMentionTresBienBacAdmis) {
                         this.createChart(
                           canvasEffectifNeoBacheliersMentionTresBienBacAdmis,
-                          'effectif_neo_bacheliers_mention_tres_bien_bac_admis',
-                          'Effectif Néo-Bacheliers Mention Très Bien Bac Admis',
+                          'effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis',
+                          'Effectif Néo-Bacheliers Mention Très Bien avec felicitation Bac Admis',
                           data
                         );
                       }
@@ -724,6 +739,46 @@ updateChart() {
                           'Effectif Néo-Bacheliers Sans Mention Bac Admis',
                           data      
                         );}
+
+
+                     // effectif_neo_bacheliers_mention_tres_bien_bac_admis
+                      const canvasEffectifNeoBacheliersMentionTresBienBacAdmis1 = this.chartEffectifNeoBacheliermentionTresBienBacAdmisRef?.nativeElement;
+                      if (canvasEffectifNeoBacheliersMentionTresBienBacAdmis1) {
+                        this.createChart(
+                          canvasEffectifNeoBacheliersMentionTresBienBacAdmis1,
+                          'effectif_neo_bacheliers_mention_tres_bien_bac_admis',
+                          'Effectif Néo-Bacheliers Mention Très Bien Bac Admis',
+                          data
+                        );
+                      }
+
+                      // effectif_neo_bacheliers_mention_assez_bien_bac_admis
+                      const canvasEffectifNeoBacheliersMentionAssezBienBacAdmis = this.chartEffectifNeoBacheliermentionAssezBienBacAdmisRef?.nativeElement;
+                      if (canvasEffectifNeoBacheliersMentionAssezBienBacAdmis) {
+                        this.createChart(
+                          canvasEffectifNeoBacheliersMentionAssezBienBacAdmis,
+                          'effectif_neo_bacheliers_mention_assez_bien_bac_admis',
+                          'Effectif Néo-Bacheliers Mention Assez Bien Bac Admis',
+                          data
+                        );
+                      }
+
+
+
+
+                      //effectif_neo_bacheliers_mention_bien_bac_admis
+                      const canvasEffectifNeoBacheliersMentionBienBacAdmis = this.chartEffectifNeoBacheliermentionBienBacAdmisRef?.nativeElement;
+                      if (canvasEffectifNeoBacheliersMentionBienBacAdmis) {
+                        this.createChart(
+                          canvasEffectifNeoBacheliersMentionBienBacAdmis,
+                          'effectif_neo_bacheliers_mention_bien_bac_admis',
+                          'Effectif Néo-Bacheliers Mention Bien Bac Admis',
+                          data  
+                        );
+                      }
+
+
+
 
       },
       (error) => {

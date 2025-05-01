@@ -254,7 +254,7 @@
     <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption1"> 
       <mat-button-toggle value="mention_au_bac" class="bold-toggle">Mention au bac</mat-button-toggle>
       <mat-button-toggle value="sexe" class="bold-toggle">Sexe</mat-button-toggle>
-      <mat-button-toggle value="boursiers" class="bold-toggle">Boursier</mat-button-toggle>
+      <mat-button-toggle value="Boursiers" class="bold-toggle">Boursier</mat-button-toggle>
      <!--  <mat-button-toggle value="academie" class="bold-toggle">Académie</mat-button-toggle> -->
       <mat-button-toggle value="type_de_bac" class="bold-toggle">Type de bac</mat-button-toggle>
     </mat-button-toggle-group>
@@ -269,13 +269,14 @@
         <mat-button-toggle value="tres_bien" class="bold-toggle">Très bien</mat-button-toggle>
         <mat-button-toggle value="bien" class="bold-toggle">Bien</mat-button-toggle>
         <mat-button-toggle value="assez_bien" class="bold-toggle">Assez bien</mat-button-toggle>
+        <!-- <mat-button-toggle value="passable" class="bold-toggle">Passable</mat-button-toggle> -->
         <mat-button-toggle value="mention_pro" class="bold-toggle">Mentions professionnels</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
 
     <div class="sous-boutons">
       <mat-button-toggle-group name="mentionGroup2" aria-label="Mentions" [(ngModel)]="selectedSousOption11">
-        <!-- <mat-button-toggle value="passable" class="bold-toggle">Passable</mat-button-toggle> -->
+        <mat-button-toggle value="passable" class="bold-toggle">Passable</mat-button-toggle> 
         <mat-button-toggle value="sans_mention" class="bold-toggle">Sans mention</mat-button-toggle>
         <mat-button-toggle value="mention_technologique" class="bold-toggle">Mention technologique</mat-button-toggle>
         <mat-button-toggle value="sans_info_mention" class="bold-toggle">Sans informations Mention</mat-button-toggle>
@@ -323,7 +324,7 @@
    <div class="graphe" [hidden]="selectedSousOption11 !== 'passable'">
     <div class="chart-container">
       <h2>Passable</h2>
-      <canvas id="chartPassable"></canvas>
+      <canvas id="chartGenerauxMentionBac"></canvas>
     </div>
    </div>
 
@@ -426,7 +427,7 @@
 
 
 
- <div [hidden]="selectedOption1 !== 'boursiers'">
+ <div [hidden]="selectedOption1 !== 'Boursiers'">
   <div class="graphe">
     <div class="chart-container">
       <h2>Effectif total Boursiers Admis</h2>
@@ -688,10 +689,7 @@
 
 
 
-<div>
-  <h1>Comparatif Établissements</h1>
-  <!-- Add your component's HTML content here -->
-</div>
+
 
 
 

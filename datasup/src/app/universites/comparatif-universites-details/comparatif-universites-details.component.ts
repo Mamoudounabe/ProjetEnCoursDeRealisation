@@ -269,7 +269,7 @@ ngOnInit(): void {
       effectif_boursiers_admis: universite.effectif_boursiers_admis || 0,
      
       taux_acces: universite.taux_acces || 0,
-
+     
 
 part_terminales_generales_position_recevoir_proposition_phase_principale: universite.part_terminales_generales_position_recevoir_proposition_phase_principale ? parseFloat(universite.part_terminales_generales_position_recevoir_proposition_phase_principale.toFixed(2)) : 0,
 part_terminales_technologiques_position_recevoir_proposition_phase_principale: universite.part_terminales_technologiques_position_recevoir_proposition_phase_principale ? parseFloat(universite.part_terminales_technologiques_position_recevoir_proposition_phase_principale.toFixed(2)) : 0,
@@ -320,7 +320,7 @@ part_terminales_professionnelles_position_recevoir_proposition_phase_principale:
          
           this.createChart('effectif_admis_meme_academie_paris_creteil_versailles', 'chartAdmisAcademieParis', 'Admis Même Académie Paris Créteil Versailles', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_admis_proposition_avant_baccalaureat', 'chartAdmisAvantBac', 'Admis Avant Baccalauréat', ['#009FE3', '#A3D39C']);
-          this.createChart('effectif_generaux_mention_bac_admis', 'chartGenerauxMentionBac', 'Généraux Mention Bac Admis', ['#009FE3', '#A3D39C']);
+          this.createChart('effectif_generaux_mention_bac_admis', 'chartGenerauxMentionBac', 'Généraux Mention Passable Bac Admis', ['#009FE3', '#A3D39C']);
           this.createChart('effectif_technologiques_admis', 'chartTechnologiquesAdmis', 'Technologiques Admis', ['#009FE3', '#A3D39C']);
         
           this.createChart('effectif_professionnels_admis', 'chartProfessionnelsAdmis', 'Professionnels Admis', ['#009FE3', '#A3D39C']);
