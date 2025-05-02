@@ -199,7 +199,14 @@ chartResultatAcademiqueRef
 // chartEffectifNeoBacheliermentionBienBacAdmisRef
 @ViewChild('chartEffectifNeoBacheliermentionBienBacAdmisRef', { static: false }) chartEffectifNeoBacheliermentionBienBacAdmisRef!: ElementRef;
 
-  
+//chartEffectifCandidatesAdmisRef
+
+@ViewChild('chartEffectifCandidatesAdmisRef', { static: false }) chartEffectifCandidatesAdmisRef!: ElementRef;
+
+
+
+
+
 chartInstance: any; // Pour stocker l'instance du graphe
 
 onSousOptionChange(event: any) {
@@ -442,7 +449,7 @@ updateChart() {
         console.log("Moyennes calculées :", averages);
         this.createDistributionChart(averages);
   
-        // Liste des clés à trier
+        // Liste des clés à 
         const keysToSort = [
           'capacite_etablissement_formation',
           'taux_acces',
@@ -624,7 +631,7 @@ updateChart() {
                       }
 
                       // Pour Effectif Généraux Admis
-                      const canvasEffectifGenerauxAdmis = this.chartEffectifGenerauxAdmisRef?.nativeElement;
+                  /*     const canvasEffectifGenerauxAdmis = this.chartEffectifGenerauxAdmisRef?.nativeElement;
                       if (canvasEffectifGenerauxAdmis) {
                         this.createChart(
                           canvasEffectifGenerauxAdmis,
@@ -632,7 +639,7 @@ updateChart() {
                           'Effectif Généraux Admis',
                           data
                         );
-                      }
+                      } */
 
                       // Pour Effectif Technologiques Admis
                       const canvasEffectifTechnologiquesAdmis = this.chartEffectifTechnologiquesAdmisRef?.nativeElement;
@@ -777,7 +784,96 @@ updateChart() {
                         );
                       }
 
+       // effectif_generaux_mention_bac_admis
+                      const canvasEffectifGenerauxMentionBacAdmis = this.chartEffectifGenerauxAdmisRef?.nativeElement;
+                      if (canvasEffectifGenerauxMentionBacAdmis) {
+                        this.createChart(
+                          canvasEffectifGenerauxMentionBacAdmis,
+                          'effectif_generaux_mention_bac_admis',
+                          'Effectif Néo-Bachelier Mention Passable au Bac Admis',
+                          data
+                        );
+                      }
 
+                      // effectif_professionnels_mention_bac_admis
+                      const canvasEffectifProfessionnelsMentionBacAdmis = this.chartEffectifProfessionnelsAdmisRef?.nativeElement;
+                      if (canvasEffectifProfessionnelsMentionBacAdmis) {
+                        this.createChart(
+                          canvasEffectifProfessionnelsMentionBacAdmis,
+                          'effectif_professionnels_mention_bac_admis',
+                          'Effectif Professionnels Mention Bac Admis',
+                          data
+                        );
+                      }
+
+
+                      // effectif_candidates_admises
+                      const canvasEffectifCandidatesAdmises = this.chartEffectifCandidatesAdmisRef?.nativeElement;
+                      if (canvasEffectifCandidatesAdmises) {
+
+                        this.createChart(
+                          canvasEffectifCandidatesAdmises,
+                          'effectif_candidates_admises',
+                          'Effectif Candidates Admis',
+                          data
+                        );
+                      }
+
+
+                         //effectif_total_candidats_admis
+                      const canvasEffectifTotalCandidatsAdmis1 = this.chartEffectifTotalCandidatsAdmisRef?.nativeElement;
+                      if (canvasEffectifTotalCandidatsAdmis1) {
+                        this.createChart(
+                          canvasEffectifTotalCandidatsAdmis1,
+                          'effectif_total_candidats_admis',
+                          'Effectif Total Candidats Admis',
+                          data
+                        );
+                      }
+
+
+
+
+
+                      //effectif_generaux_admis
+                      const canvasEffectifGenerauxAdmis1 = this.chartEffectifGenerauxAdmisRef?.nativeElement;
+                      if (canvasEffectifGenerauxAdmis1) {
+                        this.createChart(
+                          canvasEffectifGenerauxAdmis1,
+                          'effectif_generaux_admis',
+                          'Effectif Généraux Admis',
+                          data
+                        );
+                      }
+
+
+      // effectif_autres_admis
+                      const canvasEffectifAutresAdmis1 = this.chartEffectifAutresAdmisRef?.nativeElement;
+                      if (canvasEffectifAutresAdmis1) {
+                        this.createChart(
+                          canvasEffectifAutresAdmis1,
+                          'effectif_autres_admis',
+                          'Effectif Autres Admis',
+                          data
+                        );
+                      }
+
+
+                      // effectif_professionnels_admis
+                      const canvasEffectifProfessionnelsAdmis1 = this.chartEffectifProfessionnelsAdmisRef?.nativeElement;
+                      if (canvasEffectifProfessionnelsAdmis1) {
+                        this.createChart(
+                          canvasEffectifProfessionnelsAdmis1,
+                          'effectif_professionnels_admis',
+                          'Effectif Professionnels Admis',
+                          data
+                        );
+                      }
+      
+
+
+        this.etablissementsData = data; // Stocker les données pour une utilisation ultérieure
+        console.log('Données des établissements:', this.etablissementsData);
 
 
       },
