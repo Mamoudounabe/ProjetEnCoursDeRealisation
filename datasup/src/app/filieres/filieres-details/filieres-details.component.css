@@ -1,105 +1,86 @@
-.header-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 30px 20px;
-    background: linear-gradient(135deg, var(--blue), var(--red));
-    color: #fff;
-    text-align: center;
-    margin-bottom: 30px;
+h2 {
+  font-size: 26px;
+  margin-bottom: 5px;
+  color: #2c3e50;
 }
 
-/* Breadcrumbs */
-.breadcrumbs {
-    font-size: 14px;
-    color: #f1f1f1;
-    margin-bottom: 15px;
+h3 {
+  font-size: 20px;
+  margin-bottom: 25px;
+  color: #555;
+  font-weight: 500;
 }
 
-.breadcrumb-link {
-    text-decoration: none;
-    color: var(--red);
+.tabs {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
-.breadcrumb-link:hover {
-    text-decoration: underline;
+.tabs button {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.breadcrumb-active {
-    font-weight: bold;
-    color: #fff;
-}
-
-
-
-.partie2 {
-    display: flex;
-    /* flex-direction: column;  *//* Aligne les éléments en colonne */
-    flex-direction: row; /* Aligne les éléments en colonne */
-    gap: 20px; /* Espacement entre chaque élément */
-    padding: 20px; /* Espacement interne autour du contenu */
-  
-    border-radius: 10px; /* Coins arrondis */
-    background-color: #f9f9f9; /* Fond gris clair pour le contraste */
-    box-shadow: 0 4px 8px rgba(3, 3, 3, 0.1); /* Ombre portée */
-    margin: 20px 0; /* Espacement vertical autour du cadre */
-  
-  
-  
-    justify-content: space-between; /* Espace entre les deux sections : gauche et droite */
-  
-  
-  }
-  
-  
-  .gauche2 {
-    flex: 1; /* Occupe la moitié de l'espace disponible dans partie2 */
-    background-color: #f0f0f0; /* Couleur de fond claire */
-    padding: 20px; /* Un peu de padding autour du contenu */
-    border-radius: 8px; /* Coins arrondis */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre légère autour de la section */
-  }
-  
-  
-  .gauche2 svg {
-    vertical-align: middle; /* Aligner l'icône avec le texte */
-    margin-right: 10px; /* Un petit espace entre l'icône et le texte */
-  }
-  
-  
-  
-  .droite2 {
-    flex: 1; /* Occupe l'autre moitié de l'espace */
-    background-color: #ffffff; /* Fond blanc */
-    padding: 20px; /* Padding autour du contenu */
-    border-radius: 8px; /* Coins arrondis */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre légère autour de la section */
-    align-items: center; 
-    height: 100%;  
-  }
-  
-  
-  .droite2 p {
-    font-size: 16px; /* Taille de police */
-    color: #333; /* Couleur du texte */
-    line-height: 1.6; /* Espacement entre les lignes */
-  
-  }
-  
-
-
-
-
-  
-
-
-
-/* Changer la couleur de fond et du texte des boutons */
-.bold-toggle.mat-button-toggle-checked {
-  background-color: #007BFF; /* Couleur de fond pour le bouton "Mention au bac" */
+.tabs button.active {
+  background-color: #00a6b6;
   color: white;
+}
+
+.two-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.chart-wrapper {
+  flex: 1 1 500px;
+  min-width: 300px;
+}
+
+
+
+
+.info-text {
+  flex: 1 1 300px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.highlight {
+  color: #00a6b6;
+  font-weight: bold;
+}
+
+.info-text ul {
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.info-text li {
+  margin-bottom: 6px;
+}
+
+.info-text a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.evolution-checkbox {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #f0f8fa;
+  border-left: 4px solid #00a6b6;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
 }
 
 .italic-toggle.mat-button-toggle-checked {
@@ -115,6 +96,7 @@
 .academie-toggle.mat-button-toggle-checked {
   background-color: #DC3545; /* Couleur de fond pour le bouton "Académie" */
   color: white;
+  
 }
 
 .bac-type-toggle.mat-button-toggle-checked {
@@ -130,60 +112,510 @@
 .mat-button-toggle:hover {
   background-color: #F1F1F1; /* Couleur de fond sur survol */
 }
+/* .evolution-checkbox label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+} */
+/*partie 2 */
+
+
+.chart-box canvas {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.canvas-mini{
+  max-height: 200px;
+  width: 300px;
+  margin-bottom: 10px;
+  height: 20px;
+ margin-bottom: 100px;
+}
+
+
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.marquee p {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 25s linear infinite;
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
 
 
 
 
-/* Graphique */
-.chart-container {
-    display: flex;
-    justify-content: center; /* Centre le graphique */
-    align-items: center;
-    height: 300px; /* Fixe la hauteur du conteneur */
-    border: 1px solid #ddd; /* Bordure pour séparer visuellement */
-    background-color: #fff; /* Fond blanc */
-  }
 
+
+
+
+
+
+
+
+
+
+
+
+ .partie2 {
+  display: flex;
+  /* flex-direction: column;  *//* Aligne les éléments en colonne */
+  flex-direction: row; /* Aligne les éléments en colonne */
+  gap: 20px; /* Espacement entre chaque élément */
+  padding: 20px; /* Espacement interne autour du contenu */
+
+  border-radius: 10px; /* Coins arrondis */
+  background-color: #f9f9f9; /* Fond gris clair pour le contraste */
+  box-shadow: 0 4px 8px rgba(3, 3, 3, 0.1); /* Ombre portée */
+  margin: 20px 0; /* Espacement vertical autour du cadre */
+
+
+
+  justify-content: space-between; /* Espace entre les deux sections : gauche et droite */
+
+
+}
+
+
+.gauche2 {
+  flex: 1; /* Occupe la moitié de l'espace disponible dans partie2 */
+  background-color: #f0f0f0; /* Couleur de fond claire */
+  padding: 20px; /* Un peu de padding autour du contenu */
+  border-radius: 8px; /* Coins arrondis */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre légère autour de la section */
+}
+
+
+.gauche2 svg {
+  vertical-align: middle; /* Aligner l'icône avec le texte */
+  margin-right: 10px; /* Un petit espace entre l'icône et le texte */
+}
+
+
+
+.droite2 {
+  flex: 1; /* Occupe l'autre moitié de l'espace */
+  background-color: #ffffff; /* Fond blanc */
+  padding: 20px; /* Padding autour du contenu */
+  border-radius: 8px; /* Coins arrondis */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre légère autour de la section */
+  align-items: center; 
+ 
+}
+
+
+.droite2 p {
+  font-size: 16px; /* Taille de police */
+  color: #333; /* Couleur du texte */
+  line-height: 1.6; /* Espacement entre les lignes */
+
+}
+
+
+/* 
+.bouton2 mat-button-toggle-group {
+  display: flex; */
+/*   flex-direction: row;  *//* Les boutons seront alignés verticalement */
+  /* gap: 10px; */ /* Espacement entre les boutons */
+/* }
+ */
+
+
+ .bouton2 mat-button-toggle {
+ /*  background-color: #f0f0f0; */ /* Fond des boutons */
+  color: #333; /* Couleur du texte */
+  padding: 10px 20px; /* Espacement à l'intérieur des boutons */
+  border-radius: 5px; /* Coins arrondis */
+  border: 1px solid #ddd; /* Bordure grise pour les boutons */
+  gap: 150px; /* Ajout d'un espace de 15px entre chaque bouton */
+ /*  margin-bottom: 10px; */ /* Ajoute un espace de 10px entre chaque bouton */
+ 
+}
+
+
+/* Si vous voulez un espace après le dernier bouton, vous pouvez aussi définir : */
+.droite2 mat-button-toggle:last-child {
+  margin-bottom: 0; /* Évite l'espace supplémentaire après le dernier bouton */
+}
+
+.bouton2 mat-button-toggle:hover {
+  background-color: #e0e0e0; /* Changer la couleur de fond au survol */
+}
+
+/* Si vous voulez un espace après le dernier bouton, vous pouvez aussi définir : */
+.droite2 mat-button-toggle:last-child {
+  margin-bottom: 0; /* Évite l'espace supplémentaire après le dernier bouton */
+}
+
+
+/* .bouton2 mat-button-toggle.mat-button-toggle-checked { */
+  /* background-color: #007BFF; */ /* Couleur de fond lorsqu'un bouton est sélectionné */
+  /* color: white; */ /* Couleur du texte lorsque sélectionné */
+/*  }*/ 
+
+
+.bouton2 mat-button-toggle.mat-button-toggle-checked:hover {
+  background-color: #0056b3; 
+}/* Couleur de fond au survol d'un bouton sélectionné */
+
+
+.partie1 {
+   /* Bordure bleue */
+  padding: 20px; /* Espacement à l'intérieur du cadre */
+  margin: 20px 0; /* Espacement vertical autour du cadre */
+  border-radius: 10px; /* Coins arrondis */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre portée */
+  background-color: #f9f9f9; /* Fond gris clair pour le contraste */
+  display: flex;
+  justify-content: space-between; /* Espacement entre les éléments */
+  gap: 20px; /* Espacement de 20px entre les éléments */
+  flex-wrap: wrap; /* Les blocs vont se répartir en ligne ou colonne selon la taille de l'écran */
+  margin: 20px 0; /* Espacement vertical autour du cadre */
+}
+
+
+/* Boîte contenant chaque graphique ou contenu */
 .chart-box {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    
-    flex: 1 1 18%; /* Chaque bloc occupe 22% de la largeur de l'écran (avec flex-grow: 1) */
-    min-width: 250px; /* Largeur minimale du bloc */
-    height: 300px; /* Hauteur des blocs */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    box-sizing: border-box; /* Pour que les padding n'ajoutent pas à la largeur totale */
-    border: 1px solid #ddd; /* Bordure pour séparer visuellement les blocs */
-    border-radius: 8px; /* Coins arrondis */
-    background-color: #fff; /* Fond blanc pour les blocs */
-  }
+  margin-top: 50px;
+  margin-bottom: 50px;
   
-  /* Assurez-vous que les graphiques remplissent correctement leur container */
-  canvas {
-    width: 100% !important;
-    height: 100% !important;
-  }
-
-
-
-
-
-  .example-containers {
-    width: auto;
-    height: 200px;
-    margin: 100px;
-    padding-bottom: 20px;
-    border: 1px solid #555;
-    /* The background property is added to clearly distinguish the borders between drawer and main
-       content */
-    background: #eee;
-  }
+  flex: 1 1 18%; /* Chaque bloc occupe 22% de la largeur de l'écran (avec flex-grow: 1) */
+ 
   
- /*  .decalerdroite{
-    margin-left: 300px;
-  
-  } */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box; /* Pour que les padding n'ajoutent pas à la largeur totale */
+  border: 1px solid #ddd; /* Bordure pour séparer visuellement les blocs */
+  border-radius: 8px; /* Coins arrondis */
+  background-color: #fff; /* Fond blanc pour les blocs */
+}
+
+/* Assurez-vous que les graphiques remplissent correctement leur container */
+
+
+/* Variations supplémentaires */
+.chart-info {
+  margin-top: 20px; 
+
+
+  color: #333; /* Couleur du texte */         
+}
+
+
+
+
+
+.header-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, var(--blue), var(--red));
+  color: #fff;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+  font-size: 14px;
+  color: #f1f1f1;
+  margin-bottom: 15px;
+}
+
+.breadcrumb-link {
+  text-decoration: none;
+  color: var(--red);
+}
+
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-active {
+  font-weight: bold;
+  color: #fff;
+}
+
+/* ----------------------------- */
+/* Titres */
+/* ----------------------------- */
+
+.dernier{
+ padding-bottom: 1000px;
+}
+
+
+
+
+
+
+
+
+
+
+/* Partie 2 */
+.partie2 {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.gauche2, .droite2 {
+  flex: 1;
+}
+
+.stats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+/* Partie 3 */
+.partie3 {
+  margin-top: 3rem;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabs button {
+  padding: 0.8rem 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.tabs button.active {
+  border-bottom: 3px solid #3f51b5;
+  color: #3f51b5;
+  font-weight: bold;
+}
+
+.two-columns {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.chart-wrapper {
+  flex: 2;
+}
+
+.info-panel {
+  flex: 1;
+  padding: 1rem;
+}
+
+
+.dernier{
+  padding-bottom: 100px;
+ }
+ 
+/* ici */
+
+ .chart-box {
+  width: 50%;
+}
+
+chart-box {
+  margin-top: 50px;
+  margin-bottom: 50px;
+
+  flex: 1 1 18%; /* Chaque bloc occupe 22% de la largeur de l'écran (avec flex-grow: 1) */
+  min-width: 250px; /* Largeur minimale du bloc */
+  height: 300px; /* Hauteur des blocs */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box; /* Pour que les padding n'ajoutent pas à la largeur totale */
+  border: 1px solid #ddd; /* Bordure pour séparer visuellement les blocs */
+  border-radius: 8px; /* Coins arrondis */
+  background-color: #fff; /* Fond blanc pour les blocs */
+}
+
+/* Assurez-vous que les graphiques remplissent correctement leur container */
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Variations supplémentaires */
+.chart-info {
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.chart-info p {
+  margin: 5px 0;
+}
+
+.red-text {
+  color: red !important; /* Utiliser !important pour forcer l'application */
+}
+
+.fontawesomesvg {
+  margin-right: 5px;
+}
+
+.fontawesomeicon::before {
+  display: inline-block;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Changer la couleur de fond et du texte des boutons */
+.bold-toggle.mat-button-toggle-checked {
+  background-color: #007bff; /* Couleur de fond pour le bouton "Mention au bac" */
+  color: white;
+}
+
+.italic-toggle.mat-button-toggle-checked {
+  background-color: #28a745;
+  color: white;
+}
+
+.underline-toggle.mat-button-toggle-checked {
+  background-color: #ffc107; /* Couleur de fond pour le bouton "Bourse" */
+  color: white;
+}
+
+.academie-toggle.mat-button-toggle-checked {
+  background-color: #dc3545; /* Couleur de fond pour le bouton "Académie" */
+  color: white;
+}
+
+.bac-type-toggle.mat-button-toggle-checked {
+  background-color: #17a2b8; /* Couleur de fond pour le bouton "Type de bac" */
+  color: white;
+}
+
+/* Vous pouvez aussi personnaliser l'apparence lorsqu'un bouton n'est pas sélectionné */
+.mat-button-toggle {
+  color: #495057; /* Couleur du texte lorsqu'il n'est pas sélectionné */
+}
+
+.mat-button-toggle:hover {
+  background-color: #f1f1f1; /* Couleur de fond sur survol */
+}
+
+.formation-detail-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.formation-detail-container h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.formation-detail-container p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stat-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.stat-buttons button {
+  background-color: #e0e0e0;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.stat-buttons button:hover {
+  background-color: #ccc;
+}
+
+.stat-buttons button.active {
+  background-color: #3498db;
+  color: white;
+}
+
+/* .chart-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+} 
+  */
+/* .chart-info {
+  flex: 1;
+  font-size: 0.95rem;
+  color: #555;
+  min-width: 220px;
+} */
+
+/* .chart-box {
+  flex: 2;
+  min-width: 300px;
+} */
+
+/* .chart-box canvas {
+  width: 100% !important;
+  height: 500px !important;
+}
+ */
+.back-button {
+  display: block;
+  margin: 2rem auto 0;
+  background-color: #34495e;
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+

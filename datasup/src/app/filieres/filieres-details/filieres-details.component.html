@@ -1,128 +1,536 @@
-<section class="decalerdroite">
-
 
 <div class="header-section">
   <p class="breadcrumbs">
     <a class="breadcrumb-link" routerLink="/">DataSup</a> /
     <!-- <a class="breadcrumb-link" routerLink="/statistiques">Statistiques</a> / -->
-    <a class="breadcrumb-link" routerLink="/filieres">Filieres</a>  
+    <a class="breadcrumb-link" routerLink="/formations">Formations</a> 
   </p>
 </div>
 
-<!--   <div  *ngIf="filieres.length >0">
-
-  <h2> {{ filieres[0].filiere_formation}}  </h2>
-  <p> {{filieres[0].filiere_formation_detaillee}}</p>
-  <p>{{ filieres[0]?.taux_acces | number: '1.0-0' }}</p>
-
-</div> -->
 
 
 
+<!--   <div  class="changeYear">
+  <mat-form-field >
+    <mat-label>Session</mat-label>
+    <mat-select [formControl]="selectedYear" panelClass="example-panel-{{selectedYear.value}}">
+      <mat-option value="2020">2020</mat-option>
+      <mat-option value="2021">2021</mat-option>
+      <mat-option value="2022">2022</mat-option>
+      <mat-option value="2023">2023</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+ -->
 
-<!--  deuxieme partie
+<!--   <h2> Indicateurs de sélectivité</h2>
+
+ <h3 *ngIf="etablissementData">
+   🏫 {{ etablissementData.NomEtablissement || 'Établissement inconnu' }}
+ </h3>
 -->
-<div class="partie2">
 
-  <div class="gauche2">
-   <h2 >
-     <svg class="fontawesomesvg rotate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="20" height="20">
-       <path fill="red" d="M384 160c-17.7 0-32-14.3-32-32s14.3-32 32-32H544c17.7 0 32 14.3 32 32V288c0 17.7-14.3 32-32 32s-32-14.3-32-32V205.3L342.6 374.6c-12.5 12.5-32.8 12.5-45.3 0L192 269.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160c12.5-12.5 32.8-12.5 45.3 0L320 306.7 466.7 160H384z"/>
-     </svg>
-     <strong>Profil des candidats admis</strong>
-   </h2 >
+
+<div class="partie1">
  
-  <div>
-   <p> <!-- En {{ selectedYear.value }}, cette formation accueillait  -->
-     <strong> {{filieres[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }} </strong> 
-     <strong>
-       ({{ ((filieres[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] 
-       /filieres[0]["toInteger(a.effectif_total_candidats_admis)"]) * 100) | number:'1.0-2' }} %)
-     </strong> 
-     de néo-bacheliers ayant obtenu la mention bien au bac, pour 
-     <strong> {{filieres[0]["toInteger(a.effectif_total_candidats_admis)"] }} </strong> 
-     néo-bacheliers admis.    
-   </p>
+ 
+
+  <!-- Bloc 1 : Informations sur l'établissement -->
+  <div class="chart-box" *ngIf="etablissementData && etablissementData.length > 0">
+    <h2 >{{ etablissementData[0].NomEtablissement }} - {{ etablissementData[0].NomFormation }}</h2>
+    <p><strong>Académie :</strong> {{ etablissementData[0].academie }}</p>
+    <p><strong>Région :</strong> {{ etablissementData[0].region }}</p>
+    <p><strong> Sélectivité :</strong> {{ etablissementData[0].selectivite }}</p>
+  
+    <a [href]="etablissementData[0].lien_parcoursup" target="_blank" class="none-style">Page de la formation sur Parcoursup</a>
   </div>
- </div>
 
 
-<div  class="droite2">
+    <!-- Bloc 2 : Localisation -->
+  <div class="chart-box">
+    <h3>📍 Localisation</h3>
+    <div id="map" class="map-container"></div>
+  </div>
+
+
+  <!-- Bloc 3 : Statistiques et Graphique -->
+  <div class="chart-box">
+    <p> En {{ selectedYear.value }}, cette formation accueillait 
+      
+      <strong>
+        ({{ ((etablissementData[0]["toInteger(a.effectif_neo_bacheliers_admis)"] 
+        / etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"]) * 100) | number:'1.0-2' }} %)
+      </strong> 
+      de néo-bacheliers, pour 
+      <strong> {{ etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] }} </strong> 
+      candidats admis.    
+    </p>
+    <div class="chart-container" style="max-width: 500px;">
+      <canvas baseChart
+              [data]="candidatsBarChartData"
+              [options]="candidatsBarChartOptions"
+              [type]="barChartType">
+      </canvas>
+    </div>
+
+  </div>
+     
+
+  <div class="chart-box marquee" id="pagecouleur">
+    <p>
+      Dans {{ etablissementData[0].NomEtablissement }} nous avons 
+      <strong>{{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"] }}</strong>
+      Etudiants ayant une mention très bien et 
+      <strong>{{ etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] }}</strong>
+      boursiers
+    </p>
+  </div>
+
+</div>
+
+
+
+<!--Partie 2 - Profil des candidats admis  -->
+
+
+<div class="partie2">
+<div class="gauche2">
+  <h2>
+    <svg class="fontawesomesvg rotate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="20" height="20">
+      <path fill="red" d="M384 160c-17.7 0-32-14.3-32-32s14.3-32 32-32H544c17.7 0 32 14.3 32 32V288c0 17.7-14.3 32-32 32s-32-14.3-32-32V205.3L342.6 374.6c-12.5 12.5-32.8 12.5-45.3 0L192 269.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160c12.5-12.5 32.8-12.5 45.3 0L320 306.7 466.7 160H384z"/>
+    </svg>
+    <strong>Profil des candidats admis</strong>
+  </h2>
+
+  <!-- Contenu statique -->
+  <div>
+    <h1>
+      En {{ selectedYear.value }}, {{ etablissementData[0].NomEtablissement }} accueillait 
+      <strong>{{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }}</strong> 
+      <strong>
+        ({{ ((etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] 
+        / etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"]) * 100) | number:'1.0-2' }}%)
+      </strong> 
+      de néo-bacheliers ayant obtenu la mention bien au bac.
+    </h1>
+    
+    <ul>
+      <li><strong>{{ etablissementData[0]['toInteger(a.effectif_technologiques_admis)'] }}</strong> étudiant venant d'une formation technologique</li>
+      <li><strong>{{ etablissementData[0]['toInteger(a.effectif_generaux_admis)'] }}</strong> étudiant venant d'une formation générale</li>
+      <li><strong>{{ etablissementData[0]['toInteger(a.effectif_professionnels_admis)'] }}</strong> étudiant venant d'une formation professionnelle</li>
+    </ul>
+
+    <h1>
+      <p>
+        Pour un effectif total de 
+        <strong>{{ etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] }}</strong> 
+        candidats admis.
+      </p>
+    </h1>
+  </div>
+</div>
+
+<div class="droite2">
 
   <div class="bouton2">  
-     <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption">
-       <mat-button-toggle value="mention_bien" class="bold-toggle">Candidatures</mat-button-toggle>
-       <mat-button-toggle value="sexe" class="italic-toggle">Proposition d'admission</mat-button-toggle>
-       <mat-button-toggle value="Admission" class="underline-toggle">Admission</mat-button-toggle>
-       <mat-button-toggle value="academie" class="academie-toggle">Académie</mat-button-toggle>
-       <mat-button-toggle value="type_bac" class="bac-type-toggle">Type de bac</mat-button-toggle>
-     </mat-button-toggle-group>
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption">
+      <mat-button-toggle value="mention_bien">Mention au bac</mat-button-toggle>
+      <mat-button-toggle value="sexe">Sexe</mat-button-toggle>
+      <mat-button-toggle value="bourse">Bourse</mat-button-toggle>
+      <mat-button-toggle value="academie">Académie</mat-button-toggle>
+      <mat-button-toggle value="type_bac">Type de bac</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  
+  <!-- Graphiques dynamiques -->
+  <h2 >{{ etablissementData[0].NomEtablissement }} - {{ etablissementData[0].filiere_formation  }}</h2>
+  <!-- MENTION AU BAC -->
+  <div class="Graphique" *ngIf="selectedOption === 'mention_bien'">
+   <div>
+     <p><strong>Mention au bac des candidats admis</strong></p>
+ 
+     <ng-container *ngIf="etablissementData && etablissementData.length > 0">
+       <ng-container *ngIf="etablissementData[0]['toInteger(a.effectif_total_candidats_admis)'] > 0">
+         <p>Très bien avec Félicitations du jury:
+           <strong>
+             {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"] }}
+           </strong>
+           (
+           {{
+             (
+               etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"] /
+               etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] * 100
+             ) | number:'1.0-2'
+           }}%
+           )
+         </p>
+ 
+         <p>Bien:
+           <strong>
+             {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }}
+           </strong>
+           (
+           {{
+             (
+               etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] /
+               etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] * 100
+             ) | number:'1.0-2'
+           }}%
+           )
+         </p>
+ 
+         <p>Assez bien:
+           <strong>
+             {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis)"] }}
+           </strong>
+           (
+           {{
+             (
+               etablissementData[0]["toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis)"] /
+               etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] * 100
+             ) | number:'1.0-2'
+           }}%
+           )
+         </p>
+ 
+         <p>Mention passable:
+           <strong>
+             {{ etablissementData[0]["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"] }}
+           </strong>
+           (
+           {{
+             (
+               etablissementData[0]["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"] /
+               etablissementData[0]["toInteger(a.effectif_total_candidats_admis)"] * 100
+             ) | number:'1.0-2'
+           }}%
+           )
+         </p>
+       </ng-container>
+ 
+       <ng-container *ngIf="etablissementData[0]['toInteger(a.effectif_total_candidats_admis)'] === 0">
+         <p>⚠️ Aucune donnée d’admis disponible pour cette formation.</p>
+       </ng-container>
+     </ng-container>
+ 
+     <canvas id="mentionChart" class="canvas-mini"></canvas> 
+     <button id="downloadMentionChartBtn">⬇️ Télécharger graphique</button>
+
    </div>
- 
- 
-   
-   <h2 >{{ filieres[0].filiere_formation }} - {{ filieres[0].filiere_formation  }}</h2>
-   <div *ngIf="selectedOption === 'mention_bien'">
-     <div>
-       <p> <strong> Mention au bac des candidats admis</strong></p>
-       <p> Tres bien avec Felicitation du jury: <strong> {{ filieres[0]["toInteger(a.effectif_neo_bacheliers_mention_tres_bien_felicitation_bac_admis)"] }} </strong> %</p>
-       <p> Bien: <strong> {{ filieres[0]["toInteger(a.effectif_neo_bacheliers_mention_bien_bac_admis)"] }} </strong> %</p>
-       <p>  Assez bien: <strong> {{ filieres[0]["toInteger(a.effectif_neo_bacheliers_mention_assez_bien_bac_admis)"] }} </strong> %</p>
-       <p> Mension passable: <strong> {{ filieres[0]["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"] }} </strong> %</p>
-       <p> Sans mention: <strong> {{ filieres[0]["toInteger(a.effectif_neo_bacheliers_sans_mention_bac_admis)"] }} </strong>%</p>
-    </div>  
+ </div>
+  
+
+
+<!-- BOURSE -->
+<div *ngIf="selectedOption === 'bourse'">
+<p>Nombre de boursiers : 
+  <strong>{{ etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] }}</strong>
+  ({{ ((etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100) | number:'1.0-2' }}%)
+</p>
+<p>Nombre de non-boursiers : 
+  <strong>{{ etablissementData[0]['toInteger(a.effectif_total_candidats_admis)'] - etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] }}</strong>
+  ({{ (100 - ((etablissementData[0]['toInteger(a.effectif_boursiers_admis)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100)) | number:'1.0-2' }}%)
+</p>
+<canvas id="bourseChart" class="canvas-mini"></canvas>
+<button id="downloadBourseChartBtn">⬇️ Télécharger graphique</button>
+
+</div>
+
+
+  <!-- TYPE DE BAC -->
+<div *ngIf="selectedOption === 'type_bac'">
+<p><strong class="chart-small">Répartition selon le type de bac :</strong></p>
+<p>Bac général :
+  <strong>{{ etablissementData[0]['toInteger(a.effectif_generaux_admis)'] }}</strong>
+  ({{ ((etablissementData[0]['toInteger(a.effectif_generaux_admis)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100) | number:'1.0-2' }}%)
+</p>
+<p>Bac technologique :
+  <strong>{{ etablissementData[0]['toInteger(a.effectif_technologiques_admis)'] }}</strong>
+  ({{ ((etablissementData[0]['toInteger(a.effectif_technologiques_admis)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100) | number:'1.0-2' }}%)
+</p>
+<p>Bac professionnel :
+  <strong>{{ etablissementData[0]['toInteger(a.effectif_professionnels_admis)'] }}</strong>
+  ({{ ((etablissementData[0]['toInteger(a.effectif_professionnels_admis)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100) | number:'1.0-2' }}%)
+</p>
+
+<canvas id="bacChart" class="canvas-mini"></canvas>
+<button id="downloadBacChartBtn">⬇️ Télécharger graphique</button>
+</div>
+  
+ <!-- ORIGINE (ACADÉMIE) -->
+<div *ngIf="selectedOption === 'academie'">
+<p><strong>Répartition selon l'origine des candidats :</strong></p>
+<p>Même établissement :
+  <strong>{{ etablissementData[0]['toInteger(a.effectif_admis_meme_etablissement_bts_cpge)'] }}</strong>
+  ({{ ((etablissementData[0]['toInteger(a.effectif_admis_meme_etablissement_bts_cpge)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100) | number:'1.0-2' }}%)
+</p>
+<p>Même académie :
+  <strong>{{ etablissementData[0]['toInteger(a.effectif_admis_meme_academie)'] }}</strong>
+  ({{ ((etablissementData[0]['toInteger(a.effectif_admis_meme_academie)'] / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100) | number:'1.0-2' }}%)
+</p>
+<p>Autre académie :
+  <strong>
+    {{
+      etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']
+      - etablissementData[0]['toInteger(a.effectif_admis_meme_academie)']
+      - etablissementData[0]['toInteger(a.effectif_admis_meme_etablissement_bts_cpge)']
+    }}
+  </strong>
+  ({{ (
+    100 -
+    (((etablissementData[0]['toInteger(a.effectif_admis_meme_academie)']
+    + etablissementData[0]['toInteger(a.effectif_admis_meme_etablissement_bts_cpge)'])
+    / etablissementData[0]['toInteger(a.effectif_total_candidats_admis)']) * 100)
+  ) | number:'1.0-2' }}%)
+</p>
+<canvas id="academieChart" class="canvas-mini"></canvas>
+<button id="downloadAcademieChartBtn">⬇️ Télécharger graphique</button>
+</div>
+  
+  <!-- SEXE -->
+<div *ngIf="selectedOption === 'sexe'">
+<p><strong>Répartition des admis par sexe :</strong></p>
+
+<ng-container *ngIf="etablissementData?.length > 0 
+  && etablissementData[0]['toInteger(a.effectif_generaux_admis)'] != null 
+  && etablissementData[0]['toInteger(a.effectif_candidates_admises)'] != null 
+  && etablissementData[0]['toInteger(a.effectif_generaux_admis)'] > 0; else noDataSexe">
+
+  <ng-container *ngIf="etablissementData[0]['toInteger(a.effectif_candidates_admises)'] <= etablissementData[0]['toInteger(a.effectif_generaux_admis)']; else incoherentSexe">
+
+    <p>Femmes :
+      <strong>{{ etablissementData[0]['toInteger(a.effectif_candidates_admises)'] }}</strong>
+      (
+        {{
+          (etablissementData[0]['toInteger(a.effectif_candidates_admises)'] / etablissementData[0]['toInteger(a.effectif_generaux_admis)']) * 100
+          | number:'1.0-2'
+        }}%
+      )
+    </p>
+
+    <p>Hommes :
+      <strong>{{ etablissementData[0]['toInteger(a.effectif_generaux_admis)'] - etablissementData[0]['toInteger(a.effectif_candidates_admises)'] }}</strong>
+      (
+        {{
+          ((etablissementData[0]['toInteger(a.effectif_generaux_admis)'] - etablissementData[0]['toInteger(a.effectif_candidates_admises)']) /
+            etablissementData[0]['toInteger(a.effectif_generaux_admis)']) * 100
+          | number:'1.0-2'
+        }}%
+      )
+    </p>
+
+    <canvas id="sexeChart" class="canvas-mini"></canvas>
+    <button id="downloadSexeChartBtn">⬇️ Télécharger graphique</button>
+    
+  </ng-container>
+
+  <ng-template #incoherentSexe>
+    <p class="text-danger">⚠️ Données incohérentes : plus de femmes admises que le total d’admis.</p>
+  </ng-template>
+</ng-container>
+
+<ng-template #noDataSexe>
+  <p class="text-danger">⚠️ Données insuffisantes pour générer le graphique des sexes.</p>
+</ng-template>
+</div>
+</div>
+</div>
+
+
+<!--Partie 3 - Analyse des admissions -->
+<div class="partie3">
+<div class="tabs-container">
+  <div class="tabs">
+    <button [class.active]="activeTab === 'tauxAcces'" (click)="showTauxAcces()">Taux d'accès</button>
+    <button [class.active]="activeTab === 'dureeSelection'" (click)="showDureeSelection()">Durée de sélection</button>
+  </div>
+
+  <div class="tab-content">
+    <!-- Taux d'accès -->
+    <div *ngIf="activeTab === 'tauxAcces'" class="two-columns">
+      <div class="chart-wrapper">
+        <canvas *ngIf="!afficherEvolution" baseChart
+          [data]="tauxChartData"
+          [options]="tauxChartOptions"
+          [type]="'bar'">
+        </canvas>
+        <canvas *ngIf="afficherEvolution" baseChart
+          [data]="tauxMultiChartData"
+          [options]="tauxMultiChartOptions"
+          [type]="'bar'">
+        </canvas>
+      </div>
+      
+      <div class="info-panel">
+        <h4>En {{ sessionAnnee }}, le taux d'accès était de <strong>{{ tauxAcces }}%</strong></h4>
+        <p>Sur <strong>{{ totalCandidats }} candidats</strong>, {{ tauxAcces }}% avaient un rang suffisant.</p>
+        
+        <div class="meta-info">
+          <p><strong>Session:</strong> {{ sessionAnnee }}</p>
+          <p><strong>Source:</strong> Open Data Parcoursup</p>
+          <p><strong>Mise à jour:</strong> 16/01/2025</p>
+        </div>
+      </div>
     </div>
-     
- 
-     <div *ngIf="selectedOption === 'bourse'"> 
-      <!-- Affichez des informations sur les bourses ici -->
-     <p>Nombre de boursiers: <strong></strong></p>
-    </div> 
- 
- 
 
- 
-
-  
-
-   <!-- Bloc 3 : Statistiques et Graphique -->
-<div class="chart-box" *ngIf="selectedOption === 'Admission'">
-  <h3><strong>{{ totalCandidats }} candidats en 2024</strong></h3>
-  <p><span class="highlight">{{ neoBacheliers }} néo-bacheliers</span></p>
-
-  <!-- Graphique -->
-  <div class="chart-container">
-    <canvas baseChart
-            [data]="barChartData"
-            [options]="barChartOptionss"
-            [type]="barChartTypee">
-    </canvas>
+    <!-- Durée de sélection -->
+    <div *ngIf="activeTab === 'dureeSelection'" class="two-columns">
+      <div class="chart-wrapper">
+        <canvas *ngIf="!afficherEvolution" baseChart
+          [data]="dureeChartData"
+          [options]="dureeChartOptions"
+          [type]="'bar'">
+        </canvas>
+        <canvas *ngIf="afficherEvolution" baseChart
+          [data]="dureeMultiChartData"
+          [options]="dureeMultiChartOptions"
+          [type]="'bar'">
+        </canvas>
+      </div>
+      
+      <div class="info-panel">
+        <h4>Analyse de la durée de sélection</h4>
+        <p>Cette visualisation montre à quel moment les candidats ont été admis.</p>
+        
+        <div class="meta-info">
+          <p><strong>Session:</strong> {{ sessionAnnee }}</p>
+          <p><strong>Source:</strong> Open Data Parcoursup</p>
+          <p><strong>Mise à jour:</strong> 16/01/2025</p>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Variation en pourcentage -->
-   <!-- Variation en pourcentage -->
-  <div class="variation">
-    <span class="down">↓ {{ baisseTotale }} % par rapport à 2023</span>
-    <span class="down secondary">(↓ {{ baisseNeoBacheliers }} %)</span>
+  <div class="evolution-toggle">
+    <mat-checkbox [(ngModel)]="afficherEvolution">
+      Afficher l'évolution pluriannuelle
+    </mat-checkbox>
   </div>
-
-   </div>
-  
-
-
 </div>
- 
- 
-
-
-
 </div>
 
 
-<!-- 
-<mat-drawer-container class="example-containers">
-  <mat-drawer mode="side" opened>Drawer content</mat-drawer>
-  <mat-drawer-content>Main content</mat-drawer-content>
-</mat-drawer-container> -->
- 
-</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  quatrieme partie
+-->
+<div class="formation-detail-container">
+<h2>Indicateurs par type de baccalauréat</h2>
+
+<!-- ✅ Affichage dynamique de l'année récupérée depuis l'URL -->
+<p>
+  En {{ anneeActuelle }}, le taux d’accès de la formation pour l’ensemble
+  des candidats était de
+  <strong>{{ formation?.taux_admission || "N/A" }} %</strong>
+</p>
+
+<!-- ✅ Boutons pour changer la statistique affichée -->
+<div class="stat-buttons">
+  <button
+    (click)="selectedStat.setValue('tauxAcces')"
+    [class.active]="selectedStat.value === 'tauxAcces'"
+  >
+    Taux d'accès
+  </button>
+  <button
+    (click)="selectedStat.setValue('tauxPassage')"
+    [class.active]="selectedStat.value === 'tauxPassage'"
+  >
+    Taux de passage
+  </button>
+  <button
+    (click)="selectedStat.setValue('tauxReussite')"
+    [class.active]="selectedStat.value === 'tauxReussite'"
+  >
+    Taux de réussite
+  </button>
+</div>
+
+<!-- ✅ Graphique affiché uniquement si données disponibles -->
+<div class="chart-flex" *ngIf="hasData">
+  <div class="chart-info">
+    <p><strong>Session :</strong> {{ anneeActuelle }}</p>
+    <p><strong>Source :</strong> {{ source }}</p>
+    <p><strong>Dernière mise à jour :</strong> {{ lastUpdate }}</p>
+  </div>
+
+  <div class="chart-box">
+    <canvas
+      baseChart
+      [data]="chartData"
+      [options]="chartOptions"
+      chartType="bar"
+    ></canvas>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="dernier">
