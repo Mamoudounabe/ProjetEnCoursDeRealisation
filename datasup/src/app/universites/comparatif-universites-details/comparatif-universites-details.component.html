@@ -178,12 +178,7 @@
           </div>
         </div>
   
-      <!--   <div class="graphe" [hidden]="selectedSousOption1 !== 'pcneoad'">
-          <div class="chart-container">
-            <h2>Effectif Néo-bacheliers admis - Phase Complémentaire</h2>
-            <canvas id="chartProportionNeoBacheliersAdmis"></canvas>
-          </div>
-        </div> -->
+   
   
         <div class="graphe" [hidden]="selectedSousOption1 !== 'ppneotad'">
           <div class="chart-container">
@@ -217,7 +212,7 @@
 
 
 
-<!-- ici -->
+<!-- ici hh-->
 
 <div class="block">
   <div class="menu">
@@ -253,7 +248,7 @@
 
     <div class="graphe" [hidden]="selectedOptionQ  !== 'lyceenTechnologie'">
       <div class="chart-container">
-        <h2>Lyceen technologiques</h2>
+        <h2>Lyceens technologiques</h2>
         <canvas id="chartAdmisAvantBac"></canvas>
         </div>
       </div>
@@ -262,7 +257,7 @@
 
     <div class="graphe" [hidden]="selectedOptionQ  !== 'LyceensProf'">
       <div class="chart-container">
-        <h2>Nombre de  Candidats hh Néo-bachelier</h2>
+        <h2>Lyceens Professionnels</h2>
         <canvas id="chartAdmisAcademieParisCreteilVersailles"></canvas>
         </div>
       </div>
@@ -622,22 +617,9 @@
 <div class="bouton">  
   <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption4"> 
     <mat-button-toggle value="resultats_academiques" class="bold-toggle">Résultats academiques</mat-button-toggle>
-   <!--  <mat-button-toggle value="competence_academique" class="bold-toggle"> Competences academiques</mat-button-toggle>
-    <mat-button-toggle value="engagement_et_activite" class="bold-toggle"> Engagements et activités</mat-button-toggle> -->
   </mat-button-toggle-group>
 </div>
 
-
-
-<!-- debut sous bouton  -->
-<!-- <div class="sous-boutons"   > 
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedOption4"> 
-  <mat-button-toggle value="projet_et_motivation"  class="bold-toggle"> projet et motivation </mat-button-toggle>
-  <mat-button-toggle value="savoir_etre" class="bold-toggle"> Savoir-etre </mat-button-toggle> 
-</mat-button-toggle-group>
- </div> -->
-
- 
 
 
  <div [hidden]="selectedOption4 !== 'resultats_academiques'" class="graphe">
@@ -785,14 +767,6 @@
 
 
 
-
-
-<!-- <div class="charts-container">
-  <canvas id="chartCandidats"></canvas> 
-  <canvas id="chartPhasePrincipale"></canvas>
-  <canvas id="chartCandidates"></canvas>
-</div>
- -->
 
 
 
